@@ -653,6 +653,6 @@ getJSON('data/soundmap.json').then(soundmap).catch(() => { $('smap-note').textCo
 getJSON('whales.json').then((w) => { whales(w); drawMap(w.hydrophones); }).catch(() => { $('detail').textContent = 'Whale facts could not be loaded.'; });
 getJSON('data/status.json').then((s) => { machine(s); results(s); }).catch(() => { $('stamp').textContent = 'The Pi’s report could not be loaded.'; $('stamp').classList.add('err'); $('live-text').textContent = 'No report from the Pi'; });
 </script>
-<script src="scenes.js"></script>
+<script src="scenes.js?v=3"></script>
 </body>
 </html>
