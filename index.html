@@ -275,7 +275,7 @@ footer { padding-block: 48px; color: var(--dim); font-size: 13px; border-top: 1p
     </div>
     <div class="scene-card">
       <div class="scene-head"><span class="kicker">The same minute in 3D</span><h3 class="scene-title">A landscape of sound</h3>
-        <p class="note">Time runs into the distance, pitch from left to right, and every call rises as a ridge. The glowing wall moves with the audio when you press play above. Drag to turn, pinch or scroll to zoom.</p></div>
+        <p class="note">Time runs from left to right and pitch from front (low) to back (10 kHz). Height shows how much louder a moment is than usual at that pitch, so steady noise stays flat and calls rise as ridges. The glowing wall moves with the audio when you press play above. Drag to turn, pinch or scroll to zoom.</p></div>
       <div class="scene" id="land3d" aria-label="3D landscape of the one-minute recording"><div class="scene-msg">Loading the landscape…</div></div>
     </div>
   </div></section>
@@ -653,6 +653,6 @@ getJSON('data/soundmap.json').then(soundmap).catch(() => { $('smap-note').textCo
 getJSON('whales.json').then((w) => { whales(w); drawMap(w.hydrophones); }).catch(() => { $('detail').textContent = 'Whale facts could not be loaded.'; });
 getJSON('data/status.json').then((s) => { machine(s); results(s); }).catch(() => { $('stamp').textContent = 'The Pi’s report could not be loaded.'; $('stamp').classList.add('err'); $('live-text').textContent = 'No report from the Pi'; });
 </script>
-<script src="scenes.js?v=3"></script>
+<script src="scenes.js?v=4"></script>
 </body>
 </html>

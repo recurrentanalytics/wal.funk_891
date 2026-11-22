@@ -109,6 +109,7 @@
     const { scene, camera, controls, label } = makeScene(host, { autoRotate: false, fogNear: 260, fogFar: 700, minD: 60, maxD: 600 });
     // light smoothing so single noisy cells do not read as spikes
     const val = (fi, ti) => parseInt(G[fi][ti], 16) / 15;
+    const med = Array.from({ length: F }, (_, fi) => { const r = Array.from({ length: T }, (_, ti) => val(fi, ti)).sort((a, b) => a - b); return r[Math.floor(T / 2)]; });
     const sm = (fi, ti) => { let s = 0, n = 0; for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) { const f = fi + a, t = ti + b; if (f >= 0 && f < F && t >= 0 && t < T) { const w = a === 0 && b === 0 ? 4 : 1; s += val(f, t) * w; n += w; } } return s / n; };
     const geo = new THREE.PlaneGeometry(LEN, WID, T - 1, F - 1);
     geo.rotateX(-Math.PI / 2);
@@ -117,8 +118,9 @@
     const c = new THREE.Color();
     for (let i = 0; i < pos.count; i++) {
       const ti = i % T, row = Math.floor(i / T), fi = F - 1 - row;   // row 0 is the back edge = highest pitch
-      const v = sm(fi, ti);
-      pos.setY(i, Math.max(0, (v - .35) / .65) ** 1.8 * HGT);
+      const raw = sm(fi, ti), d = Math.max(0, raw - med[fi]);     // louder than usual at this pitch
+      const v = Math.min(1, d / .45);
+      pos.setY(i, v ** 1.3 * HGT);
       const x = Math.min(.999, v) * (stops.length - 1), k = Math.floor(x), f = x - k;
       c.copy(stops[k]).lerp(stops[k + 1], f);
       col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b;
@@ -148,7 +150,7 @@
     const orig = controls.update.bind(controls);
     controls.update = () => { const x0 = xAt(audio ? audio.currentTime : 0); wall.position.x = x0; edge.position.x = x0; return orig(); };
     const narrow = host.clientWidth < 600;
-    camera.position.set(-30, narrow ? 190 : 120, narrow ? 330 : 210);
+    camera.position.set(-40, narrow ? 220 : 150, narrow ? 300 : 190);
     controls.target.set(0, 0, 0); controls.update();
   }
 
