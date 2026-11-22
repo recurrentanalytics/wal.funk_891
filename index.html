@@ -76,7 +76,7 @@ h3 { font: 500 1rem var(--body); margin: 0 0 10px; }
 .whale-btn[aria-pressed="true"] { background: rgba(94,230,215,.1); }
 .whale-btn .nm { font-size: 14px; }
 .whale-btn .len { font: 12px var(--mono); color: var(--muted); }
-.whale-btn svg { grid-column: 1 / -1; width: 100%; height: 30px; display: block; overflow: visible; }
+.whale-btn svg { grid-column: 1 / -1; width: 100%; height: auto; max-height: 80px; display: block; overflow: visible; }
 .whale-btn path { fill: #2c6a7e; transition: fill .2s; }
 .whale-btn[aria-pressed="true"] path, .whale-btn:hover path { fill: var(--glow); }
 .whale-btn.person path { fill: var(--dim); }
@@ -375,14 +375,18 @@ function whales(w) {
     const btn = el('button', 'whale-btn' + (isPerson ? ' person' : '')); btn.type = 'button';
     btn.setAttribute('aria-pressed', 'false');
     btn.append(el('span', 'nm', name), el('span', 'len', `${m} m`));
-    const s = svgEl('svg', { viewBox: '0 0 1000 30', preserveAspectRatio: 'xMinYMid meet', 'aria-hidden': 'true' });
-    const L = 1000 * m / max;
-    if (isPerson) s.append(svgEl('path', { d: `M${L * .35} 4 a3 3 0 1 1 0.1 0 M${L * .2} 10 h${L * .3} v12 h${-L * .3} Z` }));
-    else {
+    const VB = 1000, VH = 200;
+    const s = svgEl('svg', { viewBox: `0 0 ${VB} ${VH}`, preserveAspectRatio: 'xMinYMax meet', 'aria-hidden': 'true' });
+    const L = VB * m / max;
+    if (isPerson) {
+      const h = L, u = h / 8; // standing person, h = 1.8 m in the same units
+      s.append(svgEl('path', { d: `M${u * 1.6} ${VH - h} a${u * .55} ${u * .55} 0 1 1 0.01 0 Z M${u * 1.05} ${VH - h + u * 1.2} h${u * 1.1} l${u * .3} ${u * 3} h${-u * .45} v${u * 3.8} h${-u * .45} v${-u * 2.4} h${-u * .1} v${u * 2.4} h${-u * .45} v${-u * 3.8} h${-u * .45} Z` }));
+    } else {
       const kind = /orca/i.test(name) ? 'orca' : 'baleen';
-      const H = Math.min(26, Math.max(10, 26 * Math.sqrt(m / max) + (/right/i.test(name) ? 4 : 0)));
-      const p = svgEl('path', { d: whalePath(L, H, kind === 'orca' ? H * .9 : H * .18, kind) });
-      p.setAttribute('transform', `translate(0 ${(30 - H) / 2})`); s.append(p);
+      const ratio = /right/i.test(name) ? .26 : kind === 'orca' ? .2 : /humpback/i.test(name) ? .2 : .14;
+      const H = L * ratio;
+      const p = svgEl('path', { d: whalePath(L, H, kind === 'orca' ? H * .9 : H * .16, kind) });
+      p.setAttribute('transform', `translate(0 ${VH - H - (kind === 'orca' ? 0 : 2)})`); s.append(p);
     }
     btn.append(s);
     if (isPerson) { btn.disabled = true; btn.style.cursor = 'default'; }
