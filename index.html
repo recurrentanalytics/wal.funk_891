@@ -370,7 +370,7 @@ function drawMap(hs) {
     const pop = document.createElement('div');
     pop.append(Object.assign(document.createElement('b'), { textContent: h.name }), document.createElement('br'), document.createTextNode(`${h.archive}, depth ${h.depth}. ${h.role}`));
     mk.bindPopup(pop);
-    if (h.main) mk.bindTooltip(h.name, { permanent: true, direction: 'right', offset: [8, 0] });
+    if (h.main) mk.bindTooltip(h.name, { permanent: true, direction: 'top', offset: [0, -8] });
     return [h.lat, h.lng];
   });
   map.fitBounds(pts, { padding: [30, 30] });
