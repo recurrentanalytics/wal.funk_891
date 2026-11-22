@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Whale Listener</title>
+<meta name="description" content="Live status of a Raspberry Pi listening to public hydrophone audio for whale calls.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400&family=Fraunces:opsz,wght@9..144,400&display=swap">
+<style>
+/* Layout: one narrow column, like a field logbook page; cards only for live instruments. */
+:root {
+  --bg: #f3f6f7; --panel: #ffffff; --fg: #10232b; --muted: #557079; --line: #d6e1e4;
+  --accent: #0b6f86; --ok: #1f7a4d; --warn: #a8660b; --bad: #b3362b;
+  --display: "Fraunces", Georgia, serif; --body: "IBM Plex Sans", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root {
+  --bg: #0b171c; --panel: #11232a; --fg: #e3eef1; --muted: #8fa9b1; --line: #23404a;
+  --accent: #5cc3d8; --ok: #5fc48f; --warn: #e3a54a; --bad: #ef7d70; color-scheme: dark;
+} }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 var(--body); }
+main { max-width: 760px; margin: 0 auto; padding-block: max(24px, env(safe-area-inset-top)) 48px;
+  padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); display: grid; gap: 20px; }
+h1 { font: 400 clamp(2rem, 6vw, 2.8rem)/1.1 var(--display); margin: 0; text-wrap: balance; }
+h2 { font-size: 1rem; font-weight: 500; margin: 0 0 4px; }
+.lede { color: var(--muted); margin: 6px 0 0; max-width: 62ch; }
+.stamp { font: 13px var(--mono); color: var(--muted); }
+.grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; min-width: 0; }
+.big { font: 400 2.4rem/1.1 var(--display); font-variant-numeric: tabular-nums; }
+.sub { color: var(--muted); font-size: 13px; margin: 0 0 10px; }
+.state { display: inline-block; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; border: 1px solid currentColor; }
+.pass { color: var(--ok); } .fail { color: var(--bad); } .running { color: var(--warn); } .waiting { color: var(--muted); }
+.bar { height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; margin: 4px 0 12px; }
+.bar span { display: block; height: 100%; background: var(--accent); }
+.row { display: flex; justify-content: space-between; gap: 8px; font-variant-numeric: tabular-nums; }
+.chart svg { width: 100%; height: auto; display: block; }
+.chart text { fill: var(--muted); font: 11px var(--mono); }
+.wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { text-align: left; font-weight: 500; color: var(--muted); font-size: 12px; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+td { padding: 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+td:first-child { font-family: var(--mono); color: var(--muted); }
+footer { color: var(--muted); font-size: 13px; max-width: 62ch; }
+.err { color: var(--bad); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Whale Listener</h1>
+    <p class="lede">A Raspberry Pi 5 that scans public hydrophone audio from Monterey Bay and Puget Sound for whale calls. A detection is only a candidate until someone has listened to it.</p>
+    <p class="stamp" id="stamp">Loading status…</p>
+  </header>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Pi temperature</h2>
+      <p class="sub">No fan. It slows itself above 85 °C.</p>
+      <div class="big" id="temp">—</div>
+      <p class="sub" id="throttle">—</p>
+    </section>
+    <section class="card">
+      <h2>Current job</h2>
+      <p class="sub">Perch 2.0 embedding for the correctness test</p>
+      <div id="progress">—</div>
+    </section>
+  </div>
+
+  <section class="card">
+    <h2>Temperature, last 48 hours</h2>
+    <p class="sub">Highest reading per 10 minutes. Dashed lines: 75 °C benchmark limit, 85 °C throttling.</p>
+    <div class="chart" id="chart">—</div>
+  </section>
+
+  <section class="card">
+    <h2>Steps and gates</h2>
+    <p class="sub">Each step has a pass mark set before it runs.</p>
+    <div class="wrap"><table>
+      <thead><tr><th>Step</th><th>What</th><th>Status</th><th>Result</th></tr></thead>
+      <tbody id="steps"></tbody>
+    </table></div>
+  </section>
+
+  <footer>Updated by the Pi itself every 30 minutes. Data: <a href="data/status.json">status.json</a>. Audio sources: MBARI Pacific Sound and Orcasound, both open data.</footer>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+const hhmm = (d) => d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+function chart(temps) {
+  const box = $('chart'); box.replaceChildren();
+  if (temps.length < 2) { box.textContent = 'Not enough readings yet.'; return; }
+  const W = 700, H = 220, m = { t: 10, r: 10, b: 24, l: 32 };
+  const pts = temps.map((r) => ({ d: new Date(r.time), c: +r.temp_c }));
+  const t0 = pts[0].d.getTime(), t1 = pts[pts.length - 1].d.getTime();
+  const x = (d) => m.l + (d.getTime() - t0) / (t1 - t0 || 1) * (W - m.l - m.r);
+  const y = (c) => m.t + (90 - c) / 50 * (H - m.t - m.b);
+  const ns = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', 'Pi temperature over the last 48 hours');
+  const add = (tag, attrs, text) => { const n = document.createElementNS(ns, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); if (text) n.textContent = text; svg.append(n); return n; };
+  [40, 50, 60, 70, 80, 90].forEach((c) => {
+    add('line', { x1: m.l, x2: W - m.r, y1: y(c), y2: y(c), stroke: 'var(--line)' });
+    add('text', { x: m.l - 6, y: y(c) + 4, 'text-anchor': 'end' }, String(c));
+  });
+  [[75, 'var(--warn)'], [85, 'var(--bad)']].forEach(([c, col]) => add('line', { x1: m.l, x2: W - m.r, y1: y(c), y2: y(c), stroke: col, 'stroke-dasharray': '4 4' }));
+  add('polyline', { points: pts.map((p) => `${x(p.d)},${y(p.c)}`).join(' '), fill: 'none', stroke: 'var(--accent)', 'stroke-width': 2 });
+  pts.forEach((p) => add('circle', { cx: x(p.d), cy: y(p.c), r: 3, fill: p.c >= 85 ? 'var(--bad)' : 'var(--accent)' }));
+  add('text', { x: m.l, y: H - 6 }, hhmm(pts[0].d));
+  add('text', { x: W - m.r, y: H - 6, 'text-anchor': 'end' }, hhmm(pts[pts.length - 1].d));
+  box.append(svg);
+}
+
+fetch('data/status.json', { cache: 'no-store' }).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); }).then((s) => {
+  const gen = new Date(s.generated);
+  const ageMin = Math.round((Date.now() - gen) / 60000);
+  $('stamp').textContent = `Last update from the Pi: ${gen.toLocaleString()} (${ageMin < 1 ? 'just now' : ageMin + ' min ago'})`;
+  if (ageMin > 90) $('stamp').classList.add('err');
+  const last = s.temps[s.temps.length - 1];
+  if (last) {
+    $('temp').textContent = `${(+last.temp_c).toFixed(1)} °C`;
+    const flags = parseInt(last.throttled, 16) || 0;
+    $('throttle').textContent = (flags & 0x4) ? 'Throttling now' : (flags ? 'Has throttled since boot' : 'No throttling since boot');
+  }
+  const pr = $('progress'); pr.replaceChildren();
+  s.progress.forEach((p) => {
+    const row = el('div', 'row'); row.append(el('span', '', p.stage), el('span', '', `${p.done} of ${p.total}`));
+    const bar = el('div', 'bar'); const f = el('span'); f.style.width = `${Math.round(100 * p.done / p.total)}%`; bar.append(f);
+    pr.append(row, bar);
+  });
+  chart(s.temps);
+  const tb = $('steps'); tb.replaceChildren();
+  s.steps.forEach((r) => {
+    const tr = el('tr'); const st = el('td'); st.append(el('span', `state ${r.status}`, r.status));
+    tr.append(el('td', '', String(r.step)), el('td', '', r.name), st, el('td', '', r.result || ''));
+    tb.append(tr);
+  });
+}).catch(() => { $('stamp').textContent = 'Status could not be loaded.'; $('stamp').classList.add('err'); });
+</script>
+</body>
+</html>
