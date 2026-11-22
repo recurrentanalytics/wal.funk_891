@@ -287,7 +287,7 @@ footer { padding-block: 48px; color: var(--dim); font-size: 13px; border-top: 1p
 .gauge .g-fill { position: absolute; left: 0; right: 0; top: 0; background: var(--glow); box-shadow: 0 0 10px var(--glow); transition: height .9s; }
 .gauge .g-v { font: 300 1.5rem var(--display); }
 .gauge .g-l { font: 11px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
-.st-note { position: absolute; left: 16px; right: 16px; bottom: 10px; font: 11px var(--mono); color: var(--muted); }
+.st-note { position: absolute; left: 16px; right: 16px; bottom: 10px; font: 11px var(--mono); color: var(--muted); transition: opacity .6s; }
 @media (prefers-reduced-motion: no-preference) {
   .led { animation: blink 1.6s infinite; }
   .wifi { animation: wifi 2.4s infinite; opacity: .2; } .w1 { animation-delay: .3s; } .w2 { animation-delay: .6s; }
@@ -300,7 +300,8 @@ footer { padding-block: 48px; color: var(--dim); font-size: 13px; border-top: 1p
 @media (max-width: 860px) {
   .dive { grid-template-columns: minmax(0, 1fr); gap: 0; }
   .stage { grid-row: 1; top: 52px; height: 46vh; z-index: 2; }
-  .gauge { width: 56px; } .gauge .g-v { font-size: 1.1rem; }
+  .gauge { width: 56px; bottom: 74px; } .gauge .g-v { font-size: 1.1rem; }
+  .st-note { font-size: 9.5px; line-height: 1.35; }
   .dive .steps { grid-row: 2; gap: 46vh; padding: 4vh 0 30vh; position: relative; z-index: 3; }
   .step { background: rgba(4,18,26,.9); }
 }
@@ -498,9 +499,9 @@ html[data-lang="zh"] h1 { letter-spacing: 0; }
 <footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/whale-listener-status">GitHub</a></p></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="i18n.js?v=8"></script>
-<script src="app.js?v=8"></script>
-<script src="story.js?v=8"></script>
-<script src="scenes.js?v=8"></script>
+<script src="i18n.js?v=9"></script>
+<script src="app.js?v=9"></script>
+<script src="story.js?v=9"></script>
+<script src="scenes.js?v=9"></script>
 </body>
 </html>

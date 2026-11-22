@@ -104,6 +104,7 @@
     gaugeLbl.textContent = t(`dive.s${i}.l`);
     gaugeFill.style.height = `${Math.max(3, to / 891 * 100)}%`;
     steps.forEach((s, j) => s.classList.toggle('on', j === i));
+    document.getElementById('st-note').style.opacity = i >= 2 ? 1 : 0;
   }
   const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) apply(+e.target.dataset.i); }), { rootMargin: '-45% 0px -45% 0px' });
   I18N.ready.then(() => {
