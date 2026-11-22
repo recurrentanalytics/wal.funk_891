@@ -195,6 +195,49 @@ h3 { font: 500 1rem var(--body); margin: 0 0 10px; }
 .gloss dd { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
 footer { padding-block: 48px; color: var(--dim); font-size: 13px; border-top: 1px solid var(--line); margin-top: 40px; }
 .err { color: var(--coral); }
+.descent { position: relative; display: grid; grid-template-columns: 90px minmax(0, 1fr); gap: 0 24px; max-width: 1080px; margin: 0 auto; padding: 40px max(18px, env(safe-area-inset-right)) 40px max(18px, env(safe-area-inset-left)); }
+.depth-gauge { position: sticky; top: 80px; height: 60vh; display: grid; grid-template-rows: 1fr auto auto; justify-items: center; gap: 6px; }
+.dg-track { width: 6px; height: 100%; border-radius: 3px; background: linear-gradient(180deg, #2a5566, #020b10); position: relative; overflow: hidden; }
+.dg-fill { position: absolute; left: 0; right: 0; top: 0; height: 0; background: var(--glow); box-shadow: 0 0 12px var(--glow); transition: height .8s cubic-bezier(.2,.7,.2,1); }
+.dg-val { font: 300 1.6rem var(--display); }
+.dg-lbl { font: 11px var(--mono); color: var(--muted); text-align: center; text-transform: uppercase; letter-spacing: .08em; }
+.steps { display: grid; gap: 42vh; padding: 10vh 0 30vh; }
+.step p { font: 300 clamp(1.4rem, 3.6vw, 2.2rem)/1.25 var(--display); margin: 8px 0 0; max-width: 24ch; color: var(--dim); transition: color .5s; }
+.step.on p { color: var(--fg); }
+@media (max-width: 600px) { .descent { grid-template-columns: 56px minmax(0, 1fr); gap: 0 14px; } .dg-val { font-size: 1.1rem; } }
+.voices-head { margin-top: 36px; }
+.voices { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); margin-top: 12px; }
+.voice { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: rgba(8,34,48,.55); }
+.voice .vs { position: relative; cursor: pointer; }
+.voice canvas { display: block; width: 100%; height: 150px; }
+.voice .ph { position: absolute; top: 0; bottom: 0; width: 2px; background: #fff; box-shadow: 0 0 10px #fff; opacity: 0; }
+.voice .ax { position: absolute; left: 6px; top: 4px; font: 10px var(--mono); color: rgba(220,236,241,.7); }
+.voice .body { padding: 12px 14px 14px; }
+.voice h4 { margin: 0; font: 300 1.4rem var(--display); }
+.voice .meta { font: 12px var(--mono); color: var(--muted); margin: 4px 0 10px; }
+.voice .sc { position: relative; height: 22px; border-radius: 4px; background: rgba(23,70,90,.45); overflow: hidden; margin-top: 10px; }
+.voice .sc span { position: absolute; bottom: 0; background: var(--glow); opacity: .8; }
+.voice .sc hr { position: absolute; left: 0; right: 0; top: 50%; margin: 0; border: 0; border-top: 1px dashed rgba(220,236,241,.35); }
+.play.small { padding: 8px 14px; font-size: 14px; }
+.live-card { margin-top: 18px; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: #020b10; padding-bottom: 12px; }
+.live-card .note { padding: 0 18px; }
+.live-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 8px 18px 12px; }
+.live-row select { background: var(--sea); color: var(--fg); border: 1px solid var(--line); border-radius: 999px; padding: 9px 14px; font: 14px var(--body); }
+.live-spec { display: block; width: 100%; height: 170px; background: #020b10; }
+.rec { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--coral); margin-right: 4px; }
+@media (prefers-reduced-motion: no-preference) { .rec { animation: blink 1.4s infinite; } }
+@keyframes blink { 50% { opacity: .2; } }
+.cal-sum { font: 13px var(--mono); color: var(--muted); margin-bottom: 10px; }
+.cal { display: grid; gap: 6px; }
+.cal-year { display: grid; grid-template-columns: 38px 1fr; gap: 8px; align-items: center; font: 11px var(--mono); color: var(--dim); }
+.cal-days { display: grid; grid-template-columns: repeat(53, 1fr); grid-auto-flow: column; grid-template-rows: repeat(7, 1fr); gap: 1px; }
+.cal-days i { aspect-ratio: 1; background: rgba(23,70,90,.35); border-radius: 1px; }
+.cal-days i.none { background: transparent; }
+.cal-days i.on { background: var(--glow); box-shadow: 0 0 6px var(--glow); }
+.cands { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); margin-top: 12px; }
+.cand { border: 1px dashed var(--line); border-radius: 12px; padding: 14px; }
+.cand b { font: 300 1.2rem var(--display); display: block; }
+.cand .st { font: 11px var(--mono); color: var(--amber); text-transform: uppercase; letter-spacing: .08em; }
 .photo { margin: -18px -18px 16px; position: relative; }
 .photo img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 14px 14px 0 0; }
 .photo figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 12px 8px; font: 11px var(--mono); color: #cfe3e8; background: linear-gradient(0deg, rgba(2,11,16,.85), transparent); }
@@ -227,10 +270,20 @@ footer { padding-block: 48px; color: var(--dim); font-size: 13px; border-top: 1p
 </header>
 
 <nav class="toc" aria-label="Sections"><div class="wrap">
-  <a href="#whales">Whales</a><a href="#where">Where</a><a href="#listen">Listen</a><a href="#results">Results</a><a href="#machine">Machine</a><a href="#words">Words</a>
+  <a href="#descent">Dive</a><a href="#whales">Whales</a><a href="#where">Where</a><a href="#listen">Listen</a><a href="#finds">Finds</a><a href="#results">Test</a><a href="#machine">Machine</a><a href="#words">Words</a>
 </div></nav>
 
 <main>
+  <section class="descent" id="descent" aria-label="From the computer to the sea floor">
+    <div class="depth-gauge" aria-hidden="true"><div class="dg-track"><div class="dg-fill" id="dg-fill"></div></div><div class="dg-val" id="dg-val">0 m</div><div class="dg-lbl" id="dg-lbl">on land</div></div>
+    <div class="steps">
+      <div class="step" data-depth="0" data-lbl="on land"><span class="kicker">Start</span><p>Thousands of kilometres from the Pacific, a Raspberry Pi the size of a postcard wakes up and asks for an hour of ocean.</p></div>
+      <div class="step" data-depth="0" data-lbl="in the cloud"><span class="kicker">The archive</span><p>It streams the hour from a free public archive on Amazon's cloud, listens, keeps only what it found, and throws the sound away again.</p></div>
+      <div class="step" data-depth="0" data-lbl="Moss Landing"><span class="kicker">The cable</span><p>The sound reached the archive through MBARI's MARS observatory: a sea-floor cable that brings power down and data up from the deep.</p></div>
+      <div class="step" data-depth="891" data-lbl="Smooth Ridge"><span class="kicker">891 m down</span><p>About 30 km off Monterey Bay, a hydrophone has listened almost without a break since July 2015. No light reaches it.</p></div>
+      <div class="step" data-depth="891" data-lbl="listening"><span class="kicker">The voice</span><p>Somewhere in the dark a blue whale calls at around 43 hertz, lower than most people can hear. Scroll on to hear it, sped up ten times.</p></div>
+    </div>
+  </section>
   <section class="part" id="whales"><div class="wrap">
     <div class="kicker">01 · The voices</div>
     <h2>Seven kinds of whale the detector knows</h2>
@@ -241,6 +294,9 @@ footer { padding-block: 48px; color: var(--dim); font-size: 13px; border-top: 1p
       <div class="panel detail" id="detail" aria-live="polite">—</div>
     </div>
     <div class="known" id="known"></div>
+    <div class="voices-head"><span class="kicker">Hear them</span><h3 class="scene-title">Three voices from one November night</h3>
+      <p class="note">15 November 2020, midnight to 1 am UTC at the MBARI hydrophone. In this hour the model heard humpback song in 432 five-second windows, blue whales in 125 and fin whales in 90. These are its strongest picks: candidates, not yet checked by a person. Blue and fin whales are played ten times faster, which lifts their calls into the range ears and phone speakers can reproduce.</p></div>
+    <div class="voices" id="voices"></div>
   </div></section>
 
   <section class="part" id="where"><div class="wrap">
@@ -255,6 +311,14 @@ footer { padding-block: 48px; color: var(--dim); font-size: 13px; border-top: 1p
       <div class="scene-legend"><span><i style="background:linear-gradient(90deg,#0a1f3a,#1d6f8a,#7fd6d0)"></i>3,300 m → sea level</span><span><i style="background:#5c6b4e"></i>Land</span><span><i style="background:var(--amber)"></i>MBARI hydrophone, 891 m</span><span class="src">Depth data: GMRT, Ryan et al. 2009, CC BY 4.0</span></div>
     </div>
     <div class="place-cards" id="places"></div>
+    <div class="live-card" id="live-card">
+      <div class="scene-head"><span class="kicker"><span class="rec"></span> Live</span><h3 class="scene-title">Listen to the Salish Sea right now</h3>
+        <p class="note">Orcasound's hydrophones stream around the clock. What you hear is the sea a few seconds to a minute ago: waves, boats, shrimp crackle, and with luck orcas. Local time there: <b id="live-clock">—</b>.</p></div>
+      <div class="live-row"><select id="live-node" aria-label="Hydrophone"></select><button class="play" id="live-play" type="button"><svg viewBox="0 0 14 14"><path d="M2 1 L13 7 L2 13 Z" fill="currentColor"/></svg><span>Listen live</span></button><span class="note" id="live-state"></span></div>
+      <canvas id="live-spec" class="live-spec" aria-label="Live spectrogram of the hydrophone stream"></canvas>
+      <p class="note">Stream: <a href="https://live.orcasound.net/">Orcasound</a>, CC BY-NC-SA 4.0. The scrolling picture is drawn in your browser from the sound you are hearing, 0–8 kHz.</p>
+      <audio id="live-audio" crossorigin="anonymous" preload="none"></audio>
+    </div>
   </div></section>
 
   <section class="part" id="listen"><div class="wrap">
@@ -284,8 +348,18 @@ footer { padding-block: 48px; color: var(--dim); font-size: 13px; border-top: 1p
     </div>
   </div></section>
 
+  <section class="part" id="finds"><div class="wrap">
+    <div class="kicker">04 · What the Pi has found</div>
+    <h2>Ten years of ocean, one hour at a time</h2>
+    <p class="intro">Every square below is a day of the MBARI archive since July 2015. Lit squares are hours the Pi has already listened to. The calendar fills as the Pi works through the archive.</p>
+    <div class="panel"><div class="cal-sum" id="cal-sum">—</div><div class="cal" id="cal"></div><div class="legend" id="cal-legend"></div></div>
+    <h3 class="scene-title" style="margin-top:28px">Waiting for a human ear</h3>
+    <p class="note">Unusual detections land here with sound and spectrogram. Nothing counts as a finding until someone has listened and compared it with what MBARI and Orcasound already report.</p>
+    <div class="cands" id="cands"></div>
+  </div></section>
+
   <section class="part" id="results"><div class="wrap">
-    <div class="kicker">04 · The test</div>
+    <div class="kicker">05 · The test</div>
     <h2>Can a model hear what people hear?</h2>
     <p class="intro">Before anything listens to new audio, it has to pass a test on recordings people have already labelled: 462 five-second windows, 119 with an orca call. The pass mark, set in advance, is a balanced accuracy of 0.80.</p>
     <div class="score-grid" id="scores"></div>
@@ -301,7 +375,7 @@ footer { padding-block: 48px; color: var(--dim); font-size: 13px; border-top: 1p
   </div></section>
 
   <section class="part" id="machine"><div class="wrap">
-    <div class="kicker">05 · The machine</div>
+    <div class="kicker">06 · The machine</div>
     <h2>A small computer without a fan</h2>
     <p class="intro" id="stamp">Loading the latest report from the Pi…</p>
     <div class="instr">
@@ -314,7 +388,7 @@ footer { padding-block: 48px; color: var(--dim); font-size: 13px; border-top: 1p
   </div></section>
 
   <section class="part" id="words"><div class="wrap">
-    <div class="kicker">06 · Words</div>
+    <div class="kicker">07 · Words</div>
     <h2>What the terms mean</h2>
     <dl class="gloss">
       <div><dt>Hydrophone</dt><dd>An underwater microphone.</dd></div>
@@ -667,6 +741,8 @@ getJSON('data/soundmap.json').then(soundmap).catch(() => { $('smap-note').textCo
 getJSON('whales.json').then((w) => { whales(w); drawMap(w.hydrophones); }).catch(() => { $('detail').textContent = 'Whale facts could not be loaded.'; });
 getJSON('data/status.json').then((s) => { machine(s); results(s); }).catch(() => { $('stamp').textContent = 'The Pi’s report could not be loaded.'; $('stamp').classList.add('err'); $('live-text').textContent = 'No report from the Pi'; });
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
 <script src="scenes.js?v=4"></script>
+<script src="extras.js?v=1"></script>
 </body>
 </html>
