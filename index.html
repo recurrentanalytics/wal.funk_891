@@ -11,6 +11,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,500&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <style>
 /* Layout: a deep-sea listening station. One dark world, depth gets darker as you scroll from whales to machine. */
 :root {
@@ -193,6 +195,17 @@ h3 { font: 500 1rem var(--body); margin: 0 0 10px; }
 .gloss dd { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
 footer { padding-block: 48px; color: var(--dim); font-size: 13px; border-top: 1px solid var(--line); margin-top: 40px; }
 .err { color: var(--coral); }
+.scene-card { margin-top: 18px; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: #020b10; }
+.scene-head { padding: 16px 18px 6px; }
+.scene-title { font: 300 1.7rem/1.1 var(--display); margin: 6px 0 4px; }
+.scene { position: relative; height: clamp(320px, 52vw, 520px); touch-action: pan-y; cursor: grab; }
+.scene.tall { height: clamp(360px, 60vw, 600px); }
+.scene canvas { display: block; width: 100% !important; height: 100% !important; }
+.scene-msg { position: absolute; inset: 0; display: grid; place-items: center; color: var(--dim); font: 13px var(--mono); }
+.scene-label { position: absolute; transform: translate(-50%, -100%); pointer-events: none; font: 500 12px var(--mono); color: var(--fg); background: rgba(2,11,16,.75); border: 1px solid var(--line); padding: 3px 8px; border-radius: 6px; white-space: nowrap; }
+.scene-label.amber { color: var(--amber); border-color: rgba(255,181,71,.5); }
+.scene-legend { display: flex; flex-wrap: wrap; gap: 8px 16px; padding: 10px 18px 14px; font-size: 12px; color: var(--muted); }
+.scene-legend i { display: inline-block; width: 26px; height: 10px; border-radius: 3px; vertical-align: -1px; margin-right: 6px; }
 .smap canvas { display: block; width: 100%; aspect-ratio: 16 / 10; max-height: 520px; border-radius: 10px; background: radial-gradient(80% 80% at 50% 50%, #08283a, #020b10); margin-top: 8px; }
 .legend input { accent-color: var(--glow); vertical-align: -2px; margin-right: 4px; }
 </style>
@@ -231,6 +244,12 @@ footer { padding-block: 48px; color: var(--dim); font-size: 13px; border-top: 1p
     <h2>Two microphones in the Pacific</h2>
     <p class="intro">One sits 891 metres down on a ridge off Monterey Bay and has recorded almost without a break since 2015. The other is a few metres under the surface in Haro Strait, where the Southern Resident orcas pass.</p>
     <div class="mapbox" id="map" role="img" aria-label="Map of the North-east Pacific coast with the MBARI and Orcasound hydrophones"></div>
+    <div class="scene-card">
+      <div class="scene-head"><span class="kicker">Under Monterey Bay</span><h3 class="scene-title">The canyon the microphone listens into</h3>
+        <p class="note">The sea floor off Monterey, from ship sonar surveys, heights exaggerated three times. In this view Monterey Canyon reaches more than 3,300 m down. The MBARI hydrophone sits at 891 m on Smooth Ridge, just north of the canyon, about 30 km from shore. Drag to turn, pinch or scroll to zoom.</p></div>
+      <div class="scene tall" id="bathy3d" aria-label="3D view of the sea floor around Monterey Canyon with the MBARI hydrophone"><div class="scene-msg">Loading the sea floor…</div></div>
+      <div class="scene-legend"><span><i style="background:linear-gradient(90deg,#0a1f3a,#1d6f8a,#7fd6d0)"></i>3,300 m → sea level</span><span><i style="background:#5c6b4e"></i>Land</span><span><i style="background:var(--amber)"></i>MBARI hydrophone, 891 m</span><span class="src">Depth data: GMRT, Ryan et al. 2009, CC BY 4.0</span></div>
+    </div>
     <div class="place-cards" id="places"></div>
   </div></section>
 
@@ -253,6 +272,11 @@ footer { padding-block: 48px; color: var(--dim); font-size: 13px; border-top: 1p
       <div class="legend"><span><i style="background:var(--amber)"></i>Call marked by people</span><span><i style="background:#7fa2ae"></i>whalu orca score</span><span><i style="background:var(--glow)"></i>Perch orca score</span><span>Dashed line: 0.5, where a window counts as a call</span></div>
       <audio id="audio" preload="none" src="data/clip.mp3"></audio>
       <p class="note" id="clipnote">Audio: Orcasound, CC BY-NC-SA 4.0. High-passed above 150 Hz and loudness-normalised so the calls are audible on phone speakers.</p>
+    </div>
+    <div class="scene-card">
+      <div class="scene-head"><span class="kicker">The same minute in 3D</span><h3 class="scene-title">A landscape of sound</h3>
+        <p class="note">Time runs into the distance, pitch from left to right, and every call rises as a ridge. The glowing wall moves with the audio when you press play above. Drag to turn, pinch or scroll to zoom.</p></div>
+      <div class="scene" id="land3d" aria-label="3D landscape of the one-minute recording"><div class="scene-msg">Loading the landscape…</div></div>
     </div>
   </div></section>
 
@@ -629,5 +653,6 @@ getJSON('data/soundmap.json').then(soundmap).catch(() => { $('smap-note').textCo
 getJSON('whales.json').then((w) => { whales(w); drawMap(w.hydrophones); }).catch(() => { $('detail').textContent = 'Whale facts could not be loaded.'; });
 getJSON('data/status.json').then((s) => { machine(s); results(s); }).catch(() => { $('stamp').textContent = 'The Pi’s report could not be loaded.'; $('stamp').classList.add('err'); $('live-text').textContent = 'No report from the Pi'; });
 </script>
+<script src="scenes.js"></script>
 </body>
 </html>
