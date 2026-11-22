@@ -367,7 +367,7 @@ function whalePath(L, H, fin, kind, flipper) {
     `C ${f(.24, 1)} ${f(.08, .92)} ${f(0, .62)} Z`);
   if (flipper) {                                                // pectoral flipper
     const fx = orca ? .2 : .26, len = flipper;
-    p.push(`M ${f(fx, .78)} L ${f(fx + len, 1.18)} L ${f(fx + .06, .86)} Z`);
+    p.push(`M ${f(fx, .8)} Q ${f(fx + len * .45, 1.0)} ${f(fx + len, 1.2)} Q ${f(fx + len * .55, 1.02)} ${f(fx + .07, .8)} Z`);
   }
   return p.join(' ');
 }
