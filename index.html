@@ -63,6 +63,13 @@ footer { color: var(--muted); font-size: 13px; max-width: 62ch; }
 .core { text-align: center; font: 12px var(--mono); color: var(--muted); }
 .core .col { height: 80px; background: var(--line); border-radius: 6px; position: relative; overflow: hidden; margin-bottom: 4px; }
 .core .col span { position: absolute; left: 0; right: 0; bottom: 0; background: var(--accent); }
+.spec { width: 100%; height: 180px; display: block; border-radius: 6px; image-rendering: pixelated; background: #061016; }
+.tracks { display: grid; gap: 6px; margin: 10px 0 6px; }
+.track-row { display: grid; grid-template-columns: 92px 1fr; gap: 8px; align-items: center; font-size: 12px; color: var(--muted); }
+.lane { position: relative; height: 26px; background: var(--line); border-radius: 4px; overflow: hidden; }
+.lane b { position: absolute; top: 3px; bottom: 3px; background: var(--warn); border-radius: 2px; }
+.lane s { position: absolute; bottom: 0; background: var(--accent); text-decoration: none; }
+.lane hr { position: absolute; left: 0; right: 0; top: 50%; margin: 0; border: 0; border-top: 1px dashed var(--fg); opacity: .5; }
 .gloss summary { cursor: pointer; font-weight: 500; }
 .gloss dl { margin: 12px 0 0; display: grid; gap: 4px; }
 .gloss dt { font-weight: 500; margin-top: 8px; }
@@ -95,6 +102,14 @@ footer { color: var(--muted); font-size: 13px; max-width: 62ch; }
     <h2>What happens to the sound</h2>
     <p class="sub">Every recording goes through these stages. The highlighted one is running now.</p>
     <ol class="pipe" id="pipeline"></ol>
+  </section>
+
+  <section class="card">
+    <h2>Listening to one minute</h2>
+    <p class="sub">A real test clip: one minute of Southern Resident orcas at the Orcasound Lab hydrophone. Time runs left to right, pitch bottom to top, brighter means louder. The bright streaks are calls.</p>
+    <canvas id="spec" class="spec" aria-label="Spectrogram of a one-minute orca recording"></canvas>
+    <div class="tracks" id="tracks"></div>
+    <p class="sub" id="clipnote">—</p>
   </section>
 
   <section class="card">
@@ -170,6 +185,32 @@ function chart(temps) {
   add('text', { x: W - m.r, y: H - 6, 'text-anchor': 'end' }, hhmm(pts[pts.length - 1].d));
   box.append(svg);
 }
+
+function drawClip(c) {
+  const cv = $('spec'), G = c.grid, H = G.length, W = G[0].length;
+  cv.width = W; cv.height = H;
+  const ctx = cv.getContext('2d'), img = ctx.createImageData(W, H);
+  for (let i = 0; i < H; i++) for (let j = 0; j < W; j++) {
+    const v = parseInt(G[i][j], 16) / 15, k = ((H - 1 - i) * W + j) * 4;
+    img.data[k] = Math.round(6 + v * v * 249); img.data[k + 1] = Math.round(16 + v * 200); img.data[k + 2] = Math.round(22 + v * (1 - v) * 320 + v * 40); img.data[k + 3] = 255;
+  }
+  ctx.putImageData(img, 0, 0);
+  const pct = (t) => `${(100 * t / c.duration_s).toFixed(2)}%`;
+  const tr = $('tracks'); tr.replaceChildren();
+  const row = (label) => { const r = el('div', 'track-row'); const lane = el('div', 'lane'); r.append(el('span', '', label), lane); tr.append(r); return lane; };
+  const people = row('People heard');
+  c.labels.forEach(([a, d]) => { const b = el('b'); b.style.left = pct(a); b.style.width = pct(d); people.append(b); });
+  const names = { whalu: 'whalu score', perch: 'Perch score' };
+  Object.entries(c.scores).forEach(([k, pts]) => {
+    const lane = row(names[k] || k); lane.append(el('hr'));
+    pts.forEach(([t, p]) => { const s = el('s'); s.style.left = pct(t + 1.25); s.style.width = pct(2.5); s.style.height = `${Math.max(2, p * 100)}%`; s.title = `${t}–${t + 5} s: ${p.toFixed(3)}`; lane.append(s); });
+  });
+  const hits = (pts) => pts.filter(([, p]) => p >= 0.5).length;
+  $('clipnote').textContent = `Orange: ${c.labels.length} calls marked by people. Blue: each model's orca score per 5-second window; the dashed line is 0.5, where a window counts as a call. ` +
+    Object.entries(c.scores).map(([k, pts]) => `${names[k] || k}: ${hits(pts)} of ${pts.length} windows above 0.5.`).join(' ') +
+    ` Audio: ${c.source}, ${c.licence}.`;
+}
+fetch('data/clip.json', { cache: 'no-store' }).then((r) => r.ok ? r.json() : null).then((c) => { if (c) drawClip(c); }).catch(() => {});
 
 fetch('data/status.json', { cache: 'no-store' }).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); }).then((s) => {
   const gen = new Date(s.generated);
