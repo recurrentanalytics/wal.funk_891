@@ -252,6 +252,7 @@ footer { padding-block: 48px; color: var(--dim); font-size: 13px; border-top: 1p
 .lang button:focus-visible { outline: 2px solid var(--glow); }
 .toc .wrap { align-items: center; }
 .glance { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); margin-top: 28px; }
+@media (max-width: 600px) { .glance { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tile b { font-size: 1.1rem; } .tile small { display: none; } .hero { min-height: auto; } .hero .wrap { padding-block: 90px 28px; } }
 .tile { display: block; text-decoration: none; color: var(--fg); padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: rgba(4,18,26,.72); backdrop-filter: blur(6px); }
 .tile:hover { border-color: var(--glow); }
 .tile span { display: block; font: 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
@@ -298,8 +299,9 @@ footer { padding-block: 48px; color: var(--dim); font-size: 13px; border-top: 1p
 @keyframes ring { from { transform: scale(.4); opacity: .9; } to { transform: scale(14); opacity: 0; } }
 @media (max-width: 860px) {
   .dive { grid-template-columns: minmax(0, 1fr); gap: 0; }
-  .stage { grid-row: 1; top: 52px; height: 52vh; z-index: 2; }
-  .dive .steps { grid-row: 2; gap: 40vh; padding: 6vh 0 30vh; margin-top: -10vh; position: relative; z-index: 3; }
+  .stage { grid-row: 1; top: 52px; height: 46vh; z-index: 2; }
+  .gauge { width: 56px; } .gauge .g-v { font-size: 1.1rem; }
+  .dive .steps { grid-row: 2; gap: 46vh; padding: 4vh 0 30vh; position: relative; z-index: 3; }
   .step { background: rgba(4,18,26,.9); }
 }
 /* world */
@@ -348,7 +350,7 @@ html[data-lang="zh"] h1 { letter-spacing: 0; }
 <main>
   <section class="dive" id="dive" data-part data-i18n-aria="dive.label">
     <div class="stage" id="stage" aria-hidden="true">
-      <svg viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid slice">
+      <svg viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid meet">
         <defs>
           <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#0b2433"/><stop offset="1" stop-color="#1b4a5c"/></linearGradient>
           <linearGradient id="sea" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#0f5068"/><stop offset=".45" stop-color="#062a3a"/><stop offset="1" stop-color="#020b10"/></linearGradient>
@@ -496,9 +498,9 @@ html[data-lang="zh"] h1 { letter-spacing: 0; }
 <footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/whale-listener-status">GitHub</a></p></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="i18n.js?v=7"></script>
-<script src="app.js?v=7"></script>
-<script src="story.js?v=7"></script>
-<script src="scenes.js?v=7"></script>
+<script src="i18n.js?v=8"></script>
+<script src="app.js?v=8"></script>
+<script src="story.js?v=8"></script>
+<script src="scenes.js?v=8"></script>
 </body>
 </html>
