@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Whale Listener</title>
-<meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls. Live status, the whales, the places, and what the models hear.">
+<meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls.">
 <meta name="theme-color" content="#04121a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -195,16 +195,6 @@ h3 { font: 500 1rem var(--body); margin: 0 0 10px; }
 .gloss dd { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
 footer { padding-block: 48px; color: var(--dim); font-size: 13px; border-top: 1px solid var(--line); margin-top: 40px; }
 .err { color: var(--coral); }
-.descent { position: relative; display: grid; grid-template-columns: 90px minmax(0, 1fr); gap: 0 24px; max-width: 1080px; margin: 0 auto; padding: 40px max(18px, env(safe-area-inset-right)) 40px max(18px, env(safe-area-inset-left)); }
-.depth-gauge { position: sticky; top: 80px; height: 60vh; display: grid; grid-template-rows: 1fr auto auto; justify-items: center; gap: 6px; }
-.dg-track { width: 6px; height: 100%; border-radius: 3px; background: linear-gradient(180deg, #2a5566, #020b10); position: relative; overflow: hidden; }
-.dg-fill { position: absolute; left: 0; right: 0; top: 0; height: 0; background: var(--glow); box-shadow: 0 0 12px var(--glow); transition: height .8s cubic-bezier(.2,.7,.2,1); }
-.dg-val { font: 300 1.6rem var(--display); }
-.dg-lbl { font: 11px var(--mono); color: var(--muted); text-align: center; text-transform: uppercase; letter-spacing: .08em; }
-.steps { display: grid; gap: 42vh; padding: 10vh 0 30vh; }
-.step p { font: 300 clamp(1.4rem, 3.6vw, 2.2rem)/1.25 var(--display); margin: 8px 0 0; max-width: 24ch; color: var(--dim); transition: color .5s; }
-.step.on p { color: var(--fg); }
-@media (max-width: 600px) { .descent { grid-template-columns: 56px minmax(0, 1fr); gap: 0 14px; } .dg-val { font-size: 1.1rem; } }
 .voices-head { margin-top: 36px; }
 .voices { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); margin-top: 12px; }
 .voice { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: rgba(8,34,48,.55); }
@@ -255,6 +245,81 @@ footer { padding-block: 48px; color: var(--dim); font-size: 13px; border-top: 1p
 .scene-legend i { display: inline-block; width: 26px; height: 10px; border-radius: 3px; vertical-align: -1px; margin-right: 6px; }
 .smap canvas { display: block; width: 100%; aspect-ratio: 16 / 10; max-height: 520px; border-radius: 10px; background: radial-gradient(80% 80% at 50% 50%, #08283a, #020b10); margin-top: 8px; }
 .legend input { accent-color: var(--glow); vertical-align: -2px; margin-right: 4px; }
+
+.lang { display: flex; gap: 2px; margin-left: auto; flex: none; }
+.lang button { all: unset; cursor: pointer; padding: 6px 9px; border-radius: 999px; font: 500 12px var(--mono); color: var(--muted); }
+.lang button[aria-pressed="true"] { color: var(--abyss); background: var(--fg); }
+.lang button:focus-visible { outline: 2px solid var(--glow); }
+.toc .wrap { align-items: center; }
+.glance { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); margin-top: 28px; }
+.tile { display: block; text-decoration: none; color: var(--fg); padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: rgba(4,18,26,.72); backdrop-filter: blur(6px); }
+.tile:hover { border-color: var(--glow); }
+.tile span { display: block; font: 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.tile b { display: block; font: 300 1.45rem/1.2 var(--display); margin: 4px 0 2px; }
+.tile small { color: var(--muted); font-size: 12.5px; }
+.tile.ok b { color: var(--krill); } .tile.warn b { color: var(--coral); }
+.lede-big { font: 300 clamp(1.15rem, 2.4vw, 1.45rem)/1.45 var(--display); color: #c5dce3; max-width: 52ch; margin: 0 0 28px; }
+.sub-h { margin: 44px 0 4px; }
+.sub-h .scene-title { margin-top: 4px; }
+/* the dive */
+.dive { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 32px; max-width: 1180px; margin: 0 auto; padding: 24px max(18px, env(safe-area-inset-right)) 24px max(18px, env(safe-area-inset-left)); }
+.dive .steps { display: grid; gap: 55vh; padding: 20vh 0 40vh; }
+.step { background: rgba(4,18,26,.6); border: 1px solid transparent; border-radius: 14px; padding: 16px 18px; transition: border-color .4s; }
+.step.on { border-color: var(--line); }
+.step p { font: 300 clamp(1.25rem, 2.6vw, 1.85rem)/1.3 var(--display); margin: 8px 0 0; color: var(--dim); transition: color .5s; }
+.step.on p { color: var(--fg); }
+.stage { --stage-bg: #0b1a24; position: sticky; top: 64px; height: calc(100vh - 88px); max-height: 760px; border-radius: 18px; overflow: hidden; background: var(--stage-bg); transition: background-color 1s; border: 1px solid var(--line); }
+.stage svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity 1.2s; }
+.scene { opacity: 0; transition: opacity .9s; }
+.scene.on { opacity: 1; }
+.zoom { transition: transform 1.6s cubic-bezier(.3,.1,.2,1); transform-origin: 0 0; }
+.cable { stroke-dashoffset: 1200; transition: stroke-dashoffset 2.5s ease-out; }
+.zoom.draw-cable .cable { stroke-dashoffset: 0; }
+.whale-g { opacity: 0; transition: opacity 1.2s; }
+.zoom.show-whale .whale-g { opacity: 1; }
+.st-label { font: 500 20px var(--mono); fill: var(--fg); paint-order: stroke; stroke: rgba(2,11,16,.8); stroke-width: 5px; }
+.st-label.small { font-size: 13px; stroke-width: 4px; }
+.st-tick { font: 12px var(--mono); fill: var(--muted); }
+.gauge { position: absolute; left: 16px; top: 16px; bottom: 54px; width: 70px; display: grid; grid-template-rows: auto 1fr auto; justify-items: start; gap: 6px; pointer-events: none; }
+.gauge .g-track { width: 5px; height: 100%; border-radius: 3px; background: rgba(127,162,174,.25); position: relative; overflow: hidden; }
+.gauge .g-fill { position: absolute; left: 0; right: 0; top: 0; background: var(--glow); box-shadow: 0 0 10px var(--glow); transition: height .9s; }
+.gauge .g-v { font: 300 1.5rem var(--display); }
+.gauge .g-l { font: 11px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+.st-note { position: absolute; left: 16px; right: 16px; bottom: 10px; font: 11px var(--mono); color: var(--muted); }
+@media (prefers-reduced-motion: no-preference) {
+  .led { animation: blink 1.6s infinite; }
+  .wifi { animation: wifi 2.4s infinite; opacity: .2; } .w1 { animation-delay: .3s; } .w2 { animation-delay: .6s; }
+  .packet { animation: flow 3s linear infinite; offset-rotate: 0deg; }
+  .ring { animation: ring 3.2s ease-out infinite; transform-box: fill-box; transform-origin: center; } .r1 { animation-delay: .8s; } .r2 { animation-delay: 1.6s; } .r3 { animation-delay: 2.4s; }
+}
+@keyframes wifi { 0%, 100% { opacity: .15; } 40% { opacity: 1; } }
+@keyframes flow { from { offset-distance: 0%; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } to { offset-distance: 100%; opacity: 0; } }
+@keyframes ring { from { transform: scale(.4); opacity: .9; } to { transform: scale(14); opacity: 0; } }
+@media (max-width: 860px) {
+  .dive { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .stage { grid-row: 1; top: 52px; height: 52vh; z-index: 2; }
+  .dive .steps { grid-row: 2; gap: 40vh; padding: 6vh 0 30vh; margin-top: -10vh; position: relative; z-index: 3; }
+  .step { background: rgba(4,18,26,.9); }
+}
+/* world */
+.world { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: #031018; }
+.world svg { display: block; width: 100%; height: auto; }
+.world .sphere { fill: #052030; } .world .land { fill: #163845; stroke: #2a5566; stroke-width: .4; }
+.wgroup { transition: opacity .3s; } .wgroup.dim { opacity: .12; }
+.wused { stroke: #fff; stroke-width: 1.5; }
+.world-info { min-height: 22px; font: 12.5px var(--mono); color: var(--muted); padding: 8px 2px; }
+.world-info b { color: var(--fg); font-weight: 500; }
+.wl-list { display: grid; gap: 6px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); margin-top: 6px; }
+.wl-item { all: unset; cursor: pointer; display: grid; grid-template-columns: 14px 1fr; gap: 2px 10px; align-items: center; padding: 8px 10px; border-radius: 10px; border: 1px solid transparent; }
+.wl-item:hover, .wl-item.on { border-color: var(--line); background: rgba(94,230,215,.05); }
+.wl-item:focus-visible { outline: 2px solid var(--glow); }
+.wl-item i { width: 10px; height: 10px; border-radius: 50%; grid-row: span 2; }
+.wl-item b { font-weight: 500; font-size: 14px; } .wl-item span { font: 11.5px var(--mono); color: var(--muted); }
+.note.check { color: #b9d3db; border-left: 2px solid var(--amber); padding-left: 10px; }
+details.more { margin-top: 10px; } details.more summary { cursor: pointer; color: var(--glow); font-size: 14px; }
+html[data-lang="zh"] { --display: "Noto Sans SC", "Bricolage Grotesque", system-ui, sans-serif; --body: "Noto Sans SC", "IBM Plex Sans", system-ui, sans-serif; }
+html[data-lang="zh"] h1 { letter-spacing: 0; }
 </style>
 </head>
 <body>
@@ -262,487 +327,178 @@ footer { padding-block: 48px; color: var(--dim); font-size: 13px; border-top: 1p
 <header class="hero" id="top">
   <canvas id="hero-spec" aria-hidden="true"></canvas>
   <div class="wrap">
-    <div class="eyebrow">Hydrophone listening station</div>
-    <h1>Whale<br>Listener</h1>
-    <p class="lede">A Raspberry Pi listens to the open ocean recordings of Monterey Bay and the Salish Sea, and tries to tell whale calls from the noise.</p>
-    <div class="live" id="live"><span class="chip"><span class="dot stale" id="live-dot"></span><span id="live-text">Connecting to the Pi…</span></span></div>
+    <div class="eyebrow" data-i18n="hero.eyebrow">Hydrophone listening station</div>
+    <h1 data-i18n="hero.title">Whale Listener</h1>
+    <p class="lede" data-i18n="hero.lede"></p>
+    <div class="live"><span class="chip"><span class="dot stale" id="live-dot"></span><span id="live-text" data-i18n="hero.connecting"></span></span></div>
+    <div class="glance" aria-label="At a glance">
+      <a class="tile" href="#machine"><span data-i18n="glance.pi"></span><b id="g-pi">—</b></a>
+      <a class="tile" href="#finds"><span data-i18n="glance.hours"></span><b id="g-hours">—</b></a>
+      <a class="tile ok" href="#results"><span data-i18n="glance.model"></span><b id="g-model">—</b><small data-i18n="glance.model.sub"></small></a>
+      <a class="tile warn" href="#machine"><span data-i18n="glance.next"></span><b data-i18n="glance.next.val"></b><small data-i18n="glance.next.sub"></small></a>
+    </div>
   </div>
 </header>
 
 <nav class="toc" aria-label="Sections"><div class="wrap">
-  <a href="#descent">Dive</a><a href="#whales">Whales</a><a href="#where">Where</a><a href="#listen">Listen</a><a href="#finds">Finds</a><a href="#results">Test</a><a href="#machine">Machine</a><a href="#words">Words</a>
+  <a href="#dive" data-i18n="nav.dive"></a><a href="#whales" data-i18n="nav.whales"></a><a href="#places" data-i18n="nav.places"></a><a href="#listen" data-i18n="nav.listen"></a><a href="#results" data-i18n="nav.results"></a><a href="#finds" data-i18n="nav.finds"></a><a href="#machine" data-i18n="nav.machine"></a><a href="#words" data-i18n="nav.words"></a>
+  <div class="lang" role="group" aria-label="Language"><button data-lang="en" type="button">EN</button><button data-lang="de" type="button">DE</button><button data-lang="zh" type="button">中文</button></div>
 </div></nav>
 
 <main>
-  <section class="descent" id="descent" aria-label="From the computer to the sea floor">
-    <div class="depth-gauge" aria-hidden="true"><div class="dg-track"><div class="dg-fill" id="dg-fill"></div></div><div class="dg-val" id="dg-val">0 m</div><div class="dg-lbl" id="dg-lbl">on land</div></div>
+  <section class="dive" id="dive" data-part data-i18n-aria="dive.label">
+    <div class="stage" id="stage" aria-hidden="true">
+      <svg viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#0b2433"/><stop offset="1" stop-color="#1b4a5c"/></linearGradient>
+          <linearGradient id="sea" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#0f5068"/><stop offset=".45" stop-color="#062a3a"/><stop offset="1" stop-color="#020b10"/></linearGradient>
+        </defs>
+        <g class="scene" id="sc-pi" data-from="0" data-to="0"></g>
+        <g class="scene" id="sc-cloud" data-from="1" data-to="1"></g>
+        <g class="scene" id="sc-profile" data-from="2" data-to="4"></g>
+      </svg>
+      <canvas></canvas>
+      <div class="gauge"><div class="g-v" id="st-depth">0 m</div><div class="g-track"><div class="g-fill" id="st-fill"></div></div><div class="g-l" id="st-lbl"></div></div>
+      <div class="st-note" id="st-note"></div>
+    </div>
     <div class="steps">
-      <div class="step" data-depth="0" data-lbl="on land"><span class="kicker">Start</span><p>Thousands of kilometres from the Pacific, a Raspberry Pi the size of a postcard wakes up and asks for an hour of ocean.</p></div>
-      <div class="step" data-depth="0" data-lbl="in the cloud"><span class="kicker">The archive</span><p>It streams the hour from a free public archive on Amazon's cloud, listens, keeps only what it found, and throws the sound away again.</p></div>
-      <div class="step" data-depth="0" data-lbl="Moss Landing"><span class="kicker">The cable</span><p>The sound reached the archive through MBARI's MARS observatory: a sea-floor cable that brings power down and data up from the deep.</p></div>
-      <div class="step" data-depth="891" data-lbl="Smooth Ridge"><span class="kicker">891 m down</span><p>About 30 km off Monterey Bay, a hydrophone has listened almost without a break since July 2015. No light reaches it.</p></div>
-      <div class="step" data-depth="891" data-lbl="listening"><span class="kicker">The voice</span><p>Somewhere in the dark a blue whale calls at around 43 hertz, lower than most people can hear. Scroll on to hear it, sped up ten times.</p></div>
+      <div class="step" data-i="0"><span class="kicker" data-i18n="dive.s0.k"></span><p data-i18n="dive.s0.t"></p></div>
+      <div class="step" data-i="1"><span class="kicker" data-i18n="dive.s1.k"></span><p data-i18n="dive.s1.t"></p></div>
+      <div class="step" data-i="2"><span class="kicker" data-i18n="dive.s2.k"></span><p data-i18n="dive.s2.t"></p></div>
+      <div class="step" data-i="3"><span class="kicker" data-i18n="dive.s3.k"></span><p data-i18n="dive.s3.t"></p></div>
+      <div class="step" data-i="4"><span class="kicker" data-i18n="dive.s4.k"></span><p data-i18n="dive.s4.t"></p></div>
     </div>
   </section>
-  <section class="part" id="whales"><div class="wrap">
-    <div class="kicker">01 · The voices</div>
-    <h2>Seven kinds of whale the detector knows</h2>
-    <p class="intro" id="w-intro">From the blue whale, the largest animal that has ever lived, to the orca. Tap a whale to see how it sounds, when it sings off California, and how it is doing.</p>
+
+  <section class="part" id="whales" data-part><div class="wrap">
+    <div class="kicker" data-i18n="whales.kicker"></div>
+    <h2 data-i18n="whales.title"></h2>
+    <p class="lede-big" data-i18n="whales.lede"></p>
     <div class="explorer">
-      <div class="panel"><div class="lineup" id="lineup" role="group" aria-label="Whales to scale"></div>
-        <p class="note">Drawn to scale by maximum adult length (NOAA Fisheries). Person for comparison.</p></div>
+      <div class="panel"><div class="lineup" id="lineup" role="group"></div><p class="note" data-i18n="whales.scale"></p></div>
       <div class="panel detail" id="detail" aria-live="polite">—</div>
     </div>
     <div class="known" id="known"></div>
-    <div class="voices-head"><span class="kicker">Hear them</span><h3 class="scene-title">Three voices from one November night</h3>
-      <p class="note">15 November 2020, midnight to 1 am UTC at the MBARI hydrophone. In this hour the model heard humpback song in 432 five-second windows, blue whales in 125 and fin whales in 90. These are its strongest picks: candidates, not yet checked by a person. Blue and fin whales are played ten times faster, which lifts their calls into the range ears and phone speakers can reproduce.</p></div>
+    <div class="sub-h" id="voices-anchor"><span class="kicker" data-i18n="voices.kicker"></span><h3 class="scene-title" data-i18n="voices.title"></h3>
+      <p class="note" data-i18n="voices.lede"></p><p class="note" data-i18n="voices.speed.note"></p></div>
     <div class="voices" id="voices"></div>
+    <p class="note" data-i18n="voices.footer"></p>
   </div></section>
 
-  <section class="part" id="where"><div class="wrap">
-    <div class="kicker">02 · The places</div>
-    <h2>Two microphones in the Pacific</h2>
-    <p class="intro">One sits 891 metres down on a ridge off Monterey Bay and has recorded almost without a break since 2015. The other is a few metres under the surface in Haro Strait, where the Southern Resident orcas pass.</p>
-    <div class="mapbox" id="map" role="img" aria-label="Map of the North-east Pacific coast with the MBARI and Orcasound hydrophones"></div>
+  <section class="part" id="places" data-part><div class="wrap">
+    <div class="kicker" data-i18n="places.kicker"></div>
+    <h2 data-i18n="places.title"></h2>
+    <p class="lede-big" data-i18n="places.lede"></p>
+    <div class="mapbox" id="map" role="img" data-i18n-aria="places.map.aria"></div>
+    <div class="place-cards" id="places-cards"><div id="places" style="display:contents"></div></div>
     <div class="scene-card">
-      <div class="scene-head"><span class="kicker">Under Monterey Bay</span><h3 class="scene-title">The canyon the microphone listens into</h3>
-        <p class="note">The sea floor off Monterey, from ship sonar surveys, heights exaggerated three times. In this view Monterey Canyon reaches more than 3,300 m down. The MBARI hydrophone sits at 891 m on Smooth Ridge, just north of the canyon, about 30 km from shore. Drag to turn, pinch or scroll to zoom.</p></div>
-      <div class="scene tall" id="bathy3d" aria-label="3D view of the sea floor around Monterey Canyon with the MBARI hydrophone"><div class="scene-msg">Loading the sea floor…</div></div>
-      <div class="scene-legend"><span><i style="background:linear-gradient(90deg,#0a1f3a,#1d6f8a,#7fd6d0)"></i>3,300 m → sea level</span><span><i style="background:#5c6b4e"></i>Land</span><span><i style="background:var(--amber)"></i>MBARI hydrophone, 891 m</span><span class="src">Depth data: GMRT, Ryan et al. 2009, CC BY 4.0</span></div>
+      <div class="scene-head"><span class="kicker" data-i18n="canyon.kicker"></span><h3 class="scene-title" data-i18n="canyon.title"></h3><p class="note" data-i18n="canyon.note"></p></div>
+      <div class="scene tall" id="bathy3d"><div class="scene-msg" data-i18n="ui.loading"></div></div>
+      <div class="scene-legend"><span><i style="background:linear-gradient(90deg,#0a1f3a,#1d6f8a,#7fd6d0)"></i><span data-i18n="canyon.legend.depth"></span></span><span><i style="background:#5c6b4e"></i><span data-i18n="canyon.legend.land"></span></span><span><i style="background:var(--amber)"></i><span data-i18n="canyon.legend.hp"></span></span><span class="src" data-i18n="canyon.credit"></span></div>
     </div>
-    <div class="place-cards" id="places"></div>
     <div class="live-card" id="live-card">
-      <div class="scene-head"><span class="kicker"><span class="rec"></span> Live</span><h3 class="scene-title">Listen to the Salish Sea right now</h3>
-        <p class="note">Orcasound's hydrophones stream around the clock. What you hear is the sea a few seconds to a minute ago: waves, boats, shrimp crackle, and with luck orcas. Local time there: <b id="live-clock">—</b>.</p></div>
-      <div class="live-row"><select id="live-node" aria-label="Hydrophone"></select><button class="play" id="live-play" type="button"><svg viewBox="0 0 14 14"><path d="M2 1 L13 7 L2 13 Z" fill="currentColor"/></svg><span>Listen live</span></button><span class="note" id="live-state"></span></div>
-      <canvas id="live-spec" class="live-spec" aria-label="Live spectrogram of the hydrophone stream"></canvas>
-      <p class="note">Stream: <a href="https://live.orcasound.net/">Orcasound</a>, CC BY-NC-SA 4.0. The scrolling picture is drawn in your browser from the sound you are hearing, 0–8 kHz.</p>
+      <div class="scene-head"><span class="kicker"><span class="rec"></span> <span data-i18n="live.kicker"></span></span><h3 class="scene-title" data-i18n="live.title"></h3>
+        <p class="note"><span data-i18n="live.note"></span> <b id="live-clock">—</b></p></div>
+      <div class="live-row"><select id="live-node" aria-label="Hydrophone"></select><button class="play" id="live-play" type="button"><svg viewBox="0 0 14 14"><path d="M2 1 L13 7 L2 13 Z" fill="currentColor"/></svg><span data-i18n="live.play"></span></button><span class="note" id="live-state"></span></div>
+      <canvas id="live-spec" class="live-spec"></canvas>
+      <p class="note" data-i18n="live.credit"></p>
       <audio id="live-audio" crossorigin="anonymous" preload="none"></audio>
     </div>
+    <div class="sub-h"><span class="kicker" data-i18n="world.kicker"></span><h3 class="scene-title" data-i18n="world.title"></h3><p class="note" data-i18n="world.note"></p></div>
+    <div class="world" id="world"></div>
+    <div class="world-info" id="world-info"></div>
+    <div class="legend"><span><i style="background:#ffb547"></i><span data-i18n="world.used"></span></span><span><i style="background:#5ee6d7"></i><span data-i18n="world.open"></span></span></div>
+    <div class="wl-list" id="world-list"></div>
   </div></section>
 
-  <section class="part" id="listen"><div class="wrap">
-    <div class="kicker">03 · One minute</div>
-    <h2>Listen to what the Pi listens to</h2>
-    <p class="intro">Southern Resident orcas, J and L pods, at the Orcasound Lab hydrophone on 27 September 2017. Press play: the amber bands are calls that people marked, the bars below are what each model thought, window by window.</p>
+  <section class="part" id="listen" data-part><div class="wrap">
+    <div class="kicker" data-i18n="listen.kicker"></div>
+    <h2 data-i18n="listen.title"></h2>
+    <p class="lede-big" data-i18n="listen.lede"></p>
     <div class="player">
       <div class="spec-wrap" id="spec-wrap">
-        <canvas id="spec" aria-label="Spectrogram of the one-minute recording"></canvas>
-        <div class="calls-band" id="calls-band"></div>
-        <div class="playhead" id="playhead"></div>
+        <canvas id="spec"></canvas><div class="calls-band" id="calls-band"></div><div class="playhead" id="playhead"></div>
         <div class="freq-axis"><span>10 kHz</span><span>5 kHz</span><span>0</span></div>
       </div>
       <div class="controls">
-        <button class="play" id="play" type="button" aria-label="Play recording"><svg viewBox="0 0 14 14" id="play-icon"><path d="M2 1 L13 7 L2 13 Z" fill="currentColor"/></svg><span id="play-text">Play the minute</span></button>
-        <div class="readout" id="readout"><span>Time <b id="r-t">0.0 s</b></span><span>People <b id="r-p">—</b></span><span>whalu <b id="r-w">—</b></span><span>Perch <b id="r-c">—</b></span></div>
+        <button class="play" id="play" type="button"><svg viewBox="0 0 14 14" id="play-icon"><path d="M2 1 L13 7 L2 13 Z" fill="currentColor"/></svg><span id="play-text" data-i18n="listen.play"></span></button>
+        <div class="readout"><span><span data-i18n="listen.time"></span> <b id="r-t">0.0 s</b></span><span><span data-i18n="listen.people"></span> <b id="r-p">—</b></span><span>whalu <b id="r-w">—</b></span><span>Perch <b id="r-c">—</b></span></div>
       </div>
       <div class="lanes" id="lanes"></div>
-      <div class="legend"><span><i style="background:var(--amber)"></i>Call marked by people</span><span><i style="background:#7fa2ae"></i>whalu orca score</span><span><i style="background:var(--glow)"></i>Perch orca score</span><span>Dashed line: 0.5, where a window counts as a call</span></div>
+      <div class="legend"><span><i style="background:var(--amber)"></i><span data-i18n="listen.legend.people"></span></span><span><i style="background:#7fa2ae"></i><span data-i18n="listen.legend.whalu"></span></span><span><i style="background:var(--glow)"></i><span data-i18n="listen.legend.perch"></span></span><span data-i18n="listen.legend.thr"></span></div>
       <audio id="audio" preload="none" src="data/clip.mp3"></audio>
-      <p class="note" id="clipnote">Audio: Orcasound, CC BY-NC-SA 4.0. High-passed above 150 Hz and loudness-normalised so the calls are audible on phone speakers.</p>
+      <p class="note" id="clipnote" data-i18n="listen.audio"></p>
     </div>
     <div class="scene-card">
-      <div class="scene-head"><span class="kicker">The same minute in 3D</span><h3 class="scene-title">A landscape of sound</h3>
-        <p class="note">Time runs from left to right and pitch from front (low) to back (10 kHz). Height shows how much louder a moment is than usual at that pitch, so steady noise stays flat and calls rise as ridges. The glowing wall moves with the audio when you press play above. Drag to turn, pinch or scroll to zoom.</p></div>
-      <div class="scene" id="land3d" aria-label="3D landscape of the one-minute recording"><div class="scene-msg">Loading the landscape…</div></div>
+      <div class="scene-head"><span class="kicker" data-i18n="land.kicker"></span><h3 class="scene-title" data-i18n="land.title"></h3><p class="note" data-i18n="land.note"></p></div>
+      <div class="scene" id="land3d"><div class="scene-msg" data-i18n="ui.loading"></div></div>
     </div>
   </div></section>
 
-  <section class="part" id="finds"><div class="wrap">
-    <div class="kicker">04 · What the Pi has found</div>
-    <h2>Ten years of ocean, one hour at a time</h2>
-    <p class="intro">Every square below is a day of the MBARI archive since July 2015. Lit squares are hours the Pi has already listened to. The calendar fills as the Pi works through the archive.</p>
-    <div class="panel"><div class="cal-sum" id="cal-sum">—</div><div class="cal" id="cal"></div><div class="legend" id="cal-legend"></div></div>
-    <h3 class="scene-title" style="margin-top:28px">Waiting for a human ear</h3>
-    <p class="note">Unusual detections land here with sound and spectrogram. Nothing counts as a finding until someone has listened and compared it with what MBARI and Orcasound already report.</p>
-    <div class="cands" id="cands"></div>
-  </div></section>
-
-  <section class="part" id="results"><div class="wrap">
-    <div class="kicker">05 · The test</div>
-    <h2>Can a model hear what people hear?</h2>
-    <p class="intro">Before anything listens to new audio, it has to pass a test on recordings people have already labelled: 462 five-second windows, 119 with an orca call. The pass mark, set in advance, is a balanced accuracy of 0.80.</p>
+  <section class="part" id="results" data-part><div class="wrap">
+    <div class="kicker" data-i18n="results.kicker"></div>
+    <h2 data-i18n="results.title"></h2>
+    <p class="lede-big" data-i18n="results.lede"></p>
     <div class="score-grid" id="scores"></div>
     <div class="panel smap" style="margin-top:16px">
-      <span class="kicker">How Perch hears it</span>
-      <h3 style="font:300 1.8rem/1.1 var(--display);margin:6px 0 6px">The sound map</h3>
-      <p class="note">Every dot is one 5-second window. Perch turns each into 1,536 numbers; this map squeezes them into two dimensions so that windows that sound alike land close together. Nobody told Perch which windows hold calls, yet the amber calls gather on their own.</p>
-      <canvas id="smap" aria-label="Map of 1,587 audio windows, calls clustering apart from quiet windows"></canvas>
-      <div class="legend"><span><i style="background:var(--amber)"></i>Orca call (people)</span><span><i style="background:#2f6f86"></i>No call</span><span><i style="background:#56707a"></i>Partly a call</span><label style="cursor:pointer"><input type="checkbox" id="smap-test"> Only the test windows</label></div>
+      <span class="kicker" data-i18n="smap.kicker"></span>
+      <h3 class="scene-title" data-i18n="smap.title"></h3>
+      <p class="note" data-i18n="smap.note"></p>
+      <canvas id="smap"></canvas>
+      <div class="legend"><span><i style="background:var(--amber)"></i><span data-i18n="smap.call"></span></span><span><i style="background:#2f6f86"></i><span data-i18n="smap.nocall"></span></span><span><i style="background:#56707a"></i><span data-i18n="smap.partly"></span></span><label style="cursor:pointer"><input type="checkbox" id="smap-test"> <span data-i18n="smap.onlytest"></span></label></div>
       <p class="note" id="smap-note"></p>
     </div>
+    <h3 class="scene-title sub-h" data-i18n="gates.title"></h3>
     <ol class="gates" id="gates"></ol>
   </div></section>
 
-  <section class="part" id="machine"><div class="wrap">
-    <div class="kicker">06 · The machine</div>
-    <h2>A small computer without a fan</h2>
-    <p class="intro" id="stamp">Loading the latest report from the Pi…</p>
-    <div class="instr">
-      <div class="panel"><h3>Chip temperature</h3><div class="big-num" id="temp">—</div><p class="note" id="throttle">—</p></div>
-      <div class="panel"><h3>Processor cores</h3><div class="cores" id="cores"></div><p class="note" id="ram">—</p></div>
-      <div class="panel"><h3>Current job</h3><div id="progress">—</div></div>
-    </div>
-    <div class="panel" style="margin-top:14px"><h3>The path of a recording</h3><ol class="pipe" id="pipeline"></ol></div>
-    <div class="panel tchart" style="margin-top:14px"><h3>Temperature, last 48 hours</h3><div id="tchart">—</div><p class="note">Highest reading per 10 minutes. Dashed: 75 °C benchmark limit and 85 °C, where the Pi slows itself down.</p></div>
+  <section class="part" id="finds" data-part><div class="wrap">
+    <div class="kicker" data-i18n="finds.kicker"></div>
+    <h2 data-i18n="finds.title"></h2>
+    <p class="lede-big" data-i18n="finds.lede"></p>
+    <div class="panel"><div class="cal-sum" id="cal-sum">—</div><div class="cal" id="cal"></div>
+      <div class="legend"><span><i style="background:var(--glow)"></i><span data-i18n="finds.legend.on"></span></span><span><i style="background:rgba(23,70,90,.6)"></i><span data-i18n="finds.legend.off"></span></span></div></div>
+    <div class="sub-h"><h3 class="scene-title" data-i18n="queue.title"></h3><p class="note" data-i18n="queue.note"></p></div>
+    <div class="cands" id="cands"></div>
   </div></section>
 
-  <section class="part" id="words"><div class="wrap">
-    <div class="kicker">07 · Words</div>
-    <h2>What the terms mean</h2>
+  <section class="part" id="machine" data-part><div class="wrap">
+    <div class="kicker" data-i18n="machine.kicker"></div>
+    <h2 data-i18n="machine.title"></h2>
+    <p class="lede-big" id="stamp">—</p>
+    <div class="instr">
+      <div class="panel"><h3 data-i18n="machine.temp"></h3><div class="big-num" id="temp">—</div><p class="note" id="throttle">—</p></div>
+      <div class="panel"><h3 data-i18n="machine.cores"></h3><div class="cores" id="cores"></div><p class="note" id="ram">—</p></div>
+      <div class="panel"><h3 data-i18n="machine.job"></h3><div id="progress">—</div></div>
+    </div>
+    <div class="panel" style="margin-top:14px"><h3 data-i18n="machine.path"></h3><ol class="pipe" id="pipeline"></ol></div>
+    <div class="panel tchart" style="margin-top:14px"><h3 data-i18n="machine.tchart"></h3><div id="tchart">—</div><p class="note" data-i18n="machine.tchart.note"></p></div>
+  </div></section>
+
+  <section class="part" id="words" data-part><div class="wrap">
+    <div class="kicker" data-i18n="words.kicker"></div>
+    <h2 data-i18n="words.title"></h2>
     <dl class="gloss">
-      <div><dt>Hydrophone</dt><dd>An underwater microphone.</dd></div>
-      <div><dt>Spectrogram</dt><dd>A picture of sound: time left to right, pitch bottom to top, loudness as brightness.</dd></div>
-      <div><dt>Window</dt><dd>A 5-second slice of audio. Models judge one window at a time; windows overlap by half.</dd></div>
-      <div><dt>Embedding</dt><dd>The 1,536 numbers Perch makes from a window. Windows that sound alike get similar numbers.</dd></div>
-      <div><dt>Classifier</dt><dd>A small model trained on labelled examples that turns an embedding into one score from 0 to 1.</dd></div>
-      <div><dt>Threshold</dt><dd>The score at which a window counts as a call. Fixed at 0.5 before testing and never moved to pass a test.</dd></div>
-      <div><dt>Balanced accuracy</dt><dd>The average of calls found and quiet windows left alone. 0.5 is guessing, 1.0 is perfect.</dd></div>
-      <div><dt>Gate</dt><dd>A pass mark set before a step runs. A miss stops the work until the owner decides.</dd></div>
-      <div><dt>Throttling</dt><dd>The Pi slowing itself down above 85 °C to protect the chip.</dd></div>
-      <div><dt>Candidate</dt><dd>An unusual detection. It only becomes a finding once a person has listened and checked what MBARI and Orcasound already report.</dd></div>
+      <div><dt data-i18n="w.hydrophone"></dt><dd data-i18n="w.hydrophone.d"></dd></div>
+      <div><dt data-i18n="w.spectrogram"></dt><dd data-i18n="w.spectrogram.d"></dd></div>
+      <div><dt data-i18n="w.window"></dt><dd data-i18n="w.window.d"></dd></div>
+      <div><dt data-i18n="w.embedding"></dt><dd data-i18n="w.embedding.d"></dd></div>
+      <div><dt data-i18n="w.classifier"></dt><dd data-i18n="w.classifier.d"></dd></div>
+      <div><dt data-i18n="w.threshold"></dt><dd data-i18n="w.threshold.d"></dd></div>
+      <div><dt data-i18n="w.ba"></dt><dd data-i18n="w.ba.d"></dd></div>
+      <div><dt data-i18n="w.gate"></dt><dd data-i18n="w.gate.d"></dd></div>
+      <div><dt data-i18n="w.throttling"></dt><dd data-i18n="w.throttling.d"></dd></div>
+      <div><dt data-i18n="w.candidate"></dt><dd data-i18n="w.candidate.d"></dd></div>
     </dl>
   </div></section>
 </main>
 
-<footer><div class="wrap">
-  Updated by the Pi itself every 30 minutes · <a href="data/status.json">status.json</a> · Audio: <a href="https://registry.opendata.aws/pacific-sound">MBARI Pacific Sound</a> (CC BY 4.0) and <a href="https://registry.opendata.aws/orcasound">Orcasound</a> (CC BY-NC-SA 4.0) · Map: <a href="https://www.naturalearthdata.com/">Natural Earth</a> · Sea floor: <a href="https://www.gmrt.org/">GMRT</a> (CC BY 4.0) · Photos: NOAA (public domain), Aqqa Rosing-Asvid (CC BY 2.0), Chainfoto (CC BY 4.0), credited on each photo · Non-commercial project.
-</div></footer>
+<footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/whale-listener-status">GitHub</a></p></div></footer>
 
-<script>
-const $ = (id) => document.getElementById(id);
-const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
-const NS = 'http://www.w3.org/2000/svg';
-const svgEl = (tag, attrs = {}) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); return n; };
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const getJSON = (u) => fetch(u, { cache: 'no-store' }).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); });
-
-/* Spectrogram colour: abyss -> teal -> pale gold */
-function colour(v) {
-  const stops = [[2, 11, 16], [8, 52, 70], [32, 140, 150], [120, 220, 200], [255, 236, 170]];
-  const x = Math.min(.999, Math.max(0, v)) * (stops.length - 1), i = Math.floor(x), f = x - i;
-  return stops[i].map((c, k) => Math.round(c + (stops[i + 1][k] - c) * f));
-}
-function paintGrid(canvas, grid) {
-  const H = grid.length, W = grid[0].length; canvas.width = W; canvas.height = H;
-  const ctx = canvas.getContext('2d'), img = ctx.createImageData(W, H);
-  for (let i = 0; i < H; i++) for (let j = 0; j < W; j++) {
-    const [r, g, b] = colour(parseInt(grid[i][j], 16) / 15), k = ((H - 1 - i) * W + j) * 4;
-    img.data[k] = r; img.data[k + 1] = g; img.data[k + 2] = b; img.data[k + 3] = 255;
-  }
-  ctx.putImageData(img, 0, 0);
-}
-
-/* ---------- Hero: the real recording drifting by ---------- */
-function hero(grid) {
-  const cv = $('hero-spec'), src = document.createElement('canvas'); paintGrid(src, grid);
-  const ctx = cv.getContext('2d');
-  const size = () => { cv.width = cv.clientWidth; cv.height = cv.clientHeight; };
-  size(); addEventListener('resize', size);
-  let x = 0;
-  const frame = () => {
-    const w = cv.width, h = cv.height, tile = src.width * (h / src.height);
-    ctx.imageSmoothingEnabled = true;
-    for (let o = -x % tile - tile; o < w; o += tile) ctx.drawImage(src, o, 0, tile, h);
-    if (!reduce) { x += 0.35; requestAnimationFrame(frame); }
-  };
-  frame();
-}
-
-/* ---------- Whales ---------- */
-function whalePath(L, H, fin, kind, flipper) {
-  // Side profile: snout at x=0, fluke tips at x=L, top of back at y=0, belly at y=H.
-  // Flukes are horizontal in whales, so from the side they read as a thin wedge, not a fish tail.
-  const t = H * 0.5, f = (x, y) => `${(x * L).toFixed(1)} ${(y * H).toFixed(1)}`;
-  const orca = kind === 'orca', right = kind === 'right';
-  const dX = orca ? .45 : .68;                     // dorsal fin position
-  const top = right ? [[.02, .2], [.18, -.02], [.4, .0]] : [[.03, .38], [.14, .06], [.3, .0]];
-  const p = [`M ${f(0, .55)}`,
-    `C ${f(top[0][0], top[0][1])} ${f(top[1][0], top[1][1])} ${f(top[2][0], top[2][1])}`,
-    `L ${f(dX - .06, .03)}`];
-  if (right) p.push(`L ${f(dX + .02, .06)}`);       // right whales: no dorsal fin
-  else if (orca) p.push(`L ${f(dX - .01, -fin / H)} L ${f(dX + .05, .05)}`);
-  else p.push(`Q ${f(dX + .01, -fin / H)} ${f(dX + .04, .07)}`);
-  p.push(`C ${f(.8, .18)} ${f(.88, .36)} ${f(.9, .42)}`,      // tail stock narrowing
-    `L ${f(1, .36)} L ${f(.985, .47)} L ${f(1, .58)} L ${f(.9, .53)}`, // fluke wedge
-    `C ${f(.82, .66)} ${f(.62, .98)} ${f(.42, 1)}`,              // belly
-    `C ${f(.24, 1)} ${f(.08, .92)} ${f(0, .62)} Z`);
-  if (flipper) {                                                // pectoral flipper
-    const fx = orca ? .2 : .26, len = flipper;
-    p.push(`M ${f(fx, .8)} Q ${f(fx + len * .45, 1.0)} ${f(fx + len, 1.2)} Q ${f(fx + len * .55, 1.02)} ${f(fx + .07, .8)} Z`);
-  }
-  return p.join(' ');
-}
-function whales(w) {
-  const lens = Object.fromEntries(w.sizes.items.map(([n, m, u]) => [n, { m, u }]));
-  const spec = (name) => /right whale/i.test(name) ? w.species.find((s) => /^Right whales/.test(s.name)) : w.species.find((s) => name.startsWith(s.name.split(' (')[0]) || s.name.startsWith(name.split(' ')[0]));
-  const photos = w.photos || {};
-  Object.values(photos).forEach((p) => { const i = new Image(); i.src = p.file; });
-  const max = w.sizes.items[0][1];
-  const line = $('lineup'); line.replaceChildren();
-  let current = null;
-  const buttons = [];
-  w.sizes.items.forEach(([name, m]) => {
-    const isPerson = name === 'Person';
-    const btn = el('button', 'whale-btn' + (isPerson ? ' person' : '')); btn.type = 'button';
-    btn.setAttribute('aria-pressed', 'false');
-    btn.append(el('span', 'nm', name), el('span', 'len', `${m} m`));
-    const VB = 1000, VH = 200;
-    const s = svgEl('svg', { viewBox: `0 0 ${VB} ${VH}`, preserveAspectRatio: 'xMinYMax meet', 'aria-hidden': 'true' });
-    const L = VB * m / max;
-    if (isPerson) {
-      const h = L, u = h / 8; // standing person, h = 1.8 m in the same units
-      s.append(svgEl('path', { d: `M${u * 1.6} ${VH - h} a${u * .55} ${u * .55} 0 1 1 0.01 0 Z M${u * 1.05} ${VH - h + u * 1.2} h${u * 1.1} l${u * .3} ${u * 3} h${-u * .45} v${u * 3.8} h${-u * .45} v${-u * 2.4} h${-u * .1} v${u * 2.4} h${-u * .45} v${-u * 3.8} h${-u * .45} Z` }));
-    } else {
-      const kind = /orca/i.test(name) ? 'orca' : /right/i.test(name) ? 'right' : 'baleen';
-      const hump = /humpback/i.test(name);
-      const ratio = kind === 'right' ? .22 : kind === 'orca' ? .2 : hump ? .17 : .12;
-      const H = L * ratio;
-      const fin = kind === 'orca' ? H * .85 : hump ? H * .1 : H * .14;
-      const flip = hump ? .3 : kind === 'orca' ? .09 : .1;
-      const p = svgEl('path', { d: whalePath(L, H, fin, kind, flip) });
-      p.setAttribute('transform', `translate(0 ${(VH - H * 1.2).toFixed(1)})`); s.append(p);
-    }
-    btn.append(s);
-    if (isPerson) { btn.disabled = true; btn.style.cursor = 'default'; }
-    else btn.addEventListener('click', () => select(name));
-    buttons.push([name, btn]);
-    line.append(btn);
-  });
-  const lo = Math.log10(10), hi = Math.log10(30000), pos = (hz) => (100 * (Math.log10(hz) - lo) / (hi - lo));
-  function select(name) {
-    current = name;
-    buttons.forEach(([n, b]) => b.setAttribute('aria-pressed', String(n === name)));
-    const sp = spec(name) || {}, len = lens[name];
-    const d = $('detail'); d.replaceChildren();
-    const ph = photos[name];
-    if (ph) {
-      const fig = el('figure', 'photo'); const img = el('img'); img.src = ph.file; img.alt = ph.alt; img.loading = 'lazy';
-      const cap = el('figcaption', ''); cap.append(`Photo: ${ph.credit} · `);
-      if (ph.licence[1]) { const a = el('a', '', ph.licence[0]); a.href = ph.licence[1]; a.rel = 'noopener'; cap.append(a); } else cap.append(ph.licence[0]);
-      cap.append(' · '); const s = el('a', '', 'source'); s.href = ph.source; s.rel = 'noopener'; cap.append(s);
-      fig.append(img, cap); d.append(fig);
-    }
-    d.append(el('h3', 'big', name), el('div', 'lat', /Atlantic/.test(name) ? 'Eubalaena glacialis' : /Pacific right/.test(name) ? 'Eubalaena japonica' : (sp.latin || '')));
-    const facts = el('div', 'facts');
-    const fact = (v, k) => { const f = el('div', 'fact'); f.append(el('b', '', v), el('span', '', k)); return f; };
-    const band = sp.bands ? `${sp.bands[0] >= 1000 ? (sp.bands[0] / 1000) + 'k' : sp.bands[0]}–${sp.bands[1] >= 1000 ? (sp.bands[1] / 1000) + 'k' : sp.bands[1]} Hz` : '—';
-    facts.append(fact(`${len.m} m`, 'max length'), fact(band, 'call range'), fact(sp.months ? `${sp.months.length} mo` : '—', 'song off Monterey'));
-    d.append(facts);
-    d.append(el('span', 'kicker', 'Pitch, against human hearing'));
-    const pitch = el('div', 'pitch');
-    const ear = el('div', 'ear'); ear.style.left = pos(20) + '%'; ear.style.width = (pos(20000) - pos(20)) + '%'; pitch.append(ear);
-    if (sp.bands) { const b = el('div', 'band' + (sp.bands_note && sp.bands_note.includes('not verified') ? ' unsure' : '')); b.style.left = pos(sp.bands[0]) + '%'; b.style.width = Math.max(1, pos(sp.bands[1]) - pos(sp.bands[0])) + '%'; pitch.append(b); }
-    [[10, '10'], [100, '100'], [1000, '1k'], [10000, '10k Hz']].forEach(([hz, t]) => { const tk = el('span', 'tick', t); tk.style.left = pos(hz) + '%'; pitch.append(tk); });
-    d.append(pitch, el('p', 'note', 'Hatched: roughly what people hear (20 Hz–20 kHz).' + (sp.bands_note ? ` Range ${sp.bands_note}.` : '')));
-    d.append(el('p', '', sp.sound || ''));
-    if (sp.months) {
-      d.append(el('span', 'kicker', 'Months with song at the Monterey hydrophone'));
-      const mo = el('div', 'months'); 'JFMAMJJASOND'.split('').forEach((c, i) => mo.append(el('i', sp.months.includes(i + 1) ? 'on' : '', c))); d.append(mo);
-    }
-    d.append(el('p', '', sp.monterey || ''));
-    if (sp.status) d.append(el('span', 'status-pill', sp.status));
-    if (sp.sources) {
-      const src = el('p', 'src', 'Sources: ');
-      sp.sources.forEach(([t, u], i) => { const a = el('a', '', t); a.href = u; a.rel = 'noopener'; src.append(a); if (i < sp.sources.length - 1) src.append(' · '); });
-      d.append(src);
-    }
-  }
-  select('Blue whale');
-  const k = $('known'); k.replaceChildren();
-  w.known.forEach((t) => k.append(el('div', '', t)));
-}
-
-/* ---------- Map ---------- */
-function drawMap(hs) {
-  const box = $('map'); box.replaceChildren();
-  const W = 1000, H = 760;
-  const svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}` }); box.append(svg);
-  const proj = d3.geoConicConformal().parallels([34, 49]).rotate([125, 0]);
-  const frame = { type: 'MultiPoint', coordinates: [[-133, 33.3], [-116.5, 51.3]] };
-  proj.fitExtent([[10, 10], [W - 10, H - 10]], frame);
-  const path = d3.geoPath(proj);
-  svg.append(svgEl('path', { class: 'grat', d: path(d3.geoGraticule().step([2, 2])()) }));
-  const places = $('places'); places.replaceChildren();
-  hs.filter((h) => h.main).forEach((h) => {
-    const p = el('div', 'panel'); p.append(el('b', '', h.name), el('div', 'meta', `${h.archive} · ${h.lat.toFixed(3)}°, ${h.lng.toFixed(3)}° · ${h.depth}`), el('div', '', h.role));
-    const a = el('a', 'src', ' ' + h.source[0]); a.href = h.source[1]; a.rel = 'noopener'; p.append(a); places.append(p);
-  });
-  const drawPoints = () => {
-    hs.forEach((h) => {
-      const [x, y] = proj([h.lng, h.lat]);
-      if (h.main) {
-        svg.append(svgEl('circle', { class: 'hp-ring', cx: x, cy: y, r: 10 }), svgEl('circle', { class: 'hp-ring d2', cx: x, cy: y, r: 10 }), svgEl('circle', { class: 'hp-core', cx: x, cy: y, r: 6 }));
-        const left = x > W * .55;
-        const t = svgEl('text', { class: 'map-label', x: left ? x - 16 : x + 16, y: y - 4, 'text-anchor': left ? 'end' : 'start' }); t.textContent = h.name; svg.append(t);
-        const s = svgEl('text', { class: 'map-sub', x: left ? x - 16 : x + 16, y: y + 12, 'text-anchor': left ? 'end' : 'start' }); s.textContent = `${h.depth} deep`; svg.append(s);
-      } else svg.append(svgEl('circle', { class: 'hp-minor', cx: x, cy: y, r: 3 }));
-    });
-    [['Monterey Bay', -121.9, 36.75, 'start'], ['Salish Sea', -122.4, 48.9, 'start'], ['PACIFIC OCEAN', -128.5, 41.5, 'middle']].forEach(([n, lng, lat, anc]) => {
-      const [x, y] = proj([lng, lat]); const t = svgEl('text', { class: 'map-sub', x: x + (anc === 'start' ? 14 : 0), y, 'text-anchor': anc }); t.textContent = n; svg.append(t);
-    });
-  };
-  fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/land-50m.json').then((r) => r.json()).then((topo) => {
-    const land = topojson.feature(topo, topo.objects.land);
-    svg.insertBefore(svgEl('path', { class: 'land', d: path(land) }), svg.firstChild.nextSibling);
-    drawPoints();
-  }).catch(drawPoints);
-}
-
-/* ---------- Player ---------- */
-function player(clip) {
-  paintGrid($('spec'), clip.grid);
-  const dur = clip.duration_s, pct = (t) => `${(100 * t / dur).toFixed(3)}%`;
-  const band = $('calls-band'); band.replaceChildren();
-  const callEls = clip.labels.map(([a, d]) => { const s = el('span'); s.style.left = pct(a); s.style.width = pct(d); band.append(s); return { a, b: a + d, s }; });
-  const lanes = $('lanes'); lanes.replaceChildren();
-  const laneRow = (label) => { const r = el('div', 'lane-row'); const l = el('div', 'lane'); r.append(el('span', '', label), l); lanes.append(r); return l; };
-  const people = laneRow('People');
-  clip.labels.forEach(([a, d]) => { const c = el('span', 'c'); c.style.left = pct(a); c.style.width = pct(d); people.append(c); });
-  const models = {};
-  [['whalu', 'whalu'], ['perch', 'Perch']].forEach(([k, label]) => {
-    const pts = clip.scores[k]; if (!pts) return;
-    const lane = laneRow(label); lane.append(el('div', 'thr'));
-    models[k] = pts.map(([t, p]) => { const w = el('span', 'w' + (k === 'whalu' ? ' whalu' : '')); w.style.left = pct(t + 1.25); w.style.width = `calc(${pct(2.5)} - 2px)`; w.style.height = `${Math.max(3, p * 100)}%`; lane.append(w); return { t, p, w }; });
-  });
-  if (!models.perch) $('r-c').textContent = 'pending';
-  const audio = $('audio'), head = $('playhead'), btn = $('play');
-  const at = (list, t) => list ? list.find((x) => t >= x.t + 1.25 && t < x.t + 3.75) || list.find((x) => t >= x.t && t < x.t + 5) : null;
-  let raf = 0;
-  const tick = () => {
-    const t = audio.currentTime;
-    head.style.left = pct(t);
-    let inCall = false;
-    callEls.forEach((c) => { const on = t >= c.a && t <= c.b; c.s.classList.toggle('lit', on); inCall = inCall || on; });
-    $('r-t').textContent = `${t.toFixed(1)} s`;
-    $('r-p').textContent = inCall ? 'call' : 'quiet';
-    for (const [k, id] of [['whalu', 'r-w'], ['perch', 'r-c']]) {
-      if (!models[k]) continue;
-      models[k].forEach((x) => x.w.classList.remove('now'));
-      const cur = at(models[k], t); if (cur) { cur.w.classList.add('now'); $(id).textContent = cur.p.toFixed(2); }
-    }
-    if (!audio.paused) raf = requestAnimationFrame(tick);
-  };
-  const setBtn = (playing) => {
-    $('play-text').textContent = playing ? 'Pause' : (audio.currentTime > 0 && audio.currentTime < dur - .2 ? 'Resume' : 'Play the minute');
-    $('play-icon').innerHTML = playing ? '<path d="M2 1h3.5v12H2zM8.5 1H12v12H8.5z" fill="currentColor"/>' : '<path d="M2 1 L13 7 L2 13 Z" fill="currentColor"/>';
-    btn.setAttribute('aria-label', playing ? 'Pause recording' : 'Play recording');
-    head.classList.toggle('on', playing || audio.currentTime > 0);
-  };
-  btn.addEventListener('click', () => { if (audio.paused) audio.play().catch(() => { $('clipnote').classList.add('err'); }); else audio.pause(); });
-  audio.addEventListener('play', () => { setBtn(true); cancelAnimationFrame(raf); tick(); });
-  audio.addEventListener('pause', () => { setBtn(false); tick(); });
-  audio.addEventListener('ended', () => { setBtn(false); });
-  $('spec-wrap').addEventListener('click', (e) => {
-    const r = e.currentTarget.getBoundingClientRect(); audio.currentTime = dur * (e.clientX - r.left) / r.width;
-    head.classList.add('on'); tick();
-  });
-}
-
-/* ---------- Results ---------- */
-function results(s) {
-  const box = $('scores'); box.replaceChildren();
-  (s.models || []).forEach((m) => {
-    const p = el('div', 'panel');
-    p.append(el('span', 'kicker', m.status === 'done' ? 'Tested' : 'Testing now'), el('h3', '', m.model));
-    const v = m.balanced_accuracy;
-    p.append(el('div', 'verdict ' + (v == null ? 'wait' : v >= .8 ? 'pass' : 'fail'), v == null ? '—' : v.toFixed(2)));
-    p.append(el('div', 'note', v == null ? 'balanced accuracy · not scored yet' : `balanced accuracy · ${v >= .8 ? 'passes' : 'fails'} the 0.80 mark`));
-    const g = el('div', 'gauge-line'); g.append(el('div', 'rail'));
-    [[.5, 'guessing'], [.8, 'pass'], [1, 'perfect']].forEach(([x, t]) => { const mk = el('div', 'mark'); mk.style.left = `calc(${x * 100}% - 1px)`; const lb = el('div', 'lbl', t); lb.style.left = `${x * 100}%`; if (x === 1) lb.style.transform = 'translateX(-100%)'; g.append(mk, lb); });
-    if (v != null) { const d = el('div', 'val'); d.style.left = `${v * 100}%`; d.style.background = v >= .8 ? 'var(--krill)' : 'var(--coral)'; g.append(d); }
-    p.append(g, el('div', '', ' '));
-    const meter = (label, n, total, col) => { const m2 = el('div', 'meter'); const r = el('div', 'row'); r.append(el('span', '', label), el('b', '', n == null ? 'pending' : `${n} / ${total}`)); const t = el('div', 'track'); const f = el('span'); f.style.width = n == null ? '0' : `${100 * n / total}%`; f.style.background = col; t.append(f); m2.append(r, t); return m2; };
-    p.append(meter('Calls found', m.calls_found, m.calls_total, 'var(--krill)'), meter('False alarms', m.false_alarms, m.quiet_total, 'var(--coral)'));
-    p.append(el('p', 'note', `${m.note}${m.x_realtime ? ` Speed on the Pi: ${m.x_realtime}× real time.` : ''}`));
-    box.append(p);
-  });
-  const g = $('gates'); g.replaceChildren();
-  (s.steps || []).forEach((r) => {
-    const li = el('li'); const t = el('div'); t.append(el('span', 't', r.name), el('span', 'r', r.result || ''));
-    li.append(el('span', 'n', String(r.step).padStart(2, '0')), t, el('span', 's ' + r.status, r.status)); g.append(li);
-  });
-}
-
-/* ---------- Machine ---------- */
-function machine(s) {
-  const gen = new Date(s.generated), age = Math.round((Date.now() - gen) / 60000);
-  const last = s.temps[s.temps.length - 1];
-  const flags = last ? parseInt(last.throttled, 16) || 0 : 0;
-  $('stamp').textContent = `Last report from the Pi: ${gen.toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })} (${age < 1 ? 'just now' : age + ' min ago'}). It sends one every 30 minutes on its own.`;
-  if (age > 90) $('stamp').classList.add('err');
-  const dot = $('live-dot'); dot.className = 'dot ' + (age > 90 ? 'stale' : (flags & 4) ? 'hot on' : 'on');
-  const job = (s.progress || []).reduce((a, p) => a + p.done, 0), jobT = (s.progress || []).reduce((a, p) => a + p.total, 0);
-  $('live-text').textContent = age > 90 ? `Pi silent for ${age} min` : `Pi listening · ${last ? (+last.temp_c).toFixed(0) + ' °C' : ''} · test ${job}/${jobT} clips`;
-  if (last) { $('temp').innerHTML = ''; $('temp').append(document.createTextNode((+last.temp_c).toFixed(1)), el('small', '', ' °C')); }
-  $('throttle').textContent = (flags & 4) ? 'Throttling now: too hot, running slower.' : flags ? 'Has throttled since the last restart.' : 'No throttling since the last restart.';
-  const c = $('cores'); c.replaceChildren();
-  (s.cores || []).forEach((k) => { const d = el('div', 'core'); const col = el('div', 'col'); const f = el('span'); f.style.height = k.busy_pct + '%'; col.append(f); d.append(col, el('div', '', `${k.busy_pct}%`)); c.append(d); });
-  if (s.ram) $('ram').textContent = `Memory ${s.ram.used_gb} of ${s.ram.total_gb} GB. Cores 1–3 run the model, core 4 logs and reports.`;
-  const pr = $('progress'); pr.replaceChildren();
-  (s.progress || []).forEach((p) => { const r = el('div', 'row2'); r.append(el('span', '', p.stage), el('span', 'mono', `${p.done}/${p.total}`)); const b = el('div', 'bar'); const f = el('span'); f.style.width = `${100 * p.done / p.total}%`; b.append(f); pr.append(r, b); });
-  pr.append(el('p', 'note', 'Perch turns every 5-second window into 1,536 numbers.'));
-  const pipe = $('pipeline'); pipe.replaceChildren();
-  (s.pipeline || []).forEach((p) => { const li = el('li', p.active ? 'on' : ''); li.append(el('b', '', p.name), el('span', 'v', p.value), el('span', 'n', p.note)); pipe.append(li); });
-  tchart(s.temps || []);
-}
-function tchart(temps) {
-  const box = $('tchart'); box.replaceChildren();
-  if (temps.length < 2) { box.textContent = 'Not enough readings yet.'; return; }
-  const W = Math.max(300, box.clientWidth || 700), H = 200, m = { t: 10, r: 8, b: 22, l: 30 };
-  const pts = temps.map((r) => ({ d: new Date(r.time), c: +r.temp_c }));
-  const x = d3.scaleTime().domain(d3.extent(pts, (p) => p.d)).range([m.l, W - m.r]);
-  const y = d3.scaleLinear().domain([40, 92]).range([H - m.b, m.t]);
-  const svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Chip temperature over the last 48 hours' });
-  const defs = svgEl('defs'); const lg = svgEl('linearGradient', { id: 'tg', x1: 0, x2: 0, y1: 0, y2: 1 });
-  lg.append(svgEl('stop', { offset: '0%', 'stop-color': '#ff6b5b', 'stop-opacity': .45 }), svgEl('stop', { offset: '100%', 'stop-color': '#ff6b5b', 'stop-opacity': 0 })); defs.append(lg); svg.append(defs);
-  [40, 60, 80].forEach((c) => { svg.append(svgEl('line', { x1: m.l, x2: W - m.r, y1: y(c), y2: y(c), stroke: 'rgba(127,162,174,.12)' })); const t = svgEl('text', { x: m.l - 6, y: y(c) + 3, 'text-anchor': 'end' }); t.textContent = c; svg.append(t); });
-  [[75, 'var(--amber)'], [85, 'var(--coral)']].forEach(([c, col]) => svg.append(svgEl('line', { x1: m.l, x2: W - m.r, y1: y(c), y2: y(c), stroke: col, 'stroke-dasharray': '4 4', 'stroke-opacity': .7 })));
-  svg.append(svgEl('path', { d: d3.area().x((p) => x(p.d)).y0(H - m.b).y1((p) => y(p.c))(pts), fill: 'url(#tg)' }));
-  svg.append(svgEl('path', { d: d3.line().x((p) => x(p.d)).y((p) => y(p.c))(pts), fill: 'none', stroke: '#ff8a7c', 'stroke-width': 2 }));
-  const lp = pts[pts.length - 1]; svg.append(svgEl('circle', { cx: x(lp.d), cy: y(lp.c), r: 4, fill: '#ff8a7c' }));
-  const fmt = d3.timeFormat('%H:%M'); [pts[0], lp].forEach((p, i) => { const t = svgEl('text', { x: x(p.d), y: H - 6, 'text-anchor': i ? 'end' : 'start' }); t.textContent = fmt(p.d); svg.append(t); });
-  box.append(svg);
-}
-
-/* ---------- Sound map ---------- */
-function soundmap(sm) {
-  const cv = $('smap'), only = $('smap-test');
-  const n = sm.points.length, calls = sm.points.filter((p) => p[2] === 1).length;
-  const P = sm.points.filter((p) => p[2] !== 2), C = P.filter((p) => p[2] === 1);
-  let near = 0;
-  C.forEach((c) => { const d = P.filter((q) => q !== c).map((q) => [(q[0] - c[0]) ** 2 + (q[1] - c[1]) ** 2, q[2]]).sort((a, b) => a[0] - b[0]).slice(0, 10); near += d.filter((x) => x[1] === 1).length / 10; });
-  const purity = Math.round(100 * near / C.length), base = Math.round(100 * C.length / P.length);
-  $('smap-note').textContent = `${n.toLocaleString()} windows from 69 one-minute clips, ${calls} of them with a call. On average ${purity}% of a call's 10 nearest neighbours are also calls; scattered at random it would be ${base}%. Method: ${sm.method}.`;
-  const draw = () => {
-    const dpr = devicePixelRatio || 1, W = cv.clientWidth, H = cv.clientHeight;
-    cv.width = W * dpr; cv.height = H * dpr; const ctx = cv.getContext('2d'); ctx.scale(dpr, dpr); ctx.clearRect(0, 0, W, H);
-    const pad = 18, r = Math.max(2, Math.min(4, W / 220));
-    const order = [2, 0, 1];
-    order.forEach((lbl) => sm.points.forEach(([x, y, l, t]) => {
-      if (l !== lbl || (only.checked && !t)) return;
-      ctx.beginPath(); ctx.arc(pad + x * (W - 2 * pad), pad + (1 - y) * (H - 2 * pad), l === 1 ? r : r * .85, 0, 7);
-      ctx.fillStyle = l === 1 ? 'rgba(255,181,71,.9)' : l === 0 ? 'rgba(47,111,134,.75)' : 'rgba(86,112,122,.7)';
-      if (l === 1) { ctx.shadowColor = 'rgba(255,181,71,.6)'; ctx.shadowBlur = 6; } else ctx.shadowBlur = 0;
-      ctx.fill();
-    }));
-  };
-  draw(); only.addEventListener('change', draw); addEventListener('resize', draw);
-}
-
-/* ---------- Menu highlight ---------- */
-const links = [...document.querySelectorAll('.toc a')];
-const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) links.forEach((a) => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id)); }), { rootMargin: '-45% 0px -50% 0px' });
-document.querySelectorAll('.part').forEach((p) => io.observe(p));
-
-/* ---------- Load ---------- */
-getJSON('data/clip.json').then((c) => { hero(c.grid); player(c); }).catch(() => { $('clipnote').textContent = 'The recording could not be loaded.'; });
-getJSON('data/soundmap.json').then(soundmap).catch(() => { $('smap-note').textContent = 'The sound map could not be loaded.'; });
-getJSON('whales.json').then((w) => { whales(w); drawMap(w.hydrophones); }).catch(() => { $('detail').textContent = 'Whale facts could not be loaded.'; });
-getJSON('data/status.json').then((s) => { machine(s); results(s); }).catch(() => { $('stamp').textContent = 'The Pi’s report could not be loaded.'; $('stamp').classList.add('err'); $('live-text').textContent = 'No report from the Pi'; });
-</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="scenes.js?v=4"></script>
-<script src="extras.js?v=3"></script>
+<script src="i18n.js?v=6"></script>
+<script src="app.js?v=6"></script>
+<script src="story.js?v=6"></script>
+<script src="scenes.js?v=6"></script>
 </body>
 </html>
