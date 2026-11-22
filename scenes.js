@@ -105,47 +105,51 @@
   function land(clip) {
     const host = document.getElementById('land3d');
     const G = clip.grid, F = G.length, T = G[0].length, dur = clip.duration_s;
-    const LEN = 240, WID = 90, HGT = 26;
-    const { scene, camera, controls, label } = makeScene(host, { autoRotate: false, fogNear: 150, fogFar: 520, minD: 40, maxD: 520 });
-    const geo = new THREE.PlaneGeometry(WID, LEN, F - 1, T - 1);
+    const LEN = 240, WID = 80, HGT = 30;                    // x = time, z = pitch (front low, back high), y = loudness
+    const { scene, camera, controls, label } = makeScene(host, { autoRotate: false, fogNear: 260, fogFar: 700, minD: 60, maxD: 600 });
+    // light smoothing so single noisy cells do not read as spikes
+    const val = (fi, ti) => parseInt(G[fi][ti], 16) / 15;
+    const sm = (fi, ti) => { let s = 0, n = 0; for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) { const f = fi + a, t = ti + b; if (f >= 0 && f < F && t >= 0 && t < T) { const w = a === 0 && b === 0 ? 4 : 1; s += val(f, t) * w; n += w; } } return s / n; };
+    const geo = new THREE.PlaneGeometry(LEN, WID, T - 1, F - 1);
     geo.rotateX(-Math.PI / 2);
     const pos = geo.attributes.position, col = new Float32Array(pos.count * 3);
     const stops = [[2, 11, 16], [8, 52, 70], [32, 140, 150], [120, 220, 200], [255, 236, 170]].map(([r, g, b2]) => new THREE.Color(r / 255, g / 255, b2 / 255));
     const c = new THREE.Color();
     for (let i = 0; i < pos.count; i++) {
-      const fi = i % F, ti = Math.floor(i / F);            // x across = frequency (low left), z along = time
-      const v = parseInt(G[fi][ti], 16) / 15;
-      pos.setY(i, Math.pow(v, 1.6) * HGT);
+      const ti = i % T, row = Math.floor(i / T), fi = F - 1 - row;   // row 0 is the back edge = highest pitch
+      const v = sm(fi, ti);
+      pos.setY(i, Math.max(0, (v - .35) / .65) ** 1.8 * HGT);
       const x = Math.min(.999, v) * (stops.length - 1), k = Math.floor(x), f = x - k;
       c.copy(stops[k]).lerp(stops[k + 1], f);
       col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b;
     }
     geo.setAttribute('color', new THREE.BufferAttribute(col, 3)); geo.computeVertexNormals();
-    const mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: .75, metalness: .05 }));
-    scene.add(mesh);
-    scene.add(new THREE.HemisphereLight(0xcff7ff, 0x020b10, .8));
-    const key = new THREE.DirectionalLight(0xffffff, .7); key.position.set(80, 120, 60); scene.add(key);
-    // call bands on the floor along time
-    const zAt = (t) => -LEN / 2 + LEN * (t / dur);
+    scene.add(new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: .7, metalness: .05 })));
+    scene.add(new THREE.HemisphereLight(0xcff7ff, 0x020b10, .85));
+    const key = new THREE.DirectionalLight(0xffffff, .75); key.position.set(-60, 140, 120); scene.add(key);
+    const xAt = (t) => -LEN / 2 + LEN * (t / dur);
+    // calls people marked: amber strip along the front edge
     clip.labels.forEach(([a, d]) => {
-      const m = new THREE.Mesh(new THREE.PlaneGeometry(4, LEN * d / dur), new THREE.MeshBasicMaterial({ color: 0xffb547, transparent: true, opacity: .85 }));
-      m.rotation.x = -Math.PI / 2; m.position.set(-WID / 2 - 5, 0.2, zAt(a + d / 2)); scene.add(m);
+      const m = new THREE.Mesh(new THREE.PlaneGeometry(LEN * d / dur, 5), new THREE.MeshBasicMaterial({ color: 0xffb547 }));
+      m.rotation.x = -Math.PI / 2; m.position.set(xAt(a + d / 2), 0.2, WID / 2 + 6); scene.add(m);
     });
-    // playhead wall
-    const wall = new THREE.Mesh(new THREE.PlaneGeometry(WID + 14, HGT + 12), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: .16, side: THREE.DoubleSide, depthWrite: false }));
-    wall.position.set(-3, (HGT + 12) / 2, zAt(0)); scene.add(wall);
-    const edge = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-WID / 2 - 10, HGT + 12, 0), new THREE.Vector3(WID / 2 + 4, HGT + 12, 0)]), new THREE.LineBasicMaterial({ color: 0xffffff }));
-    edge.position.z = zAt(0); scene.add(edge);
-    label('0 s', new THREE.Vector3(-WID / 2 - 6, 2, zAt(0)));
-    label(`${Math.round(dur)} s`, new THREE.Vector3(-WID / 2 - 6, 2, zAt(dur)));
-    label('low pitch', new THREE.Vector3(-WID / 2 + 6, 1, zAt(dur) + 8));
-    label('10 kHz', new THREE.Vector3(WID / 2, 1, zAt(dur) + 8));
-    label('calls marked by people', new THREE.Vector3(-WID / 2 - 6, 2, zAt(dur * .5)), 'amber');
+    // playhead: a glowing wall across the pitch axis
+    const wall = new THREE.Mesh(new THREE.PlaneGeometry(WID + 16, HGT + 10), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: .14, side: THREE.DoubleSide, depthWrite: false }));
+    wall.rotation.y = Math.PI / 2; wall.position.set(xAt(0), (HGT + 10) / 2, 4); scene.add(wall);
+    const edge = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, HGT + 10, -WID / 2 - 4), new THREE.Vector3(0, HGT + 10, WID / 2 + 12)]), new THREE.LineBasicMaterial({ color: 0xffffff }));
+    edge.position.x = xAt(0); scene.add(edge);
+    label('0 s', new THREE.Vector3(xAt(0), 0, WID / 2 + 14));
+    label('30 s', new THREE.Vector3(xAt(30), 0, WID / 2 + 14));
+    label(`${Math.round(dur)} s`, new THREE.Vector3(xAt(dur), 0, WID / 2 + 14));
+    label('low pitch', new THREE.Vector3(xAt(dur) + 16, 0, WID / 2 - 4));
+    label('10 kHz', new THREE.Vector3(xAt(dur) + 16, 0, -WID / 2 + 4));
+    label('calls marked by people', new THREE.Vector3(xAt(dur * .12), 0, WID / 2 + 24), 'amber');
     const audio = document.getElementById('audio');
     const orig = controls.update.bind(controls);
-    controls.update = () => { const z0 = zAt(audio ? audio.currentTime : 0); wall.position.z = z0; edge.position.z = z0; return orig(); };
-    camera.position.set(-150, 95, -LEN / 2 - 70);
-    controls.target.set(0, 4, 10); controls.update();
+    controls.update = () => { const x0 = xAt(audio ? audio.currentTime : 0); wall.position.x = x0; edge.position.x = x0; return orig(); };
+    const narrow = host.clientWidth < 600;
+    camera.position.set(-30, narrow ? 190 : 120, narrow ? 330 : 210);
+    controls.target.set(0, 0, 0); controls.update();
   }
 
   get('data/bathy.json').then(bathy).catch(() => { const m = document.querySelector('#bathy3d .scene-msg'); if (m) m.textContent = 'Sea floor data could not load.'; });
