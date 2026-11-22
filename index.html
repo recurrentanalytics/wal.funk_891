@@ -94,7 +94,7 @@ const hhmm = (d) => d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit
 function chart(temps) {
   const box = $('chart'); box.replaceChildren();
   if (temps.length < 2) { box.textContent = 'Not enough readings yet.'; return; }
-  const W = 700, H = 220, m = { t: 10, r: 10, b: 24, l: 32 };
+  const W = Math.max(300, Math.round(box.clientWidth || 700)), H = 220, m = { t: 10, r: 10, b: 24, l: 32 };
   const pts = temps.map((r) => ({ d: new Date(r.time), c: +r.temp_c }));
   const t0 = pts[0].d.getTime(), t1 = pts[pts.length - 1].d.getTime();
   const x = (d) => m.l + (d.getTime() - t0) / (t1 - t0 || 1) * (W - m.l - m.r);
