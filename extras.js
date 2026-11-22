@@ -139,7 +139,7 @@
     items.forEach((it) => { const c = el('div', 'cand'); c.append(el('span', 'st', it.status), el('b', '', it.title), el('div', 'note', `${it.when} · ${it.why}`)); if (it.anchor) { const a = el('a', '', 'Listen ↑'); a.href = it.anchor; c.append(a); } box.append(c); });
   }
 
-  get('data/voices.json').then(voices).catch(() => { $('voices').append(el('p', 'note', 'The voices could not load.')); })
+  get('data/voices/voices.json').then(voices).catch(() => { $('voices').append(el('p', 'note', 'The voices could not load.')); })
     .finally(() => get('data/candidates.json').then(candidates).catch(() => candidates([])));
   get('data/calendar.json').then(calendar).catch(() => { $('cal-sum').textContent = 'The calendar could not load.'; });
   live();
