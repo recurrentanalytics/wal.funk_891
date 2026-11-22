@@ -195,6 +195,10 @@ h3 { font: 500 1rem var(--body); margin: 0 0 10px; }
 .gloss dd { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
 footer { padding-block: 48px; color: var(--dim); font-size: 13px; border-top: 1px solid var(--line); margin-top: 40px; }
 .err { color: var(--coral); }
+.photo { margin: -18px -18px 16px; position: relative; }
+.photo img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 14px 14px 0 0; }
+.photo figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 12px 8px; font: 11px var(--mono); color: #cfe3e8; background: linear-gradient(0deg, rgba(2,11,16,.85), transparent); }
+.photo figcaption a { color: #cfe3e8; }
 .scene-card { margin-top: 18px; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: #020b10; }
 .scene-head { padding: 16px 18px 6px; }
 .scene-title { font: 300 1.7rem/1.1 var(--display); margin: 6px 0 4px; }
@@ -328,7 +332,7 @@ footer { padding-block: 48px; color: var(--dim); font-size: 13px; border-top: 1p
 </main>
 
 <footer><div class="wrap">
-  Updated by the Pi itself every 30 minutes · <a href="data/status.json">status.json</a> · Audio: <a href="https://registry.opendata.aws/pacific-sound">MBARI Pacific Sound</a> (CC BY 4.0) and <a href="https://registry.opendata.aws/orcasound">Orcasound</a> (CC BY-NC-SA 4.0) · Map: <a href="https://www.naturalearthdata.com/">Natural Earth</a> · Non-commercial project.
+  Updated by the Pi itself every 30 minutes · <a href="data/status.json">status.json</a> · Audio: <a href="https://registry.opendata.aws/pacific-sound">MBARI Pacific Sound</a> (CC BY 4.0) and <a href="https://registry.opendata.aws/orcasound">Orcasound</a> (CC BY-NC-SA 4.0) · Map: <a href="https://www.naturalearthdata.com/">Natural Earth</a> · Sea floor: <a href="https://www.gmrt.org/">GMRT</a> (CC BY 4.0) · Photos: NOAA (public domain), Aqqa Rosing-Asvid (CC BY 2.0), Chainfoto (CC BY 4.0), credited on each photo · Non-commercial project.
 </div></footer>
 
 <script>
@@ -397,7 +401,9 @@ function whalePath(L, H, fin, kind, flipper) {
 }
 function whales(w) {
   const lens = Object.fromEntries(w.sizes.items.map(([n, m, u]) => [n, { m, u }]));
-  const spec = (name) => w.species.find((s) => name.startsWith(s.name.split(' (')[0]) || s.name.startsWith(name.split(' ')[0]));
+  const spec = (name) => /right whale/i.test(name) ? w.species.find((s) => /^Right whales/.test(s.name)) : w.species.find((s) => name.startsWith(s.name.split(' (')[0]) || s.name.startsWith(name.split(' ')[0]));
+  const photos = w.photos || {};
+  Object.values(photos).forEach((p) => { const i = new Image(); i.src = p.file; });
   const max = w.sizes.items[0][1];
   const line = $('lineup'); line.replaceChildren();
   let current = null;
@@ -435,7 +441,15 @@ function whales(w) {
     buttons.forEach(([n, b]) => b.setAttribute('aria-pressed', String(n === name)));
     const sp = spec(name) || {}, len = lens[name];
     const d = $('detail'); d.replaceChildren();
-    d.append(el('h3', 'big', name), el('div', 'lat', sp.latin || ''));
+    const ph = photos[name];
+    if (ph) {
+      const fig = el('figure', 'photo'); const img = el('img'); img.src = ph.file; img.alt = ph.alt; img.loading = 'lazy';
+      const cap = el('figcaption', ''); cap.append(`Photo: ${ph.credit} · `);
+      if (ph.licence[1]) { const a = el('a', '', ph.licence[0]); a.href = ph.licence[1]; a.rel = 'noopener'; cap.append(a); } else cap.append(ph.licence[0]);
+      cap.append(' · '); const s = el('a', '', 'source'); s.href = ph.source; s.rel = 'noopener'; cap.append(s);
+      fig.append(img, cap); d.append(fig);
+    }
+    d.append(el('h3', 'big', name), el('div', 'lat', /Atlantic/.test(name) ? 'Eubalaena glacialis' : /Pacific right/.test(name) ? 'Eubalaena japonica' : (sp.latin || '')));
     const facts = el('div', 'facts');
     const fact = (v, k) => { const f = el('div', 'fact'); f.append(el('b', '', v), el('span', '', k)); return f; };
     const band = sp.bands ? `${sp.bands[0] >= 1000 ? (sp.bands[0] / 1000) + 'k' : sp.bands[0]}–${sp.bands[1] >= 1000 ? (sp.bands[1] / 1000) + 'k' : sp.bands[1]} Hz` : '—';

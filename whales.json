@@ -383,5 +383,87 @@
     "https://live.orcasound.net/api/json/feeds"
    ]
   }
- ]
+ ],
+ "photos": {
+  "Blue whale": {
+   "file": "photos/blue.jpg",
+   "alt": "Aerial view of a blue whale surfacing and blowing",
+   "credit": "NOAA Photo Library (anim1754)",
+   "licence": [
+    "Public domain",
+    null
+   ],
+   "source": "https://commons.wikimedia.org/wiki/File:Anim1754_-_Flickr_-_NOAA_Photo_Library.jpg"
+  },
+  "Fin whale": {
+   "file": "photos/fin.jpg",
+   "alt": "Aerial view of a fin whale breathing out at the surface off Greenland",
+   "credit": "Aqqa Rosing-Asvid, Visit Greenland",
+   "licence": [
+    "CC BY 2.0",
+    "https://creativecommons.org/licenses/by/2.0/"
+   ],
+   "source": "https://commons.wikimedia.org/wiki/File:Finhval.jpg"
+  },
+  "Humpback whale": {
+   "file": "photos/humpback.jpg",
+   "alt": "A humpback whale breaching",
+   "credit": "Ed Lyman/NOAA, NOAA permit #14682",
+   "licence": [
+    "Public domain",
+    null
+   ],
+   "source": "https://commons.wikimedia.org/wiki/File:HIHWNMS_--_Breaching_Humpback_Whale_(36619848411).jpg"
+  },
+  "Killer whale (orca)": {
+   "file": "photos/orca.jpg",
+   "alt": "Southern Resident orca J16 breaching near San Juan Island",
+   "credit": "NOAA Fisheries",
+   "licence": [
+    "Public domain",
+    null
+   ],
+   "source": "https://commons.wikimedia.org/wiki/File:SRKW_breaching.jpg"
+  },
+  "Minke whale": {
+   "file": "photos/minke.jpg",
+   "alt": "A minke whale breaching at Stellwagen Bank",
+   "credit": "Anne Smrcina/NOAA",
+   "licence": [
+    "Public domain",
+    null
+   ],
+   "source": "https://commons.wikimedia.org/wiki/File:SBNMS_-_Minke_Whale_-_Breach_(28670557361).jpg"
+  },
+  "Bryde's whale": {
+   "file": "photos/brydes.jpg",
+   "alt": "Bryde's whales lunge-feeding under a flock of terns",
+   "credit": "Chainfoto",
+   "licence": [
+    "CC BY 4.0",
+    "https://creativecommons.org/licenses/by/4.0/"
+   ],
+   "source": "https://commons.wikimedia.org/wiki/File:Bryde%27s_whale_1.jpg"
+  },
+  "North Atlantic right whale": {
+   "file": "photos/right-atlantic.jpg",
+   "alt": "Aerial view of a right whale mother and calf",
+   "credit": "NOAA/NMFS (NOAA Photo Library anim1750)",
+   "licence": [
+    "Public domain",
+    null
+   ],
+   "source": "https://commons.wikimedia.org/wiki/File:Anim1750_-_Flickr_-_NOAA_Photo_Library.jpg"
+  },
+  "North Pacific right whale": {
+   "file": "photos/right-pacific.jpg",
+   "alt": "Head of a North Pacific right whale surfacing, showing its callosities",
+   "credit": "John Durban/NOAA",
+   "licence": [
+    "Public domain",
+    null
+   ],
+   "source": "https://commons.wikimedia.org/wiki/File:North_Pacific_right_whale_(Eubalaena_japonica)_-_John_Durban_(NOAA).jpg"
+  }
+ }
 }
