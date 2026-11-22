@@ -141,7 +141,7 @@ function localMap(hs) {
   const path = d3.geoPath(proj);
   svg.append(svgEl('path', { class: 'grat', d: path(d3.geoGraticule().step([2, 2])()) }));
   const names = { 'MBARI MARS hydrophone': ['places.mbari.name', 'places.mbari.role'], 'Orcasound Lab': ['places.orcalab.name', 'places.orcalab.role'] };
-  const places = $('places'); places.replaceChildren();
+  const places = $('place-list'); places.replaceChildren();
   hs.filter((h) => h.main).forEach((h) => {
     const [nk, rk] = names[h.name] || [null, null];
     const p = el('div', 'panel');
