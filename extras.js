@@ -24,6 +24,11 @@
 
   /* ---------- Whale voices ---------- */
   let voicesData = null;
+  const CHECK = {
+    Bm: 'My check: MBARI identifies blue whale B calls by a band near 43 Hz. In this clip that band does not stand out, so the model may be wrong here. Unconfirmed: a case for a human ear.',
+    Bp: 'My check: the loudest energy sits at 12–20 Hz, as expected for fin whale 20-Hz pulses. Still unconfirmed by a person.',
+    Mn: 'My check: tonal song units are visible from about 100 Hz up. Still unconfirmed by a person.',
+  };
   function voices(v) {
     voicesData = v;
     const box = $('voices'); box.replaceChildren();
@@ -51,6 +56,7 @@
       const sc = el('div', 'sc'); sc.append(el('hr'));
       c.scores.forEach(([t, p]) => { const s = el('span'); s.style.left = `${Math.max(0, (t) / c.duration_s * 100)}%`; s.style.width = `${2.5 / c.duration_s * 100}%`; s.style.height = `${Math.max(3, p * 100)}%`; sc.append(s); });
       body.append(btn, sc, el('p', 'note', `Bars: whalu's ${c.name.toLowerCase()} score per window; dashed line 0.5. Picture: the original sound, not sped up.`));
+      if (CHECK[c.code]) body.append(el('p', 'note', CHECK[c.code]));
       card.append(vs, body); box.append(card);
     });
     box.after(el('p', 'note', `Audio: ${v.source}. ${v.note}`));
@@ -134,7 +140,7 @@
   function candidates(list) {
     const box = $('cands'); box.replaceChildren();
     const items = list.slice();
-    if (voicesData) voicesData.clips.forEach((c) => items.push({ title: `${c.name}?`, when: new Date(Date.parse(voicesData.hour) + c.start_s * 1000).toISOString().slice(0, 16).replace('T', ' ') + ' UTC', why: `Strongest ${c.name.toLowerCase()} pick of the first hour (score ${c.peak_score.toFixed(2)})`, status: 'not reviewed yet', anchor: '#whales' }));
+    if (voicesData) voicesData.clips.forEach((c) => items.push({ title: `${c.name}?`, when: new Date(Date.parse(voicesData.hour) + c.start_s * 1000).toISOString().slice(0, 16).replace('T', ' ') + ' UTC', why: `Strongest ${c.name.toLowerCase()} pick of the first hour (score ${c.peak_score.toFixed(2)})`, status: c.code === 'Bm' ? 'doubtful: check by ear' : 'not reviewed yet', anchor: '#whales' }));
     if (!items.length) { box.append(el('p', 'note', 'No candidates yet. They appear here once the Pi listens around the clock.')); return; }
     items.forEach((it) => { const c = el('div', 'cand'); c.append(el('span', 'st', it.status), el('b', '', it.title), el('div', 'note', `${it.when} · ${it.why}`)); if (it.anchor) { const a = el('a', '', 'Listen ↑'); a.href = it.anchor; c.append(a); } box.append(c); });
   }
