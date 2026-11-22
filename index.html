@@ -45,6 +45,28 @@ td { padding: 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
 td:first-child { font-family: var(--mono); color: var(--muted); }
 footer { color: var(--muted); font-size: 13px; max-width: 62ch; }
 .err { color: var(--bad); }
+.pipe { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); counter-reset: s; }
+.pipe li { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; position: relative; counter-increment: s; }
+.pipe li::before { content: counter(s); font: 12px var(--mono); color: var(--muted); margin-right: 6px; }
+.pipe li.on { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
+.pipe b { font-weight: 500; }
+.pipe .v { display: block; font: 14px var(--mono); color: var(--accent); margin: 2px 0; }
+.pipe .n { display: block; font-size: 13px; color: var(--muted); }
+.models { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+.model h3 { font-size: 15px; font-weight: 500; margin: 0 0 8px; }
+.meter { margin: 6px 0 2px; font-size: 13px; display: flex; justify-content: space-between; gap: 8px; font-variant-numeric: tabular-nums; }
+.track { position: relative; height: 10px; background: var(--line); border-radius: 5px; overflow: visible; }
+.track span { display: block; height: 100%; border-radius: 5px; }
+.track i { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--fg); }
+.score { font: 400 2rem/1.1 var(--display); font-variant-numeric: tabular-nums; margin-top: 10px; }
+.cores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; align-items: end; }
+.core { text-align: center; font: 12px var(--mono); color: var(--muted); }
+.core .col { height: 80px; background: var(--line); border-radius: 6px; position: relative; overflow: hidden; margin-bottom: 4px; }
+.core .col span { position: absolute; left: 0; right: 0; bottom: 0; background: var(--accent); }
+.gloss summary { cursor: pointer; font-weight: 500; }
+.gloss dl { margin: 12px 0 0; display: grid; gap: 4px; }
+.gloss dt { font-weight: 500; margin-top: 8px; }
+.gloss dd { margin: 0; color: var(--muted); max-width: 62ch; }
 </style>
 </head>
 <body>
@@ -70,6 +92,24 @@ footer { color: var(--muted); font-size: 13px; max-width: 62ch; }
   </div>
 
   <section class="card">
+    <h2>What happens to the sound</h2>
+    <p class="sub">Every recording goes through these stages. The highlighted one is running now.</p>
+    <ol class="pipe" id="pipeline"></ol>
+  </section>
+
+  <section class="card">
+    <h2>Which model hears orcas?</h2>
+    <p class="sub">Same 462 test windows for both: 119 with an orca call, 343 without. To pass, a model needs a balanced accuracy of at least 0.80.</p>
+    <div class="models" id="models">—</div>
+  </section>
+
+  <section class="card">
+    <h2>What the Pi is doing</h2>
+    <p class="sub">Load on each of the 4 processor cores, measured over one second at the last update.</p>
+    <div id="cores">—</div>
+  </section>
+
+  <section class="card">
     <h2>Temperature, last 48 hours</h2>
     <p class="sub">Highest reading per 10 minutes. Dashed lines: 75 °C benchmark limit, 85 °C throttling.</p>
     <div class="chart" id="chart">—</div>
@@ -84,7 +124,22 @@ footer { color: var(--muted); font-size: 13px; max-width: 62ch; }
     </table></div>
   </section>
 
-  <footer>Updated by the Pi itself every 30 minutes. Data: <a href="data/status.json">status.json</a>. Audio sources: MBARI Pacific Sound and Orcasound, both open data.</footer>
+  <details class="card gloss">
+    <summary>What the words mean</summary>
+    <dl>
+      <dt>Window</dt><dd>A 5-second slice of audio. The model judges one window at a time. Windows overlap by half, so a call is never cut in two.</dd>
+      <dt>Spectrogram</dt><dd>A picture of sound: time left to right, pitch bottom to top, loudness as brightness. Whale calls show up as bright streaks.</dd>
+      <dt>Embedding</dt><dd>The 1,536 numbers Perch makes from a window. Windows that sound alike get similar numbers, even for animals Perch never heard in training.</dd>
+      <dt>Classifier</dt><dd>A small model trained on labelled examples that turns an embedding into one orca score from 0 to 1.</dd>
+      <dt>Threshold</dt><dd>The score at which a window counts as a call. Fixed at 0.5 before testing, never moved to make a test pass.</dd>
+      <dt>Balanced accuracy</dt><dd>The average of two hit rates: calls correctly found, and quiet windows correctly left alone. 0.5 is guessing, 1.0 is perfect. Plain accuracy would reward a model that never says "call", because most windows are quiet.</dd>
+      <dt>Gate</dt><dd>A pass mark set before a step runs. If a step misses it, work stops until the owner decides.</dd>
+      <dt>Throttling</dt><dd>The Pi slowing itself down when it gets too hot (from 85 °C). It protects the chip but makes everything slower.</dd>
+      <dt>Candidate</dt><dd>A detection that looks unusual. It only becomes a finding after a person has listened to it and compared it with what MBARI and Orcasound already report.</dd>
+    </dl>
+  </details>
+
+  <footer>Updated by the Pi itself every 30 minutes. Data: <a href="data/status.json">status.json</a>. Audio sources: <a href="https://registry.opendata.aws/pacific-sound">MBARI Pacific Sound</a> (CC BY 4.0) and <a href="https://registry.opendata.aws/orcasound">Orcasound</a> (CC BY-NC-SA 4.0). Non-commercial project.</footer>
 </main>
 <script>
 const $ = (id) => document.getElementById(id);
@@ -134,6 +189,44 @@ fetch('data/status.json', { cache: 'no-store' }).then((r) => { if (!r.ok) throw 
     pr.append(row, bar);
   });
   chart(s.temps);
+
+  const pipe = $('pipeline'); pipe.replaceChildren();
+  (s.pipeline || []).forEach((p) => {
+    const li = el('li', p.active ? 'on' : ''); li.append(el('b', '', p.name), el('span', 'v', p.value), el('span', 'n', p.note));
+    pipe.append(li);
+  });
+
+  const mb = $('models'); mb.replaceChildren();
+  const meter = (label, n, total, color, mark) => {
+    const wrap = el('div');
+    const head = el('div', 'meter'); head.append(el('span', '', label), el('span', '', n == null ? 'pending' : `${n} of ${total}`));
+    const tr = el('div', 'track'); const fill = el('span');
+    fill.style.width = n == null ? '0' : `${Math.round(100 * n / total)}%`; fill.style.background = color; tr.append(fill);
+    if (mark != null) { const i = el('i'); i.style.left = `${mark * 100}%`; tr.append(i); }
+    wrap.append(head, tr); return wrap;
+  };
+  (s.models || []).forEach((m) => {
+    const c = el('div', 'model');
+    const h = el('h3', '', m.model); c.append(h);
+    c.append(meter('Calls found', m.calls_found, m.calls_total, 'var(--ok)'));
+    c.append(meter('False alarms', m.false_alarms, m.quiet_total, 'var(--bad)'));
+    const sc = el('div', 'score', m.balanced_accuracy == null ? '—' : m.balanced_accuracy.toFixed(2));
+    if (m.balanced_accuracy != null) sc.classList.add(m.balanced_accuracy >= 0.8 ? 'pass' : 'fail');
+    c.append(sc, el('p', 'sub', m.balanced_accuracy == null ? 'balanced accuracy: not scored yet' : `balanced accuracy (pass at 0.80) · ${m.x_realtime}× real time`));
+    c.append(el('p', 'sub', m.note));
+    mb.append(c);
+  });
+
+  const cb = $('cores'); cb.replaceChildren();
+  if (s.cores) {
+    const grid = el('div', 'cores');
+    s.cores.forEach((k) => {
+      const d = el('div', 'core'); const col = el('div', 'col'); const f = el('span'); f.style.height = `${k.busy_pct}%`; col.append(f);
+      d.append(col, el('div', '', `core ${k.core}`), el('div', '', `${k.busy_pct}%`)); grid.append(d);
+    });
+    cb.append(grid);
+    if (s.ram) cb.append(el('p', 'sub', `Memory in use: ${s.ram.used_gb} of ${s.ram.total_gb} GB. Cores 0–2 run the model; core 3 is kept free for logging and updates.`));
+  }
   const tb = $('steps'); tb.replaceChildren();
   s.steps.forEach((r) => {
     const tr = el('tr'); const st = el('td'); st.append(el('span', `state ${r.status}`, r.status));
