@@ -348,20 +348,28 @@ function hero(grid) {
 }
 
 /* ---------- Whales ---------- */
-function whalePath(L, H, fin, kind) {
-  // side profile, nose at x=0, flukes at x=L; H = body depth; fin = dorsal fin height
-  const b = L * 0.84, m = H / 2;
-  const dorsalX = kind === 'orca' ? L * 0.42 : L * 0.66;
-  return [
-    `M0 ${m + 1}`,
-    `C ${L * .02} ${m - H * .55}, ${L * .12} ${m - H * .62}, ${L * .3} ${m - H * .6}`,
-    `L ${dorsalX - L * .04} ${m - H * .5}`,
-    kind === 'orca' ? `L ${dorsalX} ${m - H * .5 - fin} L ${dorsalX + L * .05} ${m - H * .45}` : `Q ${dorsalX} ${m - H * .5 - fin} ${dorsalX + L * .03} ${m - H * .42}`,
-    `C ${b * .92} ${m - H * .25}, ${b} ${m - H * .08}, ${b} ${m}`,
-    `L ${L} ${m - H * .62} L ${L * .97} ${m} L ${L} ${m + H * .62} L ${b} ${m}`,
-    `C ${b * .9} ${m + H * .2}, ${L * .5} ${m + H * .52}, ${L * .25} ${m + H * .5}`,
-    `C ${L * .1} ${m + H * .48}, ${L * .02} ${m + H * .35}, 0 ${m + 1} Z`,
-  ].join(' ');
+function whalePath(L, H, fin, kind, flipper) {
+  // Side profile: snout at x=0, fluke tips at x=L, top of back at y=0, belly at y=H.
+  // Flukes are horizontal in whales, so from the side they read as a thin wedge, not a fish tail.
+  const t = H * 0.5, f = (x, y) => `${(x * L).toFixed(1)} ${(y * H).toFixed(1)}`;
+  const orca = kind === 'orca', right = kind === 'right';
+  const dX = orca ? .45 : .68;                     // dorsal fin position
+  const top = right ? [[.02, .2], [.18, -.02], [.4, .0]] : [[.03, .38], [.14, .06], [.3, .0]];
+  const p = [`M ${f(0, .55)}`,
+    `C ${f(top[0][0], top[0][1])} ${f(top[1][0], top[1][1])} ${f(top[2][0], top[2][1])}`,
+    `L ${f(dX - .06, .03)}`];
+  if (right) p.push(`L ${f(dX + .02, .06)}`);       // right whales: no dorsal fin
+  else if (orca) p.push(`L ${f(dX - .01, -fin / H)} L ${f(dX + .05, .05)}`);
+  else p.push(`Q ${f(dX + .01, -fin / H)} ${f(dX + .04, .07)}`);
+  p.push(`C ${f(.8, .18)} ${f(.88, .36)} ${f(.9, .42)}`,      // tail stock narrowing
+    `L ${f(1, .36)} L ${f(.985, .47)} L ${f(1, .58)} L ${f(.9, .53)}`, // fluke wedge
+    `C ${f(.82, .66)} ${f(.62, .98)} ${f(.42, 1)}`,              // belly
+    `C ${f(.24, 1)} ${f(.08, .92)} ${f(0, .62)} Z`);
+  if (flipper) {                                                // pectoral flipper
+    const fx = orca ? .2 : .26, len = flipper;
+    p.push(`M ${f(fx, .78)} L ${f(fx + len, 1.18)} L ${f(fx + .06, .86)} Z`);
+  }
+  return p.join(' ');
 }
 function whales(w) {
   const lens = Object.fromEntries(w.sizes.items.map(([n, m, u]) => [n, { m, u }]));
@@ -382,11 +390,14 @@ function whales(w) {
       const h = L, u = h / 8; // standing person, h = 1.8 m in the same units
       s.append(svgEl('path', { d: `M${u * 1.6} ${VH - h} a${u * .55} ${u * .55} 0 1 1 0.01 0 Z M${u * 1.05} ${VH - h + u * 1.2} h${u * 1.1} l${u * .3} ${u * 3} h${-u * .45} v${u * 3.8} h${-u * .45} v${-u * 2.4} h${-u * .1} v${u * 2.4} h${-u * .45} v${-u * 3.8} h${-u * .45} Z` }));
     } else {
-      const kind = /orca/i.test(name) ? 'orca' : 'baleen';
-      const ratio = /right/i.test(name) ? .26 : kind === 'orca' ? .2 : /humpback/i.test(name) ? .2 : .14;
+      const kind = /orca/i.test(name) ? 'orca' : /right/i.test(name) ? 'right' : 'baleen';
+      const hump = /humpback/i.test(name);
+      const ratio = kind === 'right' ? .22 : kind === 'orca' ? .2 : hump ? .17 : .12;
       const H = L * ratio;
-      const p = svgEl('path', { d: whalePath(L, H, kind === 'orca' ? H * .9 : H * .16, kind) });
-      p.setAttribute('transform', `translate(0 ${VH - H - (kind === 'orca' ? 0 : 2)})`); s.append(p);
+      const fin = kind === 'orca' ? H * .85 : hump ? H * .1 : H * .14;
+      const flip = hump ? .3 : kind === 'orca' ? .09 : .1;
+      const p = svgEl('path', { d: whalePath(L, H, fin, kind, flip) });
+      p.setAttribute('transform', `translate(0 ${(VH - H * 1.2).toFixed(1)})`); s.append(p);
     }
     btn.append(s);
     if (isPerson) { btn.disabled = true; btn.style.cursor = 'default'; }
