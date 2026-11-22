@@ -1,75 +1,387 @@
 {
-  "checked": "2026-11-22",
-  "intro": "The detector knows 8 whale species. Seven of them are listed here; for each: what it sounds like, whether it is heard at the Monterey Bay hydrophone, and its US protection status. Unchecked claims are marked as such.",
-  "species": [
-    {
-      "name": "Blue whale", "latin": "Balaenoptera musculus", "codes": "Bm",
-      "sound": "Very low pulses and moans, about 15–40 Hz, below what most people can hear. MBARI tracks its 'B call' at 42–43 Hz.",
-      "monterey": "Song heard July through February (MBARI, 2015–2021). Calling follows krill-rich upwelling and shifts from night to day in autumn as migration begins.",
-      "status": "Endangered (US ESA)",
-      "bands": [15, 45],
-      "months": [7, 8, 9, 10, 11, 12, 1, 2],
-      "sources": [["DOSITS audio", "https://dosits.org/galleries/audio-gallery/marine-mammals/baleen-whales/blue-whale/"], ["Ryan et al. 2025", "https://doi.org/10.1371/journal.pone.0318624"], ["NOAA", "https://www.fisheries.noaa.gov/species/blue-whale"]]
-    },
-    {
-      "name": "Fin whale", "latin": "Balaenoptera physalus", "codes": "Bp",
-      "sound": "'20-Hz pulses': short downsweeps from about 40 to 13 Hz, repeated for hours.",
-      "monterey": "Song heard August through May (MBARI, 2015–2021).",
-      "status": "Endangered (US ESA)",
-      "bands": [13, 40],
-      "months": [8, 9, 10, 11, 12, 1, 2, 3, 4, 5],
-      "sources": [["DOSITS audio", "https://dosits.org/galleries/audio-gallery/marine-mammals/baleen-whales/fin-whale/"], ["Ryan et al. 2025", "https://doi.org/10.1371/journal.pone.0318624"], ["NOAA", "https://www.fisheries.noaa.gov/species/fin-whale"]]
-    },
-    {
-      "name": "Humpback whale", "latin": "Megaptera novaeangliae", "codes": "Mn",
-      "sound": "Long, changing songs of tonal and pulsed units; feeding calls around 500 Hz.",
-      "monterey": "Song heard August through June, on every recording day in November. Days with song rose from 34% to 76% between 2015 and 2021 (MBARI).",
-      "status": "Endangered (Central America population) and Threatened (Mexico population), US ESA",
-      "bands": [100, 4000], "bands_note": "range not verified",
-      "months": [8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6],
-      "sources": [["DOSITS audio", "https://dosits.org/galleries/audio-gallery/marine-mammals/baleen-whales/humpback-whale/"], ["Ryan et al. 2025", "https://doi.org/10.1371/journal.pone.0318624"], ["NOAA", "https://www.fisheries.noaa.gov/species/humpback-whale"]]
-    },
-    {
-      "name": "Killer whale (orca)", "latin": "Orcinus orca", "codes": "Oo, Call, Whistle, Echolocation",
-      "sound": "Clicks for echolocation, whistles, and pulsed calls. Each Pacific Northwest pod has its own learned set of calls, like a family dialect.",
-      "monterey": "Recorded at the Monterey hydrophone at times; which population and how often is not verified. Orcasound's hydrophones in the Salish Sea focus on the Southern Residents: 76 whales on 1 July 2026 (J pod 27, K pod 15, L pod 34).",
-      "status": "Southern Residents: Endangered (US ESA, since 2005)",
-      "bands": [600, 29000], "bands_note": "calls; clicks reach 100 kHz",
-      "months": null,
-      "sources": [["Center for Whale Research", "https://www.whaleresearch.com/orca-population"], ["NOAA", "https://www.fisheries.noaa.gov/species/killer-whale"], ["Orcasound", "https://www.orcasound.net/"]]
-    },
-    {
-      "name": "Minke whale", "latin": "Balaenoptera acutorostrata", "codes": "Ba",
-      "sound": "The North Pacific 'boing': a short pulse near 1.3 kHz followed by a 2.5-second tone near 1.4 kHz.",
-      "monterey": "Presence at the Monterey hydrophone not verified.",
-      "status": "Not ESA-listed; protected under the Marine Mammal Protection Act",
-      "bands": [1300, 1400],
-      "months": null,
-      "sources": [["DOSITS audio", "https://dosits.org/galleries/audio-gallery/marine-mammals/baleen-whales/minke-whales/"], ["NOAA", "https://www.fisheries.noaa.gov/species/minke-whale"]]
-    },
-    {
-      "name": "Bryde's whale", "latin": "Balaenoptera edeni", "codes": "Be",
-      "sound": "Pulses and moans, mostly below 60 Hz; in the North Pacific also the metallic 'biotwang'.",
-      "monterey": "A warm-water species (about 40°S to 40°N), so Monterey Bay is near the edge of its range. Presence at the hydrophone not verified.",
-      "status": "Not ESA-listed",
-      "bands": [20, 950],
-      "months": null,
-      "sources": [["DOSITS audio", "https://dosits.org/galleries/audio-gallery/marine-mammals/baleen-whales/brydes-whale/"], ["NOAA", "https://www.fisheries.noaa.gov/species/brydes-whale"]]
-    },
-    {
-      "name": "Right whales", "latin": "Eubalaena glacialis and E. japonica", "codes": "Eg (Atlantic); Upcall, Gunshot (North Pacific)",
-      "sound": "A 2-second 'upcall' rising from about 50 to 440 Hz, and loud 'gunshot' sounds.",
-      "monterey": "The North Atlantic right whale (about 384 left at the start of 2024) never reaches the Pacific, so any 'Eg' detection here is a false alarm. The North Pacific right whale's eastern population is under 50 animals and very rarely seen off California.",
-      "status": "Both Endangered (US ESA)",
-      "bands": [50, 440],
-      "months": null,
-      "sources": [["DOSITS audio", "https://dosits.org/galleries/audio-gallery/marine-mammals/baleen-whales/north-atlantic-right-whale/"], ["NOAA (Atlantic)", "https://www.fisheries.noaa.gov/species/north-atlantic-right-whale"], ["NOAA (Pacific)", "https://www.fisheries.noaa.gov/species/north-pacific-right-whale"], ["Google blog", "https://research.google/blog/whistles-songs-boings-and-biotwangs-recognizing-whale-vocalizations-with-ai/"]]
-    }
+ "checked": "2026-11-22",
+ "intro": "The detector knows 8 whale species. Seven of them are listed here; for each: what it sounds like, whether it is heard at the Monterey Bay hydrophone, and its US protection status. Unchecked claims are marked as such.",
+ "species": [
+  {
+   "name": "Blue whale",
+   "latin": "Balaenoptera musculus",
+   "codes": "Bm",
+   "sound": "Very low pulses and moans, about 15–40 Hz, below what most people can hear. MBARI tracks its 'B call' at 42–43 Hz.",
+   "monterey": "Song heard July through February (MBARI, 2015–2021). Calling follows krill-rich upwelling and shifts from night to day in autumn as migration begins.",
+   "status": "Endangered (US ESA)",
+   "bands": [
+    15,
+    45
+   ],
+   "months": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    1,
+    2
+   ],
+   "sources": [
+    [
+     "DOSITS audio",
+     "https://dosits.org/galleries/audio-gallery/marine-mammals/baleen-whales/blue-whale/"
+    ],
+    [
+     "Ryan et al. 2025",
+     "https://doi.org/10.1371/journal.pone.0318624"
+    ],
+    [
+     "NOAA",
+     "https://www.fisheries.noaa.gov/species/blue-whale"
+    ]
+   ]
+  },
+  {
+   "name": "Fin whale",
+   "latin": "Balaenoptera physalus",
+   "codes": "Bp",
+   "sound": "'20-Hz pulses': short downsweeps from about 40 to 13 Hz, repeated for hours.",
+   "monterey": "Song heard August through May (MBARI, 2015–2021).",
+   "status": "Endangered (US ESA)",
+   "bands": [
+    13,
+    40
+   ],
+   "months": [
+    8,
+    9,
+    10,
+    11,
+    12,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "sources": [
+    [
+     "DOSITS audio",
+     "https://dosits.org/galleries/audio-gallery/marine-mammals/baleen-whales/fin-whale/"
+    ],
+    [
+     "Ryan et al. 2025",
+     "https://doi.org/10.1371/journal.pone.0318624"
+    ],
+    [
+     "NOAA",
+     "https://www.fisheries.noaa.gov/species/fin-whale"
+    ]
+   ]
+  },
+  {
+   "name": "Humpback whale",
+   "latin": "Megaptera novaeangliae",
+   "codes": "Mn",
+   "sound": "Long, changing songs of tonal and pulsed units; feeding calls around 500 Hz.",
+   "monterey": "Song heard August through June, on every recording day in November. Days with song rose from 34% to 76% between 2015 and 2021 (MBARI).",
+   "status": "Endangered (Central America population) and Threatened (Mexico population), US ESA",
+   "bands": [
+    100,
+    4000
+   ],
+   "bands_note": "range not verified",
+   "months": [
+    8,
+    9,
+    10,
+    11,
+    12,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "sources": [
+    [
+     "DOSITS audio",
+     "https://dosits.org/galleries/audio-gallery/marine-mammals/baleen-whales/humpback-whale/"
+    ],
+    [
+     "Ryan et al. 2025",
+     "https://doi.org/10.1371/journal.pone.0318624"
+    ],
+    [
+     "NOAA",
+     "https://www.fisheries.noaa.gov/species/humpback-whale"
+    ]
+   ]
+  },
+  {
+   "name": "Killer whale (orca)",
+   "latin": "Orcinus orca",
+   "codes": "Oo, Call, Whistle, Echolocation",
+   "sound": "Clicks for echolocation, whistles, and pulsed calls. Each Pacific Northwest pod has its own learned set of calls, like a family dialect.",
+   "monterey": "Recorded at the Monterey hydrophone at times; which population and how often is not verified. Orcasound's hydrophones in the Salish Sea focus on the Southern Residents: 76 whales on 1 July 2026 (J pod 27, K pod 15, L pod 34).",
+   "status": "Southern Residents: Endangered (US ESA, since 2005)",
+   "bands": [
+    600,
+    29000
+   ],
+   "bands_note": "calls; clicks reach 100 kHz",
+   "months": null,
+   "sources": [
+    [
+     "Center for Whale Research",
+     "https://www.whaleresearch.com/orca-population"
+    ],
+    [
+     "NOAA",
+     "https://www.fisheries.noaa.gov/species/killer-whale"
+    ],
+    [
+     "Orcasound",
+     "https://www.orcasound.net/"
+    ]
+   ]
+  },
+  {
+   "name": "Minke whale",
+   "latin": "Balaenoptera acutorostrata",
+   "codes": "Ba",
+   "sound": "The North Pacific 'boing': a short pulse near 1.3 kHz followed by a 2.5-second tone near 1.4 kHz.",
+   "monterey": "Presence at the Monterey hydrophone not verified.",
+   "status": "Not ESA-listed; protected under the Marine Mammal Protection Act",
+   "bands": [
+    1300,
+    1400
+   ],
+   "months": null,
+   "sources": [
+    [
+     "DOSITS audio",
+     "https://dosits.org/galleries/audio-gallery/marine-mammals/baleen-whales/minke-whales/"
+    ],
+    [
+     "NOAA",
+     "https://www.fisheries.noaa.gov/species/minke-whale"
+    ]
+   ]
+  },
+  {
+   "name": "Bryde's whale",
+   "latin": "Balaenoptera edeni",
+   "codes": "Be",
+   "sound": "Pulses and moans, mostly below 60 Hz; in the North Pacific also the metallic 'biotwang'.",
+   "monterey": "A warm-water species (about 40°S to 40°N), so Monterey Bay is near the edge of its range. Presence at the hydrophone not verified.",
+   "status": "Not ESA-listed",
+   "bands": [
+    20,
+    950
+   ],
+   "months": null,
+   "sources": [
+    [
+     "DOSITS audio",
+     "https://dosits.org/galleries/audio-gallery/marine-mammals/baleen-whales/brydes-whale/"
+    ],
+    [
+     "NOAA",
+     "https://www.fisheries.noaa.gov/species/brydes-whale"
+    ]
+   ]
+  },
+  {
+   "name": "Right whales",
+   "latin": "Eubalaena glacialis and E. japonica",
+   "codes": "Eg (Atlantic); Upcall, Gunshot (North Pacific)",
+   "sound": "A 2-second 'upcall' rising from about 50 to 440 Hz, and loud 'gunshot' sounds.",
+   "monterey": "The North Atlantic right whale (about 384 left at the start of 2024) never reaches the Pacific, so any 'Eg' detection here is a false alarm. The North Pacific right whale's eastern population is under 50 animals and very rarely seen off California.",
+   "status": "Both Endangered (US ESA)",
+   "bands": [
+    50,
+    440
+   ],
+   "months": null,
+   "sources": [
+    [
+     "DOSITS audio",
+     "https://dosits.org/galleries/audio-gallery/marine-mammals/baleen-whales/north-atlantic-right-whale/"
+    ],
+    [
+     "NOAA (Atlantic)",
+     "https://www.fisheries.noaa.gov/species/north-atlantic-right-whale"
+    ],
+    [
+     "NOAA (Pacific)",
+     "https://www.fisheries.noaa.gov/species/north-pacific-right-whale"
+    ],
+    [
+     "Google blog",
+     "https://research.google/blog/whistles-songs-boings-and-biotwangs-recognizing-whale-vocalizations-with-ai/"
+    ]
+   ]
+  }
+ ],
+ "known": [
+  "MBARI's hydrophone sits on Smooth Ridge, about 30 km offshore at roughly 900 m depth, and has recorded almost continuously since July 2015.",
+  "MBARI already publishes detectors for blue whale calls, fin whale calls, humpback song and shipping noise, and used them on six years of data (Ryan et al. 2025).",
+  "Google trained the detector partly on recordings from this same hydrophone. Finding something new means looking for what these detectors are not built to count: rare species, odd hours, unusual sounds."
+ ],
+ "known_sources": [
+  [
+   "MBARI Pacific Sound docs",
+   "https://docs.mbari.org/pacific-sound/"
   ],
-  "known": [
-    "MBARI's hydrophone sits on Smooth Ridge, about 30 km offshore at roughly 900 m depth, and has recorded almost continuously since July 2015.",
-    "MBARI already publishes detectors for blue whale calls, fin whale calls, humpback song and shipping noise, and used them on six years of data (Ryan et al. 2025).",
-    "Google trained the detector partly on recordings from this same hydrophone. Finding something new means looking for what these detectors are not built to count: rare species, odd hours, unusual sounds."
+  [
+   "Ryan et al. 2025",
+   "https://doi.org/10.1371/journal.pone.0318624"
   ],
-  "known_sources": [["MBARI Pacific Sound docs", "https://docs.mbari.org/pacific-sound/"], ["Ryan et al. 2025", "https://doi.org/10.1371/journal.pone.0318624"], ["Google blog", "https://research.google/blog/whistles-songs-boings-and-biotwangs-recognizing-whale-vocalizations-with-ai/"]]
+  [
+   "Google blog",
+   "https://research.google/blog/whistles-songs-boings-and-biotwangs-recognizing-whale-vocalizations-with-ai/"
+  ]
+ ],
+ "sizes": {
+  "note": "Maximum adult length from NOAA Fisheries species pages. Blue whale: North Pacific figure. A person (1.8 m) for scale.",
+  "items": [
+   [
+    "Blue whale",
+    27.4,
+    "https://www.fisheries.noaa.gov/species/blue-whale"
+   ],
+   [
+    "Fin whale",
+    25.9,
+    "https://www.fisheries.noaa.gov/species/fin-whale"
+   ],
+   [
+    "North Pacific right whale",
+    19.5,
+    "https://www.fisheries.noaa.gov/species/north-pacific-right-whale"
+   ],
+   [
+    "Humpback whale",
+    18.3,
+    "https://www.fisheries.noaa.gov/species/humpback-whale"
+   ],
+   [
+    "Bryde's whale",
+    16.8,
+    "https://www.fisheries.noaa.gov/species/brydes-whale"
+   ],
+   [
+    "North Atlantic right whale",
+    15.8,
+    "https://www.fisheries.noaa.gov/species/north-atlantic-right-whale"
+   ],
+   [
+    "Minke whale",
+    10.7,
+    "https://www.fisheries.noaa.gov/species/minke-whale"
+   ],
+   [
+    "Killer whale (orca)",
+    9.8,
+    "https://www.fisheries.noaa.gov/species/killer-whale"
+   ],
+   [
+    "Person",
+    1.8,
+    null
+   ]
+  ]
+ },
+ "hydrophones": [
+  {
+   "name": "MBARI MARS hydrophone",
+   "archive": "MBARI Pacific Sound",
+   "lat": 36.7125,
+   "lng": -122.1868,
+   "depth": "891 m",
+   "role": "Main archive: continuous since 2015, about 30 km off Monterey Bay.",
+   "main": true,
+   "source": [
+    "Ryan et al. 2016 (position)",
+    "http://web.archive.org/web/20250409064029/https://montereybay.noaa.gov/research/techreports/trryan2016.html"
+   ]
+  },
+  {
+   "name": "Orcasound Lab",
+   "archive": "Orcasound",
+   "lat": 48.5583362,
+   "lng": -123.1735774,
+   "depth": "about 5 m",
+   "role": "Source of tonight's labelled orca test clips (27 Sep 2017, J and L pods).",
+   "main": true,
+   "source": [
+    "Orcasound feeds",
+    "https://live.orcasound.net/api/json/feeds"
+   ]
+  },
+  {
+   "name": "Andrews Bay",
+   "archive": "Orcasound",
+   "lat": 48.546653,
+   "lng": -123.166408,
+   "depth": "not stated",
+   "role": "Orcasound node, San Juan Island.",
+   "main": false,
+   "source": [
+    "Orcasound feeds",
+    "https://live.orcasound.net/api/json/feeds"
+   ]
+  },
+  {
+   "name": "North San Juan Channel",
+   "archive": "Orcasound",
+   "lat": 48.591294,
+   "lng": -123.058779,
+   "depth": "about 11.5 m",
+   "role": "Orcasound node.",
+   "main": false,
+   "source": [
+    "Orcasound feeds",
+    "https://live.orcasound.net/api/json/feeds"
+   ]
+  },
+  {
+   "name": "Port Townsend",
+   "archive": "Orcasound",
+   "lat": 48.135743,
+   "lng": -122.760614,
+   "depth": "about 7 m",
+   "role": "Orcasound node, since 2006.",
+   "main": false,
+   "source": [
+    "Orcasound feeds",
+    "https://live.orcasound.net/api/json/feeds"
+   ]
+  },
+  {
+   "name": "Bush Point",
+   "archive": "Orcasound",
+   "lat": 48.0336664,
+   "lng": -122.6040035,
+   "depth": "about 1 m",
+   "role": "Orcasound node, Whidbey Island.",
+   "main": false,
+   "source": [
+    "Orcasound feeds",
+    "https://live.orcasound.net/api/json/feeds"
+   ]
+  },
+  {
+   "name": "Sunset Bay",
+   "archive": "Orcasound",
+   "lat": 47.86497,
+   "lng": -122.33394,
+   "depth": "near the low-tide line",
+   "role": "Orcasound node.",
+   "main": false,
+   "source": [
+    "Orcasound feeds",
+    "https://live.orcasound.net/api/json/feeds"
+   ]
+  }
+ ]
 }

@@ -7,6 +7,8 @@
 <meta name="description" content="Live status of a Raspberry Pi listening to public hydrophone audio for whale calls.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400&family=Fraunces:opsz,wght@9..144,400&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
 /* Layout: one narrow column, like a field logbook page; cards only for live instruments. */
 :root {
@@ -92,6 +94,23 @@ footer { color: var(--muted); font-size: 13px; max-width: 62ch; }
 .w-sp .src { font-size: 12px; color: var(--muted); }
 .w-sp .src a, .w-known a { color: var(--accent); }
 .w-known { margin: 0; padding-left: 18px; font-size: 14px; display: grid; gap: 6px; max-width: 62ch; }
+.part { display: grid; gap: 16px; scroll-margin-top: 56px; }
+.part-head { margin-top: 20px; }
+.part-title { font: 400 1.6rem/1.2 var(--display); margin: 0; }
+.part-head .sub { margin: 4px 0 0; }
+.toc { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; display: flex; gap: 4px; overflow-x: auto; padding: 8px 0; background: var(--bg); border-bottom: 1px solid var(--line); scrollbar-width: none; }
+.toc a { flex: none; padding: 6px 10px; border-radius: 999px; font-size: 14px; color: var(--fg); text-decoration: none; border: 1px solid var(--line); }
+.toc a:hover, .toc a:focus-visible { border-color: var(--accent); color: var(--accent); }
+#words { scroll-margin-top: 56px; }
+.map { height: 360px; border-radius: 8px; overflow: hidden; background: var(--line); }
+.map-list { display: grid; gap: 8px; margin-top: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); font-size: 14px; }
+.sizes { font-size: 13px; }
+.size-row { display: grid; grid-template-columns: 150px 1fr 52px; gap: 8px; align-items: center; margin-bottom: 4px; }
+.size-row a, .size-row > span:first-child { color: var(--fg); text-decoration: none; font-size: 13px; }
+.size-lane svg { width: 100%; height: 22px; display: block; }
+.size-m { font: 12px var(--mono); color: var(--muted); text-align: right; }
+@media (max-width: 480px) { .size-row { grid-template-columns: 1fr 52px; } .size-row .size-lane { grid-column: 1 / -1; grid-row: 2; } }
+.map .leaflet-tooltip { font: 12px var(--body); }
 .gloss summary { cursor: pointer; font-weight: 500; }
 .gloss dl { margin: 12px 0 0; display: grid; gap: 4px; }
 .gloss dt { font-weight: 500; margin-top: 8px; }
@@ -106,6 +125,73 @@ footer { color: var(--muted); font-size: 13px; max-width: 62ch; }
     <p class="stamp" id="stamp">Loading status…</p>
   </header>
 
+  <nav class="toc" aria-label="Sections">
+    <a href="#whales">Whales</a><a href="#where">Where</a><a href="#listening">Listening</a><a href="#results">Results</a><a href="#machine">Machine</a><a href="#words">Words</a>
+  </nav>
+
+  <section class="part" id="whales">
+    <div class="part-head"><h2 class="part-title">The whales</h2><p class="sub">Who might be calling, how they sound, and when they are around.</p></div>
+  <section class="card">
+    <h2>The whales</h2>
+    <p class="sub" id="w-intro">—</p>
+    <h3 class="w-h">How big they are</h3>
+    <div id="w-sizes" class="sizes">Size comparison coming.</div>
+    <h3 class="w-h">How low they sing</h3>
+    <div id="w-bands"></div>
+    <p class="sub">Each bar is a species' typical call range, on a log scale. The shaded area is roughly what human ears hear (20 Hz to 20 kHz).</p>
+    <h3 class="w-h">When they sing in Monterey Bay</h3>
+    <div id="w-months"></div>
+    <p class="sub">Months with song at the MBARI hydrophone, 2015–2021 (Ryan et al. 2025). Not yet studied for the other species.</p>
+    <h3 class="w-h">What is already known</h3>
+    <ul class="w-known" id="w-known"></ul>
+  </section>
+  <section class="card">
+    <h2>The species</h2>
+    <p class="sub">What the detector can recognise, with sources for every claim.</p>
+    <div class="w-list" id="w-list"></div>
+  </section>
+  </section>
+
+  <section class="part" id="where">
+    <div class="part-head"><h2 class="part-title">Where the Pi listens</h2><p class="sub">Two open archives, one in California and one in Washington State.</p></div>
+  <section class="card">
+    <h2>The two hydrophones</h2>
+    <p class="sub">Underwater microphones whose recordings the Pi listens to.</p>
+    <div id="map" class="map">Map coming.</div>
+    <div id="map-list" class="map-list"></div>
+  </section>
+  </section>
+
+  <section class="part" id="listening">
+    <div class="part-head"><h2 class="part-title">What the Pi hears</h2><p class="sub">Real recordings, as pictures, with what people and the models make of them.</p></div>
+  <section class="card">
+    <h2>Listening to one minute</h2>
+    <p class="sub">A real test clip: one minute of Southern Resident orcas at the Orcasound Lab hydrophone. Time runs left to right, pitch bottom to top, brighter means louder. The bright streaks are calls.</p>
+    <canvas id="spec" class="spec" aria-label="Spectrogram of a one-minute orca recording"></canvas>
+    <div class="tracks" id="tracks"></div>
+    <p class="sub" id="clipnote">—</p>
+  </section>
+  </section>
+
+  <section class="part" id="results">
+    <div class="part-head"><h2 class="part-title">Results so far</h2><p class="sub">Each step has a pass mark set before it runs. A miss stops the work until the owner decides.</p></div>
+  <section class="card">
+    <h2>Which model hears orcas?</h2>
+    <p class="sub">Same 462 test windows for both: 119 with an orca call, 343 without. To pass, a model needs a balanced accuracy of at least 0.80.</p>
+    <div class="models" id="models">—</div>
+  </section>
+  <section class="card">
+    <h2>Steps and gates</h2>
+    <p class="sub">Each step has a pass mark set before it runs.</p>
+    <div class="wrap"><table>
+      <thead><tr><th>Step</th><th>What</th><th>Status</th><th>Result</th></tr></thead>
+      <tbody id="steps"></tbody>
+    </table></div>
+  </section>
+  </section>
+
+  <section class="part" id="machine">
+    <div class="part-head"><h2 class="part-title">The machine</h2><p class="sub">The Raspberry Pi behind all this: what it is doing and how hot it is.</p></div>
   <div class="grid">
     <section class="card">
       <h2>Pi temperature</h2>
@@ -119,63 +205,24 @@ footer { color: var(--muted); font-size: 13px; max-width: 62ch; }
       <div id="progress">—</div>
     </section>
   </div>
-
   <section class="card">
     <h2>What happens to the sound</h2>
     <p class="sub">Every recording goes through these stages. The highlighted one is running now.</p>
     <ol class="pipe" id="pipeline"></ol>
   </section>
-
-  <section class="card" id="whales">
-    <h2>The whales</h2>
-    <p class="sub" id="w-intro">—</p>
-    <h3 class="w-h">How low they sing</h3>
-    <div id="w-bands"></div>
-    <p class="sub">Each bar is a species' typical call range, on a log scale. The shaded area is roughly what human ears hear (20 Hz to 20 kHz).</p>
-    <h3 class="w-h">When they sing in Monterey Bay</h3>
-    <div id="w-months"></div>
-    <p class="sub">Months with song at the MBARI hydrophone, 2015–2021 (Ryan et al. 2025). Not yet studied for the other species.</p>
-    <div class="w-list" id="w-list"></div>
-    <h3 class="w-h">What is already known</h3>
-    <ul class="w-known" id="w-known"></ul>
-  </section>
-
-  <section class="card">
-    <h2>Listening to one minute</h2>
-    <p class="sub">A real test clip: one minute of Southern Resident orcas at the Orcasound Lab hydrophone. Time runs left to right, pitch bottom to top, brighter means louder. The bright streaks are calls.</p>
-    <canvas id="spec" class="spec" aria-label="Spectrogram of a one-minute orca recording"></canvas>
-    <div class="tracks" id="tracks"></div>
-    <p class="sub" id="clipnote">—</p>
-  </section>
-
-  <section class="card">
-    <h2>Which model hears orcas?</h2>
-    <p class="sub">Same 462 test windows for both: 119 with an orca call, 343 without. To pass, a model needs a balanced accuracy of at least 0.80.</p>
-    <div class="models" id="models">—</div>
-  </section>
-
   <section class="card">
     <h2>What the Pi is doing</h2>
     <p class="sub">Load on each of the 4 processor cores, measured over one second at the last update.</p>
     <div id="cores">—</div>
   </section>
-
   <section class="card">
     <h2>Temperature, last 48 hours</h2>
     <p class="sub">Highest reading per 10 minutes. Dashed lines: 75 °C benchmark limit, 85 °C throttling.</p>
     <div class="chart" id="chart">—</div>
   </section>
-
-  <section class="card">
-    <h2>Steps and gates</h2>
-    <p class="sub">Each step has a pass mark set before it runs.</p>
-    <div class="wrap"><table>
-      <thead><tr><th>Step</th><th>What</th><th>Status</th><th>Result</th></tr></thead>
-      <tbody id="steps"></tbody>
-    </table></div>
   </section>
 
-  <details class="card gloss">
+  <details class="card gloss" id="words">
     <summary>What the words mean</summary>
     <dl>
       <dt>Window</dt><dd>A 5-second slice of audio. The model judges one window at a time. Windows overlap by half, so a call is never cut in two.</dd>
@@ -282,7 +329,56 @@ function drawWhales(w) {
   w.known.forEach((t) => k.append(el('li', '', t)));
   const li = el('li', '', 'Sources: '); w.known_sources.forEach(([t, u], i) => { const a = el('a', '', t); a.href = u; a.rel = 'noopener'; li.append(a); if (i < w.known_sources.length - 1) li.append(', '); }); k.append(li);
 }
-fetch('whales.json', { cache: 'no-store' }).then((r) => r.ok ? r.json() : null).then((w) => { if (w) drawWhales(w); }).catch(() => {});
+function drawSizes(sz) {
+  const box = $('w-sizes'); box.replaceChildren();
+  const max = sz.items[0][1], ns = 'http://www.w3.org/2000/svg';
+  sz.items.forEach(([name, m, url]) => {
+    const r = el('div', 'size-row');
+    const lab = url ? Object.assign(el('a', '', name), { href: url, rel: 'noopener' }) : el('span', '', name);
+    const svg = document.createElementNS(ns, 'svg'); svg.setAttribute('viewBox', '0 0 1000 40'); svg.setAttribute('preserveAspectRatio', 'none');
+    svg.setAttribute('role', 'img'); svg.setAttribute('aria-label', `${name}: ${m} m`);
+    const L = 1000 * m / max;
+    const p = document.createElementNS(ns, 'path');
+    if (name === 'Person') { p.setAttribute('d', `M0 8 L${L} 8 L${L} 32 L0 32 Z`); p.setAttribute('fill', 'var(--muted)'); }
+    else {
+      const body = L * 0.86, h = 13;
+      p.setAttribute('d', `M0 20 Q${body * 0.08} ${20 - h} ${body * 0.35} ${20 - h * 0.9} Q${body * 0.8} ${20 - h * 0.6} ${body} 20 L${L} ${20 - h * 1.1} L${L - L * 0.04} 20 L${L} ${20 + h * 1.1} L${body} 20 Q${body * 0.8} ${20 + h * 0.7} ${body * 0.35} ${20 + h * 0.9} Q${body * 0.08} ${20 + h} 0 20 Z`);
+      p.setAttribute('fill', 'var(--accent)');
+    }
+    svg.append(p);
+    const lane = el('div', 'size-lane'); lane.append(svg);
+    r.append(lab, lane, el('span', 'size-m', `${m} m`));
+    box.append(r);
+  });
+  box.append(el('p', 'sub', sz.note));
+}
+
+function drawMap(hs) {
+  const list = $('map-list'); list.replaceChildren();
+  hs.filter((h) => h.main).forEach((h) => {
+    const d = el('div');
+    const a = Object.assign(el('a', '', h.source[0]), { href: h.source[1], rel: 'noopener' });
+    d.append(el('b', '', h.name), el('br'), el('span', 'sub', `${h.archive} · ${h.lat.toFixed(4)}, ${h.lng.toFixed(4)} · depth ${h.depth}`), el('br'), el('span', '', h.role + ' '), a);
+    list.append(d);
+  });
+  if (!window.L) { $('map').textContent = 'The map could not load.'; return; }
+  $('map').textContent = '';
+  const map = L.map('map', { scrollWheelZoom: false, attributionControl: true });
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 12, attribution: '© OpenStreetMap contributors' }).addTo(map);
+  const pts = hs.map((h) => {
+    const mk = L.circleMarker([h.lat, h.lng], { radius: h.main ? 9 : 5, color: h.main ? '#0b6f86' : '#557079', weight: 2, fillColor: h.main ? '#5cc3d8' : '#8fa9b1', fillOpacity: 0.9 }).addTo(map);
+    const pop = document.createElement('div');
+    pop.append(Object.assign(document.createElement('b'), { textContent: h.name }), document.createElement('br'), document.createTextNode(`${h.archive}, depth ${h.depth}. ${h.role}`));
+    mk.bindPopup(pop);
+    if (h.main) mk.bindTooltip(h.name, { permanent: true, direction: 'right', offset: [8, 0] });
+    return [h.lat, h.lng];
+  });
+  map.fitBounds(pts, { padding: [30, 30] });
+}
+
+fetch('whales.json', { cache: 'no-store' }).then((r) => r.ok ? r.json() : null).then((w) => {
+  if (!w) return; drawWhales(w); if (w.sizes) drawSizes(w.sizes); if (w.hydrophones) drawMap(w.hydrophones);
+}).catch(() => {});
 
 fetch('data/clip.json', { cache: 'no-store' }).then((r) => r.ok ? r.json() : null).then((c) => { if (c) drawClip(c); }).catch(() => {});
 
