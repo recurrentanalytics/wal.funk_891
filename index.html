@@ -4,447 +4,611 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Whale Listener</title>
-<meta name="description" content="Live status of a Raspberry Pi listening to public hydrophone audio for whale calls.">
+<meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls. Live status, the whales, the places, and what the models hear.">
+<meta name="theme-color" content="#04121a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400&family=Fraunces:opsz,wght@9..144,400&display=swap">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,500&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <style>
-/* Layout: one narrow column, like a field logbook page; cards only for live instruments. */
+/* Layout: a deep-sea listening station. One dark world, depth gets darker as you scroll from whales to machine. */
 :root {
-  --bg: #f3f6f7; --panel: #ffffff; --fg: #10232b; --muted: #557079; --line: #d6e1e4;
-  --accent: #0b6f86; --ok: #1f7a4d; --warn: #a8660b; --bad: #b3362b;
-  --display: "Fraunces", Georgia, serif; --body: "IBM Plex Sans", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace;
-  color-scheme: light;
+  --abyss: #020b10; --deep: #04121a; --sea: #082230; --shelf: #0e3344; --line: #17465a;
+  --fg: #dcecf1; --muted: #7fa2ae; --dim: #4d7280;
+  --glow: #5ee6d7;  /* model / instruments */
+  --amber: #ffb547; /* what people heard */
+  --coral: #ff6b5b; /* alarms, heat */
+  --krill: #b7f36a; /* pass */
+  --display: "Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  color-scheme: dark;
 }
-@media (prefers-color-scheme: dark) { :root {
-  --bg: #0b171c; --panel: #11232a; --fg: #e3eef1; --muted: #8fa9b1; --line: #23404a;
-  --accent: #5cc3d8; --ok: #5fc48f; --warn: #e3a54a; --bad: #ef7d70; color-scheme: dark;
-} }
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 var(--body); }
-main { max-width: 760px; margin: 0 auto; padding-block: max(24px, env(safe-area-inset-top)) 48px;
-  padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); display: grid; gap: 20px; }
-h1 { font: 400 clamp(2rem, 6vw, 2.8rem)/1.1 var(--display); margin: 0; text-wrap: balance; }
-h2 { font-size: 1rem; font-weight: 500; margin: 0 0 4px; }
-.lede { color: var(--muted); margin: 6px 0 0; max-width: 62ch; }
-.stamp { font: 13px var(--mono); color: var(--muted); }
-.grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
-.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; min-width: 0; }
-.big { font: 400 2.4rem/1.1 var(--display); font-variant-numeric: tabular-nums; }
-.sub { color: var(--muted); font-size: 13px; margin: 0 0 10px; }
-.state { display: inline-block; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; border: 1px solid currentColor; }
-.pass { color: var(--ok); } .fail { color: var(--bad); } .running { color: var(--warn); } .waiting { color: var(--muted); }
-.bar { height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; margin: 4px 0 12px; }
-.bar span { display: block; height: 100%; background: var(--accent); }
-.row { display: flex; justify-content: space-between; gap: 8px; font-variant-numeric: tabular-nums; }
-.chart svg { width: 100%; height: auto; display: block; }
-.chart text { fill: var(--muted); font: 11px var(--mono); }
-.wrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-th { text-align: left; font-weight: 500; color: var(--muted); font-size: 12px; padding: 6px 8px; border-bottom: 1px solid var(--line); }
-td { padding: 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
-td:first-child { font-family: var(--mono); color: var(--muted); }
-footer { color: var(--muted); font-size: 13px; max-width: 62ch; }
-.err { color: var(--bad); }
-.pipe { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); counter-reset: s; }
-.pipe li { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; position: relative; counter-increment: s; }
-.pipe li::before { content: counter(s); font: 12px var(--mono); color: var(--muted); margin-right: 6px; }
-.pipe li.on { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
-.pipe b { font-weight: 500; }
-.pipe .v { display: block; font: 14px var(--mono); color: var(--accent); margin: 2px 0; }
-.pipe .n { display: block; font-size: 13px; color: var(--muted); }
-.models { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
-.model h3 { font-size: 15px; font-weight: 500; margin: 0 0 8px; }
-.meter { margin: 6px 0 2px; font-size: 13px; display: flex; justify-content: space-between; gap: 8px; font-variant-numeric: tabular-nums; }
-.track { position: relative; height: 10px; background: var(--line); border-radius: 5px; overflow: visible; }
-.track span { display: block; height: 100%; border-radius: 5px; }
-.track i { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--fg); }
-.score { font: 400 2rem/1.1 var(--display); font-variant-numeric: tabular-nums; margin-top: 10px; }
-.cores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; align-items: end; }
-.core { text-align: center; font: 12px var(--mono); color: var(--muted); }
-.core .col { height: 80px; background: var(--line); border-radius: 6px; position: relative; overflow: hidden; margin-bottom: 4px; }
-.core .col span { position: absolute; left: 0; right: 0; bottom: 0; background: var(--accent); }
-.spec { width: 100%; height: 180px; display: block; border-radius: 6px; image-rendering: pixelated; background: #061016; }
-.tracks { display: grid; gap: 6px; margin: 10px 0 6px; }
-.track-row { display: grid; grid-template-columns: 92px 1fr; gap: 8px; align-items: center; font-size: 12px; color: var(--muted); }
-.lane { position: relative; height: 26px; background: var(--line); border-radius: 4px; overflow: hidden; }
-.lane b { position: absolute; top: 3px; bottom: 3px; background: var(--warn); border-radius: 2px; }
-.lane s { position: absolute; bottom: 0; background: var(--accent); text-decoration: none; }
-.lane hr { position: absolute; left: 0; right: 0; top: 50%; margin: 0; border: 0; border-top: 1px dashed var(--fg); opacity: .5; }
-.w-h { font-size: 14px; font-weight: 500; margin: 18px 0 8px; }
-.band-row, .mon-row { display: grid; grid-template-columns: 110px 1fr; gap: 8px; align-items: center; font-size: 13px; margin-bottom: 6px; }
-.band-lane { position: relative; height: 14px; }
-.band-lane .hear { position: absolute; top: 0; bottom: 0; background: var(--line); opacity: .6; border-radius: 3px; }
-.band-lane .b { position: absolute; top: 3px; bottom: 3px; background: var(--accent); border-radius: 4px; min-width: 4px; }
-.band-lane .b.unsure { background: transparent; border: 1px dashed var(--accent); }
-.band-axis { display: grid; grid-template-columns: 110px 1fr; gap: 8px; font: 11px var(--mono); color: var(--muted); }
-.band-axis div { position: relative; height: 14px; }
-.band-axis span { position: absolute; transform: translateX(-50%); }
-.months { display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; }
-.months i { height: 18px; border-radius: 3px; background: var(--line); font: normal 10px/18px var(--mono); text-align: center; color: var(--muted); }
-.months i.on { background: var(--accent); color: var(--bg); }
-.w-list { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); margin-top: 18px; }
-.w-sp { border: 1px solid var(--line); border-radius: 8px; padding: 12px; min-width: 0; }
-.w-sp h3 { margin: 0; font: 400 1.25rem/1.2 var(--display); }
-.w-sp .lat { font-style: italic; color: var(--muted); font-size: 13px; }
-.w-sp .code { font: 11px var(--mono); color: var(--muted); }
-.w-sp p { margin: 6px 0; font-size: 14px; }
-.w-sp .st { font-size: 13px; color: var(--warn); }
-.w-sp .src { font-size: 12px; color: var(--muted); }
-.w-sp .src a, .w-known a { color: var(--accent); }
-.w-known { margin: 0; padding-left: 18px; font-size: 14px; display: grid; gap: 6px; max-width: 62ch; }
-.part { display: grid; gap: 16px; scroll-margin-top: 56px; }
-.part-head { margin-top: 20px; }
-.part-title { font: 400 1.6rem/1.2 var(--display); margin: 0; }
-.part-head .sub { margin: 4px 0 0; }
-.toc { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; display: flex; gap: 4px; overflow-x: auto; padding: 8px 0; background: var(--bg); border-bottom: 1px solid var(--line); scrollbar-width: none; }
-.toc a { flex: none; padding: 6px 10px; border-radius: 999px; font-size: 14px; color: var(--fg); text-decoration: none; border: 1px solid var(--line); }
-.toc a:hover, .toc a:focus-visible { border-color: var(--accent); color: var(--accent); }
-#words { scroll-margin-top: 56px; }
-.map { height: 360px; border-radius: 8px; overflow: hidden; background: var(--line); }
-.map-list { display: grid; gap: 8px; margin-top: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); font-size: 14px; }
-.sizes { font-size: 13px; }
-.size-row { display: grid; grid-template-columns: 150px 1fr 52px; gap: 8px; align-items: center; margin-bottom: 4px; }
-.size-row a, .size-row > span:first-child { color: var(--fg); text-decoration: none; font-size: 13px; }
-.size-lane svg { width: 100%; height: 22px; display: block; }
-.size-m { font: 12px var(--mono); color: var(--muted); text-align: right; }
-@media (max-width: 480px) { .size-row { grid-template-columns: 1fr 52px; } .size-row .size-lane { grid-column: 1 / -1; grid-row: 2; } }
-.map .leaflet-tooltip { font: 12px var(--body); }
-.gloss summary { cursor: pointer; font-weight: 500; }
-.gloss dl { margin: 12px 0 0; display: grid; gap: 4px; }
-.gloss dt { font-weight: 500; margin-top: 8px; }
-.gloss dd { margin: 0; color: var(--muted); max-width: 62ch; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--deep); color: var(--fg); font: 16px/1.6 var(--body); -webkit-font-smoothing: antialiased; }
+a { color: var(--glow); }
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(18px, env(safe-area-inset-left)); padding-right: max(18px, env(safe-area-inset-right)); }
+
+/* Hero */
+.hero { position: relative; min-height: min(78vh, 640px); display: flex; align-items: flex-end; overflow: hidden; background: var(--abyss); }
+.hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .55; image-rendering: auto; }
+.hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(2,11,16,.2) 0%, rgba(2,11,16,.35) 45%, var(--deep) 100%); }
+.hero .wrap { position: relative; z-index: 1; padding-block: 120px 40px; width: 100%; }
+.eyebrow { font: 500 12px var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--glow); }
+h1 { font: 300 clamp(3rem, 11vw, 7.5rem)/.92 var(--display); letter-spacing: -.03em; margin: 12px 0 18px; text-wrap: balance; }
+.hero p.lede { font-size: clamp(1.05rem, 2.2vw, 1.3rem); max-width: 40ch; color: #b9d3db; margin: 0 0 26px; }
+.live { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; font: 13px var(--mono); background: rgba(4,18,26,.7); backdrop-filter: blur(6px); }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--krill); box-shadow: 0 0 0 0 rgba(183,243,106,.6); }
+@media (prefers-reduced-motion: no-preference) { .dot.on { animation: ping 2s infinite; } }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(183,243,106,.6); } 80%,100% { box-shadow: 0 0 0 10px rgba(183,243,106,0); } }
+.dot.hot { background: var(--coral); }
+.dot.stale { background: var(--dim); }
+
+/* Menu */
+.toc { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: rgba(4,18,26,.88); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.toc .wrap { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding-block: 8px; }
+.toc a { flex: none; padding: 6px 12px; border-radius: 999px; font: 500 13px var(--mono); letter-spacing: .04em; color: var(--muted); text-decoration: none; }
+.toc a:hover, .toc a:focus-visible, .toc a.on { color: var(--abyss); background: var(--glow); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 11; background: var(--deep); }
+
+/* Parts */
+.part { padding-block: 72px 24px; scroll-margin-top: 50px; }
+.part:nth-of-type(2) { background: linear-gradient(180deg, var(--deep), #031018); }
+.kicker { font: 500 12px var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+h2 { font: 300 clamp(2.1rem, 6vw, 3.6rem)/1 var(--display); letter-spacing: -.02em; margin: 10px 0 14px; text-wrap: balance; }
+.intro { color: var(--muted); max-width: 62ch; margin: 0 0 32px; font-size: 1.05rem; }
+h3 { font: 500 1rem var(--body); margin: 0 0 10px; }
+.note { color: var(--dim); font-size: 13px; max-width: 70ch; }
+.panel { background: rgba(8,34,48,.55); border: 1px solid var(--line); border-radius: 14px; padding: 18px; min-width: 0; }
+.mono { font-family: var(--mono); }
+
+/* Species explorer */
+.explorer { display: grid; gap: 20px; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: start; }
+@media (max-width: 860px) { .explorer { grid-template-columns: minmax(0, 1fr); } }
+.lineup { display: grid; gap: 2px; }
+.whale-btn { all: unset; cursor: pointer; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 12px; padding: 8px 10px; border-radius: 10px; }
+.whale-btn:hover { background: rgba(94,230,215,.06); }
+.whale-btn:focus-visible { outline: 2px solid var(--glow); outline-offset: 2px; }
+.whale-btn[aria-pressed="true"] { background: rgba(94,230,215,.1); }
+.whale-btn .nm { font-size: 14px; }
+.whale-btn .len { font: 12px var(--mono); color: var(--muted); }
+.whale-btn svg { grid-column: 1 / -1; width: 100%; height: 30px; display: block; overflow: visible; }
+.whale-btn path { fill: #2c6a7e; transition: fill .2s; }
+.whale-btn[aria-pressed="true"] path, .whale-btn:hover path { fill: var(--glow); }
+.whale-btn.person path { fill: var(--dim); }
+.detail { position: sticky; top: 64px; }
+.detail .lat { font-style: italic; color: var(--muted); }
+.detail h3.big { font: 300 2.2rem/1.05 var(--display); margin: 0 0 4px; }
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 16px 0; }
+.fact { border-top: 1px solid var(--line); padding-top: 8px; }
+.fact b { display: block; font: 300 1.5rem/1.1 var(--display); }
+.fact span { font: 11px var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+.pitch { position: relative; height: 54px; margin: 6px 0 2px; }
+.pitch .ear { position: absolute; top: 14px; height: 18px; background: repeating-linear-gradient(90deg, rgba(127,162,174,.18) 0 2px, transparent 2px 6px); border-radius: 4px; }
+.pitch .band { position: absolute; top: 10px; height: 26px; border-radius: 13px; background: var(--glow); box-shadow: 0 0 18px rgba(94,230,215,.45); min-width: 8px; }
+.pitch .band.unsure { background: transparent; border: 1.5px dashed var(--glow); box-shadow: none; }
+.pitch .tick { position: absolute; top: 40px; transform: translateX(-50%); font: 10px var(--mono); color: var(--dim); }
+.months { display: grid; grid-template-columns: repeat(12, 1fr); gap: 3px; margin: 6px 0; }
+.months i { font: normal 10px/22px var(--mono); text-align: center; color: var(--dim); background: rgba(23,70,90,.45); border-radius: 4px; }
+.months i.on { background: var(--glow); color: var(--abyss); }
+.detail p { margin: 8px 0; font-size: 14.5px; }
+.status-pill { display: inline-block; margin-top: 6px; font: 12px var(--mono); color: var(--amber); border: 1px solid rgba(255,181,71,.4); border-radius: 999px; padding: 3px 10px; }
+.src { font-size: 12px; color: var(--dim); }
+.known { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); margin-top: 28px; }
+.known div { border-left: 2px solid var(--glow); padding-left: 12px; font-size: 14.5px; color: #b9d3db; }
+
+/* Map */
+.mapbox { position: relative; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: radial-gradient(120% 90% at 30% 40%, #0a2a3a, #031018 70%); }
+.mapbox svg { display: block; width: 100%; height: auto; }
+.land { fill: #12303c; stroke: #2a5566; stroke-width: .6; }
+.grat { fill: none; stroke: rgba(94,230,215,.07); stroke-width: .6; }
+.hp-ring { fill: none; stroke: var(--glow); stroke-width: 1.5; }
+@media (prefers-reduced-motion: no-preference) { .hp-ring { animation: sonar 3s ease-out infinite; transform-box: fill-box; transform-origin: center; } .hp-ring.d2 { animation-delay: 1.5s; } }
+@keyframes sonar { from { transform: scale(.3); opacity: .9; } to { transform: scale(3.2); opacity: 0; } }
+.hp-core { fill: var(--glow); }
+.hp-minor { fill: #7fa2ae; }
+.map-label { font: 500 12px var(--mono); fill: var(--fg); paint-order: stroke; stroke: #031018; stroke-width: 4px; }
+.map-sub { font: 11px var(--mono); fill: var(--muted); paint-order: stroke; stroke: #031018; stroke-width: 4px; }
+.place-cards { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); margin-top: 16px; }
+.place-cards .panel b { font: 300 1.4rem var(--display); display: block; }
+.place-cards .meta { font: 12px var(--mono); color: var(--muted); margin: 4px 0 8px; }
+
+/* Player */
+.player { position: relative; }
+.spec-wrap { position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: var(--abyss); }
+.spec-wrap canvas { display: block; width: 100%; height: clamp(180px, 34vw, 320px); }
+.calls-band { position: absolute; left: 0; right: 0; top: 0; height: 100%; pointer-events: none; }
+.calls-band span { position: absolute; top: 0; height: 100%; background: rgba(255,181,71,.07); border-left: 1px solid rgba(255,181,71,.35); border-right: 1px solid rgba(255,181,71,.35); transition: background .15s; }
+.calls-band span.lit { background: rgba(255,181,71,.24); }
+.playhead { position: absolute; top: 0; bottom: 0; width: 2px; background: #fff; box-shadow: 0 0 12px #fff; left: 0; pointer-events: none; opacity: 0; }
+.playhead.on { opacity: 1; }
+.freq-axis { position: absolute; left: 8px; top: 6px; bottom: 6px; display: flex; flex-direction: column; justify-content: space-between; font: 10px var(--mono); color: rgba(220,236,241,.6); pointer-events: none; }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 14px 0; }
+.play { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; padding: 10px 18px; border-radius: 999px; background: var(--glow); color: var(--abyss); font: 500 15px var(--body); }
+.play:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.play svg { width: 14px; height: 14px; }
+.readout { font: 13px var(--mono); color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.readout b { color: var(--fg); font-weight: 500; }
+.lanes { display: grid; gap: 8px; margin-top: 6px; }
+.lane-row { display: grid; grid-template-columns: 112px 1fr; gap: 10px; align-items: center; font: 12px var(--mono); color: var(--muted); }
+.lane { position: relative; height: 34px; border-radius: 6px; background: rgba(23,70,90,.35); overflow: hidden; }
+.lane .thr { position: absolute; left: 0; right: 0; top: 50%; border-top: 1px dashed rgba(220,236,241,.35); }
+.lane .w { position: absolute; bottom: 0; background: var(--glow); opacity: .85; border-radius: 2px 2px 0 0; transition: filter .15s; }
+.lane .w.whalu { background: #7fa2ae; }
+.lane .w.now { filter: brightness(1.6); }
+.lane .c { position: absolute; top: 6px; bottom: 6px; background: var(--amber); border-radius: 3px; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 13px; color: var(--muted); margin-top: 12px; }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -1px; margin-right: 6px; }
+
+/* Results */
+.score-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+.verdict { font: 300 clamp(3rem, 9vw, 4.6rem)/1 var(--display); letter-spacing: -.02em; }
+.verdict.pass { color: var(--krill); } .verdict.fail { color: var(--coral); } .verdict.wait { color: var(--dim); }
+.meter { margin: 12px 0 0; }
+.meter .row { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); }
+.meter .row b { color: var(--fg); font: 500 13px var(--mono); }
+.meter .track { position: relative; height: 8px; border-radius: 4px; background: rgba(23,70,90,.6); margin-top: 4px; overflow: hidden; }
+.meter .track span { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; }
+.gauge-line { position: relative; height: 26px; margin-top: 14px; }
+.gauge-line .rail { position: absolute; left: 0; right: 0; top: 11px; height: 4px; background: rgba(23,70,90,.8); border-radius: 2px; }
+.gauge-line .mark { position: absolute; top: 2px; width: 2px; height: 22px; background: var(--fg); }
+.gauge-line .val { position: absolute; top: 5px; width: 16px; height: 16px; border-radius: 50%; transform: translateX(-50%); }
+.gauge-line .lbl { position: absolute; top: 28px; transform: translateX(-50%); font: 10px var(--mono); color: var(--dim); white-space: nowrap; }
+.gates { list-style: none; padding: 0; margin: 28px 0 0; display: grid; gap: 0; }
+.gates li { display: grid; grid-template-columns: 30px 1fr auto; gap: 12px; align-items: start; padding: 12px 0; border-top: 1px solid var(--line); }
+.gates .n { font: 500 13px var(--mono); color: var(--dim); padding-top: 2px; }
+.gates .t { font-size: 15px; }
+.gates .r { display: block; color: var(--muted); font-size: 13px; }
+.gates .s { font: 500 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; border: 1px solid currentColor; }
+.s.pass { color: var(--krill); } .s.fail { color: var(--coral); } .s.running { color: var(--amber); } .s.waiting { color: var(--dim); }
+
+/* Machine */
+.instr { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+.big-num { font: 300 3rem/1 var(--display); }
+.big-num small { font-size: 1.2rem; color: var(--muted); }
+.cores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; align-items: end; margin-top: 10px; }
+.core { text-align: center; font: 11px var(--mono); color: var(--muted); }
+.core .col { height: 72px; border-radius: 6px; background: rgba(23,70,90,.5); position: relative; overflow: hidden; margin-bottom: 4px; }
+.core .col span { position: absolute; left: 0; right: 0; bottom: 0; background: var(--glow); }
+.pipe { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); counter-reset: s; }
+.pipe li { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; counter-increment: s; }
+.pipe li::before { content: "0" counter(s); font: 11px var(--mono); color: var(--dim); display: block; }
+.pipe li.on { border-color: var(--glow); background: rgba(94,230,215,.07); }
+.pipe b { font-weight: 500; font-size: 14px; }
+.pipe .v { display: block; font: 13px var(--mono); color: var(--glow); }
+.pipe .n { display: block; font-size: 12px; color: var(--muted); }
+.bar { height: 6px; background: rgba(23,70,90,.7); border-radius: 3px; overflow: hidden; margin: 4px 0 10px; }
+.bar span { display: block; height: 100%; background: var(--glow); }
+.row2 { display: flex; justify-content: space-between; font-size: 13px; }
+.tchart svg { width: 100%; height: auto; display: block; }
+.tchart text { fill: var(--dim); font: 10px var(--mono); }
+
+/* Glossary + footer */
+.gloss { display: grid; gap: 14px 28px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); margin: 0; }
+.gloss dt { font: 500 14px var(--mono); color: var(--glow); }
+.gloss dd { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
+footer { padding-block: 48px; color: var(--dim); font-size: 13px; border-top: 1px solid var(--line); margin-top: 40px; }
+.err { color: var(--coral); }
+.smap canvas { display: block; width: 100%; aspect-ratio: 16 / 10; max-height: 520px; border-radius: 10px; background: radial-gradient(80% 80% at 50% 50%, #08283a, #020b10); margin-top: 8px; }
+.legend input { accent-color: var(--glow); vertical-align: -2px; margin-right: 4px; }
 </style>
 </head>
 <body>
-<main>
-  <header>
-    <h1>Whale Listener</h1>
-    <p class="lede">A Raspberry Pi 5 that scans public hydrophone audio from Monterey Bay and Puget Sound for whale calls. A detection is only a candidate until someone has listened to it.</p>
-    <p class="stamp" id="stamp">Loading status…</p>
-  </header>
 
-  <nav class="toc" aria-label="Sections">
-    <a href="#whales">Whales</a><a href="#where">Where</a><a href="#listening">Listening</a><a href="#results">Results</a><a href="#machine">Machine</a><a href="#words">Words</a>
-  </nav>
-
-  <section class="part" id="whales">
-    <div class="part-head"><h2 class="part-title">The whales</h2><p class="sub">Who might be calling, how they sound, and when they are around.</p></div>
-  <section class="card">
-    <h2>The whales</h2>
-    <p class="sub" id="w-intro">—</p>
-    <h3 class="w-h">How big they are</h3>
-    <div id="w-sizes" class="sizes">Size comparison coming.</div>
-    <h3 class="w-h">How low they sing</h3>
-    <div id="w-bands"></div>
-    <p class="sub">Each bar is a species' typical call range, on a log scale. The shaded area is roughly what human ears hear (20 Hz to 20 kHz).</p>
-    <h3 class="w-h">When they sing in Monterey Bay</h3>
-    <div id="w-months"></div>
-    <p class="sub">Months with song at the MBARI hydrophone, 2015–2021 (Ryan et al. 2025). Not yet studied for the other species.</p>
-    <h3 class="w-h">What is already known</h3>
-    <ul class="w-known" id="w-known"></ul>
-  </section>
-  <section class="card">
-    <h2>The species</h2>
-    <p class="sub">What the detector can recognise, with sources for every claim.</p>
-    <div class="w-list" id="w-list"></div>
-  </section>
-  </section>
-
-  <section class="part" id="where">
-    <div class="part-head"><h2 class="part-title">Where the Pi listens</h2><p class="sub">Two open archives, one in California and one in Washington State.</p></div>
-  <section class="card">
-    <h2>The two hydrophones</h2>
-    <p class="sub">Underwater microphones whose recordings the Pi listens to.</p>
-    <div id="map" class="map">Map coming.</div>
-    <div id="map-list" class="map-list"></div>
-  </section>
-  </section>
-
-  <section class="part" id="listening">
-    <div class="part-head"><h2 class="part-title">What the Pi hears</h2><p class="sub">Real recordings, as pictures, with what people and the models make of them.</p></div>
-  <section class="card">
-    <h2>Listening to one minute</h2>
-    <p class="sub">A real test clip: one minute of Southern Resident orcas at the Orcasound Lab hydrophone. Time runs left to right, pitch bottom to top, brighter means louder. The bright streaks are calls.</p>
-    <canvas id="spec" class="spec" aria-label="Spectrogram of a one-minute orca recording"></canvas>
-    <div class="tracks" id="tracks"></div>
-    <p class="sub" id="clipnote">—</p>
-  </section>
-  </section>
-
-  <section class="part" id="results">
-    <div class="part-head"><h2 class="part-title">Results so far</h2><p class="sub">Each step has a pass mark set before it runs. A miss stops the work until the owner decides.</p></div>
-  <section class="card">
-    <h2>Which model hears orcas?</h2>
-    <p class="sub">Same 462 test windows for both: 119 with an orca call, 343 without. To pass, a model needs a balanced accuracy of at least 0.80.</p>
-    <div class="models" id="models">—</div>
-  </section>
-  <section class="card">
-    <h2>Steps and gates</h2>
-    <p class="sub">Each step has a pass mark set before it runs.</p>
-    <div class="wrap"><table>
-      <thead><tr><th>Step</th><th>What</th><th>Status</th><th>Result</th></tr></thead>
-      <tbody id="steps"></tbody>
-    </table></div>
-  </section>
-  </section>
-
-  <section class="part" id="machine">
-    <div class="part-head"><h2 class="part-title">The machine</h2><p class="sub">The Raspberry Pi behind all this: what it is doing and how hot it is.</p></div>
-  <div class="grid">
-    <section class="card">
-      <h2>Pi temperature</h2>
-      <p class="sub">No fan. It slows itself above 85 °C.</p>
-      <div class="big" id="temp">—</div>
-      <p class="sub" id="throttle">—</p>
-    </section>
-    <section class="card">
-      <h2>Current job</h2>
-      <p class="sub">Perch 2.0 embedding for the correctness test</p>
-      <div id="progress">—</div>
-    </section>
+<header class="hero" id="top">
+  <canvas id="hero-spec" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="eyebrow">Hydrophone listening station</div>
+    <h1>Whale<br>Listener</h1>
+    <p class="lede">A Raspberry Pi listens to the open ocean recordings of Monterey Bay and the Salish Sea, and tries to tell whale calls from the noise.</p>
+    <div class="live" id="live"><span class="chip"><span class="dot stale" id="live-dot"></span><span id="live-text">Connecting to the Pi…</span></span></div>
   </div>
-  <section class="card">
-    <h2>What happens to the sound</h2>
-    <p class="sub">Every recording goes through these stages. The highlighted one is running now.</p>
-    <ol class="pipe" id="pipeline"></ol>
-  </section>
-  <section class="card">
-    <h2>What the Pi is doing</h2>
-    <p class="sub">Load on each of the 4 processor cores, measured over one second at the last update.</p>
-    <div id="cores">—</div>
-  </section>
-  <section class="card">
-    <h2>Temperature, last 48 hours</h2>
-    <p class="sub">Highest reading per 10 minutes. Dashed lines: 75 °C benchmark limit, 85 °C throttling.</p>
-    <div class="chart" id="chart">—</div>
-  </section>
-  </section>
+</header>
 
-  <details class="card gloss" id="words">
-    <summary>What the words mean</summary>
-    <dl>
-      <dt>Window</dt><dd>A 5-second slice of audio. The model judges one window at a time. Windows overlap by half, so a call is never cut in two.</dd>
-      <dt>Spectrogram</dt><dd>A picture of sound: time left to right, pitch bottom to top, loudness as brightness. Whale calls show up as bright streaks.</dd>
-      <dt>Embedding</dt><dd>The 1,536 numbers Perch makes from a window. Windows that sound alike get similar numbers, even for animals Perch never heard in training.</dd>
-      <dt>Classifier</dt><dd>A small model trained on labelled examples that turns an embedding into one orca score from 0 to 1.</dd>
-      <dt>Threshold</dt><dd>The score at which a window counts as a call. Fixed at 0.5 before testing, never moved to make a test pass.</dd>
-      <dt>Balanced accuracy</dt><dd>The average of two hit rates: calls correctly found, and quiet windows correctly left alone. 0.5 is guessing, 1.0 is perfect. Plain accuracy would reward a model that never says "call", because most windows are quiet.</dd>
-      <dt>Gate</dt><dd>A pass mark set before a step runs. If a step misses it, work stops until the owner decides.</dd>
-      <dt>Throttling</dt><dd>The Pi slowing itself down when it gets too hot (from 85 °C). It protects the chip but makes everything slower.</dd>
-      <dt>Candidate</dt><dd>A detection that looks unusual. It only becomes a finding after a person has listened to it and compared it with what MBARI and Orcasound already report.</dd>
+<nav class="toc" aria-label="Sections"><div class="wrap">
+  <a href="#whales">Whales</a><a href="#where">Where</a><a href="#listen">Listen</a><a href="#results">Results</a><a href="#machine">Machine</a><a href="#words">Words</a>
+</div></nav>
+
+<main>
+  <section class="part" id="whales"><div class="wrap">
+    <div class="kicker">01 · The voices</div>
+    <h2>Seven kinds of whale the detector knows</h2>
+    <p class="intro" id="w-intro">From the blue whale, the largest animal that has ever lived, to the orca. Tap a whale to see how it sounds, when it sings off California, and how it is doing.</p>
+    <div class="explorer">
+      <div class="panel"><div class="lineup" id="lineup" role="group" aria-label="Whales to scale"></div>
+        <p class="note">Drawn to scale by maximum adult length (NOAA Fisheries). Person for comparison.</p></div>
+      <div class="panel detail" id="detail" aria-live="polite">—</div>
+    </div>
+    <div class="known" id="known"></div>
+  </div></section>
+
+  <section class="part" id="where"><div class="wrap">
+    <div class="kicker">02 · The places</div>
+    <h2>Two microphones in the Pacific</h2>
+    <p class="intro">One sits 891 metres down on a ridge off Monterey Bay and has recorded almost without a break since 2015. The other is a few metres under the surface in Haro Strait, where the Southern Resident orcas pass.</p>
+    <div class="mapbox" id="map" role="img" aria-label="Map of the North-east Pacific coast with the MBARI and Orcasound hydrophones"></div>
+    <div class="place-cards" id="places"></div>
+  </div></section>
+
+  <section class="part" id="listen"><div class="wrap">
+    <div class="kicker">03 · One minute</div>
+    <h2>Listen to what the Pi listens to</h2>
+    <p class="intro">Southern Resident orcas, J and L pods, at the Orcasound Lab hydrophone on 27 September 2017. Press play: the amber bands are calls that people marked, the bars below are what each model thought, window by window.</p>
+    <div class="player">
+      <div class="spec-wrap" id="spec-wrap">
+        <canvas id="spec" aria-label="Spectrogram of the one-minute recording"></canvas>
+        <div class="calls-band" id="calls-band"></div>
+        <div class="playhead" id="playhead"></div>
+        <div class="freq-axis"><span>10 kHz</span><span>5 kHz</span><span>0</span></div>
+      </div>
+      <div class="controls">
+        <button class="play" id="play" type="button" aria-label="Play recording"><svg viewBox="0 0 14 14" id="play-icon"><path d="M2 1 L13 7 L2 13 Z" fill="currentColor"/></svg><span id="play-text">Play the minute</span></button>
+        <div class="readout" id="readout"><span>Time <b id="r-t">0.0 s</b></span><span>People <b id="r-p">—</b></span><span>whalu <b id="r-w">—</b></span><span>Perch <b id="r-c">—</b></span></div>
+      </div>
+      <div class="lanes" id="lanes"></div>
+      <div class="legend"><span><i style="background:var(--amber)"></i>Call marked by people</span><span><i style="background:#7fa2ae"></i>whalu orca score</span><span><i style="background:var(--glow)"></i>Perch orca score</span><span>Dashed line: 0.5, where a window counts as a call</span></div>
+      <audio id="audio" preload="none" src="data/clip.mp3"></audio>
+      <p class="note" id="clipnote">Audio: Orcasound, CC BY-NC-SA 4.0. High-passed above 150 Hz and loudness-normalised so the calls are audible on phone speakers.</p>
+    </div>
+  </div></section>
+
+  <section class="part" id="results"><div class="wrap">
+    <div class="kicker">04 · The test</div>
+    <h2>Can a model hear what people hear?</h2>
+    <p class="intro">Before anything listens to new audio, it has to pass a test on recordings people have already labelled: 462 five-second windows, 119 with an orca call. The pass mark, set in advance, is a balanced accuracy of 0.80.</p>
+    <div class="score-grid" id="scores"></div>
+    <div class="panel smap" style="margin-top:16px">
+      <span class="kicker">How Perch hears it</span>
+      <h3 style="font:300 1.8rem/1.1 var(--display);margin:6px 0 6px">The sound map</h3>
+      <p class="note">Every dot is one 5-second window. Perch turns each into 1,536 numbers; this map squeezes them into two dimensions so that windows that sound alike land close together. Nobody told Perch which windows hold calls, yet the amber calls gather on their own.</p>
+      <canvas id="smap" aria-label="Map of 1,587 audio windows, calls clustering apart from quiet windows"></canvas>
+      <div class="legend"><span><i style="background:var(--amber)"></i>Orca call (people)</span><span><i style="background:#2f6f86"></i>No call</span><span><i style="background:#56707a"></i>Partly a call</span><label style="cursor:pointer"><input type="checkbox" id="smap-test"> Only the test windows</label></div>
+      <p class="note" id="smap-note"></p>
+    </div>
+    <ol class="gates" id="gates"></ol>
+  </div></section>
+
+  <section class="part" id="machine"><div class="wrap">
+    <div class="kicker">05 · The machine</div>
+    <h2>A small computer without a fan</h2>
+    <p class="intro" id="stamp">Loading the latest report from the Pi…</p>
+    <div class="instr">
+      <div class="panel"><h3>Chip temperature</h3><div class="big-num" id="temp">—</div><p class="note" id="throttle">—</p></div>
+      <div class="panel"><h3>Processor cores</h3><div class="cores" id="cores"></div><p class="note" id="ram">—</p></div>
+      <div class="panel"><h3>Current job</h3><div id="progress">—</div></div>
+    </div>
+    <div class="panel" style="margin-top:14px"><h3>The path of a recording</h3><ol class="pipe" id="pipeline"></ol></div>
+    <div class="panel tchart" style="margin-top:14px"><h3>Temperature, last 48 hours</h3><div id="tchart">—</div><p class="note">Highest reading per 10 minutes. Dashed: 75 °C benchmark limit and 85 °C, where the Pi slows itself down.</p></div>
+  </div></section>
+
+  <section class="part" id="words"><div class="wrap">
+    <div class="kicker">06 · Words</div>
+    <h2>What the terms mean</h2>
+    <dl class="gloss">
+      <div><dt>Hydrophone</dt><dd>An underwater microphone.</dd></div>
+      <div><dt>Spectrogram</dt><dd>A picture of sound: time left to right, pitch bottom to top, loudness as brightness.</dd></div>
+      <div><dt>Window</dt><dd>A 5-second slice of audio. Models judge one window at a time; windows overlap by half.</dd></div>
+      <div><dt>Embedding</dt><dd>The 1,536 numbers Perch makes from a window. Windows that sound alike get similar numbers.</dd></div>
+      <div><dt>Classifier</dt><dd>A small model trained on labelled examples that turns an embedding into one score from 0 to 1.</dd></div>
+      <div><dt>Threshold</dt><dd>The score at which a window counts as a call. Fixed at 0.5 before testing and never moved to pass a test.</dd></div>
+      <div><dt>Balanced accuracy</dt><dd>The average of calls found and quiet windows left alone. 0.5 is guessing, 1.0 is perfect.</dd></div>
+      <div><dt>Gate</dt><dd>A pass mark set before a step runs. A miss stops the work until the owner decides.</dd></div>
+      <div><dt>Throttling</dt><dd>The Pi slowing itself down above 85 °C to protect the chip.</dd></div>
+      <div><dt>Candidate</dt><dd>An unusual detection. It only becomes a finding once a person has listened and checked what MBARI and Orcasound already report.</dd></div>
     </dl>
-  </details>
-
-  <footer>Updated by the Pi itself every 30 minutes. Data: <a href="data/status.json">status.json</a>. Audio sources: <a href="https://registry.opendata.aws/pacific-sound">MBARI Pacific Sound</a> (CC BY 4.0) and <a href="https://registry.opendata.aws/orcasound">Orcasound</a> (CC BY-NC-SA 4.0). Non-commercial project.</footer>
+  </div></section>
 </main>
+
+<footer><div class="wrap">
+  Updated by the Pi itself every 30 minutes · <a href="data/status.json">status.json</a> · Audio: <a href="https://registry.opendata.aws/pacific-sound">MBARI Pacific Sound</a> (CC BY 4.0) and <a href="https://registry.opendata.aws/orcasound">Orcasound</a> (CC BY-NC-SA 4.0) · Map: <a href="https://www.naturalearthdata.com/">Natural Earth</a> · Non-commercial project.
+</div></footer>
+
 <script>
 const $ = (id) => document.getElementById(id);
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
-const hhmm = (d) => d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs = {}) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); return n; };
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const getJSON = (u) => fetch(u, { cache: 'no-store' }).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); });
 
-function chart(temps) {
-  const box = $('chart'); box.replaceChildren();
-  if (temps.length < 2) { box.textContent = 'Not enough readings yet.'; return; }
-  const W = Math.max(300, Math.round(box.clientWidth || 700)), H = 220, m = { t: 10, r: 10, b: 24, l: 32 };
-  const pts = temps.map((r) => ({ d: new Date(r.time), c: +r.temp_c }));
-  const t0 = pts[0].d.getTime(), t1 = pts[pts.length - 1].d.getTime();
-  const x = (d) => m.l + (d.getTime() - t0) / (t1 - t0 || 1) * (W - m.l - m.r);
-  const y = (c) => m.t + (90 - c) / 50 * (H - m.t - m.b);
-  const ns = 'http://www.w3.org/2000/svg';
-  const svg = document.createElementNS(ns, 'svg');
-  svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('role', 'img');
-  svg.setAttribute('aria-label', 'Pi temperature over the last 48 hours');
-  const add = (tag, attrs, text) => { const n = document.createElementNS(ns, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); if (text) n.textContent = text; svg.append(n); return n; };
-  [40, 50, 60, 70, 80, 90].forEach((c) => {
-    add('line', { x1: m.l, x2: W - m.r, y1: y(c), y2: y(c), stroke: 'var(--line)' });
-    add('text', { x: m.l - 6, y: y(c) + 4, 'text-anchor': 'end' }, String(c));
+/* Spectrogram colour: abyss -> teal -> pale gold */
+function colour(v) {
+  const stops = [[2, 11, 16], [8, 52, 70], [32, 140, 150], [120, 220, 200], [255, 236, 170]];
+  const x = Math.min(.999, Math.max(0, v)) * (stops.length - 1), i = Math.floor(x), f = x - i;
+  return stops[i].map((c, k) => Math.round(c + (stops[i + 1][k] - c) * f));
+}
+function paintGrid(canvas, grid) {
+  const H = grid.length, W = grid[0].length; canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d'), img = ctx.createImageData(W, H);
+  for (let i = 0; i < H; i++) for (let j = 0; j < W; j++) {
+    const [r, g, b] = colour(parseInt(grid[i][j], 16) / 15), k = ((H - 1 - i) * W + j) * 4;
+    img.data[k] = r; img.data[k + 1] = g; img.data[k + 2] = b; img.data[k + 3] = 255;
+  }
+  ctx.putImageData(img, 0, 0);
+}
+
+/* ---------- Hero: the real recording drifting by ---------- */
+function hero(grid) {
+  const cv = $('hero-spec'), src = document.createElement('canvas'); paintGrid(src, grid);
+  const ctx = cv.getContext('2d');
+  const size = () => { cv.width = cv.clientWidth; cv.height = cv.clientHeight; };
+  size(); addEventListener('resize', size);
+  let x = 0;
+  const frame = () => {
+    const w = cv.width, h = cv.height, tile = src.width * (h / src.height);
+    ctx.imageSmoothingEnabled = true;
+    for (let o = -x % tile - tile; o < w; o += tile) ctx.drawImage(src, o, 0, tile, h);
+    if (!reduce) { x += 0.35; requestAnimationFrame(frame); }
+  };
+  frame();
+}
+
+/* ---------- Whales ---------- */
+function whalePath(L, H, fin, kind) {
+  // side profile, nose at x=0, flukes at x=L; H = body depth; fin = dorsal fin height
+  const b = L * 0.84, m = H / 2;
+  const dorsalX = kind === 'orca' ? L * 0.42 : L * 0.66;
+  return [
+    `M0 ${m + 1}`,
+    `C ${L * .02} ${m - H * .55}, ${L * .12} ${m - H * .62}, ${L * .3} ${m - H * .6}`,
+    `L ${dorsalX - L * .04} ${m - H * .5}`,
+    kind === 'orca' ? `L ${dorsalX} ${m - H * .5 - fin} L ${dorsalX + L * .05} ${m - H * .45}` : `Q ${dorsalX} ${m - H * .5 - fin} ${dorsalX + L * .03} ${m - H * .42}`,
+    `C ${b * .92} ${m - H * .25}, ${b} ${m - H * .08}, ${b} ${m}`,
+    `L ${L} ${m - H * .62} L ${L * .97} ${m} L ${L} ${m + H * .62} L ${b} ${m}`,
+    `C ${b * .9} ${m + H * .2}, ${L * .5} ${m + H * .52}, ${L * .25} ${m + H * .5}`,
+    `C ${L * .1} ${m + H * .48}, ${L * .02} ${m + H * .35}, 0 ${m + 1} Z`,
+  ].join(' ');
+}
+function whales(w) {
+  const lens = Object.fromEntries(w.sizes.items.map(([n, m, u]) => [n, { m, u }]));
+  const spec = (name) => w.species.find((s) => name.startsWith(s.name.split(' (')[0]) || s.name.startsWith(name.split(' ')[0]));
+  const max = w.sizes.items[0][1];
+  const line = $('lineup'); line.replaceChildren();
+  let current = null;
+  const buttons = [];
+  w.sizes.items.forEach(([name, m]) => {
+    const isPerson = name === 'Person';
+    const btn = el('button', 'whale-btn' + (isPerson ? ' person' : '')); btn.type = 'button';
+    btn.setAttribute('aria-pressed', 'false');
+    btn.append(el('span', 'nm', name), el('span', 'len', `${m} m`));
+    const s = svgEl('svg', { viewBox: '0 0 1000 30', preserveAspectRatio: 'xMinYMid meet', 'aria-hidden': 'true' });
+    const L = 1000 * m / max;
+    if (isPerson) s.append(svgEl('path', { d: `M${L * .35} 4 a3 3 0 1 1 0.1 0 M${L * .2} 10 h${L * .3} v12 h${-L * .3} Z` }));
+    else {
+      const kind = /orca/i.test(name) ? 'orca' : 'baleen';
+      const H = Math.min(26, Math.max(10, 26 * Math.sqrt(m / max) + (/right/i.test(name) ? 4 : 0)));
+      const p = svgEl('path', { d: whalePath(L, H, kind === 'orca' ? H * .9 : H * .18, kind) });
+      p.setAttribute('transform', `translate(0 ${(30 - H) / 2})`); s.append(p);
+    }
+    btn.append(s);
+    if (isPerson) { btn.disabled = true; btn.style.cursor = 'default'; }
+    else btn.addEventListener('click', () => select(name));
+    buttons.push([name, btn]);
+    line.append(btn);
   });
-  [[75, 'var(--warn)'], [85, 'var(--bad)']].forEach(([c, col]) => add('line', { x1: m.l, x2: W - m.r, y1: y(c), y2: y(c), stroke: col, 'stroke-dasharray': '4 4' }));
-  add('polyline', { points: pts.map((p) => `${x(p.d)},${y(p.c)}`).join(' '), fill: 'none', stroke: 'var(--accent)', 'stroke-width': 2 });
-  pts.forEach((p) => add('circle', { cx: x(p.d), cy: y(p.c), r: 3, fill: p.c >= 85 ? 'var(--bad)' : 'var(--accent)' }));
-  add('text', { x: m.l, y: H - 6 }, hhmm(pts[0].d));
-  add('text', { x: W - m.r, y: H - 6, 'text-anchor': 'end' }, hhmm(pts[pts.length - 1].d));
+  const lo = Math.log10(10), hi = Math.log10(30000), pos = (hz) => (100 * (Math.log10(hz) - lo) / (hi - lo));
+  function select(name) {
+    current = name;
+    buttons.forEach(([n, b]) => b.setAttribute('aria-pressed', String(n === name)));
+    const sp = spec(name) || {}, len = lens[name];
+    const d = $('detail'); d.replaceChildren();
+    d.append(el('h3', 'big', name), el('div', 'lat', sp.latin || ''));
+    const facts = el('div', 'facts');
+    const fact = (v, k) => { const f = el('div', 'fact'); f.append(el('b', '', v), el('span', '', k)); return f; };
+    const band = sp.bands ? `${sp.bands[0] >= 1000 ? (sp.bands[0] / 1000) + 'k' : sp.bands[0]}–${sp.bands[1] >= 1000 ? (sp.bands[1] / 1000) + 'k' : sp.bands[1]} Hz` : '—';
+    facts.append(fact(`${len.m} m`, 'max length'), fact(band, 'call range'), fact(sp.months ? `${sp.months.length} mo` : '—', 'song off Monterey'));
+    d.append(facts);
+    d.append(el('span', 'kicker', 'Pitch, against human hearing'));
+    const pitch = el('div', 'pitch');
+    const ear = el('div', 'ear'); ear.style.left = pos(20) + '%'; ear.style.width = (pos(20000) - pos(20)) + '%'; pitch.append(ear);
+    if (sp.bands) { const b = el('div', 'band' + (sp.bands_note && sp.bands_note.includes('not verified') ? ' unsure' : '')); b.style.left = pos(sp.bands[0]) + '%'; b.style.width = Math.max(1, pos(sp.bands[1]) - pos(sp.bands[0])) + '%'; pitch.append(b); }
+    [[10, '10'], [100, '100'], [1000, '1k'], [10000, '10k Hz']].forEach(([hz, t]) => { const tk = el('span', 'tick', t); tk.style.left = pos(hz) + '%'; pitch.append(tk); });
+    d.append(pitch, el('p', 'note', 'Hatched: roughly what people hear (20 Hz–20 kHz).' + (sp.bands_note ? ` Range ${sp.bands_note}.` : '')));
+    d.append(el('p', '', sp.sound || ''));
+    if (sp.months) {
+      d.append(el('span', 'kicker', 'Months with song at the Monterey hydrophone'));
+      const mo = el('div', 'months'); 'JFMAMJJASOND'.split('').forEach((c, i) => mo.append(el('i', sp.months.includes(i + 1) ? 'on' : '', c))); d.append(mo);
+    }
+    d.append(el('p', '', sp.monterey || ''));
+    if (sp.status) d.append(el('span', 'status-pill', sp.status));
+    if (sp.sources) {
+      const src = el('p', 'src', 'Sources: ');
+      sp.sources.forEach(([t, u], i) => { const a = el('a', '', t); a.href = u; a.rel = 'noopener'; src.append(a); if (i < sp.sources.length - 1) src.append(' · '); });
+      d.append(src);
+    }
+  }
+  select('Blue whale');
+  const k = $('known'); k.replaceChildren();
+  w.known.forEach((t) => k.append(el('div', '', t)));
+}
+
+/* ---------- Map ---------- */
+function drawMap(hs) {
+  const box = $('map'); box.replaceChildren();
+  const W = 1000, H = 760;
+  const svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}` }); box.append(svg);
+  const proj = d3.geoConicConformal().parallels([34, 49]).rotate([125, 0]);
+  const frame = { type: 'MultiPoint', coordinates: [[-133, 33.3], [-116.5, 51.3]] };
+  proj.fitExtent([[10, 10], [W - 10, H - 10]], frame);
+  const path = d3.geoPath(proj);
+  svg.append(svgEl('path', { class: 'grat', d: path(d3.geoGraticule().step([2, 2])()) }));
+  const places = $('places'); places.replaceChildren();
+  hs.filter((h) => h.main).forEach((h) => {
+    const p = el('div', 'panel'); p.append(el('b', '', h.name), el('div', 'meta', `${h.archive} · ${h.lat.toFixed(3)}°, ${h.lng.toFixed(3)}° · ${h.depth}`), el('div', '', h.role));
+    const a = el('a', 'src', ' ' + h.source[0]); a.href = h.source[1]; a.rel = 'noopener'; p.append(a); places.append(p);
+  });
+  const drawPoints = () => {
+    hs.forEach((h) => {
+      const [x, y] = proj([h.lng, h.lat]);
+      if (h.main) {
+        svg.append(svgEl('circle', { class: 'hp-ring', cx: x, cy: y, r: 10 }), svgEl('circle', { class: 'hp-ring d2', cx: x, cy: y, r: 10 }), svgEl('circle', { class: 'hp-core', cx: x, cy: y, r: 6 }));
+        const left = x > W * .55;
+        const t = svgEl('text', { class: 'map-label', x: left ? x - 16 : x + 16, y: y - 4, 'text-anchor': left ? 'end' : 'start' }); t.textContent = h.name; svg.append(t);
+        const s = svgEl('text', { class: 'map-sub', x: left ? x - 16 : x + 16, y: y + 12, 'text-anchor': left ? 'end' : 'start' }); s.textContent = `${h.depth} deep`; svg.append(s);
+      } else svg.append(svgEl('circle', { class: 'hp-minor', cx: x, cy: y, r: 3 }));
+    });
+    [['Monterey Bay', -121.9, 36.75, 'start'], ['Salish Sea', -122.4, 48.9, 'start'], ['PACIFIC OCEAN', -128.5, 41.5, 'middle']].forEach(([n, lng, lat, anc]) => {
+      const [x, y] = proj([lng, lat]); const t = svgEl('text', { class: 'map-sub', x: x + (anc === 'start' ? 14 : 0), y, 'text-anchor': anc }); t.textContent = n; svg.append(t);
+    });
+  };
+  fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/land-50m.json').then((r) => r.json()).then((topo) => {
+    const land = topojson.feature(topo, topo.objects.land);
+    svg.insertBefore(svgEl('path', { class: 'land', d: path(land) }), svg.firstChild.nextSibling);
+    drawPoints();
+  }).catch(drawPoints);
+}
+
+/* ---------- Player ---------- */
+function player(clip) {
+  paintGrid($('spec'), clip.grid);
+  const dur = clip.duration_s, pct = (t) => `${(100 * t / dur).toFixed(3)}%`;
+  const band = $('calls-band'); band.replaceChildren();
+  const callEls = clip.labels.map(([a, d]) => { const s = el('span'); s.style.left = pct(a); s.style.width = pct(d); band.append(s); return { a, b: a + d, s }; });
+  const lanes = $('lanes'); lanes.replaceChildren();
+  const laneRow = (label) => { const r = el('div', 'lane-row'); const l = el('div', 'lane'); r.append(el('span', '', label), l); lanes.append(r); return l; };
+  const people = laneRow('People');
+  clip.labels.forEach(([a, d]) => { const c = el('span', 'c'); c.style.left = pct(a); c.style.width = pct(d); people.append(c); });
+  const models = {};
+  [['whalu', 'whalu'], ['perch', 'Perch']].forEach(([k, label]) => {
+    const pts = clip.scores[k]; if (!pts) return;
+    const lane = laneRow(label); lane.append(el('div', 'thr'));
+    models[k] = pts.map(([t, p]) => { const w = el('span', 'w' + (k === 'whalu' ? ' whalu' : '')); w.style.left = pct(t + 1.25); w.style.width = `calc(${pct(2.5)} - 2px)`; w.style.height = `${Math.max(3, p * 100)}%`; lane.append(w); return { t, p, w }; });
+  });
+  if (!models.perch) $('r-c').textContent = 'pending';
+  const audio = $('audio'), head = $('playhead'), btn = $('play');
+  const at = (list, t) => list ? list.find((x) => t >= x.t + 1.25 && t < x.t + 3.75) || list.find((x) => t >= x.t && t < x.t + 5) : null;
+  let raf = 0;
+  const tick = () => {
+    const t = audio.currentTime;
+    head.style.left = pct(t);
+    let inCall = false;
+    callEls.forEach((c) => { const on = t >= c.a && t <= c.b; c.s.classList.toggle('lit', on); inCall = inCall || on; });
+    $('r-t').textContent = `${t.toFixed(1)} s`;
+    $('r-p').textContent = inCall ? 'call' : 'quiet';
+    for (const [k, id] of [['whalu', 'r-w'], ['perch', 'r-c']]) {
+      if (!models[k]) continue;
+      models[k].forEach((x) => x.w.classList.remove('now'));
+      const cur = at(models[k], t); if (cur) { cur.w.classList.add('now'); $(id).textContent = cur.p.toFixed(2); }
+    }
+    if (!audio.paused) raf = requestAnimationFrame(tick);
+  };
+  const setBtn = (playing) => {
+    $('play-text').textContent = playing ? 'Pause' : (audio.currentTime > 0 && audio.currentTime < dur - .2 ? 'Resume' : 'Play the minute');
+    $('play-icon').innerHTML = playing ? '<path d="M2 1h3.5v12H2zM8.5 1H12v12H8.5z" fill="currentColor"/>' : '<path d="M2 1 L13 7 L2 13 Z" fill="currentColor"/>';
+    btn.setAttribute('aria-label', playing ? 'Pause recording' : 'Play recording');
+    head.classList.toggle('on', playing || audio.currentTime > 0);
+  };
+  btn.addEventListener('click', () => { if (audio.paused) audio.play().catch(() => { $('clipnote').classList.add('err'); }); else audio.pause(); });
+  audio.addEventListener('play', () => { setBtn(true); cancelAnimationFrame(raf); tick(); });
+  audio.addEventListener('pause', () => { setBtn(false); tick(); });
+  audio.addEventListener('ended', () => { setBtn(false); });
+  $('spec-wrap').addEventListener('click', (e) => {
+    const r = e.currentTarget.getBoundingClientRect(); audio.currentTime = dur * (e.clientX - r.left) / r.width;
+    head.classList.add('on'); tick();
+  });
+}
+
+/* ---------- Results ---------- */
+function results(s) {
+  const box = $('scores'); box.replaceChildren();
+  (s.models || []).forEach((m) => {
+    const p = el('div', 'panel');
+    p.append(el('span', 'kicker', m.status === 'done' ? 'Tested' : 'Testing now'), el('h3', '', m.model));
+    const v = m.balanced_accuracy;
+    p.append(el('div', 'verdict ' + (v == null ? 'wait' : v >= .8 ? 'pass' : 'fail'), v == null ? '—' : v.toFixed(2)));
+    p.append(el('div', 'note', v == null ? 'balanced accuracy · not scored yet' : `balanced accuracy · ${v >= .8 ? 'passes' : 'fails'} the 0.80 mark`));
+    const g = el('div', 'gauge-line'); g.append(el('div', 'rail'));
+    [[.5, 'guessing'], [.8, 'pass'], [1, 'perfect']].forEach(([x, t]) => { const mk = el('div', 'mark'); mk.style.left = `calc(${x * 100}% - 1px)`; const lb = el('div', 'lbl', t); lb.style.left = `${x * 100}%`; if (x === 1) lb.style.transform = 'translateX(-100%)'; g.append(mk, lb); });
+    if (v != null) { const d = el('div', 'val'); d.style.left = `${v * 100}%`; d.style.background = v >= .8 ? 'var(--krill)' : 'var(--coral)'; g.append(d); }
+    p.append(g, el('div', '', ' '));
+    const meter = (label, n, total, col) => { const m2 = el('div', 'meter'); const r = el('div', 'row'); r.append(el('span', '', label), el('b', '', n == null ? 'pending' : `${n} / ${total}`)); const t = el('div', 'track'); const f = el('span'); f.style.width = n == null ? '0' : `${100 * n / total}%`; f.style.background = col; t.append(f); m2.append(r, t); return m2; };
+    p.append(meter('Calls found', m.calls_found, m.calls_total, 'var(--krill)'), meter('False alarms', m.false_alarms, m.quiet_total, 'var(--coral)'));
+    p.append(el('p', 'note', `${m.note}${m.x_realtime ? ` Speed on the Pi: ${m.x_realtime}× real time.` : ''}`));
+    box.append(p);
+  });
+  const g = $('gates'); g.replaceChildren();
+  (s.steps || []).forEach((r) => {
+    const li = el('li'); const t = el('div'); t.append(el('span', 't', r.name), el('span', 'r', r.result || ''));
+    li.append(el('span', 'n', String(r.step).padStart(2, '0')), t, el('span', 's ' + r.status, r.status)); g.append(li);
+  });
+}
+
+/* ---------- Machine ---------- */
+function machine(s) {
+  const gen = new Date(s.generated), age = Math.round((Date.now() - gen) / 60000);
+  const last = s.temps[s.temps.length - 1];
+  const flags = last ? parseInt(last.throttled, 16) || 0 : 0;
+  $('stamp').textContent = `Last report from the Pi: ${gen.toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })} (${age < 1 ? 'just now' : age + ' min ago'}). It sends one every 30 minutes on its own.`;
+  if (age > 90) $('stamp').classList.add('err');
+  const dot = $('live-dot'); dot.className = 'dot ' + (age > 90 ? 'stale' : (flags & 4) ? 'hot on' : 'on');
+  const job = (s.progress || []).reduce((a, p) => a + p.done, 0), jobT = (s.progress || []).reduce((a, p) => a + p.total, 0);
+  $('live-text').textContent = age > 90 ? `Pi silent for ${age} min` : `Pi listening · ${last ? (+last.temp_c).toFixed(0) + ' °C' : ''} · test ${job}/${jobT} clips`;
+  if (last) { $('temp').innerHTML = ''; $('temp').append(document.createTextNode((+last.temp_c).toFixed(1)), el('small', '', ' °C')); }
+  $('throttle').textContent = (flags & 4) ? 'Throttling now: too hot, running slower.' : flags ? 'Has throttled since the last restart.' : 'No throttling since the last restart.';
+  const c = $('cores'); c.replaceChildren();
+  (s.cores || []).forEach((k) => { const d = el('div', 'core'); const col = el('div', 'col'); const f = el('span'); f.style.height = k.busy_pct + '%'; col.append(f); d.append(col, el('div', '', `${k.busy_pct}%`)); c.append(d); });
+  if (s.ram) $('ram').textContent = `Memory ${s.ram.used_gb} of ${s.ram.total_gb} GB. Cores 1–3 run the model, core 4 logs and reports.`;
+  const pr = $('progress'); pr.replaceChildren();
+  (s.progress || []).forEach((p) => { const r = el('div', 'row2'); r.append(el('span', '', p.stage), el('span', 'mono', `${p.done}/${p.total}`)); const b = el('div', 'bar'); const f = el('span'); f.style.width = `${100 * p.done / p.total}%`; b.append(f); pr.append(r, b); });
+  pr.append(el('p', 'note', 'Perch turns every 5-second window into 1,536 numbers.'));
+  const pipe = $('pipeline'); pipe.replaceChildren();
+  (s.pipeline || []).forEach((p) => { const li = el('li', p.active ? 'on' : ''); li.append(el('b', '', p.name), el('span', 'v', p.value), el('span', 'n', p.note)); pipe.append(li); });
+  tchart(s.temps || []);
+}
+function tchart(temps) {
+  const box = $('tchart'); box.replaceChildren();
+  if (temps.length < 2) { box.textContent = 'Not enough readings yet.'; return; }
+  const W = Math.max(300, box.clientWidth || 700), H = 200, m = { t: 10, r: 8, b: 22, l: 30 };
+  const pts = temps.map((r) => ({ d: new Date(r.time), c: +r.temp_c }));
+  const x = d3.scaleTime().domain(d3.extent(pts, (p) => p.d)).range([m.l, W - m.r]);
+  const y = d3.scaleLinear().domain([40, 92]).range([H - m.b, m.t]);
+  const svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Chip temperature over the last 48 hours' });
+  const defs = svgEl('defs'); const lg = svgEl('linearGradient', { id: 'tg', x1: 0, x2: 0, y1: 0, y2: 1 });
+  lg.append(svgEl('stop', { offset: '0%', 'stop-color': '#ff6b5b', 'stop-opacity': .45 }), svgEl('stop', { offset: '100%', 'stop-color': '#ff6b5b', 'stop-opacity': 0 })); defs.append(lg); svg.append(defs);
+  [40, 60, 80].forEach((c) => { svg.append(svgEl('line', { x1: m.l, x2: W - m.r, y1: y(c), y2: y(c), stroke: 'rgba(127,162,174,.12)' })); const t = svgEl('text', { x: m.l - 6, y: y(c) + 3, 'text-anchor': 'end' }); t.textContent = c; svg.append(t); });
+  [[75, 'var(--amber)'], [85, 'var(--coral)']].forEach(([c, col]) => svg.append(svgEl('line', { x1: m.l, x2: W - m.r, y1: y(c), y2: y(c), stroke: col, 'stroke-dasharray': '4 4', 'stroke-opacity': .7 })));
+  svg.append(svgEl('path', { d: d3.area().x((p) => x(p.d)).y0(H - m.b).y1((p) => y(p.c))(pts), fill: 'url(#tg)' }));
+  svg.append(svgEl('path', { d: d3.line().x((p) => x(p.d)).y((p) => y(p.c))(pts), fill: 'none', stroke: '#ff8a7c', 'stroke-width': 2 }));
+  const lp = pts[pts.length - 1]; svg.append(svgEl('circle', { cx: x(lp.d), cy: y(lp.c), r: 4, fill: '#ff8a7c' }));
+  const fmt = d3.timeFormat('%H:%M'); [pts[0], lp].forEach((p, i) => { const t = svgEl('text', { x: x(p.d), y: H - 6, 'text-anchor': i ? 'end' : 'start' }); t.textContent = fmt(p.d); svg.append(t); });
   box.append(svg);
 }
 
-function drawClip(c) {
-  const cv = $('spec'), G = c.grid, H = G.length, W = G[0].length;
-  cv.width = W; cv.height = H;
-  const ctx = cv.getContext('2d'), img = ctx.createImageData(W, H);
-  for (let i = 0; i < H; i++) for (let j = 0; j < W; j++) {
-    const v = parseInt(G[i][j], 16) / 15, k = ((H - 1 - i) * W + j) * 4;
-    img.data[k] = Math.round(6 + v * v * 249); img.data[k + 1] = Math.round(16 + v * 200); img.data[k + 2] = Math.round(22 + v * (1 - v) * 320 + v * 40); img.data[k + 3] = 255;
-  }
-  ctx.putImageData(img, 0, 0);
-  const pct = (t) => `${(100 * t / c.duration_s).toFixed(2)}%`;
-  const tr = $('tracks'); tr.replaceChildren();
-  const row = (label) => { const r = el('div', 'track-row'); const lane = el('div', 'lane'); r.append(el('span', '', label), lane); tr.append(r); return lane; };
-  const people = row('People heard');
-  c.labels.forEach(([a, d]) => { const b = el('b'); b.style.left = pct(a); b.style.width = pct(d); people.append(b); });
-  const names = { whalu: 'whalu score', perch: 'Perch score' };
-  Object.entries(c.scores).forEach(([k, pts]) => {
-    const lane = row(names[k] || k); lane.append(el('hr'));
-    pts.forEach(([t, p]) => { const s = el('s'); s.style.left = pct(t + 1.25); s.style.width = pct(2.5); s.style.height = `${Math.max(2, p * 100)}%`; s.title = `${t}–${t + 5} s: ${p.toFixed(3)}`; lane.append(s); });
-  });
-  const hits = (pts) => pts.filter(([, p]) => p >= 0.5).length;
-  $('clipnote').textContent = `Orange: ${c.labels.length} calls marked by people. Blue: each model's orca score per 5-second window; the dashed line is 0.5, where a window counts as a call. ` +
-    Object.entries(c.scores).map(([k, pts]) => `${names[k] || k}: ${hits(pts)} of ${pts.length} windows above 0.5.`).join(' ') +
-    ` Audio: ${c.source}, ${c.licence}.`;
-}
-function drawWhales(w) {
-  $('w-intro').textContent = w.intro + ` Facts checked ${w.checked}.`;
-  const lo = Math.log10(10), hi = Math.log10(30000), pos = (hz) => `${(100 * (Math.log10(hz) - lo) / (hi - lo)).toFixed(2)}%`;
-  const bands = $('w-bands'); bands.replaceChildren();
-  w.species.forEach((s) => {
-    const r = el('div', 'band-row'); const lane = el('div', 'band-lane');
-    const hear = el('span', 'hear'); hear.style.left = pos(20); hear.style.width = `calc(${pos(20000)} - ${pos(20)})`; lane.append(hear);
-    const b = el('span', s.bands_note && s.bands_note.includes('not verified') ? 'b unsure' : 'b');
-    b.style.left = pos(s.bands[0]); b.style.width = `calc(${pos(s.bands[1])} - ${pos(s.bands[0])})`;
-    b.title = `${s.bands[0].toLocaleString()}–${s.bands[1].toLocaleString()} Hz${s.bands_note ? ' (' + s.bands_note + ')' : ''}`;
-    lane.append(b); r.append(el('span', '', s.name), lane); bands.append(r);
-  });
-  const ax = el('div', 'band-axis'); const axl = el('div');
-  [[10, '10'], [100, '100'], [1000, '1k'], [10000, '10k Hz']].forEach(([hz, t]) => { const sp = el('span', '', t); sp.style.left = pos(hz); axl.append(sp); });
-  ax.append(el('span'), axl); bands.append(ax);
-  const mon = $('w-months'); mon.replaceChildren();
-  const hdr = el('div', 'mon-row'); const hm = el('div', 'months'); 'JFMAMJJASOND'.split('').forEach((m) => hm.append(el('i', '', m)));
-  hdr.append(el('span'), hm); mon.append(hdr);
-  w.species.filter((s) => s.months).forEach((s) => {
-    const r = el('div', 'mon-row'); const g = el('div', 'months');
-    for (let m = 1; m <= 12; m++) g.append(el('i', s.months.includes(m) ? 'on' : ''));
-    r.append(el('span', '', s.name), g); mon.append(r);
-  });
-  const list = $('w-list'); list.replaceChildren();
-  w.species.forEach((s) => {
-    const c = el('article', 'w-sp');
-    c.append(el('h3', '', s.name), el('div', 'lat', s.latin), el('div', 'code', `model classes: ${s.codes}`),
-      el('p', '', s.sound), el('p', '', s.monterey), el('p', 'st', s.status));
-    const src = el('p', 'src', 'Sources: ');
-    s.sources.forEach(([t, u], i) => { const a = el('a', '', t); a.href = u; a.rel = 'noopener'; src.append(a); if (i < s.sources.length - 1) src.append(', '); });
-    c.append(src); list.append(c);
-  });
-  const k = $('w-known'); k.replaceChildren();
-  w.known.forEach((t) => k.append(el('li', '', t)));
-  const li = el('li', '', 'Sources: '); w.known_sources.forEach(([t, u], i) => { const a = el('a', '', t); a.href = u; a.rel = 'noopener'; li.append(a); if (i < w.known_sources.length - 1) li.append(', '); }); k.append(li);
-}
-function drawSizes(sz) {
-  const box = $('w-sizes'); box.replaceChildren();
-  const max = sz.items[0][1], ns = 'http://www.w3.org/2000/svg';
-  sz.items.forEach(([name, m, url]) => {
-    const r = el('div', 'size-row');
-    const lab = url ? Object.assign(el('a', '', name), { href: url, rel: 'noopener' }) : el('span', '', name);
-    const svg = document.createElementNS(ns, 'svg'); svg.setAttribute('viewBox', '0 0 1000 40'); svg.setAttribute('preserveAspectRatio', 'none');
-    svg.setAttribute('role', 'img'); svg.setAttribute('aria-label', `${name}: ${m} m`);
-    const L = 1000 * m / max;
-    const p = document.createElementNS(ns, 'path');
-    if (name === 'Person') { p.setAttribute('d', `M0 8 L${L} 8 L${L} 32 L0 32 Z`); p.setAttribute('fill', 'var(--muted)'); }
-    else {
-      const body = L * 0.86, h = 13;
-      p.setAttribute('d', `M0 20 Q${body * 0.08} ${20 - h} ${body * 0.35} ${20 - h * 0.9} Q${body * 0.8} ${20 - h * 0.6} ${body} 20 L${L} ${20 - h * 1.1} L${L - L * 0.04} 20 L${L} ${20 + h * 1.1} L${body} 20 Q${body * 0.8} ${20 + h * 0.7} ${body * 0.35} ${20 + h * 0.9} Q${body * 0.08} ${20 + h} 0 20 Z`);
-      p.setAttribute('fill', 'var(--accent)');
-    }
-    svg.append(p);
-    const lane = el('div', 'size-lane'); lane.append(svg);
-    r.append(lab, lane, el('span', 'size-m', `${m} m`));
-    box.append(r);
-  });
-  box.append(el('p', 'sub', sz.note));
-}
-
-function drawMap(hs) {
-  const list = $('map-list'); list.replaceChildren();
-  hs.filter((h) => h.main).forEach((h) => {
-    const d = el('div');
-    const a = Object.assign(el('a', '', h.source[0]), { href: h.source[1], rel: 'noopener' });
-    d.append(el('b', '', h.name), el('br'), el('span', 'sub', `${h.archive} · ${h.lat.toFixed(4)}, ${h.lng.toFixed(4)} · depth ${h.depth}`), el('br'), el('span', '', h.role + ' '), a);
-    list.append(d);
-  });
-  if (!window.L) { $('map').textContent = 'The map could not load.'; return; }
-  $('map').textContent = '';
-  const map = L.map('map', { scrollWheelZoom: false, attributionControl: true });
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 12, attribution: '© OpenStreetMap contributors' }).addTo(map);
-  const pts = hs.map((h) => {
-    const mk = L.circleMarker([h.lat, h.lng], { radius: h.main ? 9 : 5, color: h.main ? '#0b6f86' : '#557079', weight: 2, fillColor: h.main ? '#5cc3d8' : '#8fa9b1', fillOpacity: 0.9 }).addTo(map);
-    const pop = document.createElement('div');
-    pop.append(Object.assign(document.createElement('b'), { textContent: h.name }), document.createElement('br'), document.createTextNode(`${h.archive}, depth ${h.depth}. ${h.role}`));
-    mk.bindPopup(pop);
-    if (h.main) mk.bindTooltip(h.name, { permanent: true, direction: 'top', offset: [0, -8] });
-    return [h.lat, h.lng];
-  });
-  map.fitBounds(pts, { padding: [30, 30] });
-}
-
-fetch('whales.json', { cache: 'no-store' }).then((r) => r.ok ? r.json() : null).then((w) => {
-  if (!w) return; drawWhales(w); if (w.sizes) drawSizes(w.sizes); if (w.hydrophones) drawMap(w.hydrophones);
-}).catch(() => {});
-
-fetch('data/clip.json', { cache: 'no-store' }).then((r) => r.ok ? r.json() : null).then((c) => { if (c) drawClip(c); }).catch(() => {});
-
-fetch('data/status.json', { cache: 'no-store' }).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); }).then((s) => {
-  const gen = new Date(s.generated);
-  const ageMin = Math.round((Date.now() - gen) / 60000);
-  $('stamp').textContent = `Last update from the Pi: ${gen.toLocaleString()} (${ageMin < 1 ? 'just now' : ageMin + ' min ago'})`;
-  if (ageMin > 90) $('stamp').classList.add('err');
-  const last = s.temps[s.temps.length - 1];
-  if (last) {
-    $('temp').textContent = `${(+last.temp_c).toFixed(1)} °C`;
-    const flags = parseInt(last.throttled, 16) || 0;
-    $('throttle').textContent = (flags & 0x4) ? 'Throttling now' : (flags ? 'Has throttled since boot' : 'No throttling since boot');
-  }
-  const pr = $('progress'); pr.replaceChildren();
-  s.progress.forEach((p) => {
-    const row = el('div', 'row'); row.append(el('span', '', p.stage), el('span', '', `${p.done} of ${p.total}`));
-    const bar = el('div', 'bar'); const f = el('span'); f.style.width = `${Math.round(100 * p.done / p.total)}%`; bar.append(f);
-    pr.append(row, bar);
-  });
-  chart(s.temps);
-
-  const pipe = $('pipeline'); pipe.replaceChildren();
-  (s.pipeline || []).forEach((p) => {
-    const li = el('li', p.active ? 'on' : ''); li.append(el('b', '', p.name), el('span', 'v', p.value), el('span', 'n', p.note));
-    pipe.append(li);
-  });
-
-  const mb = $('models'); mb.replaceChildren();
-  const meter = (label, n, total, color, mark) => {
-    const wrap = el('div');
-    const head = el('div', 'meter'); head.append(el('span', '', label), el('span', '', n == null ? 'pending' : `${n} of ${total}`));
-    const tr = el('div', 'track'); const fill = el('span');
-    fill.style.width = n == null ? '0' : `${Math.round(100 * n / total)}%`; fill.style.background = color; tr.append(fill);
-    if (mark != null) { const i = el('i'); i.style.left = `${mark * 100}%`; tr.append(i); }
-    wrap.append(head, tr); return wrap;
+/* ---------- Sound map ---------- */
+function soundmap(sm) {
+  const cv = $('smap'), only = $('smap-test');
+  const n = sm.points.length, calls = sm.points.filter((p) => p[2] === 1).length;
+  $('smap-note').textContent = `${n.toLocaleString()} windows from 69 one-minute clips, ${calls} of them with a call. Method: ${sm.method}.`;
+  const draw = () => {
+    const dpr = devicePixelRatio || 1, W = cv.clientWidth, H = cv.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr; const ctx = cv.getContext('2d'); ctx.scale(dpr, dpr); ctx.clearRect(0, 0, W, H);
+    const pad = 18, r = Math.max(2, Math.min(4, W / 220));
+    const order = [2, 0, 1];
+    order.forEach((lbl) => sm.points.forEach(([x, y, l, t]) => {
+      if (l !== lbl || (only.checked && !t)) return;
+      ctx.beginPath(); ctx.arc(pad + x * (W - 2 * pad), pad + (1 - y) * (H - 2 * pad), l === 1 ? r : r * .85, 0, 7);
+      ctx.fillStyle = l === 1 ? 'rgba(255,181,71,.9)' : l === 0 ? 'rgba(47,111,134,.75)' : 'rgba(86,112,122,.7)';
+      if (l === 1) { ctx.shadowColor = 'rgba(255,181,71,.6)'; ctx.shadowBlur = 6; } else ctx.shadowBlur = 0;
+      ctx.fill();
+    }));
   };
-  (s.models || []).forEach((m) => {
-    const c = el('div', 'model');
-    const h = el('h3', '', m.model); c.append(h);
-    c.append(meter('Calls found', m.calls_found, m.calls_total, 'var(--ok)'));
-    c.append(meter('False alarms', m.false_alarms, m.quiet_total, 'var(--bad)'));
-    const sc = el('div', 'score', m.balanced_accuracy == null ? '—' : m.balanced_accuracy.toFixed(2));
-    if (m.balanced_accuracy != null) sc.classList.add(m.balanced_accuracy >= 0.8 ? 'pass' : 'fail');
-    c.append(sc, el('p', 'sub', m.balanced_accuracy == null ? 'balanced accuracy: not scored yet' : `balanced accuracy (pass at 0.80) · ${m.x_realtime}× real time`));
-    c.append(el('p', 'sub', m.note));
-    mb.append(c);
-  });
+  draw(); only.addEventListener('change', draw); addEventListener('resize', draw);
+}
 
-  const cb = $('cores'); cb.replaceChildren();
-  if (s.cores) {
-    const grid = el('div', 'cores');
-    s.cores.forEach((k) => {
-      const d = el('div', 'core'); const col = el('div', 'col'); const f = el('span'); f.style.height = `${k.busy_pct}%`; col.append(f);
-      d.append(col, el('div', '', `core ${k.core}`), el('div', '', `${k.busy_pct}%`)); grid.append(d);
-    });
-    cb.append(grid);
-    if (s.ram) cb.append(el('p', 'sub', `Memory in use: ${s.ram.used_gb} of ${s.ram.total_gb} GB. Cores 0–2 run the model; core 3 is kept free for logging and updates.`));
-  }
-  const tb = $('steps'); tb.replaceChildren();
-  s.steps.forEach((r) => {
-    const tr = el('tr'); const st = el('td'); st.append(el('span', `state ${r.status}`, r.status));
-    tr.append(el('td', '', String(r.step)), el('td', '', r.name), st, el('td', '', r.result || ''));
-    tb.append(tr);
-  });
-}).catch(() => { $('stamp').textContent = 'Status could not be loaded.'; $('stamp').classList.add('err'); });
+/* ---------- Menu highlight ---------- */
+const links = [...document.querySelectorAll('.toc a')];
+const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) links.forEach((a) => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id)); }), { rootMargin: '-45% 0px -50% 0px' });
+document.querySelectorAll('.part').forEach((p) => io.observe(p));
+
+/* ---------- Load ---------- */
+getJSON('data/clip.json').then((c) => { hero(c.grid); player(c); }).catch(() => { $('clipnote').textContent = 'The recording could not be loaded.'; });
+getJSON('data/soundmap.json').then(soundmap).catch(() => { $('smap-note').textContent = 'The sound map could not be loaded.'; });
+getJSON('whales.json').then((w) => { whales(w); drawMap(w.hydrophones); }).catch(() => { $('detail').textContent = 'Whale facts could not be loaded.'; });
+getJSON('data/status.json').then((s) => { machine(s); results(s); }).catch(() => { $('stamp').textContent = 'The Pi’s report could not be loaded.'; $('stamp').classList.add('err'); $('live-text').textContent = 'No report from the Pi'; });
 </script>
 </body>
 </html>
