@@ -582,7 +582,11 @@ function tchart(temps) {
 function soundmap(sm) {
   const cv = $('smap'), only = $('smap-test');
   const n = sm.points.length, calls = sm.points.filter((p) => p[2] === 1).length;
-  $('smap-note').textContent = `${n.toLocaleString()} windows from 69 one-minute clips, ${calls} of them with a call. Method: ${sm.method}.`;
+  const P = sm.points.filter((p) => p[2] !== 2), C = P.filter((p) => p[2] === 1);
+  let near = 0;
+  C.forEach((c) => { const d = P.filter((q) => q !== c).map((q) => [(q[0] - c[0]) ** 2 + (q[1] - c[1]) ** 2, q[2]]).sort((a, b) => a[0] - b[0]).slice(0, 10); near += d.filter((x) => x[1] === 1).length / 10; });
+  const purity = Math.round(100 * near / C.length), base = Math.round(100 * C.length / P.length);
+  $('smap-note').textContent = `${n.toLocaleString()} windows from 69 one-minute clips, ${calls} of them with a call. On average ${purity}% of a call's 10 nearest neighbours are also calls; scattered at random it would be ${base}%. Method: ${sm.method}.`;
   const draw = () => {
     const dpr = devicePixelRatio || 1, W = cv.clientWidth, H = cv.clientHeight;
     cv.width = W * dpr; cv.height = H * dpr; const ctx = cv.getContext('2d'); ctx.scale(dpr, dpr); ctx.clearRect(0, 0, W, H);
