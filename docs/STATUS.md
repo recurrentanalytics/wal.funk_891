@@ -475,3 +475,11 @@ Pi's hourly call index (MBARI's method, 2 kHz archive) vs MBARI's published dail
 
 - whale-sampler.timer stopped and disabled, the 8.0 equivalence run stopped. whale-push and whale-health keep running
   (status only). RackMate untouched. The Pi resumes when what passes on the Mac is migrated (with the cooler).
+
+## 2026-11-23 — Round 8b clips ready
+
+- Pool of 3,000 clips scored (148 draws skipped: missing/short/silent). Strata in the pool: < 0.3: 2,147 · 0.3-0.7: 178 ·
+  0.7-0.9: 221 · ≥ 0.9: 454. Sample: 300 / 50 / 40 / 60 plus 40 hidden repeats = 490 clips (label8/, 29 MB), shuffled.
+- The manifest (clip → date, stratum, score) stays off the public repo until the labels are in: it would reveal the
+  model's view. Listening page: label.html?mode=r8b (tested: buttons unlock after one full playback, answers saved).
+- Library page and Obsidian vault (docs/) published; library DOIs checked at Crossref/DataCite.
