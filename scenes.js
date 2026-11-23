@@ -67,7 +67,7 @@
     const cellM = kmX * 1000, cellMy = kmY * 1000;
     for (let i = 0; i < n; i++) {
       const c = i % C, r = (i / C) | 0, m = z[i];
-      pos.setY(i, yOf(m) + (m >= 0 ? .08 : 0));          // land sits a hair above the water plane: no flicker at the shore
+      pos.setY(i, m >= 0 ? yOf(m) + .08 : Math.min(yOf(m), -.08));   // keep land and seafloor clear of the water plane: no flicker at the shore
       const dx = (z[r * C + Math.min(C - 1, c + 1)] - z[r * C + Math.max(0, c - 1)]) / (2 * cellM), dy = (z[Math.min(R - 1, r + 1) * C + c] - z[Math.max(0, r - 1) * C + c]) / (2 * cellMy);
       const slope = Math.hypot(dx, dy), h = Math.sin(i * 12.9898) * 43758.5453, noise = .9 + .2 * (h - Math.floor(h));
       let a;
