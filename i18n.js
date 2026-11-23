@@ -2,7 +2,7 @@
    Every visible string goes through t(key, vars). tools/check_i18n.py blocks commits with missing keys. */
 (function () {
   const LANGS = ['en', 'de', 'zh'];
-  const V = '6';
+  const V = '10';
   let saved = null; try { saved = localStorage.getItem('wl-lang'); } catch (e) {}
   const q = new URLSearchParams(location.search).get('lang');
   const nav = (navigator.language || 'en').toLowerCase();
@@ -17,12 +17,9 @@
     const md = document.querySelector('meta[name="description"]'); if (md) md.content = t('meta.description');
   }
   function switcher() {
-    document.querySelectorAll('.lang button').forEach((b) => {
-      b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
-      b.addEventListener('click', () => {
-        try { localStorage.setItem('wl-lang', b.dataset.lang); } catch (e) {}
-        const u = new URL(location.href); u.searchParams.set('lang', b.dataset.lang); location.href = u.toString();
-      });
+    document.querySelectorAll('.lang a').forEach((a) => {
+      a.setAttribute('aria-current', String(a.dataset.lang === lang));
+      a.addEventListener('click', () => { try { localStorage.setItem('wl-lang', a.dataset.lang); } catch (e) {} });
     });
   }
   const get = (l) => fetch(`i18n/${l}.json?v=${V}`).then((r) => r.json());
