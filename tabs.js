@@ -41,6 +41,16 @@
       const w = mk('div', 'wrap'); w.append(mk('span', 'ch-n', t('ch.n', { n: i + 1, of: VIEWS.length - 1 })), mk('h2', 'ch-t', t(v.key)), mk('p', 'ch-d', t(`start.${v.id}`)));
       card.append(w); first.before(card); v.first = card;
     });
+    // big photos and wireframe whales behind the chapter titles
+    fetch('data/chapter_media.json').then((r) => r.json()).then((M) => VIEWS.slice(1).forEach((v) => {
+      const m = M[v.id], card = $('ch-' + v.id); if (!m || !card) return;
+      if (m.photo) {
+        card.classList.add('has-photo'); const bg = mk('div', 'ch-bg'); bg.style.backgroundImage = `url("${m.photo.src}")`; card.prepend(bg);
+        const cr = mk('a', 'ch-credit', `${t('whales.photo')} ${m.photo.by} · ${m.photo.lic}${m.cap ? ' · ' + t('chph.' + m.cap) : ''}`); cr.href = m.photo.page; cr.rel = 'noopener'; card.append(cr);
+      } else if (m.wire && window.wireWhale) {
+        card.classList.add('has-wire'); const host = mk('div', 'ch-wire'); card.prepend(host); requestAnimationFrame(() => window.wireWhale(host, m.wire));
+      }
+    })).catch(() => {});
     VIEWS[0].first = $('top');
     // previous / next at the end of every chapter
     VIEWS.forEach((v, i) => {

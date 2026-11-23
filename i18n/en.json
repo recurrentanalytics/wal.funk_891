@@ -698,5 +698,8 @@
  "sound.who.mbarifs": "MBARI (MARS), CC BY-NC 4.0",
  "sound.none.hf": "No freely usable recording found.",
  "whales.allyear": "all year",
- "st.heard.mbarirec": "Recorded at the MBARI hydrophone: MBARI has published recordings or analyses of this species from this very hydrophone."
+ "st.heard.mbarirec": "Recorded at the MBARI hydrophone: MBARI has published recordings or analyses of this species from this very hydrophone.",
+ "chph.blue": "blue whale from above",
+ "chph.monterey": "humpback whales in Monterey Bay",
+ "chph.fluke": "humpback whale fluke"
 }

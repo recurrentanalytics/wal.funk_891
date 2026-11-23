@@ -1,0 +1,38 @@
+{
+ "dive": {
+  "photo": {
+   "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1c/Anim1754_-_Flickr_-_NOAA_Photo_Library.jpg/1920px-Anim1754_-_Flickr_-_NOAA_Photo_Library.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Anim1754_-_Flickr_-_NOAA_Photo_Library.jpg",
+   "by": "NOAA Photo Library",
+   "lic": "Public domain"
+  },
+  "cap": "blue"
+ },
+ "whales": {
+  "wire": "humpback"
+ },
+ "places": {
+  "photo": {
+   "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1f/Humpback_whales_in_Monterey_Bay.jpg/1920px-Humpback_whales_in_Monterey_Bay.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Humpback_whales_in_Monterey_Bay.jpg",
+   "by": "Cynthia Yock",
+   "lic": "CC BY-SA 3.0"
+  },
+  "cap": "monterey"
+ },
+ "listen": {
+  "wire": "orca"
+ },
+ "results": {
+  "photo": {
+   "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Anim1019_-_Flickr_-_NOAA_Photo_Library.jpg/1920px-Anim1019_-_Flickr_-_NOAA_Photo_Library.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Anim1019_-_Flickr_-_NOAA_Photo_Library.jpg",
+   "by": "Dr. Phillip Clapham, NMFS/AKFSC/NMML.",
+   "lic": "Public domain"
+  },
+  "cap": "fluke"
+ },
+ "machine": {
+  "wire": "humpback"
+ }
+}

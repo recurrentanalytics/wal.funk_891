@@ -698,5 +698,8 @@
  "sound.who.mbarifs": "MBARI（MARS），CC BY-NC 4.0",
  "sound.none.hf": "未找到可自由使用的录音。",
  "whales.allyear": "全年",
- "st.heard.mbarirec": "在 MBARI 水听器录到：MBARI 已发布了这台水听器上该物种的录音或分析。"
+ "st.heard.mbarirec": "在 MBARI 水听器录到：MBARI 已发布了这台水听器上该物种的录音或分析。",
+ "chph.blue": "俯瞰蓝鲸",
+ "chph.monterey": "蒙特雷湾的座头鲸",
+ "chph.fluke": "座头鲸的尾鳍"
 }

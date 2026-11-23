@@ -698,5 +698,8 @@
  "sound.who.mbarifs": "MBARI (MARS), CC BY-NC 4.0",
  "sound.none.hf": "Keine frei nutzbare Aufnahme gefunden.",
  "whales.allyear": "ganzjährig",
- "st.heard.mbarirec": "Am MBARI-Hydrofon aufgenommen: MBARI hat Aufnahmen oder Auswertungen dieser Art von genau diesem Hydrofon veröffentlicht."
+ "st.heard.mbarirec": "Am MBARI-Hydrofon aufgenommen: MBARI hat Aufnahmen oder Auswertungen dieser Art von genau diesem Hydrofon veröffentlicht.",
+ "chph.blue": "Blauwal von oben",
+ "chph.monterey": "Buckelwale in der Monterey Bay",
+ "chph.fluke": "Fluke eines Buckelwals"
 }

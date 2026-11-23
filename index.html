@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261123104902">
+<meta name="build" content="20261123104931">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>wal.funk_891</title>
 <meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls.">
@@ -658,6 +658,17 @@ details.fold > :not(summary) { margin: 14px 18px 18px; }
 .place-photos figcaption b { display: block; color: #e6f4f7; font-weight: 500; margin-bottom: 3px; }
 .place-photos figcaption small { display: block; margin-top: 6px; font-size: 11px; color: #7fa2ae; }
 .place-photos figcaption a { color: inherit; }
+
+/* chapter cards: big photos and wireframe whales */
+.chapter.has-photo, .chapter.has-wire { min-height: clamp(340px, 62vh, 640px); display: flex; align-items: flex-end; }
+.chapter .wrap { position: relative; z-index: 2; width: 100%; }
+.ch-bg { position: absolute; inset: 0; background-size: cover; background-position: center; transform: scale(1.04); }
+.chapter.has-photo::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(2,11,16,.25) 0%, rgba(2,11,16,.35) 45%, rgba(2,11,16,.92) 100%); }
+.ch-credit { position: absolute; right: 12px; bottom: 8px; z-index: 3; font-size: 11px; color: rgba(213,232,237,.7); text-decoration: none; }
+.ch-credit:hover { color: #fff; text-decoration: underline; }
+.ch-wire { position: absolute; inset: 0; z-index: 0; opacity: .9; }
+.ch-wire canvas { width: 100% !important; height: 100% !important; display: block; }
+.chapter.has-wire::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(180deg, rgba(2,11,16,0) 30%, rgba(2,11,16,.85) 100%); }
 </style>
 </head>
 <body>
@@ -900,18 +911,19 @@ details.fold > :not(summary) { margin: 14px 18px 18px; }
 <footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/wal.funk_891">GitHub</a></p></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="i18n.js?v=20261123104902"></script>
-<script src="globe.js?v=20261123104902"></script>
-<script src="app.js?v=20261123104902"></script>
-<script src="play.js?v=20261123104902"></script>
-<script src="atlas.js?v=20261123104902"></script>
-<script src="tabs.js?v=20261123104902"></script>
-<script src="ambient.js?v=20261123104902"></script>
-<script src="cicompare.js?v=20261123104902"></script>
-<script src="routes.js?v=20261123104902"></script>
-<script src="ui.js?v=20261123104902"></script>
-<script src="polish.js?v=20261123104902"></script>
-<script src="story.js?v=20261123104902"></script>
-<script src="scenes.js?v=20261123104902"></script>
+<script src="i18n.js?v=20261123104931"></script>
+<script src="globe.js?v=20261123104931"></script>
+<script src="app.js?v=20261123104931"></script>
+<script src="play.js?v=20261123104931"></script>
+<script src="atlas.js?v=20261123104931"></script>
+<script src="whale3d.js?v=20261123104931"></script>
+<script src="tabs.js?v=20261123104931"></script>
+<script src="ambient.js?v=20261123104931"></script>
+<script src="cicompare.js?v=20261123104931"></script>
+<script src="routes.js?v=20261123104931"></script>
+<script src="ui.js?v=20261123104931"></script>
+<script src="polish.js?v=20261123104931"></script>
+<script src="story.js?v=20261123104931"></script>
+<script src="scenes.js?v=20261123104931"></script>
 </body>
 </html>
