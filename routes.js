@@ -32,7 +32,7 @@
     const tip = el('div', 'rt-tip'); tip.hidden = true; host.append(tip);
     const g = cv.getContext('2d'); let W = 0, H = 0, proj, path, land = null;
     const resize = () => {
-      const r = host.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1); W = r.width; H = Math.max(260, Math.min(r.height || W * .52, W * .62));
+      const r = host.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1); W = r.width; H = host.classList.contains('fs') ? r.height : Math.max(260, Math.min(W * .54, innerHeight * .8));
       cv.width = W * dpr; cv.height = H * dpr; cv.style.width = W + 'px'; cv.style.height = H + 'px'; g.setTransform(dpr, 0, 0, dpr, 0, 0);
       proj = d3.geoEqualEarth().fitExtent([[6, 6], [W - 6, H - 6]], { type: 'Sphere' }).rotate([150 - view.lon, 0]); proj.scale(proj.scale() * view.k);
       path = d3.geoPath(proj, g); draw();
