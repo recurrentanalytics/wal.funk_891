@@ -371,13 +371,16 @@
  "nb.blue.t": "Ein zweifelhafter Blauwal",
  "nb.blue.d": "Der stärkste Blauwal-Treffer des Modells zeigt nicht das Band nahe 43 Hz, an dem MBARI Blauwale erkennt. Er bleibt als zweifelhaft markiert, bis ein Mensch zugehört hat.",
  "nb.blue.f": "das fehlende Band",
- "nb.plan4b.t": "whalu bei Bartenwalen testen",
- "nb.plan4b.d": "Neuer Plan: whalu als Hauptdetektor für Blau-, Finn- und Buckelwale, Perch nur für ungewöhnliche Laute. Läuft gerade gegen 287 von NOAA-Forschenden markierte Rufe und 300 vom Besitzer markierte Fenster.",
- "nb.plan4b.f": "markierte Rufe und Fenster",
+ "nb.plan4b.t": "Buckelwale: warten auf ein menschliches Ohr",
+ "nb.plan4b.d": "Die letzte offene Frage für whalu: Hört es Buckelwalgesang vor Monterey? 300 zufällige Fenster aus 2020 warten auf die Markierungen des Besitzers, ohne sichtbare Modellwerte.",
+ "nb.plan4b.f": "Fenster zu markieren",
  "areas.blue": "Fressgebiete Blauwal",
  "areas.fin": "Fressgebiete Finnwal",
  "areas.humpback": "Fressgebiete Buckelwal",
  "areas.srkw": "Schutzgebiet Southern-Resident-Orcas",
  "areas.hch": "Schutzgebiet Buckelwal",
- "areas.note": "Die farbigen Flächen werden live von NOAA geladen. Fressgebiete: Biologically Important Areas II (Harrison et al. 2023, Front. Mar. Sci.; Westküste: Calambokidis et al. 2024), Juni–November für Blau- und Finnwal, März–November für Buckelwal. Schutzgebiete: NOAA Fisheries (2006/2021), nicht die rechtliche Abgrenzung, die im US Code of Federal Regulations steht. Wanderrouten fehlen, weil NOAAs Westküsten-Daten für diese Arten keine enthalten."
+ "areas.note": "Die farbigen Flächen werden live von NOAA geladen. Fressgebiete: Biologically Important Areas II (Harrison et al. 2023, Front. Mar. Sci.; Westküste: Calambokidis et al. 2024), Juni–November für Blau- und Finnwal, März–November für Buckelwal. Schutzgebiete: NOAA Fisheries (2006/2021), nicht die rechtliche Abgrenzung, die im US Code of Federal Regulations steht. Wanderrouten fehlen, weil NOAAs Westküsten-Daten für diese Arten keine enthalten.",
+ "nb.dclde.t": "Auch nicht bei Blau- und Finnwalrufen",
+ "nb.dclde.d": "Bei 240 Blauwal-D-Rufen und 47 Finnwal-40-Hz-Rufen, die NOAA-Forschende vor Südkalifornien markiert haben, fand whalu keinen einzigen. Eine Prüfung bestätigte, dass die Zeitstempel stimmen. Vielleicht kennt es diese Ruftypen nicht, oder die 2-kHz-Aufnahmen weichen zu sehr von seinen Trainingsdaten ab.",
+ "nb.dclde.f": "Rufe gefunden, Grenze 70 %"
 }
