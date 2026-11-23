@@ -581,5 +581,17 @@
  "fold.nb": "All lab notebook entries · open",
  "fold.words": "All terms · open",
  "fold.open": "open",
- "fold.world": "Sources, licences and every station on the world map · open"
+ "fold.world": "Sources, licences and every station on the world map · open",
+ "cic.kicker": "Check against MBARI",
+ "cic.title": "Does the Pi see the singing season the way MBARI does?",
+ "cic.lede": "The Pi recomputes MBARI's own call index from one hour a day. Orange: MBARI's published daily values 2015–2021. Turquoise: the Pi. Values above 1.01 mean “song present”.",
+ "cic.view.year": "Year course",
+ "cic.view.days": "Day by day",
+ "cic.years": "single years",
+ "cic.threshold": "Threshold",
+ "cic.axis.mbari": "MBARI, daily value",
+ "cic.axis.pi": "Pi, one hour",
+ "cic.read.year": "Highest monthly value: Pi {pi}, MBARI {mbari}.",
+ "cic.read.days": "{n} days: both “song” {both}, both “no song” {none}, only the Pi {onlypi}, only MBARI {onlymbari}. Agreement (balanced accuracy) {ba}. Red: Pi and MBARI disagree.",
+ "cic.note": "The verdict was fixed in advance at threshold 1.01 on the first 300 days: blue whale 0.80 agreement but peak in September instead of October–December; fin whale 0.79, just below 0.80. Both failed. The slider only shows how sensitive the result is to the threshold; it does not change the verdict. Computed on the Pi."
 }

@@ -581,5 +581,17 @@
  "fold.nb": "Alle Einträge im Laborbuch · aufklappen",
  "fold.words": "Alle Begriffe · aufklappen",
  "fold.open": "aufklappen",
- "fold.world": "Quellen, Lizenzen und alle Stationen der Weltkarte · aufklappen"
+ "fold.world": "Quellen, Lizenzen und alle Stationen der Weltkarte · aufklappen",
+ "cic.kicker": "Prüfung gegen MBARI",
+ "cic.title": "Erkennt der Pi die Gesangssaison so wie MBARI?",
+ "cic.lede": "Der Pi rechnet MBARIs eigenen Rufindex nach, aus einer Stunde pro Tag. Orange: MBARIs veröffentlichte Tageswerte 2015–2021. Türkis: der Pi. Werte über 1,01 heißen „Gesang da“.",
+ "cic.view.year": "Jahresverlauf",
+ "cic.view.days": "Tag für Tag",
+ "cic.years": "einzelne Jahre",
+ "cic.threshold": "Schwelle",
+ "cic.axis.mbari": "MBARI, Tageswert",
+ "cic.axis.pi": "Pi, eine Stunde",
+ "cic.read.year": "Höchster Monatswert: beim Pi {pi}, bei MBARI {mbari}.",
+ "cic.read.days": "{n} Tage: beide „Gesang“ {both}, beide „kein Gesang“ {none}, nur der Pi {onlypi}, nur MBARI {onlymbari}. Übereinstimmung (Balanced Accuracy) {ba}. Rot: Pi und MBARI widersprechen sich.",
+ "cic.note": "Das Urteil wurde vorher festgelegt bei Schwelle 1,01 auf den ersten 300 Tagen: Blauwal 0,80 Übereinstimmung, aber Spitze im September statt Oktober bis Dezember; Finnwal 0,79, knapp unter 0,80. Beide also durchgefallen. Der Regler zeigt nur, wie empfindlich das Ergebnis auf die Schwelle reagiert; er ändert das Urteil nicht. Gerechnet auf dem Pi."
 }

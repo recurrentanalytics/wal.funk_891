@@ -581,5 +581,17 @@
  "fold.nb": "全部实验日志条目 · 展开",
  "fold.words": "全部术语 · 展开",
  "fold.open": "展开",
- "fold.world": "世界地图的来源、许可和全部站点 · 展开"
+ "fold.world": "世界地图的来源、许可和全部站点 · 展开",
+ "cic.kicker": "与 MBARI 对照",
+ "cic.title": "树莓派看到的歌唱季节和 MBARI 一致吗？",
+ "cic.lede": "树莓派用每天一小时重算 MBARI 自己的叫声指数。橙色：MBARI 公布的 2015–2021 年每日数值。青色：树莓派。高于 1.01 表示“有歌声”。",
+ "cic.view.year": "全年变化",
+ "cic.view.days": "逐日",
+ "cic.years": "单独年份",
+ "cic.threshold": "阈值",
+ "cic.axis.mbari": "MBARI，每日值",
+ "cic.axis.pi": "树莓派，一小时",
+ "cic.read.year": "月均最高：树莓派在{pi}，MBARI 在{mbari}。",
+ "cic.read.days": "{n} 天：双方都为“有歌声” {both}，都为“无歌声” {none}，仅树莓派 {onlypi}，仅 MBARI {onlymbari}。一致性（平衡准确率）{ba}。红色：两者不一致。",
+ "cic.note": "结论事先以阈值 1.01、前 300 天确定：蓝鲸一致性 0.80，但峰值在九月而非十月至十二月；长须鲸 0.79，略低于 0.80。两者均未通过。滑块只显示结果对阈值的敏感程度，不改变结论。在树莓派上计算。"
 }
