@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261123020506">
+<meta name="build" content="20261123020958">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Whale Listener</title>
 <meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls.">
@@ -386,6 +386,106 @@ html[data-lang="zh"] h1 { letter-spacing: 0; }
 .building b { font: 300 1.4rem var(--display); }
 .building .bar { height: 8px; border-radius: 4px; background: rgba(23,70,90,.7); overflow: hidden; } .building .bar span { display: block; height: 100%; background: var(--glow); }
 .atlas-wrap.empty { grid-template-columns: minmax(0, 1fr); }
+
+/* ===== Polish layer: bigger type, more depth, glow, motion. No new content. ===== */
+::selection { background: var(--glow); color: var(--abyss); }
+html { scrollbar-color: var(--line) var(--abyss); }
+body { background: linear-gradient(180deg, #04121a 0%, #031018 35%, #020b10 100%) fixed; }
+body::after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(60vw 50vh at 85% 10%, rgba(94,230,215,.07), transparent 70%), radial-gradient(50vw 50vh at 5% 80%, rgba(76,141,255,.06), transparent 70%); }
+
+/* hero */
+.hero { min-height: 100svh; }
+.hero canvas { opacity: .8; filter: saturate(1.25) contrast(1.1); }
+.hero::after { background: radial-gradient(120% 80% at 20% 60%, rgba(2,11,16,.25), rgba(2,11,16,.75) 70%), linear-gradient(180deg, rgba(2,11,16,.1) 0%, rgba(2,11,16,.3) 55%, #04121a 100%); }
+h1 { font-size: clamp(3.8rem, 15vw, 11rem); line-height: .86; letter-spacing: -.045em; font-weight: 300;
+  background: linear-gradient(180deg, #ffffff 20%, #9ff3e8 70%, #5ee6d7 100%); -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 0 40px rgba(94,230,215,.25)); padding-bottom: .08em; }
+.eyebrow { display: inline-flex; align-items: center; gap: 12px; font-size: 13px; }
+.eyebrow::before, .kicker::before { content: ""; width: 34px; height: 1px; background: currentColor; box-shadow: 0 0 8px currentColor; display: inline-block; vertical-align: middle; }
+.kicker::before { margin-right: 10px; width: 22px; opacity: .7; }
+.hero p.lede { font: 300 clamp(1.2rem, 2.6vw, 1.6rem)/1.4 var(--display); color: #d5e8ed; max-width: 34ch; }
+.chip { padding: 9px 16px; font-size: 14px; border-color: rgba(94,230,215,.35); box-shadow: 0 0 30px -8px rgba(94,230,215,.4); }
+.tile { border-radius: 16px; padding: 16px 18px; position: relative; overflow: hidden; transition: transform .25s, border-color .25s, box-shadow .25s; background: linear-gradient(160deg, rgba(14,51,68,.75), rgba(4,18,26,.8)); }
+.tile::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: linear-gradient(90deg, var(--glow), transparent); }
+.tile.ok::before { background: linear-gradient(90deg, var(--krill), transparent); } .tile.warn::before { background: linear-gradient(90deg, var(--coral), transparent); }
+.tile:hover { transform: translateY(-3px); box-shadow: 0 18px 50px -20px rgba(94,230,215,.45); }
+.tile b { font-size: clamp(1.4rem, 2.6vw, 2rem); }
+
+/* menu */
+.toc { background: rgba(2,11,16,.72); backdrop-filter: blur(16px) saturate(1.4); }
+.toc::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--glow), #4c8dff); transform-origin: 0 50%; transform: scaleX(var(--p, 0)); box-shadow: 0 0 12px var(--glow); }
+.toc a { transition: color .2s, background .2s; }
+.toc a.on { box-shadow: 0 0 22px -4px var(--glow); }
+
+/* sections */
+.part { position: relative; overflow: clip; padding-block: clamp(90px, 14vw, 170px) 40px; }
+.part::before { content: attr(data-n); position: absolute; right: -0.04em; top: 0.02em; z-index: 0; pointer-events: none;
+  font: 500 clamp(9rem, 34vw, 26rem)/.8 var(--display); letter-spacing: -.06em; color: transparent; -webkit-text-stroke: 1.5px rgba(94,230,215,.11); }
+.part::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(94,230,215,.45), transparent); }
+.part .wrap { position: relative; z-index: 1; }
+h2 { font-size: clamp(2.7rem, 8.5vw, 5.6rem); line-height: .95; letter-spacing: -.035em; max-width: 16ch; margin: 14px 0 22px; }
+.lede-big { font-size: clamp(1.25rem, 2.6vw, 1.7rem); color: #cfe3e8; max-width: 46ch; margin-bottom: 40px; }
+.scene-title { font-size: clamp(1.7rem, 4.2vw, 2.6rem); letter-spacing: -.02em; line-height: 1.05; }
+.sub-h { margin-top: 72px; }
+.note { font-size: 13.5px; line-height: 1.55; }
+
+/* surfaces */
+.panel, .voice, .cand, .building { border-radius: 18px; background: linear-gradient(165deg, rgba(14,51,68,.55), rgba(4,18,26,.7)); border-color: rgba(94,230,215,.16);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 30px 70px -45px rgba(0,0,0,.9); transition: border-color .3s, box-shadow .3s, transform .3s; }
+.panel:hover, .voice:hover { border-color: rgba(94,230,215,.38); box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 30px 80px -40px rgba(94,230,215,.28); }
+.scene-card, .live-card, .mapbox, .world, .spec-wrap, .mc-stage, .stage { border-radius: 22px; border-color: rgba(94,230,215,.2); box-shadow: 0 0 0 1px rgba(94,230,215,.05), 0 50px 120px -60px rgba(94,230,215,.35), 0 30px 60px -40px rgba(0,0,0,.9); }
+.scene { height: clamp(360px, 58vw, 640px); } .scene.tall { height: clamp(420px, 66vw, 720px); }
+.spec-wrap canvas { height: clamp(220px, 40vw, 420px); }
+.smap canvas, .atlas-main canvas { border-radius: 16px; }
+.photo img { animation: kb 14s ease-out both; } .photo { overflow: hidden; border-radius: 18px 18px 0 0; }
+@keyframes kb { from { transform: scale(1.12); } to { transform: scale(1); } }
+.detail h3.big { font-size: clamp(2.2rem, 5vw, 3.2rem); letter-spacing: -.03em; }
+.fact b { font-size: clamp(1.3rem, 2.6vw, 1.9rem); }
+.whale-btn { border-radius: 14px; padding: 10px 12px; transition: background .25s; }
+.whale-btn path { transition: fill .25s, filter .25s; }
+.whale-btn[aria-pressed="true"] path { filter: drop-shadow(0 0 10px rgba(94,230,215,.75)); }
+.pitch .band { box-shadow: 0 0 26px rgba(94,230,215,.7); }
+.known div { font: 300 1.15rem/1.45 var(--display); color: #cfe3e8; border-left-width: 3px; padding-left: 16px; }
+
+/* controls */
+.play { padding: 13px 24px; font-size: 16px; background: linear-gradient(135deg, #8ff5e8, var(--glow)); box-shadow: 0 10px 40px -10px rgba(94,230,215,.7); transition: transform .2s, box-shadow .2s; }
+.play:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 16px 50px -10px rgba(94,230,215,.9); }
+.play:active { transform: scale(.97); }
+.play.small { padding: 9px 16px; font-size: 14px; }
+.ghost, .g-btn, .area-chip, .chip { transition: border-color .2s, color .2s, background .2s, transform .2s; }
+.ghost:hover, .area-chip:hover { border-color: var(--glow); color: var(--fg); }
+.g-btn { padding: 18px; font-size: 17px; border-radius: 16px; } .g-btn:hover:not(:disabled) { background: rgba(94,230,215,.08); transform: translateY(-2px); }
+.g-q { font-size: clamp(1.4rem, 3vw, 1.9rem); }
+
+/* numbers */
+.verdict { font-size: clamp(4.4rem, 13vw, 8rem); letter-spacing: -.04em; }
+.verdict.pass { text-shadow: 0 0 50px rgba(183,243,106,.45); } .verdict.fail { text-shadow: 0 0 50px rgba(255,107,91,.4); }
+.big-num { font-size: clamp(3rem, 7vw, 4.6rem); letter-spacing: -.03em; }
+.nb-fig b { font-size: clamp(2rem, 5vw, 3rem); text-shadow: 0 0 30px rgba(94,230,215,.4); }
+.nb { border-left: 2px solid transparent; border-image: linear-gradient(180deg, var(--glow), rgba(94,230,215,.05)) 1; gap: 34px; }
+.nb h4 { font-size: clamp(1.4rem, 3vw, 1.9rem); letter-spacing: -.02em; }
+.nb li::before { box-shadow: 0 0 14px currentColor; }
+.gates li { padding: 16px 0; } .gates .t { font: 300 1.2rem var(--display); }
+.gloss dt { font-size: 15px; } .gloss { gap: 22px 36px; }
+.cores .col span, .bar span, .g-bar span { box-shadow: 0 0 14px rgba(94,230,215,.7); }
+
+/* the dive */
+.step p { font-size: clamp(1.5rem, 3.2vw, 2.4rem); line-height: 1.2; letter-spacing: -.015em; }
+.step { border-radius: 20px; padding: 22px 24px; backdrop-filter: blur(8px); }
+.step.on { border-color: rgba(94,230,215,.35); box-shadow: 0 30px 80px -40px rgba(94,230,215,.35); }
+.gauge .g-v { font-size: clamp(1.6rem, 4vw, 2.6rem); text-shadow: 0 0 24px rgba(94,230,215,.6); }
+
+/* scroll reveal (class added by script, never without it) */
+.rv { opacity: 0; transform: translateY(28px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+.rv.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .rv { opacity: 1; transform: none; transition: none; } .photo img { animation: none; } }
+
+footer { padding-block: 70px; background: linear-gradient(180deg, transparent, #01070a); }
+@media (max-width: 600px) {
+  .hero .wrap { padding-block: 110px 32px; } .part::before { -webkit-text-stroke-width: 1px; }
+  .panel, .voice { border-radius: 16px; } .scene-card, .mapbox, .world, .spec-wrap, .stage { border-radius: 16px; }
+}
 </style>
 </head>
 <body>
@@ -436,7 +536,7 @@ html[data-lang="zh"] h1 { letter-spacing: 0; }
     </div>
   </section>
 
-  <section class="part" id="whales" data-part><div class="wrap">
+  <section class="part" id="whales" data-part data-n="01"><div class="wrap">
     <div class="kicker" data-i18n="whales.kicker"></div>
     <h2 data-i18n="whales.title"></h2>
     <p class="lede-big" data-i18n="whales.lede"></p>
@@ -451,7 +551,7 @@ html[data-lang="zh"] h1 { letter-spacing: 0; }
     <p class="note" data-i18n="voices.footer"></p>
   </div></section>
 
-  <section class="part" id="places" data-part><div class="wrap">
+  <section class="part" id="places" data-part data-n="02"><div class="wrap">
     <div class="kicker" data-i18n="places.kicker"></div>
     <h2 data-i18n="places.title"></h2>
     <p class="lede-big" data-i18n="places.lede"></p>
@@ -479,7 +579,7 @@ html[data-lang="zh"] h1 { letter-spacing: 0; }
     <div class="wl-list" id="world-list"></div>
   </div></section>
 
-  <section class="part" id="listen" data-part><div class="wrap">
+  <section class="part" id="listen" data-part data-n="03"><div class="wrap">
     <div class="kicker" data-i18n="listen.kicker"></div>
     <h2 data-i18n="listen.title"></h2>
     <p class="lede-big" data-i18n="listen.lede"></p>
@@ -503,7 +603,7 @@ html[data-lang="zh"] h1 { letter-spacing: 0; }
     </div>
   </div></section>
 
-  <section class="part" id="try" data-part><div class="wrap">
+  <section class="part" id="try" data-part data-n="04"><div class="wrap">
     <div class="kicker" data-i18n="play.kicker"></div>
     <h2 data-i18n="play.title"></h2>
     <p class="lede-big" data-i18n="play.lede"></p>
@@ -521,7 +621,7 @@ html[data-lang="zh"] h1 { letter-spacing: 0; }
     </div>
   </div></section>
 
-  <section class="part" id="results" data-part><div class="wrap">
+  <section class="part" id="results" data-part data-n="05"><div class="wrap">
     <div class="kicker" data-i18n="results.kicker"></div>
     <h2 data-i18n="results.title"></h2>
     <p class="lede-big" data-i18n="results.lede"></p>
@@ -538,7 +638,7 @@ html[data-lang="zh"] h1 { letter-spacing: 0; }
     <ol class="gates" id="gates"></ol>
   </div></section>
 
-  <section class="part" id="finds" data-part><div class="wrap">
+  <section class="part" id="finds" data-part data-n="06"><div class="wrap">
     <div class="kicker" data-i18n="finds.kicker"></div>
     <h2 data-i18n="finds.title"></h2>
     <p class="lede-big" data-i18n="finds.lede"></p>
@@ -569,14 +669,14 @@ html[data-lang="zh"] h1 { letter-spacing: 0; }
     <div class="cands" id="cands"></div>
   </div></section>
 
-  <section class="part" id="notebook" data-part><div class="wrap">
+  <section class="part" id="notebook" data-part data-n="07"><div class="wrap">
     <div class="kicker" data-i18n="nb.kicker"></div>
     <h2 data-i18n="nb.title"></h2>
     <p class="lede-big" data-i18n="nb.lede"></p>
     <ol class="nb" id="nb"></ol>
   </div></section>
 
-  <section class="part" id="machine" data-part><div class="wrap">
+  <section class="part" id="machine" data-part data-n="08"><div class="wrap">
     <div class="kicker" data-i18n="machine.kicker"></div>
     <h2 data-i18n="machine.title"></h2>
     <p class="lede-big" id="stamp">—</p>
@@ -589,7 +689,7 @@ html[data-lang="zh"] h1 { letter-spacing: 0; }
     <div class="panel tchart" style="margin-top:14px"><h3 data-i18n="machine.tchart"></h3><div id="tchart">—</div><p class="note" data-i18n="machine.tchart.note"></p></div>
   </div></section>
 
-  <section class="part" id="words" data-part><div class="wrap">
+  <section class="part" id="words" data-part data-n="09"><div class="wrap">
     <div class="kicker" data-i18n="words.kicker"></div>
     <h2 data-i18n="words.title"></h2>
     <dl class="gloss">
@@ -610,12 +710,13 @@ html[data-lang="zh"] h1 { letter-spacing: 0; }
 <footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/whale-listener-status">GitHub</a></p></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="i18n.js?v=20261123020506"></script>
-<script src="globe.js?v=20261123020506"></script>
-<script src="app.js?v=20261123020506"></script>
-<script src="play.js?v=20261123020506"></script>
-<script src="atlas.js?v=20261123020506"></script>
-<script src="story.js?v=20261123020506"></script>
-<script src="scenes.js?v=20261123020506"></script>
+<script src="i18n.js?v=20261123020958"></script>
+<script src="globe.js?v=20261123020958"></script>
+<script src="app.js?v=20261123020958"></script>
+<script src="play.js?v=20261123020958"></script>
+<script src="atlas.js?v=20261123020958"></script>
+<script src="polish.js?v=20261123020958"></script>
+<script src="story.js?v=20261123020958"></script>
+<script src="scenes.js?v=20261123020958"></script>
 </body>
 </html>
