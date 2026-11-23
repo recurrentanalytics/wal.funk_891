@@ -108,9 +108,9 @@
         sh.uniforms.detailMap = { value: detail };
         sh.fragmentShader = 'uniform sampler2D detailMap;\n' + sh.fragmentShader
           .replace('#include <map_fragment>', `#include <map_fragment>
-            float dH = texture2D(detailMap, vUv * ${REP}).r; diffuseColor.rgb *= 0.86 + 0.28 * dH;`)
+            float dFade = 1.0 - smoothstep(6.0, 40.0, length(vViewPosition)); float dH = texture2D(detailMap, vUv * ${REP}).r; diffuseColor.rgb *= mix(1.0, 0.86 + 0.28 * dH, dFade);`)
           .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>
-            { vec2 duv = vUv * ${REP}; float h = texture2D(detailMap, duv).r * ${strength.toFixed(3)};
+            if (dFade > 0.0) { vec2 duv = vUv * ${REP}; float h = texture2D(detailMap, duv).r * ${strength.toFixed(3)} * dFade;
               vec3 sx = dFdx(-vViewPosition), sy = dFdy(-vViewPosition); float hx = dFdx(h), hy = dFdy(h);
               vec3 r1 = cross(sy, normal), r2 = cross(normal, sx); float det = dot(sx, r1);
               normal = normalize(abs(det) * normal - sign(det) * (hx * r1 + hy * r2)); }`);
