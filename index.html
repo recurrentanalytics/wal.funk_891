@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261123020958">
+<meta name="build" content="20261123021102">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Whale Listener</title>
 <meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls.">
@@ -486,6 +486,15 @@ footer { padding-block: 70px; background: linear-gradient(180deg, transparent, #
   .hero .wrap { padding-block: 110px 32px; } .part::before { -webkit-text-stroke-width: 1px; }
   .panel, .voice { border-radius: 16px; } .scene-card, .mapbox, .world, .spec-wrap, .stage { border-radius: 16px; }
 }
+
+/* polish fixes after the first look */
+.hero { max-height: 980px; }
+.hero canvas { image-rendering: pixelated; }
+.hero::before { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: repeating-linear-gradient(90deg, rgba(2,11,16,.55) 0 1px, transparent 1px 6px), repeating-linear-gradient(0deg, rgba(2,11,16,.45) 0 1px, transparent 1px 5px); }
+.glance { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 760px) { .glance { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.gauge { width: auto; } .gauge .g-v, .gauge .g-l { white-space: nowrap; }
+.part::before { -webkit-text-stroke-color: rgba(94,230,215,.17); }
 </style>
 </head>
 <body>
@@ -710,13 +719,13 @@ footer { padding-block: 70px; background: linear-gradient(180deg, transparent, #
 <footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/whale-listener-status">GitHub</a></p></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="i18n.js?v=20261123020958"></script>
-<script src="globe.js?v=20261123020958"></script>
-<script src="app.js?v=20261123020958"></script>
-<script src="play.js?v=20261123020958"></script>
-<script src="atlas.js?v=20261123020958"></script>
-<script src="polish.js?v=20261123020958"></script>
-<script src="story.js?v=20261123020958"></script>
-<script src="scenes.js?v=20261123020958"></script>
+<script src="i18n.js?v=20261123021102"></script>
+<script src="globe.js?v=20261123021102"></script>
+<script src="app.js?v=20261123021102"></script>
+<script src="play.js?v=20261123021102"></script>
+<script src="atlas.js?v=20261123021102"></script>
+<script src="polish.js?v=20261123021102"></script>
+<script src="story.js?v=20261123021102"></script>
+<script src="scenes.js?v=20261123021102"></script>
 </body>
 </html>

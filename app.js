@@ -36,6 +36,7 @@ function hero(grid) {
   let x = 0;
   const frame = () => {
     const w = cv.width, h = cv.height, tile = src.width * (h / src.height);
+    ctx.imageSmoothingEnabled = false;
     for (let o = -x % tile - tile; o < w; o += tile) ctx.drawImage(src, o, 0, tile, h);
     if (!reduce) { x += 0.35; requestAnimationFrame(frame); }
   };
