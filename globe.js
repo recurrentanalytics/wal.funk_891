@@ -71,7 +71,7 @@
       const dec = (b64) => { const r = atob(b64), o = new Int8Array(r.length); for (let i = 0; i < r.length; i++) o[i] = (r.charCodeAt(i) << 24) >> 24; return o; };
       const U = dec(c.u), V = dec(c.v), nlat = c.nlat, nlon = c.nlon;
       const at = (lat, lon) => { const i = Math.round((lat - c.lat0) / c.step), j = ((Math.round((lon - c.lon0) / c.step) % nlon) + nlon) % nlon; if (i < 0 || i >= nlat) return null; const k = i * nlon + j; return U[k] === -128 ? null : [U[k] * c.scale, V[k] * c.scale]; };
-      const N = host.clientWidth < 600 ? 3000 : 8000, T = 12, LIFE = 150, K = 0.6;
+      const N = host.clientWidth < 600 ? 2500 : 6000, T = 14, LIFE = 520; let K = 0.12;   // calm by default; setCurrentSpeed changes it
       const pos = new Float32Array(N * (T - 1) * 6), col = new Float32Array(N * (T - 1) * 6), trail = new Float32Array(N * T * 3), P = [];
       const put = (lat, lon, out, o) => { const v = ll2v(lat, lon, 1.004); out[o] = v.x; out[o + 1] = v.y; out[o + 2] = v.z; };
       const spawn = (p, i) => { for (let n = 0; n < 30; n++) { const lat = Math.asin(Math.random() * 1.9 - .95) * 180 / Math.PI, lon = Math.random() * 360 - 180; if (at(lat, lon)) { p.lat = lat; p.lon = lon; break; } } p.age = Math.floor(Math.random() * LIFE); for (let t = 0; t < T; t++) put(p.lat, p.lon, trail, (i * T + t) * 3); };
@@ -96,7 +96,8 @@
         geo.attributes.position.needsUpdate = true; geo.attributes.color.needsUpdate = true;
       };
       for (let w = 0; w < 14; w++) step();
-      if (!reduce) S.ticks.push(() => { if (lines.visible) step(); });
+      if (!reduce) S.ticks.push(() => { if (lines.visible && K > 0) step(); });
+      api.setCurrentSpeed = (f) => { K = 0.6 * f; };
     }
     function setSightings(list) {
       L.sight.clear();
@@ -112,9 +113,10 @@
         for (let k = 0; k < 2; k++) { const ring = new THREE.Mesh(new THREE.RingGeometry(.03, .037, 40), new THREE.MeshBasicMaterial({ color: 0xff6b5b, transparent: true, side: THREE.DoubleSide, depthWrite: false })); ring.position.copy(p); ring.lookAt(0, 0, 0); L.det.add(ring); rings.push(ring); }
         const d = new THREE.Mesh(new THREE.SphereGeometry(.013, 10, 8), new THREE.MeshBasicMaterial({ color: 0xff6b5b })); d.position.copy(p); d.userData = { text: o.text, card: o.card }; L.det.add(d); pickables.push(d); scal.push({ o: d, min: .05 }); });
     }
-    return { highlight(id) { Object.entries(groups).forEach(([k, g2]) => { g2.visible = !id || k === id; }); }, setCurrents, setSightings, setDetections, setPoints,
+    const api = { highlight(id) { Object.entries(groups).forEach(([k, g2]) => { g2.visible = !id || k === id; }); }, setCurrents, setSightings, setDetections, setPoints,
       flyTo(lat, lon, dist) { S.ctl.autoRotate = false; S.cam.position.copy(ll2v(lat, lon, dist)); S.ctl.update(); },
-      show(name, on) { const o = L[name]; if (o) o.visible = on; } };
+      show(name, on) { const o = L[name]; if (o) o.visible = on; }, setCurrentSpeed() {} };
+    return api;
   };
 
   /* ---------------- Sound galaxy ---------------- */

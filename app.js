@@ -348,7 +348,9 @@ function worldMap(wd) {
     const chip = (key, col, name, on) => { const b = el('button', 'area-chip'); b.type = 'button'; b.setAttribute('aria-pressed', String(on)); const d = el('i'); d.style.background = col; b.append(d, t(key)); b.addEventListener('click', () => { const v = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', String(v)); globe.show(name, v); }); bar.append(b); return b; };
     const fmtD = (d) => new Date(d).toLocaleDateString(I18N.locale, { day: 'numeric', month: 'short', year: 'numeric' });
     const notes = $('world-notes'); notes.replaceChildren();
-    getJSON('data/currents.json').then((c) => { globe.setCurrents(c); chip('layer.currents', '#73f2ff', 'cur', true); notes.append(el('p', 'note', t('layer.currents.note', { date: fmtD(c.time) }))); }).catch(() => {});
+    getJSON('data/currents.json').then((c) => { globe.setCurrents(c); chip('layer.currents', '#73f2ff', 'cur', true);
+      const sp = el('label', 'cur-speed'); const r = el('input'); r.type = 'range'; r.min = 0; r.max = 1; r.step = 0.05; r.value = 0.2; r.setAttribute('aria-label', t('layer.currents.speed'));
+      r.addEventListener('input', () => globe.setCurrentSpeed(+r.value)); sp.append(t('layer.currents.speed') + ' ', r); bar.append(sp); notes.append(el('p', 'note', t('layer.currents.note', { date: fmtD(c.time) }))); }).catch(() => {});
     // species name in the page language where we have one; otherwise the scientific name, with the reporter's own name kept as a hint
     const LATIN = { 'Balaenoptera musculus': 'blue', 'Balaenoptera physalus': 'fin', 'Megaptera novaeangliae': 'humpback', 'Orcinus orca': 'orca', 'Balaenoptera acutorostrata': 'minke', 'Balaenoptera edeni': 'brydes', 'Eubalaena glacialis': 'naright', 'Eubalaena japonica': 'npright' };
     const spName = (r) => { const sci = r.species || r.scientificName || 'Cetacea', k = LATIN[r.species];

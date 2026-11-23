@@ -619,5 +619,10 @@
  "nb.humpback.f": "距结论的天数",
  "nb.mac.t": "Mac mini 作为实验室",
  "nb.mac.d": "模型测试先在使用相同软件包版本的 Mac mini 上运行。散热器装好后，树莓派会完整重算全部内容并计时。在此之前，Mac 的结果为初步结果。",
- "nb.mac.f": "实验室，而非站点"
+ "nb.mac.f": "实验室，而非站点",
+ "layer.currents.speed": "洋流速度",
+ "amb.on": "开启水下音乐",
+ "amb.off": "关闭水下音乐",
+ "amb.state.on": "音乐开",
+ "amb.state.off": "音乐关"
 }

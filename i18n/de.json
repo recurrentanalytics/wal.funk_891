@@ -619,5 +619,10 @@
  "nb.humpback.f": "Tage bis zum Urteil",
  "nb.mac.t": "Der Mac mini als Labor",
  "nb.mac.d": "Modelltests laufen vorab auf einem Mac mini mit denselben Paketversionen. Sobald der Kühler da ist, rechnet der Pi alles komplett neu, mit Zeitmessung. Bis dahin sind Mac-Ergebnisse vorläufig.",
- "nb.mac.f": "Labor, nicht Station"
+ "nb.mac.f": "Labor, nicht Station",
+ "layer.currents.speed": "Strömungstempo",
+ "amb.on": "Unterwassermusik einschalten",
+ "amb.off": "Unterwassermusik ausschalten",
+ "amb.state.on": "Musik an",
+ "amb.state.off": "Musik aus"
 }

@@ -48,8 +48,8 @@
       g.globalCompositeOperation = 'destination-in'; g.fillStyle = 'rgba(0,0,0,.965)'; g.fillRect(0, 0, W, H);
       g.globalCompositeOperation = 'lighter'; g.lineWidth = 1; g.beginPath();
       for (const p of P) {
-        const uv = at(p.lat, p.lon); if (!uv || p.age++ > 260 || p.lon > LON0 + LONS || p.lon < LON0 || p.lat > LAT1 || p.lat < LAT1 - LATS) { spawn(p); p.age = 0; continue; }
-        const x0 = X(p.lon), y0 = Y(p.lat); p.lat += uv[1] * .35; p.lon += uv[0] * .35 / Math.max(.3, Math.cos(p.lat * Math.PI / 180));
+        const uv = at(p.lat, p.lon); if (!uv || p.age++ > 700 || p.lon > LON0 + LONS || p.lon < LON0 || p.lat > LAT1 || p.lat < LAT1 - LATS) { spawn(p); p.age = 0; continue; }
+        const x0 = X(p.lon), y0 = Y(p.lat); p.lat += uv[1] * .12; p.lon += uv[0] * .12 / Math.max(.3, Math.cos(p.lat * Math.PI / 180));
         g.moveTo(x0, y0); g.lineTo(X(p.lon), Y(p.lat));
       }
       g.strokeStyle = 'rgba(94,230,215,.5)'; g.stroke();

@@ -619,5 +619,10 @@
  "nb.humpback.f": "days until the verdict",
  "nb.mac.t": "The Mac mini as a lab",
  "nb.mac.d": "Model tests run first on a Mac mini with the same package versions. Once the cooler is fitted, the Pi recomputes everything in full, with timing. Until then Mac results are preliminary.",
- "nb.mac.f": "lab, not station"
+ "nb.mac.f": "lab, not station",
+ "layer.currents.speed": "Current speed",
+ "amb.on": "Turn underwater music on",
+ "amb.off": "Turn underwater music off",
+ "amb.state.on": "Music on",
+ "amb.state.off": "Music off"
 }
