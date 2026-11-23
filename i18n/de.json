@@ -509,7 +509,7 @@
  "det.state.none": "Nein, nichts getestet",
  "det.blue": "whalu fand 0 von 240 von Menschen markierten Blauwalrufen. MBARIs eigener Rufindex, vom Pi mit einer Stunde pro Tag nachgerechnet, folgt der Jahreszeit (Korrelation 0,67), fiel aber knapp durch. Ein dritter Versuch mit Perch fiel ebenfalls durch (Balanced Accuracy 0,55, vorläufig, Mac mini).",
  "det.fin": "whalu fand 0 von 47 markierten Finnwalrufen. MBARIs Rufindex mit einer Stunde pro Tag: Korrelation 0,81, aber bei „Gesang ja oder nein“ knapp unter der Grenze (0,79 statt 0,80). Ein Versuch mit Perch fiel ebenfalls durch (Balanced Accuracy 0,65, vorläufig, Mac mini).",
- "det.humpback": "Googles Buckelwalmodell, so eingesetzt wie MBARI es tut, bewertet ab jetzt jede abgehörte Stunde. Das Urteil gegen MBARIs veröffentlichte Werte kommt, sobald 300 Tage zusammen sind (etwa Mitte Dezember).",
+ "det.humpback": "Googles Buckelwalmodell, so eingesetzt wie MBARI es tut. Gegen die Ohren des Projektinhabers (300 blinde Ausschnitte) stimmte es gut überein (Balanced Accuracy 0,914), aber mit 19 statt 20 Gesangs-Antworten zu wenig für ein Urteil; eine zweite, größere Hörrunde wird vorbereitet. Der Vergleich mit MBARIs Tageswerten braucht 300 abgehörte Tage und wartet, bis die Tests vom Mac auf den Pi umziehen.",
  "det.orca": "Der Orca-Erkenner traf an einem Orcasound-Testtag 94 %. Vor Monterey ist er unbrauchbar: Er schlägt bei jedem fünften Ausschnitt an. An 24 von Menschen gemeldeten Orca-Begegnungen fand er 23 (96 %), schlug aber auch in 27 % ruhiger Zeiten an; erlaubt waren 10 %. Durchgefallen (vorläufig, Mac mini).",
  "det.minke": "Für Zwergwale hat der Pi keinen geprüften Erkenner.",
  "det.brydes": "Für Brydewale hat der Pi keinen geprüften Erkenner.",
@@ -1172,7 +1172,7 @@
  "cat.title": "Alle {n} lebenden Wal- und Delfinarten",
  "cat.lede": "Suchen, filtern, sortieren. Hell: an unseren Stationen gemeldet. Schraffiert: bisher nicht. Ein Klick zeigt die Art oben im Detail.",
  "cat.showall": "Alle {n} zeigen",
- "cat.jump": "🔎 Alle {n} Arten durchsuchen ↓",
+ "cat.jump": "Alle {n} Arten durchsuchen ↓",
  "fold.all.close": "Alles in diesem Kapitel zuklappen",
  "fold.all.open": "Alles in diesem Kapitel aufklappen",
  "ux.skip": "Zum Inhalt springen",
@@ -1196,5 +1196,12 @@
  "ux.anchor": "Link zu diesem Abschnitt kopieren",
  "ux.anchor.ok": "Link zu diesem Abschnitt kopiert",
  "ux.bb": "Kapitel-Navigation",
- "ux.resume": "Weiter, wo du warst: {x} →"
+ "ux.resume": "Weiter, wo du warst: {x} →",
+ "ux.set.theme": "Darstellung",
+ "ux.set.dark": "dunkel",
+ "ux.set.light": "hell (Beta)",
+ "hero.paused": "Pi pausiert · {temp} °C · {done} von {total} Tagen abgehört · alle Tests laufen zuerst auf dem Mac mini",
+ "dt.voice": "Stimme",
+ "dt.range": "Lebensraum",
+ "dt.proof": "Nachweis bei uns"
 }

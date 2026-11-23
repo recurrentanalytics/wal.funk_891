@@ -2,10 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261123151612">
+<meta name="build" content="20261123160538">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>wal.funk_891</title>
 <meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="description" content="A Raspberry Pi listens to open hydrophone archives (Monterey Canyon, 891 m; Salish Sea) and tests whale detectors honestly, in public.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="wal.funk_891">
+<meta property="og:description" content="A Raspberry Pi listens to open hydrophone archives (Monterey Canyon, 891 m; Salish Sea) and tests whale detectors honestly, in public.">
+<meta property="og:image" content="https://recurrentanalytics.github.io/wal.funk_891/og.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:url" content="https://recurrentanalytics.github.io/wal.funk_891/">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#04121a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -834,7 +843,7 @@ body.has-gp .tour { bottom: calc(100px + env(safe-area-inset-bottom, 0px)); }
 .gp.amb .gp-seek { visibility: hidden; }
 
 .hb-game-cta { display: grid; gap: 4px; margin: 0 0 22px; padding: 16px 20px; border-radius: 16px; border: 1px solid var(--glow); background: linear-gradient(120deg, rgba(94,230,215,.14), rgba(4,18,26,.6)); color: var(--text); text-decoration: none; max-width: 720px; }
-.hb-game-cta b { font: 500 1.2rem var(--display); color: var(--glow); } .hb-game-cta b::before { content: "🐋 "; } .hb-game-cta b::after { content: " →"; }
+.hb-game-cta b { font: 500 1.2rem var(--display); color: var(--glow); } .hb-game-cta b::after { content: " →"; }
 .hb-game-cta span { color: #b9d3db; font-size: 15px; }
 
 /* species catalogue: search, filters, sorting */
@@ -883,7 +892,7 @@ html.less-motion *, html.less-motion *::before, html.less-motion *::after { anim
 .set-row { display: grid; gap: 6px; margin: 10px 0; } .set-l { font: 500 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); } .set-g { display: flex; flex-wrap: wrap; gap: 6px; }
 .set-n { margin: 8px 0 0; font-size: 12px; color: var(--muted); }
 .kbd-pop dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 0; } .kbd-pop dt { font: 500 13px var(--mono); color: var(--glow); } .kbd-pop dd { margin: 0; color: var(--text); font-size: 14px; }
-.anchor-b::before { content: "🔗"; } .anchor-b { all: unset; cursor: pointer; margin-left: 8px; font-size: .55em; vertical-align: middle; opacity: 0; transition: opacity .2s; }
+.anchor-b { all: unset; cursor: pointer; margin-left: 8px; font-size: .55em; vertical-align: middle; opacity: 0; transition: opacity .2s; }
 h2:hover > .anchor-b, h3:hover > .anchor-b, summary:hover > .anchor-b, .anchor-b:focus-visible { opacity: .8; }
 @media (hover: none) { .anchor-b { opacity: .45; } }
 abbr.gl { text-decoration: underline dotted rgba(94,230,215,.7); text-underline-offset: 3px; cursor: help; }
@@ -901,6 +910,55 @@ abbr.gl { text-decoration: underline dotted rgba(94,230,215,.7); text-underline-
 body.has-bb { padding-bottom: 64px; } body.has-bb .gp { bottom: calc(70px + env(safe-area-inset-bottom, 0px)); } body.has-bb .tour { bottom: calc(150px + env(safe-area-inset-bottom, 0px)); }
 @media (max-width: 760px) { .toc .wrap a.active[data-sub]::after { content: none; } .toc .sub-c { display: none; } }
 @media (max-width: 760px) { .toc .tools .tool-b:nth-child(1), .toc .tools .tool-b:nth-child(3) { display: none; } }   /* search and tour live in the bottom bar / start page on phones */
+
+/* ===== UI layer: icons, one button language, typography, depth, light mode ===== */
+.ic { display: inline-block; width: 1.05em; height: 1.05em; vertical-align: -.16em; flex: none; background: currentColor; -webkit-mask: var(--i) center / contain no-repeat; mask: var(--i) center / contain no-repeat; }
+.ic-search { --i: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2211%22%20cy%3D%2211%22%20r%3D%227%22/%3E%3Cpath%20d%3D%22M20%2020l-4-4%22/%3E%3C/svg%3E"); }
+.ic-link { --i: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%2014a4%204%200%200%200%205.7%200l3-3a4%204%200%200%200-5.7-5.7l-1%201%22/%3E%3Cpath%20d%3D%22M14%2010a4%204%200%200%200-5.7%200l-3%203a4%204%200%200%200%205.7%205.7l1-1%22/%3E%3C/svg%3E"); }
+.ic-play { --i: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M7%205l12%207-12%207z%22/%3E%3C/svg%3E"); }
+.ic-gear { --i: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%223%22/%3E%3Cpath%20d%3D%22M12%202v3M12%2019v3M2%2012h3M19%2012h3M4.9%204.9l2.1%202.1M17%2017l2.1%202.1M4.9%2019.1L7%2017M17%207l2.1-2.1%22/%3E%3C/svg%3E"); }
+.ic-phones { --i: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M4%2015v-3a8%208%200%200%201%2016%200v3%22/%3E%3Crect%20x%3D%223%22%20y%3D%2214%22%20width%3D%224%22%20height%3D%227%22%20rx%3D%221.5%22/%3E%3Crect%20x%3D%2217%22%20y%3D%2214%22%20width%3D%224%22%20height%3D%227%22%20rx%3D%221.5%22/%3E%3C/svg%3E"); }
+.ic-whale { --i: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%2013c0-3%203-5%207-5%205%200%208%203%209%206l2-2-1%204%201%203-3-1c-2%201-5%202-8%202-4%200-7-3-7-7z%22/%3E%3Ccircle%20cx%3D%228%22%20cy%3D%2212%22%20r%3D%22.6%22%20fill%3D%22black%22/%3E%3C/svg%3E"); }
+.ic-left { --i: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M15%205l-7%207%207%207%22/%3E%3C/svg%3E"); }
+.ic-right { --i: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M9%205l7%207-7%207%22/%3E%3C/svg%3E"); }
+.ic-down { --i: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22/%3E%3C/svg%3E"); }
+.ic-waves { --i: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M2%209c2.5%200%202.5-2%205-2s2.5%202%205%202%202.5-2%205-2%202.5%202%205%202%22/%3E%3Cpath%20d%3D%22M2%2015c2.5%200%202.5-2%205-2s2.5%202%205%202%202.5-2%205-2%202.5%202%205%202%22/%3E%3C/svg%3E"); }
+.ic-list { --i: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M8%206h13M8%2012h13M8%2018h13M3%206h.01M3%2012h.01M3%2018h.01%22/%3E%3C/svg%3E"); }
+
+/* anchors and the game card use the icon set instead of emoji */
+.anchor-b::before { content: ""; display: inline-block; width: 1em; height: 1em; background: currentColor; -webkit-mask: var(--i) center / contain no-repeat; mask: var(--i) center / contain no-repeat; }
+.anchor-b { --i: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%2014a4%204%200%200%200%205.7%200l3-3a4%204%200%200%200-5.7-5.7l-1%201%22/%3E%3Cpath%20d%3D%22M14%2010a4%204%200%200%200-5.7%200l-3%203a4%204%200%200%200%205.7%205.7l1-1%22/%3E%3C/svg%3E"); color: var(--glow); }
+.hb-game-cta b::before { content: ""; display: inline-block; width: 1.1em; height: 1.1em; margin-right: .4em; vertical-align: -.15em; background: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%2013c0-3%203-5%207-5%205%200%208%203%209%206l2-2-1%204%201%203-3-1c-2%201-5%202-8%202-4%200-7-3-7-7z%22/%3E%3Ccircle%20cx%3D%228%22%20cy%3D%2212%22%20r%3D%22.6%22%20fill%3D%22black%22/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%2013c0-3%203-5%207-5%205%200%208%203%209%206l2-2-1%204%201%203-3-1c-2%201-5%202-8%202-4%200-7-3-7-7z%22/%3E%3Ccircle%20cx%3D%228%22%20cy%3D%2212%22%20r%3D%22.6%22%20fill%3D%22black%22/%3E%3C/svg%3E") center / contain no-repeat; }
+/* one button language: primary (filled), secondary (outline), chip */
+.tool-b, .rb-paper, .map-go, .cat-jump, .ch-fold, .sendb, .amb-btn, .nb-go, .tour-cta, .sp-copy, .resume-go, .more-sp { border-radius: 999px; transition: background-color .2s, border-color .2s, color .2s; }
+.rb-paper, .map-go, .cat-jump, .ch-fold, .more-sp { border: 1px solid rgba(94,230,215,.45); color: var(--glow); background: transparent; padding: 8px 16px; font: 500 13px var(--body); }
+.more-sp { border-style: solid; display: inline-block; }
+.rb-paper:hover, .map-go:hover, .cat-jump:hover, .ch-fold:hover, .more-sp:hover, .tool-b:hover { background: rgba(94,230,215,.12); border-color: var(--glow); color: var(--glow); }
+.tour-cta, .nb-go, .sp-copy { box-shadow: 0 6px 18px rgba(94,230,215,.18); } .tour-cta:hover, .sp-copy:hover { filter: brightness(1.08); }
+.tool-b { display: inline-flex; align-items: center; gap: 6px; }
+.rb-paper::after { content: none; } .rb-paper { display: inline-flex; align-items: center; gap: 8px; }
+/* typography */
+p, li, dd, .note, .lede, .lede-big { hyphens: auto; -webkit-hyphens: auto; overflow-wrap: break-word; }
+h1, h2, h3, .ch-t { text-wrap: balance; } p, .lede-big { text-wrap: pretty; }
+.tile b, .rb-v, .rb-k b, .cat-count, .gp-time, td, .len, .rt-month, #live-clock, .hb-hud { font-variant-numeric: tabular-nums; }
+html.less-motion .rv { opacity: 1 !important; transform: none !important; }
+/* depth: the page darkens as you go down, like a dive */
+body { background: linear-gradient(180deg, color-mix(in srgb, #04121a, #010307 calc(var(--depth, 0) * 85%)) 0%, color-mix(in srgb, #020b10, #000103 calc(var(--depth, 0) * 85%)) 100%) fixed; }
+.rail-depth { position: absolute; right: 18px; transform: translateY(-50%); white-space: nowrap; font: 500 10px var(--mono); color: var(--glow); background: rgba(4,18,26,.85); border: 1px solid rgba(94,230,215,.35); padding: 1px 6px; border-radius: 999px; pointer-events: none; font-variant-numeric: tabular-nums; }
+@media (max-width: 600px) { .rail-depth { display: none; } }
+/* species without a photo: a silhouette of the family */
+.sp-card .noimg { display: grid; place-items: center; } .sp-card .noimg svg { width: 88%; height: auto; opacity: .75; }
+/* light mode (beta): the dark design inverted, photos, video and 3D kept as they are */
+html.light { filter: invert(1) hue-rotate(180deg); background: #000; }
+html.light img, html.light video, html.light canvas, html.light iframe, html.light .ch-bg, html.light .photo, html.light .lbx img { filter: invert(1) hue-rotate(180deg); }
+
+/* species box: header, tabs */
+.dt-head { display: grid; gap: 6px; margin-bottom: 10px; } .dt-head .status-pill { justify-self: start; }
+.dt-tabs { display: flex; gap: 4px; margin: 14px 0 10px; border-bottom: 1px solid var(--line); }
+.dt-tab { all: unset; cursor: pointer; padding: 8px 14px; font: 500 13px var(--body); color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.dt-tab[aria-selected="true"] { color: var(--glow); border-bottom-color: var(--glow); } .dt-tab:hover { color: var(--text); } .dt-tab:focus-visible { outline: 2px solid var(--glow); }
+.dt-pane { display: grid; gap: 10px; } .dt-pane[hidden] { display: none; }
+#detail p.src { margin-top: 14px; font-size: 12px; color: var(--muted); }
 </style>
 </head>
 <body>
@@ -1146,23 +1204,24 @@ body.has-bb { padding-bottom: 64px; } body.has-bb .gp { bottom: calc(70px + env(
 <footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="handbook.html" data-i18n="hbk.link"></a> · <a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/wal.funk_891">GitHub</a></p></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="i18n.js?v=20261123151612"></script>
-<script src="globe.js?v=20261123151612"></script>
-<script src="app.js?v=20261123151612"></script>
-<script src="play.js?v=20261123151612"></script>
-<script src="atlas.js?v=20261123151612"></script>
-<script src="humpback3d.js?v=20261123151612"></script>
-<script src="tabs.js?v=20261123151612"></script>
-<script src="ux.js?v=20261123151612"></script>
-<script src="tools.js?v=20261123151612"></script>
-<script src="nowbar.js?v=20261123151612"></script>
-<script src="ambient.js?v=20261123151612"></script>
-<script src="results.js?v=20261123151612"></script>
-<script src="cicompare.js?v=20261123151612"></script>
-<script src="routes.js?v=20261123151612"></script>
-<script src="ui.js?v=20261123151612"></script>
-<script src="polish.js?v=20261123151612"></script>
-<script src="story.js?v=20261123151612"></script>
-<script src="scenes.js?v=20261123151612"></script>
+<script src="i18n.js?v=20261123160538"></script>
+<script src="globe.js?v=20261123160538"></script>
+<script>window.WL_STATION = { paused: true };</script>
+<script src="app.js?v=20261123160538"></script>
+<script src="play.js?v=20261123160538"></script>
+<script src="atlas.js?v=20261123160538"></script>
+<script src="humpback3d.js?v=20261123160538"></script>
+<script src="tabs.js?v=20261123160538"></script>
+<script src="ux.js?v=20261123160538"></script>
+<script src="tools.js?v=20261123160538"></script>
+<script src="nowbar.js?v=20261123160538"></script>
+<script src="ambient.js?v=20261123160538"></script>
+<script src="results.js?v=20261123160538"></script>
+<script src="cicompare.js?v=20261123160538"></script>
+<script src="routes.js?v=20261123160538"></script>
+<script src="ui.js?v=20261123160538"></script>
+<script src="polish.js?v=20261123160538"></script>
+<script src="story.js?v=20261123160538"></script>
+<script src="scenes.js?v=20261123160538"></script>
 </body>
 </html>

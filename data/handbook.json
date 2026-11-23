@@ -1,6 +1,6 @@
 {
- "build": "20261123151612",
- "built_at": "2026-11-23 15:16 CET",
+ "build": "20261123160538",
+ "built_at": "2026-11-23 16:05 CET",
  "libs": [
   [
    "d3",
@@ -35,7 +35,7 @@
   ],
   [
    "app.js",
-   784
+   814
   ],
   [
    "atlas.js",
@@ -111,15 +111,15 @@
   ],
   [
    "ux.js",
-   140
+   147
   ]
  ],
- "own_js_lines": 3390,
- "html_lines": 1168,
+ "own_js_lines": 3427,
+ "html_lines": 1227,
  "i18n_keys": {
-  "en": 1198,
-  "de": 1198,
-  "zh": 1198
+  "en": 1205,
+  "de": 1205,
+  "zh": 1205
  },
  "data_files": [
   [
@@ -192,7 +192,7 @@
   ],
   [
    "data/handbook.json",
-   3083
+   3111
   ],
   [
    "data/learning.json",
@@ -247,6 +247,10 @@
    161528
   ],
   [
+   "data/station.json",
+   122
+  ],
+  [
    "data/status.json",
    12896
   ],
@@ -283,7 +287,7 @@
    5818
   ]
  ],
- "data_bytes": 8775743,
+ "data_bytes": 8775893,
  "species_total": 93,
  "species_at_stations": 18,
  "species_with_clips": 14,

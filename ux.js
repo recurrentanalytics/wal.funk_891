@@ -22,7 +22,7 @@
 
     /* 5. one settings menu: language, background sound, less motion, text size */
     const prefs = store.get('wl-prefs', { motion: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'less' : 'full', size: 'm' });
-    const applyPrefs = () => { document.documentElement.classList.toggle('less-motion', prefs.motion === 'less'); document.documentElement.dataset.size = prefs.size; window.wlLessMotion = prefs.motion === 'less'; };
+    const applyPrefs = () => { document.documentElement.classList.toggle('light', prefs.theme === 'light'); document.documentElement.classList.toggle('less-motion', prefs.motion === 'less'); document.documentElement.dataset.size = prefs.size; window.wlLessMotion = prefs.motion === 'less'; };
     applyPrefs();
     const set = el('div', 'set-pop'); set.hidden = true; set.setAttribute('role', 'dialog'); set.setAttribute('aria-label', t('ux.set'));
     const row = (label, ...kids) => { const r = el('div', 'set-row'); r.append(el('span', 'set-l', label)); const g = el('div', 'set-g'); g.append(...kids); r.append(g); return r; };
@@ -38,11 +38,12 @@
         sel.addEventListener('change', () => { if (sel.value === 'off') wlAmbient.set(false); else wlAmbient.setNode(sel.value); });
         set.append(row(t('amb.menu.title'), sel));
       }
+      set.append(row(t('ux.set.theme'), opt(t('ux.set.dark'), prefs.theme !== 'light', () => { prefs.theme = 'dark'; store.set('wl-prefs', prefs); applyPrefs(); drawSet(); }), opt(t('ux.set.light'), prefs.theme === 'light', () => { prefs.theme = 'light'; store.set('wl-prefs', prefs); applyPrefs(); drawSet(); })));
       set.append(row(t('ux.set.motion'), opt(t('ux.set.full'), prefs.motion === 'full', () => { prefs.motion = 'full'; store.set('wl-prefs', prefs); applyPrefs(); drawSet(); }), opt(t('ux.set.less'), prefs.motion === 'less', () => { prefs.motion = 'less'; store.set('wl-prefs', prefs); applyPrefs(); drawSet(); })));
       set.append(row(t('ux.set.size'), ...[['s', 'A−'], ['m', 'A'], ['l', 'A+'], ['xl', 'A++']].map(([k, n]) => opt(n, prefs.size === k, () => { prefs.size = k; store.set('wl-prefs', prefs); applyPrefs(); drawSet(); }))));
       set.append(el('p', 'set-n', t('ux.set.note')));
     }
-    const setBtn = el('button', 'tool-b'); setBtn.type = 'button'; setBtn.append(el('span', '', '⚙'), el('em', '', t('ux.set'))); setBtn.setAttribute('aria-label', t('ux.set')); setBtn.title = t('ux.set');
+    const setBtn = el('button', 'tool-b'); setBtn.type = 'button'; setBtn.append(el('i', 'ic ic-gear'), el('em', '', t('ux.set'))); setBtn.setAttribute('aria-label', t('ux.set')); setBtn.title = t('ux.set');
     setBtn.addEventListener('click', (e) => { e.stopPropagation(); if (!set.hidden) { set.hidden = true; return; } drawSet(); const r = setBtn.getBoundingClientRect(); set.style.top = (r.bottom + 6) + 'px'; set.style.right = Math.max(8, innerWidth - r.right) + 'px'; set.hidden = false; });
     document.addEventListener('click', (e) => { if (!set.hidden && !set.contains(e.target)) set.hidden = true; });
     document.body.append(set);
@@ -102,6 +103,12 @@
       document.addEventListener('click', () => { tip.hidden = true; }); addEventListener('scroll', () => { tip.hidden = true; }, { passive: true });
     }, 2500);
 
+    /* the dive: background darkens with depth; the rail's thumb shows metres (0 m at the top, 891 m at the hydrophone) */
+    const depthEl = el('span', 'rail-depth'); let depthTick = false;
+    const depth = () => { depthTick = false; const H = Math.max(1, document.documentElement.scrollHeight - innerHeight), f = Math.min(1, Math.max(0, scrollY / H));
+      document.documentElement.style.setProperty('--depth', f.toFixed(3)); const th = document.querySelector('.rail-th');
+      if (th) { if (depthEl.parentElement !== th.parentElement) th.parentElement.append(depthEl); depthEl.style.top = th.style.top; depthEl.textContent = `${I18N.num(Math.round(f * 891))} m`; } };
+    addEventListener('scroll', () => { if (!depthTick) { depthTick = true; requestAnimationFrame(depth); } }, { passive: true }); setTimeout(depth, 800);
     /* 4. where am I: the current block's title next to the active chapter */
     let tick = false;
     const crumb = () => { tick = false; const a = document.querySelector('.toc .wrap a.active'); if (!a) return; const y = 120; let cur = null;
@@ -115,7 +122,7 @@
     let bb = null;
     if (matchMedia('(max-width: 760px)').matches) {
       bb = el('nav', 'bottombar'); bb.setAttribute('aria-label', t('ux.bb'));
-      const prev = el('button', 'bb-b', '‹'), mid = el('button', 'bb-m'), next = el('button', 'bb-b', '›'), find = el('button', 'bb-b', '⌕');
+      const prev = el('button', 'bb-b'), mid = el('button', 'bb-m'), next = el('button', 'bb-b'), find = el('button', 'bb-b'); prev.append(el('i', 'ic ic-left')); next.append(el('i', 'ic ic-right')); find.append(el('i', 'ic ic-search'));
       [prev, mid, next, find].forEach((b) => { b.type = 'button'; }); prev.setAttribute('aria-label', t('ux.k.prev')); next.setAttribute('aria-label', t('ux.k.next')); find.setAttribute('aria-label', t('srch.btn'));
       mid.append(el('span', 'bb-t', '')); bb.append(prev, mid, next, find); document.body.append(bb); document.body.classList.add('has-bb');
       prev.addEventListener('click', () => step(-1)); next.addEventListener('click', () => step(1));

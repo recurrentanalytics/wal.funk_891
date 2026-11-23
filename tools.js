@@ -155,8 +155,8 @@
   /* ---------- top bar buttons ---------- */
   I18N.ready.then(() => {
     const bar = document.querySelector('.toc'), grp = el('div', 'tools');
-    const mkB = (ico, key, fn, kbd) => { const b = el('button', 'tool-b'); b.type = 'button'; b.append(el('span', '', ico)); const lab = el('em', '', t(key)); b.append(lab); if (kbd) b.append(el('kbd', '', kbd)); b.title = t(key); b.setAttribute('aria-label', t(key)); b.addEventListener('click', (e) => { e.stopPropagation(); fn(); }); grp.append(b); return b; };
-    mkB('⌕', 'srch.btn', open, /Mac/.test(navigator.platform) ? '⌘K' : 'Ctrl K'); mkB('🔗', 'share.btn', share); mkB('▸', 'tour.btn', startTour);
+    const mkB = (ico, key, fn, kbd) => { const b = el('button', 'tool-b'); b.type = 'button'; b.append(el('i', 'ic ic-' + ico)); const lab = el('em', '', t(key)); b.append(lab); if (kbd) b.append(el('kbd', '', kbd)); b.title = t(key); b.setAttribute('aria-label', t(key)); b.addEventListener('click', (e) => { e.stopPropagation(); fn(); }); grp.append(b); return b; };
+    mkB('search', 'srch.btn', open, /Mac/.test(navigator.platform) ? '⌘K' : 'Ctrl K'); mkB('link', 'share.btn', share); mkB('play', 'tour.btn', startTour);
     if (bar) bar.append(grp); document.body.append(ov, gp, cap, pop); showAmb();
     gp.setAttribute('aria-label', t('gp.label')); gpStop.setAttribute('aria-label', t('gp.stop')); gpSeek.setAttribute('aria-label', t('gp.seek')); gpVol.setAttribute('aria-label', t('gp.vol'));
     const startCard = $('start-grid'); if (startCard) { const b = el('button', 'tour-cta', t('tour.cta')); b.type = 'button'; b.addEventListener('click', startTour); startCard.before(b); }

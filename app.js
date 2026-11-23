@@ -157,7 +157,7 @@ function whales(w, S) {
     const grid = el('div', 'all-sp');
     const cards = all.map((x) => {
       const st = x.seen[0] + x.seen[1] > 0, c = el('button', 'sp-card' + (st ? ' at-st' : '')); c.type = 'button'; c.title = t(st ? 'cat.station' : 'st.absent.short');
-      if (x.img) { const i = el('img'); i.loading = 'lazy'; i.alt = ''; i.src = x.img.src; c.append(i); } else c.append(el('span', 'noimg'));
+      if (x.img) { const i = el('img'); i.loading = 'lazy'; i.alt = ''; i.src = x.img.src; c.append(i); } else { const ni = el('span', 'noimg'); ni.append(whaleSVG(x.sci, 10, 10, 1000, 300, x.family)); c.append(ni); }
       c.append(el('b', '', spName(x)), el('i', '', x.sci));
       const meta = el('small', 'cat-meta'); meta.append(el('span', 'iucn iucn-' + (x.iucn || 'NA'), x.iucn ? t(`iucn.${x.iucn}`) : '—'), el('span', '', x.len ? `${num(x.len, 1)} m` : ''));
       if (st) meta.append(el('span', 'st-badge', t('cat.station.short'))); c.append(meta);
@@ -191,7 +191,7 @@ function whales(w, S) {
     const head = el('div', 'cat-head'); head.append(el('span', 'kicker', t('cat.kicker')), el('h3', 'scene-title', t('cat.title', { n: all.length })), el('p', 'note', t('cat.lede')));
     cat.append(head, bar, grid, showAll); render();
     const ex = document.querySelector('#whales .explorer'); (ex || line.parentElement).after(cat);
-    const jump = el('a', 'cat-jump', t('cat.jump', { n: all.length })); jump.href = '#catalog';
+    const jump = el('a', 'cat-jump'); jump.append(el('i', 'ic ic-search'), ' ' + t('cat.jump', { n: all.length })); jump.href = '#catalog';
     jump.addEventListener('click', (e) => { e.preventDefault(); if (window.wlReveal) wlReveal(cat); cat.scrollIntoView({ behavior: 'smooth', block: 'start' }); setTimeout(() => q.focus({ preventScroll: true }), 600); });
     line.before(jump);
     window.wlCatalog = () => jump.click();
@@ -324,6 +324,34 @@ function whales(w, S) {
     src.append(' · GBIF'); d.append(src);
   }
   select('Blue whale');
+  // the species box, tidied: header (photo, name, facts, status), the honest "does the Pi recognise it?" always visible,
+  // the rest in three tabs: voice, where they live, evidence at our stations; sources at the bottom
+  const tidy = () => {
+    const d = $('detail'); if (!d || d.querySelector('.dt-tabs') || !d.querySelector('h3.big')) return;
+    const kids = [...d.children], G = { voice: [], range: [], proof: [] }, head = [], foot = [], keep = []; let grp = 'voice', pending = null;
+    kids.forEach((k) => {
+      if (k.matches('figure.photo, h3.big, .lat, .facts')) head.push(k);
+      else if (k.matches('.status-pill')) head.push(k);
+      else if (k.matches('.detect')) keep.push(k);
+      else if (k.matches('.evidence')) G.proof.push(k);
+      else if (k.matches('p.src')) foot.push(k);
+      else if (k.matches('.map-go')) G.range.push(k);
+      else if (k.matches('.kicker')) { const n = k.nextElementSibling; grp = n && n.matches('.pitch, .months') ? 'voice' : 'range'; G[grp].push(k); }
+      else G[grp].push(k);
+    });
+    if (!G.voice.length && !G.range.length) return;
+    const bar = el('div', 'dt-tabs'); bar.setAttribute('role', 'tablist'); const panes = {};
+    [['voice', 'dt.voice'], ['range', 'dt.range'], ['proof', 'dt.proof']].forEach(([k, key], i) => {
+      if (!G[k].length) return;
+      const b = el('button', 'dt-tab', t(key)); b.type = 'button'; b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', String(!bar.children.length));
+      const pane = el('div', 'dt-pane'); pane.setAttribute('role', 'tabpanel'); pane.hidden = !!bar.children.length; pane.append(...G[k]); panes[k] = pane;
+      b.addEventListener('click', () => { bar.querySelectorAll('.dt-tab').forEach((x) => x.setAttribute('aria-selected', String(x === b))); Object.values(panes).forEach((x) => { x.hidden = x !== pane; }); });
+      bar.append(b);
+    });
+    const top = el('div', 'dt-head'); top.append(...head);
+    d.replaceChildren(top, ...keep, bar, ...Object.values(panes), ...foot);
+  };
+  new MutationObserver(() => tidy()).observe($('detail'), { childList: true }); tidy();
   window.wlSelectSpecies = (k, play) => { const key = CUR[k] || k; if (!SP[key] && !bySci[key] && !items.find((it) => it[0] === key)) return false; select(key, !!play); return true; };
   const k = $('known'); k.replaceChildren();
   [0, 1, 2].forEach((i) => k.append(el('div', '', t(`known.${i}`))));
@@ -593,8 +621,10 @@ function machine(s) {
   // sampler health: an hour takes about 45 min plus a 10 min gap, so more than 3 h without a new hour means it has stalled
   const sm = s.sample || {}, lastAge = sm.last_at ? Math.round((Date.now() - new Date(sm.last_at)) / 60000) : null;
   // a running sampler gets 6 h (heat pauses can stretch an hour); a stopped one counts as stalled after 3 h
-  const stalled = lastAge != null && (sm.running ? lastAge > 360 : lastAge > 180);
+  const paused = !!(window.WL_STATION && WL_STATION.paused);   // owner decision: everything runs on the Mac first
+  const stalled = !paused && lastAge != null && (sm.running ? lastAge > 360 : lastAge > 180);
   $('live-text').textContent = age > 90 ? t('hero.silent', { min: age })
+    : paused ? t('hero.paused', { temp, done: num(sm.done || 0), total: num(sm.total || 0) })
     : sm.last_at ? t(stalled ? 'hero.stalled' : 'hero.sampling', { temp, done: num(sm.done || 0), total: num(sm.total || 0), h: num(lastAge / 60, 1) })
     : t('hero.live', { temp, done, total: tot });
   if (stalled && age <= 90) $('live-dot').className = 'dot stale';

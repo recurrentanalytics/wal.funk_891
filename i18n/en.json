@@ -509,7 +509,7 @@
  "det.state.none": "No, nothing tested",
  "det.blue": "whalu found 0 of 240 blue whale calls marked by people. MBARI’s own call index, recomputed by the Pi from one hour a day, follows the season (correlation 0.67) but narrowly failed. A third attempt with Perch also failed (balanced accuracy 0.55, preliminary, Mac mini).",
  "det.fin": "whalu found 0 of 47 marked fin whale calls. MBARI’s call index from one hour a day: correlation 0.81, but just below the mark on “song yes or no” (0.79 instead of 0.80). An attempt with Perch also failed (balanced accuracy 0.65, preliminary, Mac mini).",
- "det.humpback": "Google’s humpback model, used the way MBARI uses it, now scores every hour the Pi listens to. The verdict against MBARI’s published values comes once 300 days are in (about mid-December).",
+ "det.humpback": "Google’s humpback model, used the way MBARI uses it. Against the owner’s ears (300 blind clips) it agreed well (balanced accuracy 0.914), but with 19 instead of 20 song answers there is too little to judge; a second, larger listening round is being prepared. The comparison with MBARI’s daily values needs 300 sampled days and waits until the tests move from the Mac to the Pi.",
  "det.orca": "The orca classifier scored 94 % on one Orcasound test day. Off Monterey it is useless: it fires on one window in five. Of 24 orca encounters reported by people it found 23 (96 %), but it also fired in 27 % of quiet times; 10 % was allowed. Failed (preliminary, Mac mini).",
  "det.minke": "The Pi has no tested detector for minke whales.",
  "det.brydes": "The Pi has no tested detector for Bryde’s whales.",
@@ -1172,7 +1172,7 @@
  "cat.title": "All {n} living whale and dolphin species",
  "cat.lede": "Search, filter, sort. Bright: reported at our stations. Hatched: not so far. Click to see the species in detail above.",
  "cat.showall": "Show all {n}",
- "cat.jump": "🔎 Search all {n} species ↓",
+ "cat.jump": "Search all {n} species ↓",
  "fold.all.close": "Fold everything in this chapter",
  "fold.all.open": "Unfold everything in this chapter",
  "ux.skip": "Skip to content",
@@ -1196,5 +1196,12 @@
  "ux.anchor": "Copy link to this section",
  "ux.anchor.ok": "Link to this section copied",
  "ux.bb": "Chapter navigation",
- "ux.resume": "Continue where you were: {x} →"
+ "ux.resume": "Continue where you were: {x} →",
+ "ux.set.theme": "Appearance",
+ "ux.set.dark": "dark",
+ "ux.set.light": "light (beta)",
+ "hero.paused": "Pi paused · {temp} °C · {done} of {total} days sampled · all tests run on the Mac mini first",
+ "dt.voice": "Voice",
+ "dt.range": "Where they live",
+ "dt.proof": "Evidence here"
 }

@@ -29,8 +29,8 @@
     const kpi = el('div', 'rb-kpi');
     [['pass', cnt('pass')], ['fail', cnt('fail')], ['pending', cnt('pending')], ['mac', all.filter((r) => r.where === 'mac').length]].forEach(([k, n]) => { const c = el('div', 'rb-k ' + k); c.append(el('b', '', String(n)), el('span', '', t('res.kpi.' + k))); kpi.append(c); });
     const paper = el('a', 'rb-paper', t('res.paper')); paper.href = 'paper.html?lang=' + I18N.lang;
-    const lab = el('a', 'rb-paper', '🎧 ' + t('res.label.link')); lab.href = 'label.html?mode=owner&lang=' + I18N.lang;
-    const game = el('a', 'rb-paper', '🐋 ' + t('res.game.link')); game.href = 'label.html?lang=' + I18N.lang;
+    const lab = el('a', 'rb-paper'); lab.append(el('i', 'ic ic-phones'), t('res.label.link')); lab.href = 'label.html?mode=owner&lang=' + I18N.lang;
+    const game = el('a', 'rb-paper'); game.append(el('i', 'ic ic-whale'), t('res.game.link')); game.href = 'label.html?lang=' + I18N.lang;
     host.append(kpi, paper, game, lab);
     R.groups.forEach((g) => {
       const box = el('div', 'rb-group'); box.append(el('h3', '', t('res.group.' + g.id)), el('p', 'note', t('res.group.' + g.id + '.d')));
