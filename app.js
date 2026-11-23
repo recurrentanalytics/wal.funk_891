@@ -680,6 +680,15 @@ function menu() {
 I18N.ready.then(() => {
   menu();
   getJSON('data/clip.json').then((c) => { hero(c.grid); player(c); }).catch(() => { $('clipnote').textContent = t('listen.loadfail'); });
+  getJSON('data/place_photos.json').then((pp) => {
+    const box = $('place-photos'); if (!box) return; box.replaceChildren();
+    pp.photos.forEach((p) => {
+      const f = el('figure'); const i = el('img'); i.src = p.src; i.alt = t(`pp.${p.key}.t`); i.loading = 'lazy';
+      const c = el('figcaption'); c.append(el('b', '', t(`pp.${p.key}.t`)), document.createTextNode(t(`pp.${p.key}.d`)));
+      const cr = el('small'); cr.append(`${t('whales.photo')} ${p.by} · ${p.lic} · `); const a = el('a', '', 'Wikimedia Commons'); a.href = p.page; a.rel = 'noopener'; cr.append(a); c.append(cr);
+      f.append(i, c); box.append(f);
+    });
+  }).catch(() => {});
   Promise.all([getJSON('whales.json'), getJSON('data/species.json').catch(() => null)]).then(([w, S]) => { whales(w, S); localMap(w.hydrophones); }).catch(() => { $('detail').textContent = t('ui.loadfail'); });
   getJSON('data/world.json').then(worldMap).catch(() => { $('world').textContent = t('ui.loadfail'); });
   getJSON('data/status.json').then((s) => { machine(s); results(s); }).catch(() => { $('stamp').textContent = t('machine.loadfail'); $('stamp').classList.add('err'); $('live-text').textContent = t('hero.noreport'); });

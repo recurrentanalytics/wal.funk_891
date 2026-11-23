@@ -624,5 +624,17 @@
  "amb.on": "Turn underwater music on",
  "amb.off": "Turn underwater music off",
  "amb.state.on": "Music on",
- "amb.state.off": "Music off"
+ "amb.state.off": "Music off",
+ "pp.kicker": "For real",
+ "pp.title": "What the places look like",
+ "pp.moss.t": "Moss Landing, California",
+ "pp.moss.d": "Home of MBARI; from here the cable runs through Monterey Bay to the hydrophone 891 m down.",
+ "pp.canyon.t": "Monterey Canyon in 3D",
+ "pp.canyon.d": "A NOAA image from sonar data: one of the largest submarine canyons in the world, cut into the seafloor off Moss Landing. The hydrophone sits on its flank.",
+ "pp.limekiln.t": "Lime Kiln Point, San Juan Island",
+ "pp.limekiln.d": "West coast of San Juan Island on Haro Strait, about 5 km south of Orcasound’s “Orcasound Lab” hydrophone. Southern Resident orcas are often seen passing here.",
+ "pp.pt.t": "Port Townsend, Washington",
+ "pp.pt.d": "At the entrance to Puget Sound; Orcasound’s “Port Townsend” hydrophone hangs off the Marine Science Center.",
+ "pp.robinson.t": "Point Robinson, Maury Island",
+ "pp.robinson.d": "In the middle of Puget Sound; home of Orcasound’s “Point Robinson” hydrophone (not streaming at the moment)."
 }

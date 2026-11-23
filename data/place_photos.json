@@ -1,0 +1,40 @@
+{
+ "checked": "2026-11-23",
+ "photos": [
+  {
+   "key": "moss",
+   "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d2/Moss_Landing_California_aerial_view.jpg/960px-Moss_Landing_California_aerial_view.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Moss_Landing_California_aerial_view.jpg",
+   "by": "U.S. Army Corps of Engineers",
+   "lic": "Public domain"
+  },
+  {
+   "key": "canyon",
+   "src": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Monterey_Canyon_system.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Monterey_Canyon_system.jpg",
+   "by": "NOAA",
+   "lic": "Public domain"
+  },
+  {
+   "key": "limekiln",
+   "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/Lime_Kiln_Lighthouse_01.jpg/960px-Lime_Kiln_Lighthouse_01.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Lime_Kiln_Lighthouse_01.jpg",
+   "by": "Joe Mabel",
+   "lic": "CC BY-SA 4.0"
+  },
+  {
+   "key": "pt",
+   "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9e/Pt_Townsend%2C_WA_beach_01.jpg/960px-Pt_Townsend%2C_WA_beach_01.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Pt_Townsend,_WA_beach_01.jpg",
+   "by": "Joe Mabel",
+   "lic": "CC BY-SA 3.0"
+  },
+  {
+   "key": "robinson",
+   "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/61/Point_Robinson_Lighthouse_13.jpg/960px-Point_Robinson_Lighthouse_13.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Point_Robinson_Lighthouse_13.jpg",
+   "by": "Joe Mabel",
+   "lic": "CC BY-SA 3.0"
+  }
+ ]
+}
