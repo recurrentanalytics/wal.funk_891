@@ -28,7 +28,7 @@
     const [R, CI, H] = await Promise.all([get('data/results.json'), get('data/ci_compare.json').catch(() => null), get('data/handbook.json')]);
     const rows = Object.fromEntries(R.groups.flatMap((g) => g.rows).map((r) => [r.id, r])), v = (id, d = 3) => rows[id] && rows[id].value != null ? n(rows[id].value, d) : '—';
     const all = Object.values(rows), cnt = (k) => all.filter((r) => r.verdict === k).length;
-    const V = { pass: cnt('pass'), fail: cnt('fail'), pending: cnt('pending'), total: all.length, s3p: v('s3_perch'), s3w: v('s3_whalu', 2), cbr: v('ci_blue_rho'), cfr: v('ci_fin_rho'), cbb: v('ci_blue_ba'), cfb: v('ci_fin_ba'), sp: v('s4_speed', 2), samp: v('sampling', 1), heat: v('s4c_heat', 1), build: H.build };
+    const V = { pass: cnt('pass'), fail: cnt('fail'), pending: cnt('pending'), total: all.length, s3p: v('s3_perch'), s3w: v('s3_whalu', 2), cbr: v('ci_blue_rho'), cfr: v('ci_fin_rho'), cbb: v('ci_blue_ba'), cfb: v('ci_fin_ba'), sp: v('s4_speed', 2), samp: v('sampling', 1), heat: v('s4c_heat', 1), s7ab: v('s7a_blue'), s7af: v('s7a_fin'), build: H.build };
     $('hb-build').textContent = t('hbk.build', { b: H.build, at: H.built_at });
     document.title = 'wal.funk_891 · ' + t('pap.short');
     const main = $('hb'), toc = $('toc'), secs = [];

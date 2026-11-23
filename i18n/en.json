@@ -971,7 +971,7 @@
  "pap.col.where": "Computed on",
  "pap.tab1": "Table 1. All pre-registered measures. Pass marks were fixed before each run; “running” rows are filled in automatically when the test finishes.",
  "pap.r.orca": "Orcas. On labelled Orcasound windows the Perch-based classifier reached a balanced accuracy of {s3p}, whalu {s3w}. The orca classifier fired on many windows at MBARI and is not used there; its test against human-reported encounters on Orcasound is listed in Table 1.",
- "pap.r.bluefin": "Blue and fin whales. whalu found none of the labelled DCLDE calls. A Perch-based classifier on the same data is being tested.",
+ "pap.r.bluefin": "Blue and fin whales. whalu found none of the labelled DCLDE calls. A Perch classifier on the same data (preliminary, Mac mini) reached a balanced accuracy of {s7ab} for blue whale D calls and {s7af} for fin whale 40 Hz calls on the test split, both below the mark of 0.80.",
  "pap.r.ci": "MBARI’s call index from one hour per day followed MBARI’s published daily values (Spearman {cbr} for blue, {cfr} for fin whales; Figure 1). Presence agreement was {cbb} and {cfb}; the blue whale peak fell one month early. Both species therefore failed as pre-registered, although the correlations are well above the mark.",
  "pap.fig1.t": "Figure 1. Monthly mean call index: MBARI’s published daily values 2015–2021 (orange) and the Pi’s one hour per day (turquoise). The dashed line is MBARI’s presence threshold 1.01.",
  "pap.r.hump": "Humpback whales. The humpback CNN now scores every sampled hour; the verdict follows once 300 days in MBARI’s reference period are available.",
