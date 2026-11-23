@@ -82,13 +82,25 @@
     s.append(table([t('hbk.col.chapter'), t('hbk.col.what')], ['dive', 'whales', 'places', 'listen', 'results', 'machine'].map((k) => [t(k === 'listen' ? 'nav.hear' : `nav.${k}`), t(`start.${k}`)])));
     paras(s, ['hbk.use.p2', 'hbk.use.p3']);
 
-    s = sec('words', 8);
+    // the page in pictures: screenshots in the reader's language, taken by tools/screenshots.py
+    s = sec('screens', 8); paras(s, ['hbk.screens.p1']);
+    const SC = await get('data/screens.json').catch(() => null);
+    if (SC) {
+      const grid = el('div', 'shots'), L = I18N.lang;
+      SC.views.forEach((v) => { const sh = SC.shots.find((x) => x.view === v && x.lang === L) || SC.shots.find((x) => x.view === v && x.lang === 'en'); if (!sh) return;
+        const f = el('figure', 'shot'), a = el('a'); a.href = sh.file; a.target = '_blank'; a.rel = 'noopener'; const im = el('img'); im.src = sh.file + '?v=' + H.build; im.alt = t(`hbk.scr.${v}`); im.loading = 'lazy'; im.width = sh.w; im.height = sh.h; a.append(im);
+        f.append(a, el('figcaption', '', t(`hbk.scr.${v}`))); grid.append(f); });
+      s.append(grid, el('p', 'meta', t('hbk.screens.at', { at: SC.taken_at })));
+    }
+    paras(s, ['hbk.crowd.p1', 'hbk.crowd.p2']);
+
+    s = sec('words', 9);
     const W = ['hydrophone', 'spectrogram', 'window', 'embedding', 'classifier', 'threshold', 'ba', 'gate', 'throttling', 'candidate'];
     s.append(table([t('hbk.col.term'), t('hbk.col.meaning')], W.map((k) => [t(`w.${k}`), t(`w.${k}.d`)])));
 
-    s = sec('limits', 9); paras(s, ['hbk.limits.p1', 'hbk.limits.p2', 'hbk.limits.p3']);
+    s = sec('limits', 10); paras(s, ['hbk.limits.p1', 'hbk.limits.p2', 'hbk.limits.p3']);
 
-    s = sec('version', 10);
+    s = sec('version', 11);
     s.append(table([t('hbk.col.part'), t('hbk.col.what')], [[t('hbk.v.build'), H.build], [t('hbk.v.at'), H.built_at], [t('hbk.v.species'), t('hbk.v.species.d', { n: H.species_total, st: H.species_at_stations, c: H.species_with_clips })],
       [t('hbk.v.keys'), `en ${H.i18n_keys.en} · de ${H.i18n_keys.de} · zh ${H.i18n_keys.zh}`], [t('hbk.v.repo'), link('github.com/recurrentanalytics/wal.funk_891', 'https://github.com/recurrentanalytics/wal.funk_891')]]));
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261123130127">
+<meta name="build" content="20261123132731">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>wal.funk_891 · Handbook</title>
 <meta name="theme-color" content="#04121a">
@@ -54,6 +54,10 @@ td code, p code { font: 13px var(--mono); color: #bff4ee; }
   a { color: #0b6f66; text-decoration: none; }
   .diagram svg text { fill: #111 !important; } .diagram svg rect { stroke: #0b6f66 !important; fill: #f3faf9 !important; } .diagram svg path, .diagram svg line { stroke: #0b6f66 !important; }
 }
+.shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 16px; margin: 14px 0; }
+.shot { margin: 0; } .shot img { width: 100%; height: auto; display: block; border-radius: 10px; border: 1px solid var(--line); }
+.shot figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+@media print { .shots { grid-template-columns: 1fr 1fr; } .shot { break-inside: avoid; } }
 </style>
 </head>
 <body>
@@ -68,7 +72,7 @@ td code, p code { font: 13px var(--mono); color: #bff4ee; }
   <nav class="toc" id="toc" aria-label="Contents"></nav>
   <main id="hb"></main>
 </div>
-<script src="i18n.js?v=20261123130127"></script>
-<script src="handbook.js?v=20261123130127"></script>
+<script src="i18n.js?v=20261123132731"></script>
+<script src="handbook.js?v=20261123132731"></script>
 </body>
 </html>

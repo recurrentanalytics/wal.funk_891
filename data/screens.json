@@ -1,0 +1,161 @@
+{
+ "taken_at": "2026-11-23 13:27",
+ "views": [
+  "hero",
+  "whales",
+  "canyon",
+  "results",
+  "game",
+  "paper",
+  "handbook"
+ ],
+ "shots": [
+  {
+   "view": "hero",
+   "lang": "en",
+   "file": "photos/hb/hero-en.jpg",
+   "w": 1200,
+   "h": 750
+  },
+  {
+   "view": "whales",
+   "lang": "en",
+   "file": "photos/hb/whales-en.jpg",
+   "w": 1200,
+   "h": 750
+  },
+  {
+   "view": "canyon",
+   "lang": "en",
+   "file": "photos/hb/canyon-en.jpg",
+   "w": 1200,
+   "h": 750
+  },
+  {
+   "view": "results",
+   "lang": "en",
+   "file": "photos/hb/results-en.jpg",
+   "w": 1200,
+   "h": 750
+  },
+  {
+   "view": "game",
+   "lang": "en",
+   "file": "photos/hb/game-en.jpg",
+   "w": 1200,
+   "h": 750
+  },
+  {
+   "view": "paper",
+   "lang": "en",
+   "file": "photos/hb/paper-en.jpg",
+   "w": 1200,
+   "h": 750
+  },
+  {
+   "view": "handbook",
+   "lang": "en",
+   "file": "photos/hb/handbook-en.jpg",
+   "w": 1200,
+   "h": 750
+  },
+  {
+   "view": "hero",
+   "lang": "de",
+   "file": "photos/hb/hero-de.jpg",
+   "w": 1200,
+   "h": 750
+  },
+  {
+   "view": "whales",
+   "lang": "de",
+   "file": "photos/hb/whales-de.jpg",
+   "w": 1200,
+   "h": 750
+  },
+  {
+   "view": "canyon",
+   "lang": "de",
+   "file": "photos/hb/canyon-de.jpg",
+   "w": 1200,
+   "h": 750
+  },
+  {
+   "view": "results",
+   "lang": "de",
+   "file": "photos/hb/results-de.jpg",
+   "w": 1200,
+   "h": 750
+  },
+  {
+   "view": "game",
+   "lang": "de",
+   "file": "photos/hb/game-de.jpg",
+   "w": 1200,
+   "h": 750
+  },
+  {
+   "view": "paper",
+   "lang": "de",
+   "file": "photos/hb/paper-de.jpg",
+   "w": 1200,
+   "h": 750
+  },
+  {
+   "view": "handbook",
+   "lang": "de",
+   "file": "photos/hb/handbook-de.jpg",
+   "w": 1200,
+   "h": 750
+  },
+  {
+   "view": "hero",
+   "lang": "zh",
+   "file": "photos/hb/hero-zh.jpg",
+   "w": 1200,
+   "h": 750
+  },
+  {
+   "view": "whales",
+   "lang": "zh",
+   "file": "photos/hb/whales-zh.jpg",
+   "w": 1200,
+   "h": 750
+  },
+  {
+   "view": "canyon",
+   "lang": "zh",
+   "file": "photos/hb/canyon-zh.jpg",
+   "w": 1200,
+   "h": 750
+  },
+  {
+   "view": "results",
+   "lang": "zh",
+   "file": "photos/hb/results-zh.jpg",
+   "w": 1200,
+   "h": 750
+  },
+  {
+   "view": "game",
+   "lang": "zh",
+   "file": "photos/hb/game-zh.jpg",
+   "w": 1200,
+   "h": 750
+  },
+  {
+   "view": "paper",
+   "lang": "zh",
+   "file": "photos/hb/paper-zh.jpg",
+   "w": 1200,
+   "h": 750
+  },
+  {
+   "view": "handbook",
+   "lang": "zh",
+   "file": "photos/hb/handbook-zh.jpg",
+   "w": 1200,
+   "h": 750
+  }
+ ]
+}
