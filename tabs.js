@@ -50,7 +50,7 @@
         card.classList.add('has-photo'); const bg = mk('div', 'ch-bg'); bg.style.backgroundImage = `url("${m.photo.src}")`; card.prepend(bg);
         const cr = mk('a', 'ch-credit', `${t('whales.photo')} ${m.photo.by} · ${m.photo.lic}${m.cap ? ' · ' + t('chph.' + m.cap) : ''}`); cr.href = m.photo.page; cr.rel = 'noopener'; card.append(cr);
       } else if ((m.hb != null || m.wire) && window.humpbackScene) {
-        card.classList.add('has-wire', 'has-hb'); const host = mk('div', 'ch-wire'); card.prepend(host); requestAnimationFrame(() => window.humpbackScene(host, m.hb || 0));
+        card.classList.add('has-wire', 'has-hb'); const host = mk('div', 'ch-wire'); card.prepend(host); whenNear(host, () => window.humpbackScene(host, m.hb || 0));
         const cr = mk('span', 'ch-credit', t('hb.note')); card.append(cr);
       }
     })).catch(() => {});

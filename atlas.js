@@ -161,7 +161,7 @@
   I18N.ready.then(() => {
     getJSON('data/atlas.json').then((a) => {
       if (!a.points || !a.points.length) throw new Error('building');
-      atlas(a); galaxy(a); timelapse(a);
+      atlas(a); whenNear(document.getElementById('galaxy'), () => galaxy(a)); timelapse(a);
     }).catch(() => getJSON('data/status.json').then((st) => st.sample).catch(() => null).then((prog) => {
       building('atlas', prog); $('atlas-side').closest('.atlas-wrap').classList.add('empty'); $('atlas-side').remove(); $('atlas-months').parentElement.remove(); $('atlas-sum').remove();
       building('tl', prog); $('tl-play').parentElement.remove(); $('tl-bars').remove(); $('tl-note').remove();

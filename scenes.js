@@ -363,7 +363,7 @@
   }
 
   I18N.ready.then(() => {
-  get('data/bathy_hi.json').then(bathy).catch(() => { const m = document.querySelector('#bathy3d .scene-msg'); if (m) m.textContent = t('ui.loadfail'); });
-  get('data/clip.json').then(land).catch(() => { const m = document.querySelector('#land3d .scene-msg'); if (m) m.textContent = t('ui.loadfail'); });
+  whenNear(document.getElementById('bathy3d'), () => get('data/bathy_hi.json').then(bathy).catch(() => { const m = document.querySelector('#bathy3d .scene-msg'); if (m) m.textContent = t('ui.loadfail'); }));
+  whenNear(document.getElementById('land3d'), () => get('data/clip.json').then(land).catch(() => { const m = document.querySelector('#land3d .scene-msg'); if (m) m.textContent = t('ui.loadfail'); }));
   });
 })();

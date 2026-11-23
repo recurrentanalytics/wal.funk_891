@@ -985,5 +985,8 @@
  "pap.l.p2": "Some results were computed on a Mac mini and are preliminary until the Pi repeats them. No detection is called a discovery until a person has listened to it and compared it with what MBARI and Orcasound report.",
  "pap.data.t": "Data and code availability",
  "pap.data.p1": "Audio: MBARI Pacific Sound (CC BY 4.0), Orcasound (CC BY-NC-SA 4.0), NOAA NCEI DCLDE 2015 (public domain). Reference values: Ryan et al. 2025 (CC BY 4.0). Code, test plans, results and this draft: github.com/recurrentanalytics/wal.funk_891.",
- "pap.refs.t": "References"
+ "pap.refs.t": "References",
+ "now.orca": "Right now: {min} min ago people reported orcas at {place}.",
+ "now.whale": "Right now: {min} min ago a whale was reported at {place}.",
+ "now.listen": "Listen live now"
 }

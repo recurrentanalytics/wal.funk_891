@@ -985,5 +985,8 @@
  "pap.l.p2": "Einige Ergebnisse wurden auf einem Mac mini gerechnet und sind vorläufig, bis der Pi sie wiederholt. Kein Treffer gilt als Fund, bevor ein Mensch ihn angehört und mit den Berichten von MBARI und Orcasound verglichen hat.",
  "pap.data.t": "Daten und Code",
  "pap.data.p1": "Audio: MBARI Pacific Sound (CC BY 4.0), Orcasound (CC BY-NC-SA 4.0), NOAA NCEI DCLDE 2015 (gemeinfrei). Vergleichswerte: Ryan et al. 2025 (CC BY 4.0). Code, Testpläne, Ergebnisse und dieser Entwurf: github.com/recurrentanalytics/wal.funk_891.",
- "pap.refs.t": "Literatur"
+ "pap.refs.t": "Literatur",
+ "now.orca": "Gerade eben: Vor {min} Min. haben Menschen Orcas bei {place} gemeldet.",
+ "now.whale": "Gerade eben: Vor {min} Min. wurde ein Wal bei {place} gemeldet.",
+ "now.listen": "Jetzt live hören"
 }

@@ -985,5 +985,8 @@
  "pap.l.p2": "部分结果在 Mac mini 上计算，在树莓派重做之前均为初步结果。在有人亲自收听并与 MBARI 和 Orcasound 的报告比较之前，任何检测都不算发现。",
  "pap.data.t": "数据与代码",
  "pap.data.p1": "音频：MBARI Pacific Sound（CC BY 4.0）、Orcasound（CC BY-NC-SA 4.0）、NOAA NCEI DCLDE 2015（公有领域）。参考值：Ryan 等 2025（CC BY 4.0）。代码、检验计划、结果和本草稿：github.com/recurrentanalytics/wal.funk_891。",
- "pap.refs.t": "参考文献"
+ "pap.refs.t": "参考文献",
+ "now.orca": "就在刚才：{min} 分钟前有人在 {place} 报告了虎鲸。",
+ "now.whale": "就在刚才：{min} 分钟前在 {place} 报告了鲸。",
+ "now.listen": "立即收听直播"
 }

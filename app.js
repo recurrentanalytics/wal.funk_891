@@ -669,6 +669,8 @@ function live() {
     } catch (e) { stop(); state.textContent = t('live.fail'); }
   });
   sel.addEventListener('change', () => { if (playing) { stop(); btn.click(); } });
+  // other parts of the page (the "right now" banner, search) can start a feed directly
+  window.wlLive = (node) => { if (![...sel.options].some((o) => o.value === node)) return false; sel.value = node; if (playing) stop(); btn.click(); return true; };
 }
 function calendar(c) {
   const start = new Date('2015-07-01T00:00:00Z'), now = new Date(), totalH = Math.floor((now - start) / 3600000);
@@ -720,7 +722,7 @@ I18N.ready.then(() => {
     });
   }).catch(() => {});
   Promise.all([getJSON('whales.json'), getJSON('data/species.json').catch(() => null)]).then(([w, S]) => { whales(w, S); localMap(w.hydrophones); }).catch(() => { $('detail').textContent = t('ui.loadfail'); });
-  getJSON('data/world.json').then(worldMap).catch(() => { $('world').textContent = t('ui.loadfail'); });
+  whenNear($('world'), () => getJSON('data/world.json').then(worldMap).catch(() => { $('world').textContent = t('ui.loadfail'); }));
   getJSON('data/status.json').then((s) => { machine(s); results(s); }).catch(() => { $('stamp').textContent = t('machine.loadfail'); $('stamp').classList.add('err'); $('live-text').textContent = t('hero.noreport'); });
   getJSON('data/soundmap.json').then(soundmap).catch(() => { $('smap-note').textContent = t('ui.loadfail'); });
   getJSON('data/voices/voices.json').then(voices).catch(() => {}).finally(() => getJSON('data/candidates.json').then(queue).catch(() => queue([])));

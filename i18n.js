@@ -44,6 +44,9 @@
     if (lang === 'zh') { const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500&display=swap'; document.head.append(l); }
     apply(); switcher();
   });
+  // whenNear(el, fn): run fn once, when el comes within ~1.5 screens (heavy 3D views start only when needed)
+  window.whenNear = (el, fn) => { if (!el) return fn(); if (!('IntersectionObserver' in window)) return fn();
+    const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); fn(); } }, { rootMargin: '150% 0px' }); io.observe(el); };
   window.I18N = { t, lang, locale, num, ready, apply };
   window.t = t;
 })();
