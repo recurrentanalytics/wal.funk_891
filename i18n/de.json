@@ -557,5 +557,10 @@
  "routes.note.monthly": "{name}: {n} Meldungen mit Koordinaten bei GBIF, alle Jahre zusammen.",
  "routes.note.all": "{name}: {n} Meldungen bei GBIF; für diese Art zeigt die Karte das ganze Jahr.",
  "routes.note.cmp": "Orange: {name}.",
- "routes.caveat": "Vorsicht beim Lesen: Die Karte zeigt, wo Menschen Wale gemeldet haben, nicht wo Wale sind. Viele Meldungen gibt es dort, wo viele Leute auf dem Wasser sind (Walbeobachtung, Küsten im Norden), kaum welche auf dem offenen Ozean. Quelle: GBIF, Stand 23.11.2026."
+ "routes.caveat": "Vorsicht beim Lesen: Die Karte zeigt, wo Menschen Wale gemeldet haben, nicht wo Wale sind. Viele Meldungen gibt es dort, wo viele Leute auf dem Wasser sind (Walbeobachtung, Küsten im Norden), kaum welche auf dem offenen Ozean. Quelle: GBIF, Stand 23.11.2026.",
+ "machine.tchart.h": "{h} h",
+ "machine.tchart.gate": "75 °C Grenze (Brief)",
+ "machine.tchart.pause": "78 °C Pause",
+ "machine.tchart.throttle": "85 °C starke Drosselung",
+ "machine.tchart.throttled": "gedrosselt"
 }

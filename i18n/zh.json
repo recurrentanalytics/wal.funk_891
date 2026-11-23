@@ -557,5 +557,10 @@
  "routes.note.monthly": "{name}：GBIF 中带坐标的记录 {n} 条，所有年份合计。",
  "routes.note.all": "{name}：GBIF 中 {n} 条记录；该物种显示全年分布。",
  "routes.note.cmp": "橙色：{name}。",
- "routes.caveat": "请谨慎解读：地图显示的是人们报告鲸的地方，而不是鲸实际所在之处。水上人多的地方（观鲸、北方海岸）记录多，开阔大洋上记录很少。来源：GBIF，截至 2026 年 11 月 23 日。"
+ "routes.caveat": "请谨慎解读：地图显示的是人们报告鲸的地方，而不是鲸实际所在之处。水上人多的地方（观鲸、北方海岸）记录多，开阔大洋上记录很少。来源：GBIF，截至 2026 年 11 月 23 日。",
+ "machine.tchart.h": "{h} 小时",
+ "machine.tchart.gate": "75 °C 上限（任务书）",
+ "machine.tchart.pause": "78 °C 暂停",
+ "machine.tchart.throttle": "85 °C 严重降频",
+ "machine.tchart.throttled": "已降频"
 }

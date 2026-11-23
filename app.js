@@ -224,7 +224,7 @@ function whales(w, S) {
     const d = $('detail'); d.replaceChildren(); if (!x) return;
     if (x.img) {
       const fig = el('figure', 'photo'); const img = el('img'); img.src = x.img.src.replace(/\/\d+px-/, '/640px-'); img.onerror = () => { img.onerror = null; img.src = x.img.src; }; img.alt = spName(x); img.loading = 'lazy';
-      const cap = el('figcaption'); cap.append(`${t('whales.photo')} ${x.img.by || '—'} · ${x.img.lic || ''} · `);
+      const cap = el('figcaption'); cap.append(`${t('whales.photo')} ${x.img.by ? x.img.by + ' · ' : ''}${x.img.lic ? x.img.lic + ' · ' : ''}`);
       const a = el('a', '', 'Wikimedia Commons'); a.href = x.img.page; a.rel = 'noopener'; cap.append(a); fig.append(img, cap); d.append(fig);
     }
     d.append(el('h3', 'big', spName(x)), el('div', 'lat', `${x.sci}${x.family ? ' · ' + x.family : ''}`));
@@ -530,23 +530,41 @@ function machine(s) {
   (s.pipeline || []).forEach((p) => { const li = el('li', p.active ? 'on' : ''); const val = p.unit ? t(`pipe.v.${p.unit}`, { n: num(p.n || 0), of: num(p.of || 0), real: num(p.real || 0) }) : p.value; li.append(el('b', '', t(`pipe.${p.id}`)), el('span', 'v', val), el('span', 'n', t(`pipe.${p.id}.n`))); pipe.append(li); });
   tchart(s.temps || []);
 }
-function tchart(temps) {
+function tchart(temps, hours) {
+  // interactive: time range buttons and a hover readout (time, temperature, throttling)
   const box = $('tchart'); box.replaceChildren();
   if (temps.length < 2) { box.textContent = t('machine.tchart.few'); return; }
+  hours = hours || tchart.hours || 48; tchart.hours = hours;
+  const bar = el('div', 'tc-bar');
+  [6, 24, 48].forEach((h) => { const b = el('button', h === hours ? 'on' : '', t('machine.tchart.h', { h })); b.type = 'button'; b.addEventListener('click', () => tchart(temps, h)); bar.append(b); });
+  const all = temps.map((r) => ({ d: new Date(r.time), c: +r.temp_c, th: parseInt(r.throttled, 16) || 0 }));
+  const end = all[all.length - 1].d, pts = all.filter((p) => end - p.d <= hours * 3600e3);
   const W = Math.max(300, box.clientWidth || 700), H = 200, m = { t: 10, r: 8, b: 22, l: 30 };
-  const pts = temps.map((r) => ({ d: new Date(r.time), c: +r.temp_c }));
   const x = d3.scaleTime().domain(d3.extent(pts, (p) => p.d)).range([m.l, W - m.r]);
   const y = d3.scaleLinear().domain([40, 92]).range([H - m.b, m.t]);
   const svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': t('machine.tchart') });
   const defs = svgEl('defs'), lg = svgEl('linearGradient', { id: 'tg', x1: 0, x2: 0, y1: 0, y2: 1 });
   lg.append(svgEl('stop', { offset: '0%', 'stop-color': '#ff6b5b', 'stop-opacity': .45 }), svgEl('stop', { offset: '100%', 'stop-color': '#ff6b5b', 'stop-opacity': 0 })); defs.append(lg); svg.append(defs);
   [40, 60, 80].forEach((cc) => { svg.append(svgEl('line', { x1: m.l, x2: W - m.r, y1: y(cc), y2: y(cc), stroke: 'rgba(127,162,174,.12)' })); const tx = svgEl('text', { x: m.l - 6, y: y(cc) + 3, 'text-anchor': 'end' }); tx.textContent = cc; svg.append(tx); });
-  [[75, 'var(--amber)'], [85, 'var(--coral)']].forEach(([cc, col]) => svg.append(svgEl('line', { x1: m.l, x2: W - m.r, y1: y(cc), y2: y(cc), stroke: col, 'stroke-dasharray': '4 4', 'stroke-opacity': .7 })));
+  [[75, 'var(--amber)', t('machine.tchart.gate')], [78, '#7fb2ff', t('machine.tchart.pause')], [85, 'var(--coral)', t('machine.tchart.throttle')]].forEach(([cc, col, lb]) => {
+    svg.append(svgEl('line', { x1: m.l, x2: W - m.r, y1: y(cc), y2: y(cc), stroke: col, 'stroke-dasharray': '4 4', 'stroke-opacity': .7 }));
+    const tx = svgEl('text', { x: W - m.r - 2, y: y(cc) - 3, 'text-anchor': 'end', fill: col, 'font-size': 10 }); tx.textContent = lb; svg.append(tx); });
   svg.append(svgEl('path', { d: d3.area().x((p) => x(p.d)).y0(H - m.b).y1((p) => y(p.c))(pts), fill: 'url(#tg)' }), svgEl('path', { d: d3.line().x((p) => x(p.d)).y((p) => y(p.c))(pts), fill: 'none', stroke: '#ff8a7c', 'stroke-width': 2 }));
   const lp = pts[pts.length - 1]; svg.append(svgEl('circle', { cx: x(lp.d), cy: y(lp.c), r: 4, fill: '#ff8a7c' }));
-  const fmt = (d) => d.toLocaleTimeString(I18N.locale, { hour: '2-digit', minute: '2-digit' });
+  const fmt = (d) => d.toLocaleString(I18N.locale, { weekday: hours > 24 ? 'short' : undefined, hour: '2-digit', minute: '2-digit' });
   [pts[0], lp].forEach((p, i) => { const tx = svgEl('text', { x: x(p.d), y: H - 6, 'text-anchor': i ? 'end' : 'start' }); tx.textContent = fmt(p.d); svg.append(tx); });
-  box.append(svg);
+  const vl = svgEl('line', { y1: m.t, y2: H - m.b, stroke: 'rgba(213,232,237,.5)', visibility: 'hidden' }), vd = svgEl('circle', { r: 4, fill: '#fff', visibility: 'hidden' }); svg.append(vl, vd);
+  const tip = el('div', 'tc-tip'); tip.hidden = true;
+  const bis = d3.bisector((p) => p.d).center;
+  svg.addEventListener('pointermove', (e) => {
+    const r = svg.getBoundingClientRect(), px = (e.clientX - r.left) * W / r.width, p = pts[bis(pts, x.invert(px))]; if (!p) return;
+    vl.setAttribute('x1', x(p.d)); vl.setAttribute('x2', x(p.d)); vd.setAttribute('cx', x(p.d)); vd.setAttribute('cy', y(p.c)); vl.setAttribute('visibility', 'visible'); vd.setAttribute('visibility', 'visible');
+    tip.hidden = false; tip.textContent = `${fmt(p.d)} · ${num(p.c, 1)} °C${(p.th & 0xF) ? ' · ' + t('machine.tchart.throttled') : ''}`;
+    tip.style.left = Math.min(r.width - 160, Math.max(0, x(p.d) * r.width / W - 60)) + 'px';
+  });
+  svg.addEventListener('pointerleave', () => { tip.hidden = true; vl.setAttribute('visibility', 'hidden'); vd.setAttribute('visibility', 'hidden'); });
+  const wrap = el('div', 'tc-wrap'); wrap.append(svg, tip);
+  box.append(bar, wrap);
 }
 
 /* ---------- Voices, live, calendar, queue ---------- */

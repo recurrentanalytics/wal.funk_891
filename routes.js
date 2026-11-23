@@ -45,7 +45,7 @@
     let mx1 = maxFor(sp), mx2 = 1;
     const dot = (c, a, col, mx) => {
       const p = proj([c[1], c[0]]); if (!p) return; const v = Math.log1p(c[2]) / Math.log1p(mx);
-      g.globalAlpha = a * (0.25 + 0.75 * v); g.fillStyle = col; g.beginPath(); g.arc(p[0], p[1], 2 + 9 * v * view.k ** .5, 0, 6.283); g.fill();
+      g.globalAlpha = a * (0.25 + 0.75 * v); g.fillStyle = col; g.beginPath(); g.arc(p[0], p[1], (1.2 + 4.5 * v) * view.k ** .5, 0, 6.283); g.fill();
     };
     function draw() {
       if (!proj) return; g.clearRect(0, 0, W, H); g.globalAlpha = 1;

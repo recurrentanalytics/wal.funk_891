@@ -557,5 +557,10 @@
  "routes.note.monthly": "{name}: {n} records with coordinates in GBIF, all years together.",
  "routes.note.all": "{name}: {n} records in GBIF; for this species the map shows the whole year.",
  "routes.note.cmp": "Orange: {name}.",
- "routes.caveat": "Read with care: the map shows where people reported whales, not where whales are. There are many records where many people are on the water (whale watching, northern coasts) and few on the open ocean. Source: GBIF, as of 23 Nov 2026."
+ "routes.caveat": "Read with care: the map shows where people reported whales, not where whales are. There are many records where many people are on the water (whale watching, northern coasts) and few on the open ocean. Source: GBIF, as of 23 Nov 2026.",
+ "machine.tchart.h": "{h} h",
+ "machine.tchart.gate": "75 °C limit (brief)",
+ "machine.tchart.pause": "78 °C pause",
+ "machine.tchart.throttle": "85 °C hard throttling",
+ "machine.tchart.throttled": "throttled"
 }
