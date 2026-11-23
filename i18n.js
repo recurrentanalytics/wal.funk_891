@@ -21,7 +21,7 @@
   }
   /* One delegated handler: works for links and for buttons from older cached pages alike. */
   document.addEventListener('click', (e) => {
-    const a = e.target.closest && e.target.closest('[data-lang]');
+    const a = e.target.closest && e.target.closest('.lang [data-lang]');
     if (!a || !LANGS.includes(a.dataset.lang)) return;
     e.preventDefault();
     try { localStorage.setItem('wl-lang', a.dataset.lang); } catch (err) {}
