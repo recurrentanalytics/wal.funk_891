@@ -1,4 +1,6 @@
-# Whale Listener status
+# wal.funk_891
+
+Whale radio from 891 m: the depth of the MBARI hydrophone in Monterey Canyon.
 
 Live status page for a Raspberry Pi 5 that scans public hydrophone audio
 (MBARI Pacific Sound, Orcasound) for whale calls.

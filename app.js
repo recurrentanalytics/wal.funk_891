@@ -1,4 +1,4 @@
-/* Whale Listener page logic. Every visible string goes through t(). Needs i18n.js, d3, topojson. */
+/* wal.funk_891 page logic. Every visible string goes through t(). Needs i18n.js, d3, topojson. */
 const $ = (id) => document.getElementById(id);
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 const NS = 'http://www.w3.org/2000/svg';
