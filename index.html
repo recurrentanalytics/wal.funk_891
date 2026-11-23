@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261123150907">
+<meta name="build" content="20261123151612">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>wal.funk_891</title>
 <meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls.">
@@ -869,6 +869,38 @@ body.has-gp .tour { bottom: calc(100px + env(safe-area-inset-bottom, 0px)); }
 .cat-jump:hover { background: rgba(94,230,215,.1); }
 .ch-fold { all: unset; cursor: pointer; display: inline-block; margin-top: 14px; padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(94,230,215,.4); color: var(--glow); font: 500 12px var(--mono); position: relative; z-index: 2; }
 .ch-fold:hover { background: rgba(94,230,215,.12); }
+
+/* usability layer (ux.js) */
+.skip-link { position: absolute; left: 8px; top: -60px; z-index: 100; padding: 8px 14px; border-radius: 8px; background: var(--glow); color: #021016; font-weight: 500; text-decoration: none; }
+.skip-link:focus { top: 8px; }
+:focus-visible { outline: 2px solid var(--glow); outline-offset: 2px; }
+html[data-size="s"] { font-size: 93.75%; } html[data-size="l"] { font-size: 112.5%; } html[data-size="xl"] { font-size: 125%; }
+html[data-size="l"] body { font-size: 1.07em; } html[data-size="xl"] body { font-size: 1.14em; } html[data-size="s"] body { font-size: .95em; }
+html.less-motion *, html.less-motion *::before, html.less-motion *::after { animation-duration: .001s !important; animation-iteration-count: 1 !important; transition: none !important; scroll-behavior: auto !important; }
+.set-pop, .kbd-pop { position: fixed; z-index: 85; width: min(360px, calc(100% - 16px)); padding: 14px; border-radius: 14px; background: #06202c; border: 1px solid var(--glow); box-shadow: 0 20px 60px rgba(0,0,0,.55); }
+.kbd-pop { left: 50%; top: 20vh; transform: translateX(-50%); } .set-pop[hidden], .kbd-pop[hidden] { display: none; }
+.set-h { display: block; font: 500 12px var(--mono); color: var(--glow); letter-spacing: .06em; margin-bottom: 10px; }
+.set-row { display: grid; gap: 6px; margin: 10px 0; } .set-l { font: 500 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); } .set-g { display: flex; flex-wrap: wrap; gap: 6px; }
+.set-n { margin: 8px 0 0; font-size: 12px; color: var(--muted); }
+.kbd-pop dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 0; } .kbd-pop dt { font: 500 13px var(--mono); color: var(--glow); } .kbd-pop dd { margin: 0; color: var(--text); font-size: 14px; }
+.anchor-b::before { content: "🔗"; } .anchor-b { all: unset; cursor: pointer; margin-left: 8px; font-size: .55em; vertical-align: middle; opacity: 0; transition: opacity .2s; }
+h2:hover > .anchor-b, h3:hover > .anchor-b, summary:hover > .anchor-b, .anchor-b:focus-visible { opacity: .8; }
+@media (hover: none) { .anchor-b { opacity: .45; } }
+abbr.gl { text-decoration: underline dotted rgba(94,230,215,.7); text-underline-offset: 3px; cursor: help; }
+.gl-tip { position: fixed; z-index: 90; max-width: 320px; padding: 10px 12px; border-radius: 10px; background: #06202c; border: 1px solid rgba(94,230,215,.5); box-shadow: 0 12px 30px rgba(0,0,0,.5); font-size: 13px; line-height: 1.45; color: var(--text); }
+.gl-tip[hidden] { display: none; } .gl-tip b { display: block; color: var(--glow); font: 500 12px var(--mono); margin-bottom: 3px; }
+.toc .wrap a.active[data-sub]::after { content: " › " attr(data-sub); font-weight: 400; opacity: .75; }
+.resume { position: fixed; left: 50%; transform: translateX(-50%); top: 96px; z-index: 55; display: flex; gap: 4px; align-items: center; padding: 4px; border-radius: 999px; background: rgba(6,32,44,.96); border: 1px solid var(--glow); box-shadow: 0 10px 30px rgba(0,0,0,.45); transition: opacity 1s; max-width: calc(100% - 24px); }
+.resume.fade { opacity: 0; } .resume-go { all: unset; cursor: pointer; padding: 6px 12px; color: var(--glow); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .resume-x { all: unset; cursor: pointer; padding: 4px 10px; color: var(--muted); font-size: 18px; }
+.srch-where { grid-column: 2; font: normal 11px var(--mono); color: var(--muted); }
+.bottombar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 58; display: grid; grid-template-columns: 52px 1fr 52px 52px; align-items: center; padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px)); background: rgba(4,18,26,.96); border-top: 1px solid var(--line); backdrop-filter: blur(10px); }
+.bb-b, .bb-m { all: unset; cursor: pointer; text-align: center; padding: 8px 4px; border-radius: 10px; color: var(--glow); font-size: 20px; }
+.bb-m { font: 500 13px var(--mono); color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bb-sheet { position: fixed; left: 8px; right: 8px; bottom: calc(64px + env(safe-area-inset-bottom, 0px)); z-index: 59; padding: 6px; border-radius: 14px; background: #06202c; border: 1px solid var(--glow); }
+.bb-sheet[hidden] { display: none; } .bb-sheet .sn-i.on { color: var(--glow); }
+body.has-bb { padding-bottom: 64px; } body.has-bb .gp { bottom: calc(70px + env(safe-area-inset-bottom, 0px)); } body.has-bb .tour { bottom: calc(150px + env(safe-area-inset-bottom, 0px)); }
+@media (max-width: 760px) { .toc .wrap a.active[data-sub]::after { content: none; } .toc .sub-c { display: none; } }
+@media (max-width: 760px) { .toc .tools .tool-b:nth-child(1), .toc .tools .tool-b:nth-child(3) { display: none; } }   /* search and tour live in the bottom bar / start page on phones */
 </style>
 </head>
 <body>
@@ -1114,22 +1146,23 @@ body.has-gp .tour { bottom: calc(100px + env(safe-area-inset-bottom, 0px)); }
 <footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="handbook.html" data-i18n="hbk.link"></a> · <a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/wal.funk_891">GitHub</a></p></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="i18n.js?v=20261123150907"></script>
-<script src="globe.js?v=20261123150907"></script>
-<script src="app.js?v=20261123150907"></script>
-<script src="play.js?v=20261123150907"></script>
-<script src="atlas.js?v=20261123150907"></script>
-<script src="humpback3d.js?v=20261123150907"></script>
-<script src="tabs.js?v=20261123150907"></script>
-<script src="tools.js?v=20261123150907"></script>
-<script src="nowbar.js?v=20261123150907"></script>
-<script src="ambient.js?v=20261123150907"></script>
-<script src="results.js?v=20261123150907"></script>
-<script src="cicompare.js?v=20261123150907"></script>
-<script src="routes.js?v=20261123150907"></script>
-<script src="ui.js?v=20261123150907"></script>
-<script src="polish.js?v=20261123150907"></script>
-<script src="story.js?v=20261123150907"></script>
-<script src="scenes.js?v=20261123150907"></script>
+<script src="i18n.js?v=20261123151612"></script>
+<script src="globe.js?v=20261123151612"></script>
+<script src="app.js?v=20261123151612"></script>
+<script src="play.js?v=20261123151612"></script>
+<script src="atlas.js?v=20261123151612"></script>
+<script src="humpback3d.js?v=20261123151612"></script>
+<script src="tabs.js?v=20261123151612"></script>
+<script src="ux.js?v=20261123151612"></script>
+<script src="tools.js?v=20261123151612"></script>
+<script src="nowbar.js?v=20261123151612"></script>
+<script src="ambient.js?v=20261123151612"></script>
+<script src="results.js?v=20261123151612"></script>
+<script src="cicompare.js?v=20261123151612"></script>
+<script src="routes.js?v=20261123151612"></script>
+<script src="ui.js?v=20261123151612"></script>
+<script src="polish.js?v=20261123151612"></script>
+<script src="story.js?v=20261123151612"></script>
+<script src="scenes.js?v=20261123151612"></script>
 </body>
 </html>

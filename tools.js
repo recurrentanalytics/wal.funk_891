@@ -15,21 +15,23 @@
   const box = el('div', 'srch-box'), inp = el('input'), list = el('ol', 'srch-list'), hint = el('p', 'srch-hint');
   inp.type = 'search'; inp.autocomplete = 'off'; inp.spellcheck = false; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true');
   box.append(inp, list, hint); ov.append(box);
+  // which chapter an element sits in: the last chapter card before it in the page
+  const chapterOf = (e) => { let name = t('nav.start'); document.querySelectorAll('.chapter .ch-t').forEach((h) => { if (h.compareDocumentPosition(e) & Node.DOCUMENT_POSITION_FOLLOWING) name = h.textContent.trim(); }); return name; };
   async function build() {
     const out = [], ctx = (e) => { const s = e.closest('section[id]'); const h = s && s.querySelector('h2'); return h ? h.textContent.trim() : ''; };
     document.querySelectorAll('main section[id] h2, main h3, main summary, .chapter h2').forEach((h) => {
       const txt = h.textContent.trim(); if (!txt || txt.length > 120) return;
-      out.push({ kind: t('srch.k.section'), title: txt, sub: h.tagName === 'H2' ? '' : ctx(h), go: () => show(h.closest('details') && h.tagName === 'SUMMARY' ? h.closest('details') : h) });
+      out.push({ kind: t('srch.k.section'), where: chapterOf(h), title: txt, sub: h.tagName === 'H2' ? '' : ctx(h), go: () => show(h.closest('details') && h.tagName === 'SUMMARY' ? h.closest('details') : h) });
     });
-    document.querySelectorAll('.gloss dt').forEach((dt) => out.push({ kind: t('srch.k.term'), title: dt.textContent.trim(), sub: (dt.nextElementSibling || {}).textContent || '', go: () => show(dt) }));
+    document.querySelectorAll('.gloss dt').forEach((dt) => out.push({ kind: t('srch.k.term'), where: chapterOf(dt), title: dt.textContent.trim(), sub: (dt.nextElementSibling || {}).textContent || '', go: () => show(dt) }));
     try {
       const S = await getJSON('data/species.json'), L = I18N.lang;
       (S.species || []).forEach((x) => { const nm = (x.name && (x.name[L] || x.name.en)) || x.sci;
-        out.push({ kind: t('srch.k.species'), title: nm, sub: x.sci, extra: x.name ? Object.values(x.name).join(' ') : '', go: () => { if (window.wlSelectSpecies && wlSelectSpecies(x.sci)) show($('detail')); else show($('whales')); } }); });
+        out.push({ kind: t('srch.k.species'), where: t('nav.whales'), title: nm, sub: x.sci, extra: x.name ? Object.values(x.name).join(' ') : '', go: () => { if (window.wlSelectSpecies && wlSelectSpecies(x.sci)) show($('detail')); else show($('whales')); } }); });
     } catch (e) {}
     try {
       const R = await getJSON('data/results.json');
-      R.groups.flatMap((g) => g.rows).forEach((r) => out.push({ kind: t('srch.k.test'), title: t('res.' + r.id), sub: t('res.v.' + r.verdict), go: () => show($('res-board')) }));
+      R.groups.flatMap((g) => g.rows).forEach((r) => out.push({ kind: t('srch.k.test'), where: t('nav.results'), title: t('res.' + r.id), sub: t('res.v.' + r.verdict), go: () => show($('res-board')) }));
     } catch (e) {}
     out.push({ kind: t('srch.k.doc'), title: t('srch.handbook'), sub: 'handbook.html', go: () => { location.href = 'handbook.html' + location.search; } });
     out.push({ kind: t('srch.k.doc'), title: t('srch.paper'), sub: 'paper.html', go: () => { location.href = 'paper.html' + location.search; } });
@@ -42,7 +44,7 @@
     hits = !words.length ? [] : index.filter((o) => words.every((w) => o.n.includes(w)))
       .map((o) => [o, (o.nt.startsWith(q) ? 0 : o.nt.includes(q) ? 1 : 2)]).sort((a, b) => a[1] - b[1]).slice(0, 30).map((x) => x[0]);
     list.replaceChildren(); cur = 0;
-    hits.forEach((o, i) => { const li = el('li'); li.setAttribute('role', 'option'); li.append(el('small', '', o.kind), el('b', '', o.title)); if (o.sub) li.append(el('span', '', o.sub.slice(0, 110)));
+    hits.forEach((o, i) => { const li = el('li'); li.setAttribute('role', 'option'); li.append(el('small', '', o.kind), el('b', '', o.title)); if (o.where) li.append(el('em', 'srch-where', '↳ ' + o.where)); if (o.sub) li.append(el('span', '', o.sub.slice(0, 110)));
       li.addEventListener('click', () => pick(i)); li.addEventListener('mousemove', () => mark(i)); list.append(li); });
     hint.textContent = words.length && !hits.length ? t('srch.none') : t('srch.hint'); mark(0);
   }
