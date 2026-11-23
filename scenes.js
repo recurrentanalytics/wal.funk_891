@@ -158,10 +158,50 @@
     const world = (c, r, lift) => new THREE.Vector3((c * kmX - W / 2) * S, yOf(Math.min(0, z[r * C + c])) + lift, (r * kmY - H / 2) * S);
     const pts = []; let rr = row(36.802), c0 = col(-121.815), cEnd = col(HP[1]) + 6;
     pts.push(world(c0 + 10, rr, 10), world(c0 + 4, rr, 3));
-    for (let c = c0; c > cEnd; c -= 3) { let best = rr, bz = 1e9; for (let q = Math.max(1, rr - 5); q <= Math.min(R - 2, rr + 5); q++) if (z[q * C + c] < bz) { bz = z[q * C + c]; best = q; } rr = best; pts.push(world(c, rr, .7)); }
+    for (let c = c0; c > cEnd; c -= 2) { let best = rr, bz = 1e9; for (let q = Math.max(1, rr - 5); q <= Math.min(R - 2, rr + 5); q++) if (z[q * C + c] < bz) { bz = z[q * C + c]; best = q; } rr = best; pts.push(world(c, rr, .42)); }
     const last = pts[pts.length - 1], end = new THREE.Vector3(hx + 1.6, hy + 1.3, hz + 2.4);
-    for (let k = 1; k <= 6; k++) { const p = last.clone().lerp(end, k / 6); const cc = Math.min(C - 1, Math.max(0, Math.round((p.x / S + W / 2) / kmX))), rw = Math.min(R - 1, Math.max(0, Math.round((p.z / S + H / 2) / kmY))); p.y = Math.max(p.y, yOf(Math.min(0, z[rw * C + cc])) + .9); pts.push(p); }
+    for (let k = 1; k <= 6; k++) { const p = last.clone().lerp(end, k / 6); const cc = Math.min(C - 1, Math.max(0, Math.round((p.x / S + W / 2) / kmX))), rw = Math.min(R - 1, Math.max(0, Math.round((p.z / S + H / 2) / kmY))); p.y = Math.max(p.y, yOf(Math.min(0, z[rw * C + cc])) + .55); pts.push(p); }
     const path = new THREE.CatmullRomCurve3(pts, false, 'centripetal', .5), pathKm = path.getLength() / S;
+
+    /* ASSUMED life and rocks along the route (labelled on the page): everything below is generated, placed only within
+       ~300 m of the dive path so it stays light: boulders on steep walls, sea pens on soft mud, fish schools in the upper
+       200 m, light shafts near the surface, glowing jellies in the dark. Scale: 1 unit = 167 m across, 55 m vertically. */
+    const anims = [];
+    {
+      const floorAt = (x, zz) => { const fc = (x / S + W / 2) / kmX, fr = (zz / S + H / 2) / kmY, c0 = Math.max(0, Math.min(C - 2, Math.floor(fc))), r0 = Math.max(0, Math.min(R - 2, Math.floor(fr))), tx = fc - c0, ty = fr - r0;
+        const v = (cc, r2) => yOf(Math.min(0, z[r2 * C + cc])); const y = v(c0, r0) * (1 - tx) * (1 - ty) + v(c0 + 1, r0) * tx * (1 - ty) + v(c0, r0 + 1) * (1 - tx) * ty + v(c0 + 1, r0 + 1) * tx * ty;
+        const sl = Math.hypot(z[r0 * C + c0 + 1] - z[r0 * C + c0], z[(r0 + 1) * C + c0] - z[r0 * C + c0]) / (kmX * 1000); return [y, sl, -mOf(y)]; };
+      let seed = 7; const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+      const P0 = new THREE.Vector3(), T0 = new THREE.Vector3(), M = new THREE.Matrix4(), Q = new THREE.Quaternion(), V = new THREE.Vector3(), E = new THREE.Euler();
+      const spots = (n, fn) => { for (let i = 0; i < n; i++) { const u = rnd(); path.getPointAt(u, P0); path.getTangentAt(u, T0); const side = (rnd() - .5) * 3.6, ax = P0.x - T0.z * side, az = P0.z + T0.x * side; const [y, sl, dep] = floorAt(ax, az); if (dep > 3) fn(ax, y, az, sl, dep, u); } };
+      // boulders (3–15 m), more on steep walls
+      const rockG = new THREE.IcosahedronGeometry(1, 1); { const p = rockG.attributes.position; for (let i = 0; i < p.count; i++) { V.fromBufferAttribute(p, i).multiplyScalar(.75 + rnd() * .5); p.setXYZ(i, V.x, V.y, V.z); } rockG.computeVertexNormals(); }
+      const rocks = new THREE.InstancedMesh(rockG, new THREE.MeshStandardMaterial({ color: 0x4a4744, roughness: 1 }), 2200); let nr = 0;
+      spots(9000, (x, y, zz, sl) => { if (nr >= 2200 || rnd() > Math.min(.9, .05 + sl * 2.2)) return; const sz = (3 + Math.pow(rnd(), 2.5) * 12) / 167; E.set(rnd() * 6, rnd() * 6, rnd() * 6); Q.setFromEuler(E); M.compose(V.set(x, y - sz * 1.2, zz), Q, new THREE.Vector3(sz, sz * 3.2, sz)); rocks.setMatrixAt(nr++, M); });
+      rocks.count = nr; below.add ? scene.add(rocks) : 0; rocks.visible = false;
+      // sea pens and sea whips on flat mud deeper than 250 m
+      const penG = new THREE.CylinderGeometry(.0015, .004, 1, 5); penG.translate(0, .5, 0);
+      const pens = new THREE.InstancedMesh(penG, new THREE.MeshStandardMaterial({ color: 0xe8c9a8, roughness: .8, emissive: 0x2a1a10 }), 2500); let np = 0;
+      spots(14000, (x, y, zz, sl, dep) => { if (np >= 2500 || sl > .12 || dep < 250 || rnd() > .5) return; const hgt = (1 + rnd() * 1.5) * .018 * 1.4; E.set((rnd() - .5) * .5, rnd() * 6, (rnd() - .5) * .5); Q.setFromEuler(E); M.compose(V.set(x, y, zz), Q, new THREE.Vector3(1, hgt, 1)); pens.setMatrixAt(np++, M); });
+      pens.count = np; scene.add(pens); pens.visible = false;
+      // fish schools in the upper 220 m: silvery points swirling around a slowly drifting centre
+      const fishTex = (() => { const c = document.createElement('canvas'); c.width = c.height = 32; const g = c.getContext('2d'); const r = g.createRadialGradient(16, 16, 0, 16, 16, 16); r.addColorStop(0, '#fff'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, 32, 32); return new THREE.CanvasTexture(c); })();
+      const schools = []; for (let k = 0; k < 6; k++) { let found = null; for (let tr = 0; tr < 60 && !found; tr++) { const u = rnd() * .35; path.getPointAt(u, P0); const d = -mOf(P0.y); if (d > 30 && d < 220) found = P0.clone(); }
+        if (!found) continue; const n = 500, a = new Float32Array(n * 3), ph = Array.from({ length: n }, () => [rnd() * 6.28, .3 + rnd() * .7, (rnd() - .5) * .6, .6 + rnd() * .8]);
+        const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(a, 3));
+        const pts2 = new THREE.Points(g, new THREE.PointsMaterial({ map: fishTex, size: .012, transparent: true, depthWrite: false, color: 0xcfe2e6, opacity: .9 })); pts2.position.copy(found).add(V.set((rnd() - .5) * .6, .1, (rnd() - .5) * .6)); scene.add(pts2); pts2.visible = false;
+        schools.push(pts2); anims.push((tt) => { for (let i = 0; i < n; i++) { const [p0, r0, h0, sp] = ph[i], ang = p0 + tt * sp * .5; a[i * 3] = Math.cos(ang) * r0 * .25; a[i * 3 + 1] = h0 * .06 + Math.sin(ang * 2) * .01; a[i * 3 + 2] = Math.sin(ang) * r0 * .12; } g.attributes.position.needsUpdate = true; pts2.rotation.y = tt * .05; }); }
+      // light shafts reaching down from the surface over the shallow start of the route
+      const shaftM = new THREE.MeshBasicMaterial({ color: 0xbff4ee, transparent: true, opacity: .05, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide });
+      const shafts = new THREE.Group(); for (let i = 0; i < 40; i++) { path.getPointAt(rnd() * .18, P0); const m = new THREE.Mesh(new THREE.PlaneGeometry(.04 + rnd() * .08, 6), shaftM); m.position.set(P0.x + (rnd() - .5) * 2, -3, P0.z + (rnd() - .5) * 2); m.rotation.set(0, rnd() * 3.14, .12); shafts.add(m); }
+      scene.add(shafts); shafts.visible = false;
+      // glowing jellies and siphonophores in the dark, pulsing
+      const jn = 260, ja = new Float32Array(jn * 3), jc = new Float32Array(jn * 3), jph = []; spots(4000, (x, y, zz, sl, dep, u) => { const k = jph.length; if (k >= jn || dep < 400 || rnd() > .2) return; path.getPointAt(u, P0); ja[k * 3] = x; ja[k * 3 + 1] = Math.min(-.2, y + .2 + rnd() * .8); ja[k * 3 + 2] = zz; const c2 = rnd() > .5 ? [.35, .9, 1] : [.75, .45, 1]; jc.set(c2, k * 3); jph.push(rnd() * 6.28); });
+      const jg = new THREE.BufferGeometry(); jg.setAttribute('position', new THREE.BufferAttribute(ja.slice(0, jph.length * 3), 3)); jg.setAttribute('color', new THREE.BufferAttribute(jc.slice(0, jph.length * 3), 3));
+      const jelly = new THREE.Points(jg, new THREE.PointsMaterial({ map: fishTex, size: .05, vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: .8 })); scene.add(jelly); jelly.visible = false;
+      anims.push((tt) => { jelly.material.opacity = .55 + .35 * Math.sin(tt * 1.3); const p = jg.attributes.position.array; for (let k = 0; k < jph.length; k++) p[k * 3 + 1] += Math.sin(tt * .7 + jph[k]) * .0004; jg.attributes.position.needsUpdate = true; });
+      anims.vis = (under) => { rocks.visible = pens.visible = jelly.visible = shafts.visible = under; schools.forEach((x) => { x.visible = under; }); };
+    }
     const hud = document.createElement('div'); hud.className = 'dive-hud'; const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'play small'; btn.textContent = t('canyon.dive');
     const read = document.createElement('div'); read.className = 'dive-read'; hud.append(btn, read); host.append(hud);
     let dive = null; const DUR = 110000, home = { p: new THREE.Vector3(hx - 250, 250, hz + 320), t: new THREE.Vector3(hx * .5, hy * .6, hz * .5) }, hpV = new THREE.Vector3(hx, hy, hz);
@@ -234,7 +274,7 @@
       // depth precision: a tiny near plane is only needed close to the ground; from high up it makes coast and water flicker
       const nearWanted = under || dive ? 0.05 : Math.min(4, Math.max(0.05, camera.position.y / 80));
       if (Math.abs(nearWanted - camera.near) > camera.near * 0.2) { camera.near = nearWanted; camera.updateProjectionMatrix(); }
-      above.visible = !under; below.visible = under; snow.visible = under;
+      above.visible = !under; below.visible = under; snow.visible = under; anims.vis(under); if (under) anims.forEach((f) => f(tt));
       if (under) {
         const d = sst(0, 700, depth); tmp.copy(shallow).lerp(abyss, d); fogSea.color.copy(tmp); fogSea.density = .018 + .05 * d; scene.fog = fogSea; scene.background.copy(tmp);
         sun.intensity = 1.35 * Math.exp(-depth / 160); hemi.intensity = .2 + .65 * Math.exp(-depth / 220); lamp.intensity = 2.2 * sst(40, 300, depth);
