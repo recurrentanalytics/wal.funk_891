@@ -15,7 +15,7 @@
     const DARK = [.07, .08, .095], GREY = [.2, .22, .25], WHITE = [.86, .88, .9];
     const add = (x, y, z, col, u, part) => { P.push(x, y, z); C.push(...col); U.push(u); PART.push(part); return P.length / 3 - 1; };
     // body: rings from rostrum tip (u=0) to tail stock (u=1)
-    const RINGS = 44, SEG = 28;
+    const RINGS = 64, SEG = 36;
     const h = (u) => u < .03 ? .012 + u * 1.4 : u < .35 ? .054 + .072 * sst(.03, .35, u) : u < .62 ? .126 - .045 * sst(.35, .62, u) : .081 - .066 * sst(.62, 1, u);
     const wq = (u) => u < .7 ? 1.08 : 1.08 - .62 * sst(.7, 1, u);                 // tail stock is narrow side to side
     for (let i = 0; i <= RINGS; i++) {
@@ -26,9 +26,8 @@
         let y = sy * hr, z = cz * wr;
         if (u < .16 && sy > 0) y *= .55 + .45 * u / .16;                                    // flat, broad head from above
         if (u > .06 && u < .48 && sy < 0) {                                                   // throat with ventral grooves
-          y *= 1.12; const g = Math.sin(a * 46) * .0018 * L * Math.sin((u - .06) / .42 * Math.PI); y += g; z += g * .4;
+          y *= 1.12;
         }
-        if (u < .2 && sy > .3) y += (vnoise(u * 60 + seed, a * 9) > .78 ? .006 * L : 0);   // tubercles ("knobs") on the head
         if (sy > 0) y += hump * sy;
         const belly = clamp(-sy * 1.6 - .1, 0, 1), mottle = vnoise(u * 9 + seed * 3, a * 3) * vnoise(u * 23, a * 7);
         const w = clamp(belly * (u > .08 && u < .55 ? .95 : .35) * (.4 + mottle * 1.3), 0, 1);
@@ -40,8 +39,9 @@
     const tipN = add(.5 * L + .004 * L, -.004 * L, 0, DARK, 0, 0); for (let s = 0; s < SEG; s++) I.push(tipN, (s + 1) % SEG, s);
     const tailRing = RINGS * SEG, tipT = add(-.5 * L - .01 * L, 0, 0, DARK, 1, 0); for (let s = 0; s < SEG; s++) I.push(tipT, tailRing + s, tailRing + (s + 1) % SEG);
     // a flat blade from a list of chord sections [pos(x,y,z), along-chord vector, half chord, half thickness]
+    const LINES = [], bladeInfo = [];
     const blade = (secs, col, part, uOf) => {
-      const base = P.length / 3, N = 8;
+      const base = P.length / 3, N = 8; bladeInfo.push([base, secs.length, N]);
       secs.forEach(([p, ch, hc, th]) => {
         for (let k = 0; k < N; k++) { const a = k / N * TAU, cc = Math.cos(a), ss = Math.sin(a);
           add(p[0] + ch[0] * hc * cc, p[1] + ch[1] * hc * cc + ss * th, p[2] + ch[2] * hc * cc, typeof col === 'function' ? col(cc, ss) : col, uOf(p), part); }
@@ -73,9 +73,17 @@
       }
       blade(secs, (cc, ss) => ss > 0 ? DARK : (vnoise(cc * 3 + seed, side * 2 + ss) > .55 ? WHITE : DARK), 3, () => 1);
     });
-    const g = new THREE.BufferGeometry();
-    g.setAttribute('position', new THREE.Float32BufferAttribute(P, 3)); g.setAttribute('color', new THREE.Float32BufferAttribute(C, 3)); g.setIndex(I); g.computeVertexNormals();
-    const mesh = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: .42, metalness: .05 }));
+    // wireframe as contour lines: cross-section rings and lengthwise lines (dense on the throat: the ventral grooves)
+    for (let i = 0; i <= RINGS; i += 2) for (let s = 0; s < SEG; s++) LINES.push(i * SEG + s, i * SEG + (s + 1) % SEG);
+    for (let s = 0; s < SEG; s++) { const a = s / SEG * TAU, throat = Math.sin(a) < -.25; if (s % 2 && !throat) continue;
+      for (let i = 0; i < RINGS; i++) { const u = i / RINGS; if (throat && s % 2 && (u < .06 || u > .48)) continue; LINES.push(i * SEG + s, (i + 1) * SEG + s); } }
+    bladeInfo.forEach(([b0, n, N]) => { for (let i = 0; i < n; i += 2) for (let k = 0; k < N; k += 1) LINES.push(b0 + i * N + k, b0 + i * N + (k + 1) % N);
+      [0, N / 2].forEach((k) => { for (let i = 0; i < n - 1; i++) LINES.push(b0 + i * N + k, b0 + (i + 1) * N + k); }); });
+    const g = new THREE.BufferGeometry(), posAttr = new THREE.Float32BufferAttribute(P, 3);
+    g.setAttribute('position', posAttr); g.setIndex(I);
+    const mesh = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: 0x03111a, transparent: true, opacity: .82, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 }));
+    const lg = new THREE.BufferGeometry(); lg.setAttribute('position', posAttr); lg.setIndex(LINES);
+    mesh.add(new THREE.LineSegments(lg, new THREE.LineBasicMaterial({ color: L < 8 ? 0xb8fff6 : 0x7ff3e6, transparent: true, opacity: .8 })));
     mesh.userData = { base: Float32Array.from(P), U: Float32Array.from(U), PART: Uint8Array.from(PART), L, phase: Math.random() * TAU };
     return mesh;
   }
@@ -91,7 +99,7 @@
       else if (PART[i] === 2) { p[o] = x; p[o + 1] = y + (Math.abs(z) - .07 * L) * fin + dy(.3); p[o + 2] = z; }
       else { p[o] = x; p[o + 1] = y + dy(U[i]); p[o + 2] = z; }
     }
-    mesh.geometry.attributes.position.needsUpdate = true; mesh.geometry.computeVertexNormals();
+    mesh.geometry.attributes.position.needsUpdate = true;
   }
 
   /* ---------- the world: sky, sea surface, light, particles ---------- */
@@ -112,12 +120,11 @@
         void main(){ vec3 p=position; float h=wv(p.xy); p.z+=h; hgt=h; vec4 w=modelMatrix*vec4(p,1.); wp=w.xyz; gl_Position=projectionMatrix*viewMatrix*w; }`,
       fragmentShader: `uniform float t; uniform float under; varying vec3 wp; varying float hgt;
         void main(){ vec3 v=normalize(cameraPosition-wp); float f=pow(1.-abs(v.y),3.);
-          vec3 deep=vec3(.02,.09,.12), sky=vec3(.55,.66,.72), lit=vec3(.5,.8,.85);
-          vec3 above=mix(deep+hgt*.03, sky, clamp(f*.85,0.,1.));
-          float rip=.5+.5*sin(wp.x*.7+t*1.3)*sin(wp.z*.6-t*1.1);
-          vec3 below=mix(vec3(.08,.32,.38), lit, .35+.4*rip);
-          float d=length(cameraPosition.xz-wp.xz); float a=under>.5? 1.0 : .97;
-          gl_FragColor=vec4(under>.5?below:above, a); }` }));
+          vec2 gd=abs(fract(wp.xz/2.5)-.5); float line=smoothstep(.47,.5,max(gd.x,gd.y));
+          float d=length(cameraPosition.xz-wp.xz); float fadeD=1.-smoothstep(40.,260.,d);
+          vec3 base=under>.5? vec3(.03,.13,.17) : vec3(.016,.05,.07);
+          vec3 col=base+vec3(.35,.95,.9)*line*(under>.5?.35:.22)*fadeD + vec3(.2,.5,.5)*f*.15;
+          gl_FragColor=vec4(col, under>.5? .9 : .96); }` }));
     sea.rotation.x = -Math.PI / 2; scene.add(sea);
     // light shafts under water
     const rays = new THREE.Group(); const rayMat = new THREE.MeshBasicMaterial({ color: 0x9fe8e0, transparent: true, opacity: .06, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide });
@@ -126,15 +133,15 @@
     // particles: splash/spray (gravity), drifting marine snow
     const tex = soft(), NP = 1400, pp = new Float32Array(NP * 3), pv = new Float32Array(NP * 3), pl = new Float32Array(NP);
     const pg = new THREE.BufferGeometry(); pg.setAttribute('position', new THREE.BufferAttribute(pp, 3));
-    const spray = new THREE.Points(pg, new THREE.PointsMaterial({ map: tex, size: .5, transparent: true, depthWrite: false, color: 0xeaf6f8, opacity: .85 })); scene.add(spray);
+    const spray = new THREE.Points(pg, new THREE.PointsMaterial({ map: tex, size: .35, transparent: true, depthWrite: false, color: 0x9ff6ec, opacity: .8, blending: THREE.AdditiveBlending })); scene.add(spray);
     let pi = 0; const emit = (x, y, z, vx, vy, vz, life) => { const k = pi++ % NP; pp[k * 3] = x; pp[k * 3 + 1] = y; pp[k * 3 + 2] = z; pv[k * 3] = vx; pv[k * 3 + 1] = vy; pv[k * 3 + 2] = vz; pl[k] = life; };
     for (let k = 0; k < NP; k++) pp[k * 3 + 1] = -999;
     const stepP = (dt) => { for (let k = 0; k < NP; k++) { if (pl[k] <= 0) { pp[k * 3 + 1] = -999; continue; } pl[k] -= dt; pv[k * 3 + 1] -= 9.81 * dt; pp[k * 3] += pv[k * 3] * dt; pp[k * 3 + 1] += pv[k * 3 + 1] * dt; pp[k * 3 + 2] += pv[k * 3 + 2] * dt; if (pp[k * 3 + 1] < -.3) pl[k] = 0; } pg.attributes.position.needsUpdate = true; };
     const SN = 600, snp = new Float32Array(SN * 3); for (let i = 0; i < SN * 3; i++) snp[i] = (Math.random() - .5) * 60;
     const snowG = new THREE.BufferGeometry(); snowG.setAttribute('position', new THREE.BufferAttribute(snp, 3));
     const snow = new THREE.Points(snowG, new THREE.PointsMaterial({ map: tex, size: .12, transparent: true, opacity: .5, depthWrite: false, color: 0xcfe9ee })); scene.add(snow);
-    const fogAir = new THREE.Fog(0x8fa6b1, 60, 520), fogSea = new THREE.FogExp2(0x0d4552, .028);
-    const skyCol = new THREE.Color(0x8fa6b1), seaCol = new THREE.Color(0x0d4552);
+    const fogAir = new THREE.Fog(0x041018, 40, 300), fogSea = new THREE.FogExp2(0x052029, .03);
+    const skyCol = new THREE.Color(0x041018), seaCol = new THREE.Color(0x052029);
     const adult = buildWhale(14, 1.7), calf = buildWhale(4.6, 4.2), w2 = buildWhale(13, 2.9), w3 = buildWhale(13.5, 6.1);
     [adult, calf, w2, w3].forEach((m) => scene.add(m));
     const place = (m, x, y, z, pitch, roll, yaw = 0) => { m.position.set(x, y, z); m.rotation.set(roll, yaw, pitch, 'YZX'); };
