@@ -44,6 +44,21 @@
       const b = document.createElement('b'); b.textContent = t(v.key); const p = document.createElement('span'); p.textContent = t(`start.${v.id}`);
       const go = document.createElement('i'); go.textContent = '→'; a.append(b, p, go); return a;
     }));
+    // previous / next at the end of every view, so nobody has to scroll back up to the tabs
+    VIEWS.forEach((v, i) => {
+      const last = sec(v.sec[v.sec.length - 1]); if (!last) return;
+      const nav2 = document.createElement('nav'); nav2.className = 'view-nav'; nav2.id = 'vnav-' + v.id; nav2.setAttribute('aria-label', t('nav.pager'));
+      const wrap = document.createElement('div'); wrap.className = 'wrap';
+      const link = (w, dir) => {
+        if (!w) { wrap.append(document.createElement('span')); return; }
+        const a = document.createElement('a'); a.className = 'vn ' + dir; a.href = '#' + (w.id === 'start' ? 'top' : w.sec[0]);
+        const s = document.createElement('small'); s.textContent = t(dir === 'prev' ? 'nav.prev' : 'nav.next');
+        const b = document.createElement('b'); b.textContent = (dir === 'prev' ? '← ' : '') + t(w.key) + (dir === 'next' ? ' →' : '');
+        a.append(s, b); wrap.append(a);
+      };
+      link(VIEWS[i - 1], 'prev'); link(VIEWS[i + 1], 'next');
+      nav2.append(wrap); last.after(nav2); v.sec.push(nav2.id);
+    });
     addEventListener('hashchange', route); route();
   }
   I18N.ready.then(build);

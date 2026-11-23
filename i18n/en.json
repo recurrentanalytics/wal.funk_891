@@ -572,5 +572,8 @@
  "start.places": "Maps, a 3D canyon to dive into, the globe with currents and sightings, and live listening in the Salish Sea.",
  "start.listen": "The sound landscape, the orca game against the models, and the microscope for deep calls.",
  "start.results": "What the models can and cannot do, the sound atlas, finds to listen to, and the lab notebook with every check.",
- "start.machine": "How the Pi is doing: temperature, cores, the current job, and what the terms mean."
+ "start.machine": "How the Pi is doing: temperature, cores, the current job, and what the terms mean.",
+ "nav.prev": "Previous",
+ "nav.next": "Next",
+ "nav.pager": "Move between sections"
 }

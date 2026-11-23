@@ -572,5 +572,8 @@
  "start.places": "Karten, 3D-Canyon zum Eintauchen, der Globus mit Strömungen und Sichtungen, live ins Salish Sea hören.",
  "start.listen": "Die Klanglandschaft, das Orca-Spiel gegen die Modelle und das Mikroskop für tiefe Rufe.",
  "start.results": "Was die Modelle können und was nicht, der Klangatlas, Funde zum Anhören und das Laborbuch mit jeder Prüfung.",
- "start.machine": "Wie es dem Pi geht: Temperatur, Kerne, laufende Aufgabe, und was die Begriffe bedeuten."
+ "start.machine": "Wie es dem Pi geht: Temperatur, Kerne, laufende Aufgabe, und was die Begriffe bedeuten.",
+ "nav.prev": "Zurück",
+ "nav.next": "Weiter",
+ "nav.pager": "Zwischen den Bereichen blättern"
 }

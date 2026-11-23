@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261123094011">
+<meta name="build" content="20261123095016">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>wal.funk_891</title>
 <meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls.">
@@ -595,6 +595,15 @@ body:not([data-view="start"]) .hero { display: none; }
 .start-card b { font: 300 1.5rem/1.1 var(--display); color: #e6f4f7; } .start-card span { font-size: 14px; line-height: 1.45; }
 .start-card i { position: absolute; right: 16px; bottom: 12px; font-style: normal; color: var(--glow); font-size: 20px; }
 .start-card:hover, .start-card:focus-visible { border-color: var(--glow); transform: translateY(-2px); }
+
+/* previous / next at the end of each tab */
+.view-nav { padding-block: 26px 46px; border-top: 1px solid var(--line); }
+.view-nav .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.view-nav .vn { display: grid; gap: 4px; padding: 16px 18px; border-radius: 14px; text-decoration: none; border: 1px solid rgba(94,230,215,.25); background: rgba(94,230,215,.05); transition: border-color .2s, background .2s; }
+.view-nav .vn.next { text-align: right; grid-column: 2; }
+.view-nav .vn small { font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.view-nav .vn b { font: 300 1.35rem/1.1 var(--display); color: #e6f4f7; }
+.view-nav .vn:hover, .view-nav .vn:focus-visible { border-color: var(--glow); background: rgba(94,230,215,.1); }
 </style>
 </head>
 <body>
@@ -833,16 +842,16 @@ body:not([data-view="start"]) .hero { display: none; }
 <footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/wal.funk_891">GitHub</a></p></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="i18n.js?v=20261123094011"></script>
-<script src="globe.js?v=20261123094011"></script>
-<script src="app.js?v=20261123094011"></script>
-<script src="play.js?v=20261123094011"></script>
-<script src="atlas.js?v=20261123094011"></script>
+<script src="i18n.js?v=20261123095016"></script>
+<script src="globe.js?v=20261123095016"></script>
+<script src="app.js?v=20261123095016"></script>
+<script src="play.js?v=20261123095016"></script>
+<script src="atlas.js?v=20261123095016"></script>
 <script src="tabs.js"></script>
 <script src="routes.js"></script>
-<script src="ui.js?v=20261123094011"></script>
-<script src="polish.js?v=20261123094011"></script>
-<script src="story.js?v=20261123094011"></script>
-<script src="scenes.js?v=20261123094011"></script>
+<script src="ui.js?v=20261123095016"></script>
+<script src="polish.js?v=20261123095016"></script>
+<script src="story.js?v=20261123095016"></script>
+<script src="scenes.js?v=20261123095016"></script>
 </body>
 </html>
