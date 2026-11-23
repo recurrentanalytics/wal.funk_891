@@ -110,7 +110,7 @@ function whales(w, S) {
   const lenOf = Object.fromEntries(items.map(([n, m]) => [n, m]));
   const max = items[0][1];
   const facts = Object.fromEntries(w.species.map((s) => [s.name, s]));
-  const factOf = (name) => /right whale/i.test(name) ? facts['Right whales'] : facts[name] || Object.values(facts).find((s) => s.name.startsWith(name.split(' (')[0]));
+  const factOf = (name) => name === 'North Pacific right whale' ? facts['Right whales'] : facts[name] || Object.values(facts).find((s) => s.name.startsWith(name.split(' (')[0]));
   const photos = w.photos || {};
   Object.values(photos).forEach((p) => { const i = new Image(); i.src = p.file; });
   const line = $('lineup'); line.replaceChildren();
@@ -177,7 +177,7 @@ function whales(w, S) {
       }
       d.append(box2);
     }
-    if (DETECT[key]) { const st = el('div', 'detect det-box-' + DETECT[key]); st.append(el('b', '', t('det.q') + ' ' + t(`det.state.${DETECT[key]}`)), el('p', '', t(`det.${key}`))); d.append(st); }
+    { const dk = DETECT[key] || 'none', txt = I18N.t(`det.${key}`) !== `det.${key}` ? t(`det.${key}`) : t('det.other'); const st = el('div', 'detect det-box-' + dk); st.append(el('b', '', t('det.q') + ' ' + t(`det.state.${dk}`)), el('p', '', txt)); d.append(st); }
     const fx = el('div', 'facts');
     const fact = (v, k) => { const f = el('div', 'fact'); f.append(el('b', '', v), el('span', '', k)); return f; };
     fx.append(fact(`${num(len, 1)} m`, t('whales.maxlen')), fact(sp.bands ? `${kHz(sp.bands[0])}–${kHz(sp.bands[1])} Hz` : '—', t('whales.range')), fact(sp.months ? (sp.months.length === 12 ? t('whales.allyear') : t('whales.months', { n: sp.months.length })) : '—', t(sp.months_kind === 'presence' ? 'whales.season.presence' : 'whales.season')));
