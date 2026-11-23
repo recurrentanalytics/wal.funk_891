@@ -701,5 +701,19 @@
  "st.heard.mbarirec": "Recorded at the MBARI hydrophone: MBARI has published recordings or analyses of this species from this very hydrophone.",
  "chph.blue": "blue whale from above",
  "chph.monterey": "humpback whales in Monterey Bay",
- "chph.fluke": "humpback whale fluke"
+ "chph.fluke": "humpback whale fluke",
+ "stop.play": "Play video (loads from YouTube)",
+ "stop.go": "Keep diving",
+ "stop.close": "Close",
+ "stop.ytnote": "loaded only when played",
+ "stop.rockfish.t": "About 60 m · Rockfish in Soquel Canyon",
+ "stop.rockfish.d": "A school of widow rockfish in a side canyon of Monterey Canyon. Some sunlight still reaches this depth.",
+ "stop.soquel.t": "About 215 m · An ROV in Soquel Canyon",
+ "stop.soquel.d": "Real footage from a remotely operated vehicle surveying a marine protected area more than 200 m down. The only light comes from the robot.",
+ "stop.rovs.t": "About 650 m · Two ROVs at the canyon rim",
+ "stop.rovs.d": "MBARI’s robots Doc Ricketts and Ventana film each other on a ridge at the edge of the canyon, not far from the hydrophone.",
+ "stop.seapig.t": "About 1,000 m · Sea pigs in the dark",
+ "stop.seapig.d": "Sea pigs (Scotoplanes) and a crab on the mud at 1,282 m, about 10 km from the hydrophone. This is what the floor looks like down here.",
+ "stop.mars.t": "Arrived · 891 m at the MARS node",
+ "stop.mars.d": "Real footage from the MARS seafloor observatory on Smooth Ridge: an ROV connects a seismometer there in 2010. The hydrophone the Pi listens to is plugged into this same node."
 }

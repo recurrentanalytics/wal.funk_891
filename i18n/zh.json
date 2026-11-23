@@ -701,5 +701,19 @@
  "st.heard.mbarirec": "在 MBARI 水听器录到：MBARI 已发布了这台水听器上该物种的录音或分析。",
  "chph.blue": "俯瞰蓝鲸",
  "chph.monterey": "蒙特雷湾的座头鲸",
- "chph.fluke": "座头鲸的尾鳍"
+ "chph.fluke": "座头鲸的尾鳍",
+ "stop.play": "播放视频（从 YouTube 加载）",
+ "stop.go": "继续下潜",
+ "stop.close": "关闭",
+ "stop.ytnote": "仅在播放时加载",
+ "stop.rockfish.t": "约 60 米 · 索奎尔峡谷的平鲉",
+ "stop.rockfish.d": "蒙特雷峡谷一条支谷中的一群寡妇平鲉。这里还能照到一些阳光。",
+ "stop.soquel.t": "约 215 米 · 索奎尔峡谷的水下机器人",
+ "stop.soquel.d": "水下机器人在 200 多米深处巡查海洋保护区时拍摄的真实画面。唯一的光来自机器人。",
+ "stop.rovs.t": "约 650 米 · 峡谷边缘的两台水下机器人",
+ "stop.rovs.d": "MBARI 的水下机器人 Doc Ricketts 和 Ventana 在峡谷边缘的山脊上互相拍摄，离水听器不远。",
+ "stop.seapig.t": "约 1000 米 · 黑暗中的海猪",
+ "stop.seapig.d": "1282 米深处泥地上的海猪（Scotoplanes）和一只蟹，距水听器约 10 公里。这里的海底就是这个样子。",
+ "stop.mars.t": "到达 · MARS 节点，891 米",
+ "stop.mars.d": "来自 Smooth Ridge 上 MARS 海底观测站的真实画面：2010 年一台水下机器人在那里接入了一台地震仪。树莓派收听的水听器也接在这个节点上。"
 }

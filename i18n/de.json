@@ -701,5 +701,19 @@
  "st.heard.mbarirec": "Am MBARI-Hydrofon aufgenommen: MBARI hat Aufnahmen oder Auswertungen dieser Art von genau diesem Hydrofon veröffentlicht.",
  "chph.blue": "Blauwal von oben",
  "chph.monterey": "Buckelwale in der Monterey Bay",
- "chph.fluke": "Fluke eines Buckelwals"
+ "chph.fluke": "Fluke eines Buckelwals",
+ "stop.play": "Video abspielen (lädt von YouTube)",
+ "stop.go": "Weiter tauchen",
+ "stop.close": "Schließen",
+ "stop.ytnote": "erst beim Abspielen geladen",
+ "stop.rockfish.t": "Etwa 60 m · Felsfische im Soquel Canyon",
+ "stop.rockfish.d": "Ein Schwarm Witwen-Drachenköpfe in einem Seitencanyon des Monterey Canyons. Hier oben kommt noch etwas Sonnenlicht an.",
+ "stop.soquel.t": "Etwa 215 m · Tauchroboter im Soquel Canyon",
+ "stop.soquel.d": "Echte Aufnahmen eines Tauchroboters bei einer Schutzgebiets-Kontrolle in über 200 m Tiefe. Das Licht kommt nur noch vom Roboter.",
+ "stop.rovs.t": "Etwa 650 m · Zwei Tauchroboter am Canyonrand",
+ "stop.rovs.d": "MBARIs Tauchroboter Doc Ricketts und Ventana filmen sich gegenseitig an einem Grat am Rand des Canyons, nicht weit vom Hydrofon.",
+ "stop.seapig.t": "Etwa 1.000 m · Seegurken im Dunkeln",
+ "stop.seapig.d": "Seeschweinchen (Scotoplanes) und eine Krabbe auf dem Schlamm in 1.282 m Tiefe, rund 10 km vom Hydrofon. So sieht der Boden hier unten aus.",
+ "stop.mars.t": "Angekommen · 891 m am MARS-Knoten",
+ "stop.mars.d": "Echte Aufnahmen vom Unterwasser-Observatorium MARS auf dem Smooth Ridge: Ein Tauchroboter schließt dort 2010 ein Seismometer an. An diesem Knoten hängt auch das Hydrofon, das der Pi abhört."
 }

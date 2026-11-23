@@ -165,17 +165,53 @@
     const hud = document.createElement('div'); hud.className = 'dive-hud'; const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'play small'; btn.textContent = t('canyon.dive');
     const read = document.createElement('div'); read.className = 'dive-read'; hud.append(btn, read); host.append(hud);
     let dive = null; const DUR = 55000, home = { p: new THREE.Vector3(hx - 250, 250, hz + 320), t: new THREE.Vector3(hx * .5, hy * .6, hz * .5) }, hpV = new THREE.Vector3(hx, hy, hz);
-    const stopDive = (toHome) => { dive = null; controls.enabled = true; btn.textContent = t('canyon.dive'); if (toHome) { camera.position.copy(home.p); controls.target.copy(home.t); } else controls.target.set(hx, hy + .5, hz); controls.update(); };
-    btn.addEventListener('click', () => { if (dive) return stopDive(true); controls.autoRotate = false; controls.enabled = false; dive = { t0: performance.now() }; btn.textContent = t('canyon.surface'); });
+    /* stops on the way down: real pictures from these depths (free photos shown directly; videos only load from YouTube
+       when someone presses play). The dive waits at each stop until "continue" or 12 s without a video. */
+    const STOPS = [
+      { depth: 60, img: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f1/Widow_rockfish_in_Soquel_Canyon.jpg/960px-Widow_rockfish_in_Soquel_Canyon.jpg', key: 'rockfish', credit: 'NOAA Fisheries SWFSC · Public domain', page: 'https://commons.wikimedia.org/wiki/File:Widow_rockfish_in_Soquel_Canyon.jpg' },
+      { depth: 215, yt: 'liPwCwexyik', key: 'soquel', credit: 'California Department of Fish and Wildlife / MARE, YouTube' },
+      { depth: 640, yt: 'm-Get7opYt0', key: 'rovs', credit: '© MBARI, YouTube' },
+      { depth: 1000, img: 'https://upload.wikimedia.org/wikipedia/commons/a/a3/Scotoplanes_globosa_and_crab_%28cropped%29.jpg', key: 'seapig', credit: 'NOAA/MBARI · CC0', page: 'https://commons.wikimedia.org/wiki/File:Scotoplanes_globosa_and_crab_(cropped).jpg' },
+      { end: true, yt: '-fChU9h5YH8', key: 'mars', credit: 'OOI / NSF, ROV Ventana (MBARI), YouTube' },
+    ];
+    const card = document.createElement('div'); card.className = 'dive-stop'; card.hidden = true; host.append(card);
+    let stopTimer = null, ytOn = false;
+    const hideStop = () => { card.hidden = true; card.replaceChildren(); clearTimeout(stopTimer); if (ytOn && window.wlDuck) wlDuck('yt', false); ytOn = false; };
+    const showStop = (st, onGo) => {
+      card.replaceChildren(); card.hidden = false;
+      const media = document.createElement('div'); media.className = 'ds-media';
+      if (st.img) { const im = document.createElement('img'); im.src = st.img; im.alt = t(`stop.${st.key}.t`); media.append(im); }
+      else {
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'ds-yt'; b.innerHTML = `<span>▶</span> ${t('stop.play')}`;
+        b.addEventListener('click', () => {
+          clearTimeout(stopTimer); ytOn = true; if (window.wlDuck) wlDuck('yt', true);
+          const f = document.createElement('iframe'); f.src = `https://www.youtube-nocookie.com/embed/${st.yt}?autoplay=1&rel=0`; f.allow = 'autoplay; encrypted-media; picture-in-picture'; f.allowFullscreen = true; f.title = t(`stop.${st.key}.t`);
+          media.replaceChildren(f);
+        }); media.append(b);
+      }
+      const tx = document.createElement('div'); tx.className = 'ds-text';
+      const h = document.createElement('b'); h.textContent = t(`stop.${st.key}.t`); const p = document.createElement('p'); p.textContent = t(`stop.${st.key}.d`);
+      const c = document.createElement('small'); if (st.page) { const a = document.createElement('a'); a.href = st.page; a.rel = 'noopener'; a.textContent = st.credit; c.append(a); } else c.textContent = st.credit + (st.yt ? ' · ' + t('stop.ytnote') : '');
+      const go = document.createElement('button'); go.type = 'button'; go.className = 'play small'; go.textContent = st.end ? t('stop.close') : t('stop.go');
+      go.addEventListener('click', () => { hideStop(); onGo && onGo(); });
+      tx.append(h, p, c, go); card.append(media, tx);
+      if (!st.end) stopTimer = setTimeout(() => { if (!ytOn) { hideStop(); onGo && onGo(); } }, 12000);
+    };
+    const stopDive = (toHome) => { hideStop(); dive = null; controls.enabled = true; btn.textContent = t('canyon.dive'); if (toHome) { camera.position.copy(home.p); controls.target.copy(home.t); } else controls.target.set(hx, hy + .5, hz); controls.update(); };
+    btn.addEventListener('click', () => { if (dive) return stopDive(true); controls.autoRotate = false; controls.enabled = false; dive = { t0: performance.now(), done: new Set(), pause: 0 }; btn.textContent = t('canyon.surface'); });
     const ahead = new THREE.Vector3();
 
     const t0 = performance.now();
     o.tick = () => {
       const now = performance.now(), tt = (now - t0) / 1000; water.material.uniforms.t.value = tt;
-      if (dive) {
-        const u = Math.min(1, (now - dive.t0) / DUR), e = u * u * (3 - 2 * u);
+      if (dive && dive.pausedAt) { /* waiting at a stop */ }
+      else if (dive) {
+        const u = Math.min(1, (now - dive.t0 - dive.pause) / DUR), e = u * u * (3 - 2 * u);
         path.getPointAt(e, camera.position); path.getPointAt(Math.min(1, e + .012), ahead); if (e > .97) ahead.set(hx, hy + .5, hz); camera.lookAt(ahead);
-        if (u >= 1) stopDive(false);
+        const dNow = Math.max(0, -mOf(camera.position.y));
+        const st = STOPS.find((x, i) => !x.end && !dive.done.has(i) && dNow >= x.depth);
+        if (st) { dive.done.add(STOPS.indexOf(st)); dive.pausedAt = now; const d0 = dive; showStop(st, () => { if (dive === d0) { d0.pause += performance.now() - d0.pausedAt; d0.pausedAt = 0; } }); }
+        if (u >= 1) { stopDive(false); showStop(STOPS[STOPS.length - 1]); }
       }
       const under = camera.position.y < 0, depth = Math.max(0, -mOf(camera.position.y));
       // depth precision: a tiny near plane is only needed close to the ground; from high up it makes coast and water flicker

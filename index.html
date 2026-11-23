@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261123104931">
+<meta name="build" content="20261123105100">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>wal.funk_891</title>
 <meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls.">
@@ -669,6 +669,19 @@ details.fold > :not(summary) { margin: 14px 18px 18px; }
 .ch-wire { position: absolute; inset: 0; z-index: 0; opacity: .9; }
 .ch-wire canvas { width: 100% !important; height: 100% !important; display: block; }
 .chapter.has-wire::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(180deg, rgba(2,11,16,0) 30%, rgba(2,11,16,.85) 100%); }
+
+/* dive stops */
+.dive-stop { position: absolute; z-index: 6; left: 50%; bottom: 16px; transform: translateX(-50%); width: min(720px, calc(100% - 24px)); display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 0;
+  background: rgba(2,14,20,.92); border: 1px solid rgba(94,230,215,.35); border-radius: 14px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.5); backdrop-filter: blur(6px); }
+.ds-media { position: relative; aspect-ratio: 16/9; background: #01080c; display: grid; place-items: center; }
+.ds-media img, .ds-media iframe { width: 100%; height: 100%; object-fit: cover; border: 0; display: block; }
+.ds-yt { all: unset; cursor: pointer; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--glow); color: var(--glow); font-size: 14px; }
+.ds-yt span { margin-right: 6px; }
+.ds-text { padding: 14px 16px; display: grid; gap: 6px; align-content: start; font-size: 13.5px; color: #b9d3db; }
+.ds-text b { font-size: 15px; color: #e6f4f7; font-weight: 500; } .ds-text p { margin: 0; line-height: 1.45; }
+.ds-text small { font-size: 11px; color: #7fa2ae; } .ds-text small a { color: inherit; }
+.ds-text .play { justify-self: start; margin-top: 6px; }
+@media (max-width: 640px) { .dive-stop { grid-template-columns: 1fr; bottom: 8px; } .ds-text { padding: 10px 12px; } }
 </style>
 </head>
 <body>
@@ -911,19 +924,19 @@ details.fold > :not(summary) { margin: 14px 18px 18px; }
 <footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/wal.funk_891">GitHub</a></p></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="i18n.js?v=20261123104931"></script>
-<script src="globe.js?v=20261123104931"></script>
-<script src="app.js?v=20261123104931"></script>
-<script src="play.js?v=20261123104931"></script>
-<script src="atlas.js?v=20261123104931"></script>
-<script src="whale3d.js?v=20261123104931"></script>
-<script src="tabs.js?v=20261123104931"></script>
-<script src="ambient.js?v=20261123104931"></script>
-<script src="cicompare.js?v=20261123104931"></script>
-<script src="routes.js?v=20261123104931"></script>
-<script src="ui.js?v=20261123104931"></script>
-<script src="polish.js?v=20261123104931"></script>
-<script src="story.js?v=20261123104931"></script>
-<script src="scenes.js?v=20261123104931"></script>
+<script src="i18n.js?v=20261123105100"></script>
+<script src="globe.js?v=20261123105100"></script>
+<script src="app.js?v=20261123105100"></script>
+<script src="play.js?v=20261123105100"></script>
+<script src="atlas.js?v=20261123105100"></script>
+<script src="whale3d.js?v=20261123105100"></script>
+<script src="tabs.js?v=20261123105100"></script>
+<script src="ambient.js?v=20261123105100"></script>
+<script src="cicompare.js?v=20261123105100"></script>
+<script src="routes.js?v=20261123105100"></script>
+<script src="ui.js?v=20261123105100"></script>
+<script src="polish.js?v=20261123105100"></script>
+<script src="story.js?v=20261123105100"></script>
+<script src="scenes.js?v=20261123105100"></script>
 </body>
 </html>
