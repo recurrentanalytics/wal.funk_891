@@ -878,5 +878,10 @@
  "hb.hud.fluke": "Abtauchen",
  "hb.hud.calf": "Mutter und Kalb",
  "hb.hud.group": "Gruppe",
- "hb.hud.slow": "Zeitlupe 0,3×"
+ "hb.hud.slow": "Zeitlupe 0,3×",
+ "pin.moss": "Foto: Moss Landing",
+ "pin.rockfish": "Foto: Felsfische, Soquel Canyon",
+ "pin.seapig": "Foto: Seegurken, 1.282 m",
+ "pin.canyon": "Bild: Canyon in 3D (NOAA)",
+ "pin.show3d": "Im 3D-Canyon zeigen"
 }

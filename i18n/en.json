@@ -878,5 +878,10 @@
  "hb.hud.fluke": "Fluke-up dive",
  "hb.hud.calf": "Mother and calf",
  "hb.hud.group": "Group",
- "hb.hud.slow": "slow motion 0.3×"
+ "hb.hud.slow": "slow motion 0.3×",
+ "pin.moss": "Photo: Moss Landing",
+ "pin.rockfish": "Photo: rockfish, Soquel Canyon",
+ "pin.seapig": "Photo: sea pigs, 1,282 m",
+ "pin.canyon": "Image: canyon in 3D (NOAA)",
+ "pin.show3d": "Show in the 3D canyon"
 }

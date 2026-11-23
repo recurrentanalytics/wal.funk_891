@@ -715,6 +715,7 @@ I18N.ready.then(() => {
       const f = el('figure'); const i = el('img'); i.src = p.src; i.alt = t(`pp.${p.key}.t`); i.loading = 'lazy';
       const c = el('figcaption'); c.append(el('b', '', t(`pp.${p.key}.t`)), document.createTextNode(t(`pp.${p.key}.d`)));
       const cr = el('small'); cr.append(`${t('whales.photo')} ${p.by} · ${p.lic} · `); const a = el('a', '', 'Wikimedia Commons'); a.href = p.page; a.rel = 'noopener'; cr.append(a); c.append(cr);
+      if (p.key === 'moss' || p.key === 'canyon') { const go = el('button', 'map-go', t('pin.show3d')); go.type = 'button'; go.addEventListener('click', () => { $('bathy3d').scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => document.dispatchEvent(new CustomEvent('canyon-fly', { detail: p.key })), 700); }); c.append(go); }
       f.append(i, c); box.append(f);
     });
   }).catch(() => {});

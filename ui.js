@@ -1,7 +1,7 @@
 /* Fullscreen for every visualisation, and the page-wide current field as a quiet background. */
 (function () {
   /* ---------- fullscreen ---------- */
-  const TARGETS = ['#stage', '#map', '#bathy3d', '#world', '#spec-wrap', '#land3d', '.mc-stage', '.smap', '.atlas-main', '#galaxy', '.tl', '#routes-map'];
+  const TARGETS = ['#stage', '#map', '#bathy3d', '#world', '#spec-wrap', '#land3d', '.mc-stage', '.smap', '.atlas-main', '#galaxy', '.tl', '#routes-map', '#tchart', '#cic', '#scores', '.explorer .panel:first-child', '#detail', '#place-photos', '.voices', '#cal', '.ch-wire'];
   const ICON = { open: '<path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>', close: '<path d="M3 3l10 10M13 3L3 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>' };
   let active = null;
   const poke = () => { dispatchEvent(new Event('resize')); setTimeout(() => dispatchEvent(new Event('resize')), 120); setTimeout(() => dispatchEvent(new Event('resize')), 400); };
@@ -30,6 +30,27 @@
   }
   addEventListener('keydown', (e) => { if (e.key === 'Escape') leave(); });
   document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && active) leave(); });
+
+  /* ---------- lightbox: every photo on the page opens large on click ---------- */
+  function lightbox() {
+    const box = document.createElement('div'); box.className = 'lb'; box.hidden = true; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true');
+    const img = document.createElement('img'), cap = document.createElement('p'), x = document.createElement('button'); x.type = 'button'; x.className = 'lb-x'; x.textContent = '×'; x.setAttribute('aria-label', t('ui.close'));
+    box.append(img, cap, x); document.body.append(box);
+    const big = (src) => src.replace(/\/(\d+)px-([^/]+)$/, (m, n, f) => `/${Math.max(+n, 1600)}px-${f}`);
+    const open = (src, text) => { img.src = big(src); img.onerror = () => { img.onerror = null; img.src = src; }; cap.textContent = text || ''; box.hidden = false; document.body.classList.add('lb-on'); if (window.wlDuck) {} };
+    const close = () => { box.hidden = true; document.body.classList.remove('lb-on'); img.removeAttribute('src'); };
+    box.addEventListener('click', (e) => { if (e.target !== img) close(); }); x.addEventListener('click', close);
+    addEventListener('keydown', (e) => { if (e.key === 'Escape' && !box.hidden) close(); });
+    document.addEventListener('wl-lightbox', (e) => open(e.detail.src, e.detail.text));
+    document.addEventListener('click', (e) => {
+      const im = e.target.closest && e.target.closest('img'); 
+      if (im && !im.closest('.lb') && !im.closest('button') && !im.closest('a') && !im.closest('.sp-card')) {
+        const fig = im.closest('figure'), c = fig && fig.querySelector('figcaption'); e.preventDefault(); open(im.currentSrc || im.src, c ? c.textContent : im.alt); return;
+      }
+      const ch = e.target.closest && e.target.closest('.chapter.has-photo'); 
+      if (ch && !e.target.closest('a') && !e.target.closest('button')) { const bg = ch.querySelector('.ch-bg'), cr = ch.querySelector('.ch-credit'); const m = bg && /url\("?([^")]+)"?\)/.exec(bg.style.backgroundImage); if (m) open(m[1], cr ? cr.textContent : ''); }
+    });
+  }
 
   /* ---------- currents as page background ---------- */
   function flow(c) {
@@ -61,6 +82,7 @@
 
   I18N.ready.then(() => {
     wire(); setTimeout(wire, 3000); setTimeout(wire, 8000);       // views that are built after their data arrives
+    lightbox();
     fetch('data/currents.json').then((r) => r.json()).then(flow).catch(() => {});
   });
 })();

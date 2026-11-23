@@ -878,5 +878,10 @@
  "hb.hud.fluke": "举尾下潜",
  "hb.hud.calf": "母鲸与幼崽",
  "hb.hud.group": "群体",
- "hb.hud.slow": "慢动作 0.3×"
+ "hb.hud.slow": "慢动作 0.3×",
+ "pin.moss": "照片：莫斯兰丁",
+ "pin.rockfish": "照片：索奎尔峡谷的平鲉",
+ "pin.seapig": "照片：1282 米深处的海猪",
+ "pin.canyon": "图像：3D 峡谷（NOAA）",
+ "pin.show3d": "在 3D 峡谷中显示"
 }

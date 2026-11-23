@@ -39,7 +39,7 @@
       if (visible) raf = requestAnimationFrame(loop);
     };
     new IntersectionObserver(([e]) => { visible = e.isIntersecting; cancelAnimationFrame(raf); if (visible) loop(); }, { rootMargin: '100px' }).observe(host);
-    const label = (text, pos, cls) => { const el = document.createElement('div'); el.className = 'scene-label' + (cls ? ' ' + cls : ''); el.textContent = text; host.append(el); labels.push({ el, pos }); };
+    const label = (text, pos, cls) => { const el = document.createElement('div'); el.className = 'scene-label' + (cls ? ' ' + cls : ''); el.textContent = text; host.append(el); labels.push({ el, pos }); return el; };
     return { scene, camera, controls, renderer, label };
   }
 
@@ -152,6 +152,26 @@
     label(t('canyon.label.hp'), new THREE.Vector3(hx, hy + 3, hz), 'amber');
     [['Monterey', 36.6, -121.89], ['Santa Cruz', 36.97, -122.03], ['Moss Landing', 36.80, -121.79]].forEach(([nm, la, lo]) => { const [x, zz] = toXZ(la, lo); label(nm, new THREE.Vector3(x, 4, zz)); });
     const [cx, cz] = toXZ(36.73, -122.02); label(t('canyon.label.canyon'), new THREE.Vector3(cx, yOf(-1100), cz));
+    /* real photos where they were taken: tap the camera pin to see the photo; the photo cards elsewhere fly here */
+    const SPOTS = [
+      { key: 'moss', lat: 36.8045, lon: -121.787, up: 6 },
+      { key: 'rockfish', lat: 36.885, lon: -122.03, up: 0, img: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f1/Widow_rockfish_in_Soquel_Canyon.jpg/960px-Widow_rockfish_in_Soquel_Canyon.jpg', credit: 'NOAA Fisheries SWFSC · Public domain' },
+      { key: 'seapig', lat: 36.6949, lon: -122.298, up: 0, img: 'https://upload.wikimedia.org/wikipedia/commons/a/a3/Scotoplanes_globosa_and_crab_%28cropped%29.jpg', credit: 'NOAA/MBARI · CC0' },
+      { key: 'canyon', lat: 36.76, lon: -121.95, up: 3 },
+    ];
+    const fly = (lat, lon) => { const [x, zz] = toXZ(lat, lon); const yy = yOf(Math.min(0, z[Math.max(0, Math.min(R - 1, row(lat))) * C + Math.max(0, Math.min(C - 1, col(lon)))])); if (dive) stopDive(false);
+      const from = camera.position.clone(), fromT = controls.target.clone(), to = new THREE.Vector3(x + 40, Math.max(yy + 60, 70), zz + 70), toT = new THREE.Vector3(x, yy, zz), t0f = performance.now();
+      controls.autoRotate = false; const step = () => { const k = Math.min(1, (performance.now() - t0f) / 1800), e = k * k * (3 - 2 * k); camera.position.lerpVectors(from, to, e); controls.target.lerpVectors(fromT, toT, e); controls.update(); if (k < 1) requestAnimationFrame(step); }; step(); };
+    fetch('data/place_photos.json').then((r) => r.json()).then((pp) => {
+      const byKey = Object.fromEntries(pp.photos.map((p) => [p.key, p]));
+      SPOTS.forEach((sp) => {
+        const ph = byKey[sp.key] || { src: sp.img, by: '', lic: sp.credit }; if (!ph.src) return;
+        const [x, zz] = toXZ(sp.lat, sp.lon), yy = yOf(Math.min(0, z[Math.max(0, Math.min(R - 1, row(sp.lat))) * C + Math.max(0, Math.min(C - 1, col(sp.lon)))]));
+        const el = label('◉ ' + t(`pin.${sp.key}`), new THREE.Vector3(x, yy + 2 + sp.up, zz), 'photo-pin');
+        el.addEventListener('click', () => document.dispatchEvent(new CustomEvent('wl-lightbox', { detail: { src: ph.src, text: `${t(`pin.${sp.key}`)} · ${ph.by ? ph.by + ' · ' : ''}${ph.lic || ''}` } })));
+      });
+    }).catch(() => {});
+    document.addEventListener('canyon-fly', (e) => { const sp = SPOTS.find((x) => x.key === e.detail); if (sp) fly(sp.lat, sp.lon); });
 
     /* the dive: follow the canyon's deepest line from its head off Moss Landing, then climb to the hydrophone on the ridge */
     const col = (lon) => Math.round((lon - b.west) / b.cell_deg), row = (lat) => Math.round((b.north - lat) / b.cell_deg);
