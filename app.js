@@ -255,7 +255,7 @@ function results(s) {
     p.append(el('div', 'verdict ' + (v == null ? 'wait' : v >= .8 ? 'pass' : 'fail'), v == null ? '—' : num(v, v * 100 % 1 ? 3 : 2)));
     p.append(el('div', 'note', v == null ? t('results.ba.pending') : v >= .8 ? t('results.ba.pass') : t('results.ba.fail')));
     const g = el('div', 'gauge-line'); g.append(el('div', 'rail'));
-    [[.5, t('results.guess')], [.8, t('results.passmark')], [1, t('results.perfect')]].forEach(([x, tx]) => { const mk = el('div', 'mark'); mk.style.left = `calc(${x * 100}% - 1px)`; const lb = el('div', 'lbl', tx); lb.style.left = `${x * 100}%`; if (x === 1) lb.style.transform = 'translateX(-100%)'; g.append(mk, lb); });
+    [[.5, t('results.guess')], [.8, t('results.passmark')], [1, t('results.perfect')]].forEach(([x, tx]) => { const mk = el('div', 'mark'); mk.style.left = `calc(${x * 100}% - 1px)`; const lb = el('div', x === .8 ? 'lbl up' : 'lbl', tx); lb.style.left = `${x * 100}%`; if (x === 1) lb.style.transform = 'translateX(-100%)'; g.append(mk, lb); });
     if (v != null) { const d = el('div', 'val'); d.style.left = `${v * 100}%`; d.style.background = v >= .8 ? 'var(--krill)' : 'var(--coral)'; g.append(d); }
     p.append(g, el('div', '', ' '));
     const meter = (label, n, total, col) => { const m2 = el('div', 'meter'); const r = el('div', 'row'); r.append(el('span', '', label), el('b', '', n == null ? t('results.pending') : `${n} / ${total}`)); const tr = el('div', 'track'); const f = el('span'); f.style.width = n == null ? '0' : `${100 * n / total}%`; f.style.background = col; tr.append(f); m2.append(r, tr); return m2; };
