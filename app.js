@@ -19,6 +19,9 @@ const SOUNDS = {
   naright: [{ src: NOAA_S + 'Eugl-upcall-NOAA-PAGroup-01-right-clip-1.mp3', who: 'noaa', call: 'upcall' }, { src: NOAA_S + 'Eugl-multisound-NOAA-PAGroup-01-right-whale-clip.mp3', who: 'noaa', call: 'mixed' }],
   npright: [], brydes: [],
 };
+// What the Pi can honestly recognise today, per species (docs/STATUS.md). fail = tested and failed,
+// pending = test running or waiting for data, partial = works only somewhere else, none = no detector tested at all.
+const DETECT = { blue: 'fail', fin: 'fail', humpback: 'pending', orca: 'partial', minke: 'none', brydes: 'none', npright: 'none', naright: 'none' };
 const whaleAudio = new Audio(); whaleAudio.preload = 'none';
 const SPTEXT = { blue: 'blue', fin: 'fin', humpback: 'humpback', brydes: 'brydes', minke: 'minke', orca: 'orca', npright: 'right', naright: 'right' };
 const CODE2SP = { Mn: 'humpback', Bm: 'blue', Bp: 'fin', Ba: 'minke', Be: 'brydes', Oo: 'orca' };
@@ -94,12 +97,16 @@ function whales(w) {
   const photos = w.photos || {};
   Object.values(photos).forEach((p) => { const i = new Image(); i.src = p.file; });
   const line = $('lineup'); line.replaceChildren();
+  const legend = el('p', 'note det-legend'); ['fail', 'pending', 'partial', 'none'].forEach((k) => { const i = el('span'); i.append(el('i', 'det det-' + k), t(`det.state.${k}`)); legend.append(i); });
+  line.parentElement.append(legend);
   const buttons = [];
   w.sizes.items.forEach(([name, m]) => {
     const key = SP[name], isPerson = name === 'Person';
     const btn = el('button', 'whale-btn' + (isPerson ? ' person' : '')); btn.type = 'button';
     btn.setAttribute('aria-pressed', 'false');
-    btn.append(el('span', 'nm', t(`sp.${key}.name`)), el('span', 'len', `${num(m, 1)} m`), whaleSVG(name, m, max));
+    const nm = el('span', 'nm', t(`sp.${key}.name`));
+    if (DETECT[key]) { const dot = el('i', 'det det-' + DETECT[key]); dot.title = t(`det.state.${DETECT[key]}`); nm.prepend(dot); }
+    btn.append(nm, el('span', 'len', `${num(m, 1)} m`), whaleSVG(name, m, max));
     if (isPerson) btn.disabled = true; else btn.addEventListener('click', () => select(name, true));
     buttons.push([name, btn]); line.append(btn);
   });
@@ -120,6 +127,7 @@ function whales(w) {
     }
     const latin = /Atlantic/.test(name) ? 'Eubalaena glacialis' : /Pacific right/.test(name) ? 'Eubalaena japonica' : (sp.latin || '');
     d.append(el('h3', 'big', t(`sp.${key}.name`)), el('div', 'lat', latin));
+    if (DETECT[key]) { const st = el('div', 'detect det-box-' + DETECT[key]); st.append(el('b', '', t('det.q') + ' ' + t(`det.state.${DETECT[key]}`)), el('p', '', t(`det.${key}`))); d.append(st); }
     const fx = el('div', 'facts');
     const fact = (v, k) => { const f = el('div', 'fact'); f.append(el('b', '', v), el('span', '', k)); return f; };
     fx.append(fact(`${num(len, 1)} m`, t('whales.maxlen')), fact(sp.bands ? `${kHz(sp.bands[0])}–${kHz(sp.bands[1])} Hz` : '—', t('whales.range')), fact(sp.months ? t('whales.months', { n: sp.months.length }) : '—', t('whales.season')));

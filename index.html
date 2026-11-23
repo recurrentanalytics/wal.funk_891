@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261123085019">
+<meta name="build" content="20261123085633">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>wal.funk_891</title>
 <meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls.">
@@ -531,6 +531,14 @@ body.fs-on { overflow: hidden; } body.fs-on .toc, body.fs-on .lang-top, body.fs-
 .whale-btn.sounding svg { animation: whale-sing 1.2s ease-in-out infinite; transform-origin: left center; }
 @keyframes whale-sing { 50% { filter: drop-shadow(0 0 10px rgba(94,230,215,.9)); transform: scale(1.04); } }
 @media (prefers-reduced-motion: reduce) { .whale-btn.sounding svg { animation: none; filter: drop-shadow(0 0 8px rgba(94,230,215,.9)); } }
+
+/* honest detection status per species */
+.det { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 7px; vertical-align: middle; }
+.det-fail { background: #ff6b6b; } .det-pending { background: var(--amber); } .det-partial { background: #7fb2ff; } .det-none { background: transparent; border: 1.5px solid #7fa2ae; box-sizing: border-box; }
+.det-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; } .det-legend span { white-space: nowrap; }
+.detect { margin: 12px 0; padding: 10px 14px; border-radius: 10px; border-left: 3px solid #7fa2ae; background: rgba(127,162,174,.08); }
+.detect b { display: block; font-size: 14px; } .detect p { margin: 4px 0 0; font-size: 14px; color: #b9d3db; }
+.det-box-fail { border-left-color: #ff6b6b; background: rgba(255,107,107,.07); } .det-box-pending { border-left-color: var(--amber); background: rgba(255,181,71,.07); } .det-box-partial { border-left-color: #7fb2ff; background: rgba(127,178,255,.07); }
 </style>
 </head>
 <body>
@@ -758,14 +766,14 @@ body.fs-on { overflow: hidden; } body.fs-on .toc, body.fs-on .lang-top, body.fs-
 <footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/wal.funk_891">GitHub</a></p></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="i18n.js?v=20261123085019"></script>
-<script src="globe.js?v=20261123085019"></script>
-<script src="app.js?v=20261123085019"></script>
-<script src="play.js?v=20261123085019"></script>
-<script src="atlas.js?v=20261123085019"></script>
-<script src="ui.js?v=20261123085019"></script>
-<script src="polish.js?v=20261123085019"></script>
-<script src="story.js?v=20261123085019"></script>
-<script src="scenes.js?v=20261123085019"></script>
+<script src="i18n.js?v=20261123085633"></script>
+<script src="globe.js?v=20261123085633"></script>
+<script src="app.js?v=20261123085633"></script>
+<script src="play.js?v=20261123085633"></script>
+<script src="atlas.js?v=20261123085633"></script>
+<script src="ui.js?v=20261123085633"></script>
+<script src="polish.js?v=20261123085633"></script>
+<script src="story.js?v=20261123085633"></script>
+<script src="scenes.js?v=20261123085633"></script>
 </body>
 </html>
