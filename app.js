@@ -160,9 +160,39 @@ function localMap(hs) {
     });
     const [ox, oy] = proj([-128.5, 41.5]); const o = svgEl('text', { class: 'map-sub', x: ox, y: oy, 'text-anchor': 'middle' }); o.textContent = t('places.ocean'); svg.append(o);
   };
+  const areaG = svgEl('g', { class: 'areas' });
   fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/land-50m.json').then((r) => r.json()).then((topo) => {
-    svg.insertBefore(svgEl('path', { class: 'land', d: path(topojson.feature(topo, topo.objects.land)) }), svg.firstChild.nextSibling); draw();
-  }).catch(draw);
+    svg.insertBefore(svgEl('path', { class: 'land', d: path(topojson.feature(topo, topo.objects.land)) }), svg.firstChild.nextSibling);
+    svg.insertBefore(areaG, svg.firstChild.nextSibling.nextSibling); draw(); areas(areaG, path);
+  }).catch(() => { svg.append(areaG); draw(); areas(areaG, path); });
+}
+
+/* Official NOAA whale areas, loaded live from NOAA's own servers (not re-hosted). */
+function areas(g, path) {
+  const NOAA = 'https://services2.arcgis.com/C8EMgrsFcRFL6LrL/arcgis/rest/services';
+  const Q = '&outSR=4326&geometryPrecision=4&maxAllowableOffset=0.003&f=geojson';
+  const LAYERS = [
+    { id: 'blue', key: 'areas.blue', col: '#4c8dff', url: `${NOAA}/BIA_II_WebMerc/FeatureServer/1/query?where=Region_Code%3D%27WC%27%20AND%20Common_Name%3D%27Blue%20whale%27%20AND%20BIA_Status%3D%27PARENT%27&outFields=Months_of_year${Q}` },
+    { id: 'fin', key: 'areas.fin', col: '#b48cff', url: `${NOAA}/BIA_II_WebMerc/FeatureServer/1/query?where=Region_Code%3D%27WC%27%20AND%20Common_Name%3D%27Fin%20whale%27%20AND%20BIA_Status%3D%27PARENT%27&outFields=Months_of_year${Q}` },
+    { id: 'humpback', key: 'areas.humpback', col: '#5ee6d7', url: `${NOAA}/BIA_II_WebMerc/FeatureServer/1/query?where=Region_Code%3D%27WC%27%20AND%20Common_Name%3D%27Humpback%20whale%27%20AND%20BIA_Status%3D%27PARENT%27&outFields=Months_of_year${Q}` },
+    { id: 'srkw', key: 'areas.srkw', col: '#ff6b5b', url: `${NOAA}/WhaleKiller_SouthernResidentDPS_20210802/FeatureServer/65/query?where=1%3D1&outFields=UNIT${Q}` },
+    { id: 'hch', key: 'areas.hch', col: '#ffb547', url: `${NOAA}/WhaleHumpback_CentralAmericaDPS_20210421/FeatureServer/68/query?where=1%3D1&outFields=UNIT${Q}` },
+  ];
+  const bar = $('areas'); bar.replaceChildren();
+  LAYERS.forEach((L, i) => {
+    const lg = svgEl('g', { class: 'area area-' + L.id }); g.append(lg);
+    const b = el('button', 'area-chip'); b.type = 'button'; b.setAttribute('aria-pressed', String(i < 3));
+    const dot = el('i'); dot.style.background = L.col; b.append(dot, t(L.key));
+    lg.style.display = i < 3 ? '' : 'none';
+    b.addEventListener('click', () => { const on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', String(on)); lg.style.display = on ? '' : 'none'; });
+    bar.append(b);
+    fetch(L.url).then((r) => r.json()).then((fc) => {
+      (fc.features || []).forEach((f) => {
+        const p = svgEl('path', { d: path(f), fill: L.col, 'fill-opacity': L.id === 'srkw' || L.id === 'hch' ? .08 : .2, stroke: L.col, 'stroke-width': 1.2, 'stroke-dasharray': L.id === 'hch' ? '5 4' : '' });
+        const tt = svgEl('title'); tt.textContent = t(L.key); p.append(tt); lg.append(p);
+      });
+    }).catch(() => { b.disabled = true; b.title = t('ui.loadfail'); });
+  });
 }
 
 /* ---------- World map of open archives ---------- */

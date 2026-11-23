@@ -373,5 +373,11 @@
  "nb.blue.f": "缺失的频带",
  "nb.plan4b.t": "在须鲸上测试 whalu",
  "nb.plan4b.d": "新计划：whalu 作为蓝鲸、长须鲸和座头鲸的主要检测器，Perch 只处理不寻常的声音。目前正在用 NOAA 研究人员标注的 287 个叫声和所有者标注的 300 个窗口进行测试。",
- "nb.plan4b.f": "标注的叫声与窗口"
+ "nb.plan4b.f": "标注的叫声与窗口",
+ "areas.blue": "蓝鲸觅食区",
+ "areas.fin": "长须鲸觅食区",
+ "areas.humpback": "座头鲸觅食区",
+ "areas.srkw": "南方定居型虎鲸关键栖息地",
+ "areas.hch": "座头鲸关键栖息地",
+ "areas.note": "彩色区域实时从 NOAA 加载。觅食区：生物重要区域 II（Harrison 等 2023，Front. Mar. Sci.；西海岸：Calambokidis 等 2024），蓝鲸和长须鲸为 6–11 月，座头鲸为 3–11 月。关键栖息地：NOAA Fisheries（2006/2021），并非法律定义（法律定义见美国联邦法规）。未显示迁徙路线，因为 NOAA 西海岸数据中没有这些物种的迁徙路线。"
 }

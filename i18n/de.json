@@ -373,5 +373,11 @@
  "nb.blue.f": "das fehlende Band",
  "nb.plan4b.t": "whalu bei Bartenwalen testen",
  "nb.plan4b.d": "Neuer Plan: whalu als Hauptdetektor für Blau-, Finn- und Buckelwale, Perch nur für ungewöhnliche Laute. Läuft gerade gegen 287 von NOAA-Forschenden markierte Rufe und 300 vom Besitzer markierte Fenster.",
- "nb.plan4b.f": "markierte Rufe und Fenster"
+ "nb.plan4b.f": "markierte Rufe und Fenster",
+ "areas.blue": "Fressgebiete Blauwal",
+ "areas.fin": "Fressgebiete Finnwal",
+ "areas.humpback": "Fressgebiete Buckelwal",
+ "areas.srkw": "Schutzgebiet Southern-Resident-Orcas",
+ "areas.hch": "Schutzgebiet Buckelwal",
+ "areas.note": "Die farbigen Flächen werden live von NOAA geladen. Fressgebiete: Biologically Important Areas II (Harrison et al. 2023, Front. Mar. Sci.; Westküste: Calambokidis et al. 2024), Juni–November für Blau- und Finnwal, März–November für Buckelwal. Schutzgebiete: NOAA Fisheries (2006/2021), nicht die rechtliche Abgrenzung, die im US Code of Federal Regulations steht. Wanderrouten fehlen, weil NOAAs Westküsten-Daten für diese Arten keine enthalten."
 }

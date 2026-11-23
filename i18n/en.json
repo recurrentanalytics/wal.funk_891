@@ -373,5 +373,11 @@
  "nb.blue.f": "the band that is missing",
  "nb.plan4b.t": "Testing whalu on baleen whales",
  "nb.plan4b.d": "New plan: whalu as main detector for blue, fin and humpback whales, Perch only for unusual sounds. Running now against 287 calls labelled by NOAA researchers and 300 windows labelled by the owner.",
- "nb.plan4b.f": "labelled calls and windows"
+ "nb.plan4b.f": "labelled calls and windows",
+ "areas.blue": "Blue whale feeding areas",
+ "areas.fin": "Fin whale feeding areas",
+ "areas.humpback": "Humpback feeding areas",
+ "areas.srkw": "Southern Resident orca critical habitat",
+ "areas.hch": "Humpback critical habitat",
+ "areas.note": "Coloured areas are loaded live from NOAA. Feeding areas: Biologically Important Areas II (Harrison et al. 2023, Front. Mar. Sci.; West Coast: Calambokidis et al. 2024), June–November for blue and fin, March–November for humpback. Critical habitat: NOAA Fisheries (2006/2021), not the legal definition, which is in the US Code of Federal Regulations. No migration routes are shown, because NOAA's West Coast data has none for these species."
 }
