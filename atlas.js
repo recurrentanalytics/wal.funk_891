@@ -83,6 +83,57 @@
     });
   }
 
+
+  /* ---------------- Ocean time-lapse: the archive, day by day, coloured by the dominant sound island ---------------- */
+  function timelapse(a) {
+    const cv = $('tl'), btn = $('tl-play'), lbl = $('tl-date'), bars = $('tl-bars');
+    if (!a.timeline || !a.timeline.length) { $('tl-note').textContent = t('atlas.empty'); return; }
+    const rows = a.timeline.map(([k, v]) => ({ d: new Date(k.slice(0, 10) + 'T00:00:00Z'), v })).sort((p, q) => p.d - q.d);
+    const y0 = 2015, y1 = new Date().getUTCFullYear(), nY = y1 - y0 + 1;
+    let i = 0, raf = 0, playing = false; const tot = new Array(a.islands.length).fill(0);
+    const size = () => { const dpr = devicePixelRatio || 1; cv.width = cv.clientWidth * dpr; cv.height = cv.clientHeight * dpr; };
+    function base() {
+      size(); const g = cv.getContext('2d'), W = cv.width, H = cv.height, rh = H / nY;
+      g.fillStyle = '#020b10'; g.fillRect(0, 0, W, H);
+      g.fillStyle = 'rgba(127,162,174,.55)'; g.font = `${11 * (devicePixelRatio || 1)}px "IBM Plex Mono", monospace`;
+      for (let y = 0; y < nY; y++) { g.fillText(String(y0 + y), 4, y * rh + rh * .7); g.fillStyle = 'rgba(23,70,90,.35)'; g.fillRect(48 * (devicePixelRatio || 1), y * rh + 2, W - 52 * (devicePixelRatio || 1), rh - 4); g.fillStyle = 'rgba(127,162,174,.55)'; }
+    }
+    function plot(r) {
+      const g = cv.getContext('2d'), W = cv.width, H = cv.height, rh = H / nY, x0 = 48 * (devicePixelRatio || 1), cw = (W - x0 - 4 * (devicePixelRatio || 1)) / 366;
+      const y = r.d.getUTCFullYear() - y0, doy = Math.floor((r.d - Date.UTC(r.d.getUTCFullYear(), 0, 1)) / 864e5);
+      const top = r.v.indexOf(Math.max(...r.v)); g.fillStyle = PAL[top % PAL.length];
+      g.fillRect(x0 + doy * cw, y * rh + 2, Math.max(1.5, cw), rh - 4);
+      r.v.forEach((n, k) => { tot[k] += n; });
+    }
+    function drawBars() {
+      bars.replaceChildren(); const sum = tot.reduce((p, q) => p + q, 0) || 1;
+      tot.forEach((n, k) => { const s2 = el('span'); s2.style.flex = String(n / sum); s2.style.background = PAL[k % PAL.length]; s2.title = `${t('atlas.island', { l: LETTER(k) })}: ${num(n)}`; bars.append(s2); });
+    }
+    function step() {
+      const per = Math.max(1, Math.ceil(rows.length / 600));
+      for (let j = 0; j < per && i < rows.length; j++, i++) plot(rows[i]);
+      if (i > 0) lbl.textContent = rows[i - 1].d.toLocaleDateString(I18N.locale, { year: 'numeric', month: 'long' });
+      drawBars();
+      if (i < rows.length && playing) raf = requestAnimationFrame(step); else { playing = false; btn.textContent = t('tl.again'); }
+    }
+    function start() { cancelAnimationFrame(raf); base(); tot.fill(0); i = 0; playing = true; btn.textContent = t('tl.playing'); step(); }
+    btn.addEventListener('click', start);
+    base(); if (reduce) { rows.forEach(plot); drawBars(); lbl.textContent = ''; } else { lbl.textContent = t('tl.ready', { n: num(rows.length) }); }
+    addEventListener('resize', () => { if (!playing) { base(); for (let j = 0; j < i; j++) plot(rows[j]); } });
+    $('tl-note').textContent = t('tl.note', { n: num(rows.length), skip: num((a.skipped_days || []).length) });
+  }
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------------- 3D galaxy ---------------- */
+  function galaxy(a) {
+    const host = $('galaxy'); const audio = new Audio();
+    if (!window.makeGalaxy || !a.points3 || !a.points3.length) { host.replaceChildren(el('div', 'scene-msg', t('atlas.empty'))); return; }
+    window.makeGalaxy(host, a, PAL, (p) => {
+      const is = a.islands[p[3]]; $('galaxy-info').textContent = t('galaxy.picked', { l: LETTER(p[3]), n: num(is.n) });
+      if (is.examples[0]) { audio.src = is.examples[0].file; audio.play().catch(() => {}); }
+    });
+  }
+
   function learning(L) {
     const box = $('learn'); box.replaceChildren();
     if (!L || !L.points || !L.points.length) { box.append(el('p', 'note', t('learn.empty'))); return; }
@@ -97,7 +148,7 @@
   }
 
   I18N.ready.then(() => {
-    getJSON('data/atlas.json').then(atlas).catch(() => { $('atlas-sum').textContent = t('atlas.empty'); $('atlas-side').replaceChildren(el('p', 'note', t('atlas.empty'))); });
+    getJSON('data/atlas.json').then((a) => { atlas(a); galaxy(a); timelapse(a); }).catch(() => { $('atlas-sum').textContent = t('atlas.empty'); $('atlas-side').replaceChildren(el('p', 'note', t('atlas.empty'))); $('tl-note').textContent = t('atlas.empty'); $('galaxy').replaceChildren(el('div', 'scene-msg', t('atlas.empty'))); });
     document.addEventListener('queue-ready', () => getJSON('data/candidates.json').then(outliers).catch(() => {}), { once: true });
     getJSON('data/learning.json').then(learning).catch(() => learning(null));
   });

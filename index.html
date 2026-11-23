@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261123015823">
+<meta name="build" content="20261123020017">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Whale Listener</title>
 <meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls.">
@@ -378,6 +378,10 @@ html[data-lang="zh"] h1 { letter-spacing: 0; }
 .learn-chart { width: 100%; height: auto; display: block; } .learn-chart text { font: 11px var(--mono); fill: var(--muted); }
 .world.globe { height: clamp(340px, 62vw, 620px); background: radial-gradient(60% 60% at 50% 50%, #08283a, #020b10); cursor: grab; }
 .world.globe canvas { display: block; width: 100% !important; height: 100% !important; }
+.tl-head { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 10px; }
+.tl-date { font: 300 1.6rem var(--display); font-variant-numeric: tabular-nums; }
+.tl canvas { display: block; width: 100%; height: clamp(220px, 34vw, 380px); border-radius: 10px; }
+.tl-bars { display: flex; height: 14px; border-radius: 7px; overflow: hidden; margin-top: 10px; background: rgba(23,70,90,.4); }
 </style>
 </head>
 <body>
@@ -543,6 +547,18 @@ html[data-lang="zh"] h1 { letter-spacing: 0; }
         <p class="note mono" id="atlas-sum"></p></div>
       <div class="panel atlas-side" id="atlas-side"></div>
     </div>
+    <div class="scene-card">
+      <div class="scene-head"><span class="kicker" data-i18n="galaxy.kicker"></span><h3 class="scene-title" data-i18n="galaxy.title"></h3><p class="note" data-i18n="galaxy.note"></p></div>
+      <div class="scene tall" id="galaxy"><div class="scene-msg" data-i18n="ui.loading"></div></div>
+      <p class="note mono" id="galaxy-info" style="padding:0 18px 14px"></p>
+    </div>
+    <div class="sub-h"><span class="kicker" data-i18n="tl.kicker"></span><h3 class="scene-title" data-i18n="tl.title"></h3><p class="note" data-i18n="tl.intro"></p></div>
+    <div class="panel tl">
+      <div class="tl-head"><button class="play" id="tl-play" type="button" data-i18n="tl.play"></button><span class="tl-date" id="tl-date"></span></div>
+      <canvas id="tl" data-i18n-aria="tl.title"></canvas>
+      <div class="tl-bars" id="tl-bars"></div>
+      <p class="note" id="tl-note"></p>
+    </div>
     <div class="sub-h"><span class="kicker" data-i18n="learn.kicker"></span><h3 class="scene-title" data-i18n="learn.title"></h3><p class="note" data-i18n="learn.intro"></p></div>
     <div class="panel" id="learn"></div>
     <div class="sub-h"><h3 class="scene-title" data-i18n="queue.title"></h3><p class="note" data-i18n="queue.note"></p></div>
@@ -590,12 +606,12 @@ html[data-lang="zh"] h1 { letter-spacing: 0; }
 <footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/whale-listener-status">GitHub</a></p></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="i18n.js?v=20261123015823"></script>
-<script src="globe.js?v=20261123015823"></script>
-<script src="app.js?v=20261123015823"></script>
-<script src="play.js?v=20261123015823"></script>
-<script src="atlas.js?v=20261123015823"></script>
-<script src="story.js?v=20261123015823"></script>
-<script src="scenes.js?v=20261123015823"></script>
+<script src="i18n.js?v=20261123020017"></script>
+<script src="globe.js?v=20261123020017"></script>
+<script src="app.js?v=20261123020017"></script>
+<script src="play.js?v=20261123020017"></script>
+<script src="atlas.js?v=20261123020017"></script>
+<script src="story.js?v=20261123020017"></script>
+<script src="scenes.js?v=20261123020017"></script>
 </body>
 </html>

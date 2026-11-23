@@ -230,7 +230,7 @@ function worldMap(wd) {
   wd.archives.forEach((a) => {
     const b = el('button', 'wl-item'); b.type = 'button';
     const dot = el('i'); dot.style.background = COL[a.status];
-    b.append(dot, el('b', '', a.name), el('span', '', `${{ used: t('world.used'), open: t('world.open'), account: t('world.account') }[a.status]} · ${t('world.sites', { n: a.sites.length })} · ${a.years}`));
+    b.append(dot, el('b', '', a.name), el('span', '', `${{ used: t('world.used'), open: t('world.open'), account: t('world.account') }[a.status]} · ${(a.sites.length === 1 ? t('world.site1') : t('world.sites', { n: a.sites.length }))} · ${a.years}`));
     b.addEventListener('click', () => { const on = b.classList.toggle('on'); list.querySelectorAll('.wl-item').forEach((x) => x !== b && x.classList.remove('on')); hl(on ? a.id : null); showInfo(a); });
     list.append(b);
   });

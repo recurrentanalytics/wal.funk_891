@@ -411,5 +411,18 @@
  "queue.unusual": "Ungewöhnlicher Klang nahe Insel {l}",
  "queue.unusual.why": "{day}, Stunde {h}:00 UTC · {z} robuste SD vom Zentrum seiner Insel",
  "world.off.imos": "6 Standorte; Koordinaten noch nicht geprüft",
- "world.off.onc": "kostenloses Konto und Token nötig"
+ "world.off.onc": "kostenloses Konto und Token nötig",
+ "galaxy.kicker": "Klanggalaxie",
+ "galaxy.title": "Flieg durch alles, was der Pi gehört hat",
+ "galaxy.note": "Dieselben Fenster wie im Atlas, in drei Dimensionen angeordnet, sodass ähnliche Klänge leuchtende Wolken bilden. Ziehen zum Drehen, Zwei-Finger- oder Mausrad zum Hineinfliegen, tippe auf einen Stern, um ein Beispiel seiner Insel zu hören.",
+ "galaxy.picked": "Insel {l} · {n} Fenster · spielt ein Beispiel",
+ "tl.kicker": "Ozean-Zeitraffer",
+ "tl.title": "Zehn Jahre Ozean in einer Minute",
+ "tl.intro": "Jede Zeile ist ein Jahr seit 2015, jede Spalte ein Tag. Drück auf Play: Jeder Tag, den der Pi angehört hat, leuchtet in der Farbe der Klanginsel, die in dieser Stunde am häufigsten war, und der Balken darunter summiert, welche Inseln überwiegen.",
+ "tl.play": "Zeitraffer abspielen",
+ "tl.playing": "Läuft…",
+ "tl.again": "Noch einmal",
+ "tl.ready": "{n} Tage bereit",
+ "tl.note": "Bisher {n} Tage angehört; {skip} Tage übersprungen, weil das Archiv fehlt oder stumm ist. Der Pi arbeitet das Archiv in zufälliger Reihenfolge ab, damit sich das Bild über alle Jahre gleichmäßig füllt.",
+ "world.site1": "1 Standort"
 }

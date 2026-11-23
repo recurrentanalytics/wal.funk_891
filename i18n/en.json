@@ -411,5 +411,18 @@
  "queue.unusual": "Unusual sound near island {l}",
  "queue.unusual.why": "{day}, {h}:00 UTC hour · {z} robust SD from its island's centre",
  "world.off.imos": "6 sites; coordinates not yet verified",
- "world.off.onc": "free account and token needed"
+ "world.off.onc": "free account and token needed",
+ "galaxy.kicker": "Sound galaxy",
+ "galaxy.title": "Fly through everything the Pi has heard",
+ "galaxy.note": "The same windows as the atlas, placed in three dimensions so that similar sounds form glowing clouds. Drag to turn, pinch or scroll to fly closer, tap a star to hear an example from its island.",
+ "galaxy.picked": "Island {l} · {n} windows · playing an example",
+ "tl.kicker": "Ocean time-lapse",
+ "tl.title": "Ten years of ocean in a minute",
+ "tl.intro": "Every row is a year since 2015, every column a day. Press play: each day the Pi has listened to lights up in the colour of the sound island heard most often that hour, and the bar below adds up which islands dominate.",
+ "tl.play": "Play the time-lapse",
+ "tl.playing": "Playing…",
+ "tl.again": "Play again",
+ "tl.ready": "{n} days ready",
+ "tl.note": "{n} days listened to so far; {skip} days skipped because the archive is missing or silent. The order in which the Pi works through the archive is random, so the picture fills evenly across all years.",
+ "world.site1": "1 site"
 }
