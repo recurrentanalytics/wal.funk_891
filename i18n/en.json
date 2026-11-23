@@ -129,7 +129,7 @@
  "places.orcalab.name": "Orcasound Lab",
  "canyon.kicker": "Under Monterey Bay",
  "canyon.title": "The canyon the microphone listens into",
- "canyon.note": "The real sea floor off Monterey from ship sonar surveys at about 180 m resolution, heights exaggerated three times. Seen from above, deeper water looks darker because it absorbs more light. The hydrophone sits at 891 m on Smooth Ridge, just north of the canyon. Drag to turn, pinch or scroll to zoom, also below the surface.",
+ "canyon.note": "The real seafloor off Monterey from ship sonar surveys, now at about 50 m resolution (GMRT), heights exaggerated three times. Finer structure such as sediment ripples and rubble is assumed and generated in the browser, not measured. From above, deeper water looks darker because it swallows more light. The hydrophone sits at 891 m on Smooth Ridge, just north of the canyon. Drag to turn, pinch or wheel to zoom, also below the surface.",
  "canyon.legend.depth": "3,300 m → sea level",
  "canyon.legend.land": "Land",
  "canyon.legend.hp": "MBARI hydrophone, 891 m",
