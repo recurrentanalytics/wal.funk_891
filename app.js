@@ -167,6 +167,14 @@ function localMap(hs) {
   }).catch(() => { svg.append(areaG); draw(); areas(areaG, path); });
 }
 
+/* GeoJSON from ArcGIS winds rings counter-clockwise (RFC 7946); d3-geo needs clockwise, else it fills the rest of the globe. */
+function rewind(f) {
+  const g = f.geometry; if (!g) return;
+  const polys = g.type === 'Polygon' ? [g.coordinates] : g.type === 'MultiPolygon' ? g.coordinates : [];
+  polys.forEach((poly) => {
+    if (d3.geoArea({ type: 'Polygon', coordinates: [poly[0]] }) > 2 * Math.PI) poly.forEach((ring) => ring.reverse());
+  });
+}
 /* Official NOAA whale areas, loaded live from NOAA's own servers (not re-hosted). */
 function areas(g, path) {
   const NOAA = 'https://services2.arcgis.com/C8EMgrsFcRFL6LrL/arcgis/rest/services';
@@ -188,6 +196,7 @@ function areas(g, path) {
     bar.append(b);
     fetch(L.url).then((r) => r.json()).then((fc) => {
       (fc.features || []).forEach((f) => {
+        rewind(f);
         const p = svgEl('path', { d: path(f), fill: L.col, 'fill-opacity': L.id === 'srkw' || L.id === 'hch' ? .08 : .2, stroke: L.col, 'stroke-width': 1.2, 'stroke-dasharray': L.id === 'hch' ? '5 4' : '' });
         const tt = svgEl('title'); tt.textContent = t(L.key); p.append(tt); lg.append(p);
       });
