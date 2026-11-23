@@ -382,5 +382,8 @@
  "areas.note": "Coloured areas are loaded live from NOAA. Feeding areas: Biologically Important Areas II (Harrison et al. 2023, Front. Mar. Sci.; West Coast: Calambokidis et al. 2024), June–November for blue and fin, March–November for humpback. Critical habitat: NOAA Fisheries (2006/2021), not the legal definition, which is in the US Code of Federal Regulations. No migration routes are shown, because NOAA's West Coast data has none for these species.",
  "nb.dclde.t": "Not on blue and fin whale calls either",
  "nb.dclde.d": "Against 240 blue whale D calls and 47 fin whale 40-Hz calls marked by NOAA researchers off Southern California, whalu found none. A check confirmed the timestamps line up. It may simply not know these call types, or the 2 kHz recordings differ too much from what it was trained on.",
- "nb.dclde.f": "calls found, pass mark 70%"
+ "nb.dclde.f": "calls found, pass mark 70%",
+ "nb.decide.t": "Decision: listen to a sample now, everything later",
+ "nb.decide.d": "Perch is accurate but too slow for every hour on this Pi. For now it will hear one hour per day since July 2015, with the hour rotating so that day and night are covered evenly. A fan is on its way. In the long run a small model taught by Perch is meant to hear every hour.",
+ "nb.decide.f": "sampled from about 99,900 hours"
 }

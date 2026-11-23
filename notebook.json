@@ -53,6 +53,12 @@
    "date": "2026-11-23",
    "status": "running",
    "figure": "300"
+  },
+  {
+   "id": "decide",
+   "date": "2026-11-23",
+   "status": "note",
+   "figure": "1 h / day"
   }
  ]
 }

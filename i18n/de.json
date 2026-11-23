@@ -382,5 +382,8 @@
  "areas.note": "Die farbigen Flächen werden live von NOAA geladen. Fressgebiete: Biologically Important Areas II (Harrison et al. 2023, Front. Mar. Sci.; Westküste: Calambokidis et al. 2024), Juni–November für Blau- und Finnwal, März–November für Buckelwal. Schutzgebiete: NOAA Fisheries (2006/2021), nicht die rechtliche Abgrenzung, die im US Code of Federal Regulations steht. Wanderrouten fehlen, weil NOAAs Westküsten-Daten für diese Arten keine enthalten.",
  "nb.dclde.t": "Auch nicht bei Blau- und Finnwalrufen",
  "nb.dclde.d": "Bei 240 Blauwal-D-Rufen und 47 Finnwal-40-Hz-Rufen, die NOAA-Forschende vor Südkalifornien markiert haben, fand whalu keinen einzigen. Eine Prüfung bestätigte, dass die Zeitstempel stimmen. Vielleicht kennt es diese Ruftypen nicht, oder die 2-kHz-Aufnahmen weichen zu sehr von seinen Trainingsdaten ab.",
- "nb.dclde.f": "Rufe gefunden, Grenze 70 %"
+ "nb.dclde.f": "Rufe gefunden, Grenze 70 %",
+ "nb.decide.t": "Entscheidung: jetzt eine Stichprobe, später alles",
+ "nb.decide.d": "Perch ist genau, aber auf diesem Pi zu langsam für jede Stunde. Vorerst hört er eine Stunde pro Tag seit Juli 2015; die Stunde wechselt, sodass Tag und Nacht gleichmäßig abgedeckt sind. Ein Lüfter ist unterwegs. Langfristig soll ein kleines, von Perch angelerntes Modell jede Stunde hören.",
+ "nb.decide.f": "aus etwa 99.900 Stunden"
 }
