@@ -95,7 +95,7 @@
       for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
         const u = x / N * 6.283, v = y / N * 6.283; let h = 0;
         for (const [fx, fy, p, w] of waves) h += Math.sin(fx * u + fy * v + p) * w;
-        const rip = Math.sin(18 * u + 2 * Math.sin(3 * v) + 1.3 * Math.sin(2 * u + 5 * v)) * .25;   // sediment ripples
+        const rip = Math.sin(18 * u + 2 * Math.sin(3 * v) + 1.3 * Math.sin(2 * u + 5 * v)) * .12;   // sediment ripples
         const val = Math.max(0, Math.min(255, 128 + 52 * h + 26 * rip)), o = (y * N + x) * 4;
         im.data[o] = im.data[o + 1] = im.data[o + 2] = val; im.data[o + 3] = 255;
       }
@@ -108,7 +108,7 @@
         sh.uniforms.detailMap = { value: detail };
         sh.fragmentShader = 'uniform sampler2D detailMap;\n' + sh.fragmentShader
           .replace('#include <map_fragment>', `#include <map_fragment>
-            float dFade = 1.0 - smoothstep(6.0, 40.0, length(vViewPosition)); float dH = texture2D(detailMap, vUv * ${REP}).r; diffuseColor.rgb *= mix(1.0, 0.86 + 0.28 * dH, dFade);`)
+            float dFade = 1.0 - smoothstep(6.0, 40.0, length(vViewPosition)); float dH = texture2D(detailMap, vUv * ${REP}).r; diffuseColor.rgb *= mix(1.0, 0.92 + 0.16 * dH, dFade);`)
           .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>
             if (dFade > 0.0) { vec2 duv = vUv * ${REP}; float h = texture2D(detailMap, duv).r * ${strength.toFixed(3)} * dFade;
               vec3 sx = dFdx(-vViewPosition), sy = dFdy(-vViewPosition); float hx = dFdx(h), hy = dFdy(h);
@@ -117,7 +117,7 @@
       };
     };
     Promise.all([tex('albedo_above.jpg'), tex('albedo_true.jpg'), tex('normal_obj.jpg')]).then(([ta, tt, tn]) => {
-      [[above, ta, 0.6], [below, tt, 1.6]].forEach(([m, map, str]) => {
+      [[above, ta, 0.3], [below, tt, 0.7]].forEach(([m, map, str]) => {
         m.material.dispose();
         m.material = new THREE.MeshStandardMaterial({ map, normalMap: tn, normalMapType: THREE.ObjectSpaceNormalMap, roughness: .92, metalness: 0 });
         addDetail(m.material, str);
