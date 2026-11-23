@@ -510,7 +510,8 @@ function machine(s) {
   const done = (s.progress || []).reduce((a, p) => a + p.done, 0), tot = (s.progress || []).reduce((a, p) => a + p.total, 0);
   // sampler health: an hour takes about 45 min plus a 10 min gap, so more than 3 h without a new hour means it has stalled
   const sm = s.sample || {}, lastAge = sm.last_at ? Math.round((Date.now() - new Date(sm.last_at)) / 60000) : null;
-  const stalled = lastAge != null && lastAge > 180;
+  // a running sampler gets 6 h (heat pauses can stretch an hour); a stopped one counts as stalled after 3 h
+  const stalled = lastAge != null && (sm.running ? lastAge > 360 : lastAge > 180);
   $('live-text').textContent = age > 90 ? t('hero.silent', { min: age })
     : sm.last_at ? t(stalled ? 'hero.stalled' : 'hero.sampling', { temp, done: num(sm.done || 0), total: num(sm.total || 0), h: num(lastAge / 60, 1) })
     : t('hero.live', { temp, done, total: tot });
