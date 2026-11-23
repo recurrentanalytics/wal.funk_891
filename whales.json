@@ -192,25 +192,17 @@
   },
   {
    "name": "Right whales",
-   "latin": "Eubalaena glacialis and E. japonica",
-   "codes": "Eg (Atlantic); Upcall, Gunshot (North Pacific)",
+   "latin": "Eubalaena japonica",
+   "codes": "Upcall, Gunshot (North Pacific)",
    "sound": "A 2-second 'upcall' rising from about 50 to 440 Hz, and loud 'gunshot' sounds.",
-   "monterey": "The North Atlantic right whale (about 384 left at the start of 2024) never reaches the Pacific, so any 'Eg' detection here is a false alarm. The North Pacific right whale's eastern population is under 50 animals and very rarely seen off California.",
-   "status": "Both Endangered (US ESA)",
+   "monterey": "The North Pacific right whale's eastern population is under 50 animals and very rarely seen off California.",
+   "status": "Endangered (US ESA)",
    "bands": [
     50,
     440
    ],
    "months": null,
    "sources": [
-    [
-     "DOSITS audio",
-     "https://dosits.org/galleries/audio-gallery/marine-mammals/baleen-whales/north-atlantic-right-whale/"
-    ],
-    [
-     "NOAA (Atlantic)",
-     "https://www.fisheries.noaa.gov/species/north-atlantic-right-whale"
-    ],
     [
      "NOAA (Pacific)",
      "https://www.fisheries.noaa.gov/species/north-pacific-right-whale"
@@ -268,11 +260,6 @@
     "Bryde's whale",
     16.8,
     "https://www.fisheries.noaa.gov/species/brydes-whale"
-   ],
-   [
-    "North Atlantic right whale",
-    15.8,
-    "https://www.fisheries.noaa.gov/species/north-atlantic-right-whale"
    ],
    [
     "Minke whale",
@@ -444,16 +431,6 @@
     "https://creativecommons.org/licenses/by/4.0/"
    ],
    "source": "https://commons.wikimedia.org/wiki/File:Bryde%27s_whale_1.jpg"
-  },
-  "North Atlantic right whale": {
-   "file": "photos/right-atlantic.jpg",
-   "alt": "Aerial view of a right whale mother and calf",
-   "credit": "NOAA/NMFS (NOAA Photo Library anim1750)",
-   "licence": [
-    "Public domain",
-    null
-   ],
-   "source": "https://commons.wikimedia.org/wiki/File:Anim1750_-_Flickr_-_NOAA_Photo_Library.jpg"
   },
   "North Pacific right whale": {
    "file": "photos/right-pacific.jpg",

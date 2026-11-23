@@ -55,7 +55,7 @@
  "dive.shore": "Moss Landing",
  "dive.hydrophone": "Hydrofon, 891 m",
  "whales.kicker": "01 · Die Stimmen",
- "whales.title": "Acht Wale und was der Pi davon wirklich erkennt",
+ "whales.title": "Sieben Wale vor Kalifornien und was der Pi davon wirklich erkennt",
  "whales.lede": "Vom Blauwal, dem größten Tier, das je gelebt hat, bis zum Orca. Ehrlicher Stand: Verlässlich erkennt der Pi heute noch keine dieser Arten. Bei jedem Wal steht, was geprüft ist. Antippen spielt seine Beispieltöne.",
  "whales.scale": "Maßstabsgetreu nach maximaler Länge erwachsener Tiere (NOAA Fisheries). Mensch zum Vergleich.",
  "whales.maxlen": "max. Länge",
@@ -98,8 +98,8 @@
  "sp.brydes.monterey": "Eine Warmwasserart (etwa 40° S bis 40° N), die Monterey Bay liegt also am Rand ihres Verbreitungsgebiets. Vorkommen am Hydrofon nicht geprüft.",
  "sp.brydes.status": "Nicht nach ESA gelistet",
  "sp.right.sound": "Ein 2 Sekunden langer „Upcall“, der von etwa 50 auf 440 Hz steigt, und laute „Schuss“-Laute.",
- "sp.right.monterey": "Der Atlantische Nordkaper (Anfang 2024 noch etwa 384 Tiere) kommt nie in den Pazifik; jede Meldung dieser Art hier ist also ein Fehlalarm. Die östliche Population des Nordpazifischen Glattwals zählt unter 50 Tiere und wird vor Kalifornien sehr selten gesehen.",
- "sp.right.status": "Beide gefährdet (US ESA)",
+ "sp.right.monterey": "Die östliche Population des Nordpazifischen Glattwals zählt unter 50 Tiere; vor Kalifornien wird er sehr selten gesehen.",
+ "sp.right.status": "Gefährdet (US ESA)",
  "known.0": "MBARIs Hydrofon liegt auf dem Smooth Ridge, etwa 30 km vor der Küste in rund 900 m Tiefe, und nimmt seit Juli 2015 fast ununterbrochen auf.",
  "known.1": "MBARI veröffentlicht bereits Detektoren für Blauwal- und Finnwalrufe, Buckelwalgesang und Schiffslärm und hat sie auf sechs Jahre Daten angewendet (Ryan et al. 2025).",
  "known.2": "Google hat den Detektor teils mit Aufnahmen genau dieses Hydrofons trainiert. Etwas Neues zu finden heißt also, nach dem zu suchen, wofür diese Detektoren nicht gebaut sind: seltene Arten, ungewöhnliche Uhrzeiten, fremde Laute.",
@@ -513,6 +513,5 @@
  "det.orca": "Der Orca-Erkenner traf an einem Orcasound-Testtag 94 %. Vor Monterey ist er unbrauchbar: Er schlägt bei jedem fünften Ausschnitt an. Ein Test an 30 von Menschen gemeldeten Orca-Begegnungen läuft.",
  "det.minke": "Für Zwergwale hat der Pi keinen geprüften Erkenner.",
  "det.brydes": "Für Brydewale hat der Pi keinen geprüften Erkenner.",
- "det.npright": "Für den Nordpazifischen Glattwal hat der Pi keinen geprüften Erkenner. Er ist extrem selten; nur wenige Dutzend Tiere leben im Ostpazifik.",
- "det.naright": "Der Nordkaper lebt im Atlantik, nicht vor Kalifornien. Er ist hier nur zum Größenvergleich; der Pi sucht ihn nicht."
+ "det.npright": "Für den Nordpazifischen Glattwal hat der Pi keinen geprüften Erkenner. Er ist extrem selten; nur wenige Dutzend Tiere leben im Ostpazifik."
 }

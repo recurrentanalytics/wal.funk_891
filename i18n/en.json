@@ -55,7 +55,7 @@
  "dive.shore": "Moss Landing",
  "dive.hydrophone": "Hydrophone, 891 m",
  "whales.kicker": "01 · The voices",
- "whales.title": "Eight whales, and what the Pi can really recognise",
+ "whales.title": "Seven whales off California, and what the Pi can really recognise",
  "whales.lede": "From the blue whale, the largest animal that ever lived, to the orca. Honest status: the Pi cannot yet reliably recognise any of these species. Each whale shows what has been tested. Tap it to hear its example sounds.",
  "whales.scale": "Drawn to scale by maximum adult length (NOAA Fisheries). Person for comparison.",
  "whales.maxlen": "max length",
@@ -98,8 +98,8 @@
  "sp.brydes.monterey": "A warm-water species (about 40°S to 40°N), so Monterey Bay is near the edge of its range. Presence at the hydrophone not verified.",
  "sp.brydes.status": "Not ESA-listed",
  "sp.right.sound": "A 2-second 'upcall' rising from about 50 to 440 Hz, and loud 'gunshot' sounds.",
- "sp.right.monterey": "The North Atlantic right whale (about 384 left at the start of 2024) never reaches the Pacific, so any Atlantic right whale detection here is a false alarm. The North Pacific right whale's eastern population is under 50 animals and very rarely seen off California.",
- "sp.right.status": "Both Endangered (US ESA)",
+ "sp.right.monterey": "The North Pacific right whale's eastern population is under 50 animals; it is very rarely seen off California.",
+ "sp.right.status": "Endangered (US ESA)",
  "known.0": "MBARI's hydrophone sits on Smooth Ridge, about 30 km offshore at roughly 900 m depth, and has recorded almost continuously since July 2015.",
  "known.1": "MBARI already publishes detectors for blue whale calls, fin whale calls, humpback song and shipping noise, and used them on six years of data (Ryan et al. 2025).",
  "known.2": "Google trained the detector partly on recordings from this same hydrophone. Finding something new means looking for what these detectors are not built to count: rare species, odd hours, unusual sounds.",
@@ -513,6 +513,5 @@
  "det.orca": "The orca classifier scored 94 % on one Orcasound test day. Off Monterey it is useless: it fires on one window in five. A test on 30 orca encounters reported by people is running.",
  "det.minke": "The Pi has no tested detector for minke whales.",
  "det.brydes": "The Pi has no tested detector for Bryde’s whales.",
- "det.npright": "The Pi has no tested detector for the North Pacific right whale. It is extremely rare; only a few dozen live in the eastern Pacific.",
- "det.naright": "The North Atlantic right whale lives in the Atlantic, not off California. It is here for size only; the Pi does not look for it."
+ "det.npright": "The Pi has no tested detector for the North Pacific right whale. It is extremely rare; only a few dozen live in the eastern Pacific."
 }

@@ -6,7 +6,7 @@ const svgEl = (tag, attrs = {}) => { const n = document.createElementNS(NS, tag)
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const getJSON = (u) => fetch(u, { cache: 'no-store' }).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); });
 const num = (n, d) => I18N.num(n, d);
-const SP = { 'Blue whale': 'blue', 'Fin whale': 'fin', 'North Pacific right whale': 'npright', 'Humpback whale': 'humpback', "Bryde's whale": 'brydes', 'North Atlantic right whale': 'naright', 'Minke whale': 'minke', 'Killer whale (orca)': 'orca', 'Person': 'person' };
+const SP = { 'Blue whale': 'blue', 'Fin whale': 'fin', 'North Pacific right whale': 'npright', 'Humpback whale': 'humpback', "Bryde's whale": 'brydes', 'Minke whale': 'minke', 'Killer whale (orca)': 'orca', 'Person': 'person' };
 // Example sounds per whale. Ours: MBARI hour with whalu's label (candidates) and a human-labelled Orcasound clip.
 // NOAA: played straight from NOAA Fisheries "Sounds in the Ocean: Mammals" (not copied here; credit as on that page).
 const NOAA_S = 'https://www.fisheries.noaa.gov/s3/2023-04/', NOAA_PAGE = 'https://www.fisheries.noaa.gov/national/science-data/sounds-ocean-mammals';
@@ -16,14 +16,13 @@ const SOUNDS = {
   humpback: [{ src: 'data/voices/Mn.mp3', who: 'mbari', call: 'cand' }, { src: NOAA_S + 'Meno-song-NOAA-PAGroup-13-humpback-clip.mp3', who: 'noaa', call: 'song' }],
   orca: [{ src: 'data/clip.mp3', who: 'orcasound', call: 'calls' }, { src: NOAA_S + 'Oror-Multisound-AWI-Van-Opzeeland-01-killer-clip.mp3', who: 'noaa', call: 'clickswhistles' }],
   minke: [{ src: NOAA_S + 'Baac-pulsetrains-NOAA-PAGroup-25-minke-clip.mp3', who: 'noaa', call: 'pulses' }],
-  naright: [{ src: NOAA_S + 'Eugl-upcall-NOAA-PAGroup-01-right-clip-1.mp3', who: 'noaa', call: 'upcall' }, { src: NOAA_S + 'Eugl-multisound-NOAA-PAGroup-01-right-whale-clip.mp3', who: 'noaa', call: 'mixed' }],
   npright: [], brydes: [],
 };
 // What the Pi can honestly recognise today, per species (docs/STATUS.md). fail = tested and failed,
 // pending = test running or waiting for data, partial = works only somewhere else, none = no detector tested at all.
-const DETECT = { blue: 'fail', fin: 'fail', humpback: 'pending', orca: 'partial', minke: 'none', brydes: 'none', npright: 'none', naright: 'none' };
+const DETECT = { blue: 'fail', fin: 'fail', humpback: 'pending', orca: 'partial', minke: 'none', brydes: 'none', npright: 'none' };
 const whaleAudio = new Audio(); whaleAudio.preload = 'none';
-const SPTEXT = { blue: 'blue', fin: 'fin', humpback: 'humpback', brydes: 'brydes', minke: 'minke', orca: 'orca', npright: 'right', naright: 'right' };
+const SPTEXT = { blue: 'blue', fin: 'fin', humpback: 'humpback', brydes: 'brydes', minke: 'minke', orca: 'orca', npright: 'right' };
 const CODE2SP = { Mn: 'humpback', Bm: 'blue', Bp: 'fin', Ba: 'minke', Be: 'brydes', Oo: 'orca' };
 
 /* Spectrogram colour: abyss -> teal -> pale gold */
@@ -125,7 +124,7 @@ function whales(w) {
       cap.append(' · '); const s = el('a', '', t('whales.source')); s.href = ph.source; s.rel = 'noopener'; cap.append(s);
       fig.append(img, cap); d.append(fig);
     }
-    const latin = /Atlantic/.test(name) ? 'Eubalaena glacialis' : /Pacific right/.test(name) ? 'Eubalaena japonica' : (sp.latin || '');
+    const latin = /Pacific right/.test(name) ? 'Eubalaena japonica' : (sp.latin || '');
     d.append(el('h3', 'big', t(`sp.${key}.name`)), el('div', 'lat', latin));
     if (DETECT[key]) { const st = el('div', 'detect det-box-' + DETECT[key]); st.append(el('b', '', t('det.q') + ' ' + t(`det.state.${DETECT[key]}`)), el('p', '', t(`det.${key}`))); d.append(st); }
     const fx = el('div', 'facts');
