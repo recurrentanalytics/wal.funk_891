@@ -472,10 +472,11 @@ function calendar(c) {
 }
 function queue(list) {
   const box = $('cands'); box.replaceChildren();
-  const items = list.slice();
+  const items = list.filter((x) => !x.audio);
   if (voicesData) voicesData.clips.forEach((c) => items.push({ title: `${t(`sp.${CODE2SP[c.code]}.name`)}?`, when: new Date(Date.parse(voicesData.hour) + c.start_s * 1000).toISOString().slice(0, 16).replace('T', ' ') + ' UTC', why: t('queue.why', { sp: t(`sp.${CODE2SP[c.code]}.name`), score: num(c.peak_score, 2) }), status: c.code === 'Bm' ? t('queue.status.doubt') : t('queue.status.open'), anchor: '#voices' }));
-  if (!items.length) { box.append(el('p', 'note', t('queue.empty'))); return; }
+  if (!items.length && !list.some((x) => x.audio)) { box.append(el('p', 'note', t('queue.empty'))); document.dispatchEvent(new Event('queue-ready')); return; }
   items.forEach((it) => { const c = el('div', 'cand'); c.append(el('span', 'st', it.status), el('b', '', it.title), el('div', 'note', `${it.when} · ${it.why}`)); if (it.anchor) { const a = el('a', '', t('queue.listen')); a.href = it.anchor; c.append(a); } box.append(c); });
+  document.dispatchEvent(new Event('queue-ready'));
 }
 
 /* ---------- Menu highlight ---------- */

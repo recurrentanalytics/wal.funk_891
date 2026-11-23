@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261123015026">
+<meta name="build" content="20261123015504">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Whale Listener</title>
 <meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls.">
@@ -366,6 +366,16 @@ html[data-lang="zh"] h1 { letter-spacing: 0; }
 .area-chip i { width: 10px; height: 10px; border-radius: 3px; opacity: .45; }
 .area-chip[aria-pressed="true"] { color: var(--fg); border-color: var(--fg); } .area-chip[aria-pressed="true"] i { opacity: 1; }
 .area-chip:disabled { opacity: .4; cursor: default; }
+.atlas-wrap { display: grid; gap: 14px; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); align-items: start; }
+@media (max-width: 860px) { .atlas-wrap { grid-template-columns: minmax(0, 1fr); } }
+.atlas-main canvas { display: block; width: 100%; height: clamp(320px, 55vw, 560px); border-radius: 12px; border: 1px solid var(--line); background: radial-gradient(80% 80% at 50% 50%, #08283a, #020b10); touch-action: none; cursor: grab; }
+.atlas-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; margin-top: 8px; }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.chip { font: 500 12px var(--mono); color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 4px 9px; cursor: pointer; }
+.chip[aria-pressed="true"] { color: var(--abyss); background: var(--glow); border-color: var(--glow); }
+.atlas-ex { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+.atlas-clock { width: 100%; height: auto; display: block; margin: 6px 0; } .atlas-clock text { font: 9px var(--mono); fill: var(--muted); }
+.learn-chart { width: 100%; height: auto; display: block; } .learn-chart text { font: 11px var(--mono); fill: var(--muted); }
 </style>
 </head>
 <body>
@@ -524,6 +534,15 @@ html[data-lang="zh"] h1 { letter-spacing: 0; }
     <p class="lede-big" data-i18n="finds.lede"></p>
     <div class="panel"><div class="cal-sum" id="cal-sum">—</div><div class="cal" id="cal"></div>
       <div class="legend"><span><i style="background:var(--glow)"></i><span data-i18n="finds.legend.on"></span></span><span><i style="background:rgba(23,70,90,.6)"></i><span data-i18n="finds.legend.off"></span></span></div></div>
+    <div class="sub-h"><span class="kicker" data-i18n="atlas.kicker"></span><h3 class="scene-title" data-i18n="atlas.title"></h3><p class="note" data-i18n="atlas.intro"></p></div>
+    <div class="atlas-wrap">
+      <div class="atlas-main"><canvas id="atlas" data-i18n-aria="atlas.title"></canvas>
+        <div class="atlas-bar"><div class="chips" id="atlas-months" role="group"></div><button class="ghost" id="atlas-reset" type="button" data-i18n="atlas.reset"></button></div>
+        <p class="note mono" id="atlas-sum"></p></div>
+      <div class="panel atlas-side" id="atlas-side"></div>
+    </div>
+    <div class="sub-h"><span class="kicker" data-i18n="learn.kicker"></span><h3 class="scene-title" data-i18n="learn.title"></h3><p class="note" data-i18n="learn.intro"></p></div>
+    <div class="panel" id="learn"></div>
     <div class="sub-h"><h3 class="scene-title" data-i18n="queue.title"></h3><p class="note" data-i18n="queue.note"></p></div>
     <div class="cands" id="cands"></div>
   </div></section>
@@ -569,10 +588,11 @@ html[data-lang="zh"] h1 { letter-spacing: 0; }
 <footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/whale-listener-status">GitHub</a></p></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="i18n.js?v=20261123015026"></script>
-<script src="app.js?v=20261123015026"></script>
-<script src="play.js?v=20261123015026"></script>
-<script src="story.js?v=20261123015026"></script>
-<script src="scenes.js?v=20261123015026"></script>
+<script src="i18n.js?v=20261123015504"></script>
+<script src="app.js?v=20261123015504"></script>
+<script src="play.js?v=20261123015504"></script>
+<script src="atlas.js?v=20261123015504"></script>
+<script src="story.js?v=20261123015504"></script>
+<script src="scenes.js?v=20261123015504"></script>
 </body>
 </html>
