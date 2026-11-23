@@ -15,6 +15,8 @@
  "hero.nameNote": "名字的由来：Walfunk 是德语“鲸鱼电台”的意思，891 米是蒙特雷海底峡谷中水听器的深度。",
  "hero.connecting": "正在连接树莓派…",
  "hero.live": "树莓派正在收听 · {temp} °C · 测试片段 {done}/{total}",
+ "hero.sampling": "树莓派正在收听 · {temp} °C · 已抽样 {done}/{total} 天",
+ "hero.stalled": "抽样已停滞：{h} 小时没有新的一小时 · {done}/{total} 天",
  "hero.silent": "树莓派已有 {min} 分钟没有报告",
  "hero.noreport": "没有来自树莓派的报告",
  "glance.title": "一览",

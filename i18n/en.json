@@ -15,6 +15,8 @@
  "hero.nameNote": "The name: Walfunk is German for “whale radio”. 891 m is the depth of the hydrophone in Monterey Canyon.",
  "hero.connecting": "Connecting to the Pi…",
  "hero.live": "Pi listening · {temp} °C · {done}/{total} test clips",
+ "hero.sampling": "Pi listening · {temp} °C · {done} of {total} days sampled",
+ "hero.stalled": "Sampler stalled: no new hour for {h} h · {done} of {total} days",
  "hero.silent": "No report from the Pi for {min} min",
  "hero.noreport": "No report from the Pi",
  "glance.title": "At a glance",

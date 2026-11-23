@@ -391,7 +391,13 @@ function machine(s) {
   if (age > 90) $('stamp').classList.add('err');
   $('live-dot').className = 'dot ' + (age > 90 ? 'stale' : (flags & 4) ? 'hot on' : 'on');
   const done = (s.progress || []).reduce((a, p) => a + p.done, 0), tot = (s.progress || []).reduce((a, p) => a + p.total, 0);
-  $('live-text').textContent = age > 90 ? t('hero.silent', { min: age }) : t('hero.live', { temp, done, total: tot });
+  // sampler health: an hour takes about 45 min plus a 10 min gap, so more than 3 h without a new hour means it has stalled
+  const sm = s.sample || {}, lastAge = sm.last_at ? Math.round((Date.now() - new Date(sm.last_at)) / 60000) : null;
+  const stalled = lastAge != null && lastAge > 180;
+  $('live-text').textContent = age > 90 ? t('hero.silent', { min: age })
+    : sm.last_at ? t(stalled ? 'hero.stalled' : 'hero.sampling', { temp, done: num(sm.done || 0), total: num(sm.total || 0), h: num(lastAge / 60, 1) })
+    : t('hero.live', { temp, done, total: tot });
+  if (stalled && age <= 90) $('live-dot').className = 'dot stale';
   $('g-pi').textContent = age > 90 ? t('glance.pi.silent', { min: age }) : (flags & 4) ? t('glance.pi.hot', { temp }) : t('glance.pi.ok', { temp });
   $('g-pi').closest('.tile').classList.toggle('warn', !!(flags & 4) || age > 90);
   if (last) { $('temp').replaceChildren(document.createTextNode(num(+last.temp_c, 1)), el('small', '', ' °C')); }

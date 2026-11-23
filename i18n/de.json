@@ -15,6 +15,8 @@
  "hero.nameNote": "Der Name: 891 m ist die Tiefe des Hydrofons im Monterey Canyon. Von dort kommt der Walfunk.",
  "hero.connecting": "Verbindung zum Pi…",
  "hero.live": "Pi hört zu · {temp} °C · {done}/{total} Testclips",
+ "hero.sampling": "Pi hört zu · {temp} °C · {done} von {total} Tagen abgehört",
+ "hero.stalled": "Sampler steht: seit {h} h keine neue Stunde · {done} von {total} Tagen",
  "hero.silent": "Seit {min} Min. keine Meldung vom Pi",
  "hero.noreport": "Keine Meldung vom Pi",
  "glance.title": "Auf einen Blick",
