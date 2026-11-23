@@ -37,9 +37,9 @@
     // chapter cards in front of every chapter but the start
     VIEWS.slice(1).forEach((v, i) => {
       const first = $(v.sec[0]); if (!first) return;
-      const card = mk('section', 'chapter'); card.id = 'ch-' + v.id;
+      const card = mk('section', 'chapter'); card.id = 'ch-' + v.id; card.dataset.n = String(i + 1).padStart(2, '0');
       const w = mk('div', 'wrap'); w.append(mk('span', 'ch-n', t('ch.n', { n: i + 1, of: VIEWS.length - 1 })), mk('h2', 'ch-t', t(v.key)), mk('p', 'ch-d', t(`start.${v.id}`)));
-      card.append(w); first.before(card); v.first = card;
+      card.append(mk('span', 'ch-num', card.dataset.n), w); first.before(card); v.first = card;
     });
     // big photos and wireframe whales behind the chapter titles
     fetch('data/chapter_media.json?v=' + ((document.querySelector('meta[name=build]') || {}).content || '')).then((r) => r.json()).then((M) => VIEWS.slice(1).forEach((v) => {
@@ -72,6 +72,31 @@
     }));
     if (grid) { const a = mk('a', 'start-card hb-card'); a.href = 'handbook.html?lang=' + I18N.lang; a.append(mk('b', '', t('hbk.title')), mk('span', '', t('start.handbook')), mk('i', '', '↗')); grid.append(a); }
     fold();
+    /* collapsible blocks inside the chapters: each titled block after a section's main content folds; the first stays open */
+    const START = '.sub-h, h3.sub-h, .scene-card, .live-card, .cic-panel, .panel.smap';
+    document.querySelectorAll('main > section.part > .wrap').forEach((w) => {
+      const kids = [...w.children]; let cur = null, first = true;
+      kids.forEach((k) => {
+        if (k.matches(START) && !k.closest('details')) {
+          const h = k.querySelector('h3, .scene-title') || k, kick = k.querySelector('.kicker');
+          cur = mk('details', 'sec-fold'); if (first) cur.open = true; first = false;
+          const sm = mk('summary'); if (kick) sm.append(mk('span', 'sf-k', kick.textContent)); sm.append(mk('span', 'sf-t', h.textContent || '…'), mk('i', 'sf-i'));
+          const body = mk('div', 'sec-body'); cur.append(sm, body); k.before(cur); body.append(k);
+          cur.addEventListener('toggle', () => { [0, 150, 500].forEach((ms) => setTimeout(() => dispatchEvent(new Event('resize')), ms)); setTimeout(layoutRail, 600); });
+        } else if (cur && !k.matches('nav, .view-nav')) cur.querySelector('.sec-body').append(k);
+      });
+    });
+    /* dashed progress rail on the right: chapter marks, current position; click or drag to scroll */
+    const rail = mk('div', 'rail'); rail.setAttribute('aria-hidden', 'true'); const thumb = mk('i', 'rail-th'); rail.append(thumb); document.body.append(rail);
+    const marks = VIEWS.map((v, i) => { const m = mk('b', 'rail-m', String(i + 1)); m.title = t(v.key); rail.append(m); return [v, m]; });
+    function layoutRail() { const H = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+      marks.forEach(([v, m]) => { const top = v.first ? v.first.getBoundingClientRect().top + scrollY : 0; m.style.top = Math.min(100, top / H * 100) + '%'; }); }
+    const moveThumb = () => { const H = Math.max(1, document.documentElement.scrollHeight - innerHeight); thumb.style.top = (scrollY / H * 100) + '%'; };
+    let dragR = false; const goTo = (e) => { const r = rail.getBoundingClientRect(); const f = Math.max(0, Math.min(1, (e.clientY - r.top) / r.height)); scrollTo({ top: f * (document.documentElement.scrollHeight - innerHeight), behavior: dragR ? 'auto' : 'smooth' }); };
+    rail.addEventListener('pointerdown', (e) => { dragR = true; rail.setPointerCapture(e.pointerId); goTo(e); });
+    rail.addEventListener('pointermove', (e) => { if (dragR) goTo(e); }); rail.addEventListener('pointerup', () => { dragR = false; });
+    addEventListener('scroll', moveThumb, { passive: true }); addEventListener('resize', () => { layoutRail(); moveThumb(); });
+    layoutRail(); moveThumb(); setTimeout(layoutRail, 3000); setTimeout(layoutRail, 9000);
     // current chapter + progress line in the bar
     let cur = null, ticking = false;
     const update = () => {

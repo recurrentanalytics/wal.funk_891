@@ -1,6 +1,6 @@
 {
- "build": "20261123113323",
- "built_at": "2026-11-23 11:33 CET",
+ "build": "20261123113917",
+ "built_at": "2026-11-23 11:39 CET",
  "libs": [
   [
    "d3",
@@ -91,15 +91,15 @@
   ],
   [
    "tabs.js",
-   97
+   122
   ],
   [
    "ui.js",
    88
   ]
  ],
- "own_js_lines": 2659,
- "html_lines": 991,
+ "own_js_lines": 2684,
+ "html_lines": 1016,
  "i18n_keys": {
   "en": 987,
   "de": 987,
@@ -164,7 +164,7 @@
   ],
   [
    "data/handbook.json",
-   2584
+   2687
   ],
   [
    "data/learning.json",
@@ -216,7 +216,7 @@
   ],
   [
    "data/status.json",
-   10303
+   10882
   ],
   [
    "data/voices/Bm.mp3",
@@ -239,7 +239,7 @@
    5818
   ]
  ],
- "data_bytes": 8739917,
+ "data_bytes": 8740599,
  "species_total": 93,
  "species_at_stations": 18,
  "species_with_clips": 14,
