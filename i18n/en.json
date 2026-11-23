@@ -1124,5 +1124,21 @@
  "hbk.scr.paper": "Article draft: numbers, table and figure come straight from the results",
  "hbk.scr.handbook": "This handbook",
  "hbk.crowd.p1": "Taking part: in the game, visitors hear the same 300 clips as the project owner’s blind test. Only after answering do they see the model score for each second, the owner’s answer and the sum of everyone else’s. Stored are a random id, the listening time and the language. On the GitHub route the sender’s GitHub name is publicly visible on the form; the page says so before sending.",
- "hbk.crowd.p2": "Where answers go: as long as no database service is set (data/backend.json), “Send” opens a prefilled GitHub form. A GitHub automation (.github/workflows/crowd-labels.yml) checks every answer, stores it under data/crowd/, recounts (data/crowd_summary.json) and closes the form. With a Supabase project set, answers go straight into a table the page may only write to, no account needed."
+ "hbk.crowd.p2": "Where answers go: as long as no database service is set (data/backend.json), “Send” opens a prefilled GitHub form. A GitHub automation (.github/workflows/crowd-labels.yml) checks every answer, stores it under data/crowd/, recounts (data/crowd_summary.json) and closes the form. With a Supabase project set, answers go straight into a table the page may only write to, no account needed.",
+ "res.group.round8": "Round 8: new tests, rules fixed in advance",
+ "res.group.round8.d": "After three specialist reviews and one adversarial review: one new test per species, on new data only, marks unchanged. So far 15 pre-registered measures have been tested on detectors; a pass in round 8 always stands next to every earlier fail.",
+ "res.r8_equiv": "Does the Pi compute exactly like the Mac? (300 listening clips)",
+ "res.r8a_recall": "Orca, stricter counting rule: reported encounters found",
+ "res.r8a_fa": "Orca, stricter counting rule: false alarms in quiet times",
+ "res.r8b_ba": "Humpback: second, larger listening round (weighted)",
+ "res.r8c_blue_rho": "Blue whale call index from 6 hours per day",
+ "res.r8c_blue_ba": "Blue whale call index from 6 hours per day",
+ "res.r8c_blue_peak": "Blue whale call index from 6 hours per day",
+ "res.r8c_fin_rho": "Fin whale call index from 6 hours per day",
+ "res.r8c_fin_ba": "Fin whale call index from 6 hours per day",
+ "res.r8c_fin_peak": "Fin whale call index from 6 hours per day",
+ "res.m.diff": "largest difference",
+ "res.data.orcasound_new": "Orcasound, new reports from 24 Nov 2026",
+ "res.data.mars_pool": "MARS, 3,000 new clips",
+ "res.data.mbari_ci6": "MBARI call index, 204 days"
 }

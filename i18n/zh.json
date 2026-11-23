@@ -1124,5 +1124,21 @@
  "hbk.scr.paper": "文章草稿：数字、表格和图表直接来自结果",
  "hbk.scr.handbook": "本手册",
  "hbk.crowd.p1": "参与：在游戏中，访客听到的是与项目负责人盲听测试相同的 300 段录音。只有在回答之后，才能看到模型每秒的得分、负责人的回答以及其他所有人的汇总。保存的是随机编号、收听时长和语言。通过 GitHub 提交时，提交者的 GitHub 用户名会公开显示在表单上；页面会在提交前说明这一点。",
- "hbk.crowd.p2": "回答去向：在未设置数据库服务（data/backend.json）时，“提交”会打开一个预填的 GitHub 表单。GitHub 自动程序（.github/workflows/crowd-labels.yml）会检查每个回答，存入 data/crowd/，重新统计（data/crowd_summary.json）并关闭表单。设置 Supabase 项目后，回答无需账户即可直接写入一张页面只能写入的表。"
+ "hbk.crowd.p2": "回答去向：在未设置数据库服务（data/backend.json）时，“提交”会打开一个预填的 GitHub 表单。GitHub 自动程序（.github/workflows/crowd-labels.yml）会检查每个回答，存入 data/crowd/，重新统计（data/crowd_summary.json）并关闭表单。设置 Supabase 项目后，回答无需账户即可直接写入一张页面只能写入的表。",
+ "res.group.round8": "第 8 轮：新测试，规则事先确定",
+ "res.group.round8.d": "经过三份专家评审和一份批判性评审：每个物种一项新测试，只用新数据，标准不变。迄今已对识别器测试了 15 项预先登记的指标；第 8 轮的任何通过都会与之前所有的失败并列展示。",
+ "res.r8_equiv": "树莓派的计算是否与 Mac 完全一致？（300 段聆听片段）",
+ "res.r8a_recall": "虎鲸，更严格的计数规则：找到的已报告相遇",
+ "res.r8a_fa": "虎鲸，更严格的计数规则：安静时段的误报",
+ "res.r8b_ba": "座头鲸：第二轮更大规模的聆听（加权）",
+ "res.r8c_blue_rho": "每天 6 小时的蓝鲸叫声指数",
+ "res.r8c_blue_ba": "每天 6 小时的蓝鲸叫声指数",
+ "res.r8c_blue_peak": "每天 6 小时的蓝鲸叫声指数",
+ "res.r8c_fin_rho": "每天 6 小时的长须鲸叫声指数",
+ "res.r8c_fin_ba": "每天 6 小时的长须鲸叫声指数",
+ "res.r8c_fin_peak": "每天 6 小时的长须鲸叫声指数",
+ "res.m.diff": "最大差异",
+ "res.data.orcasound_new": "Orcasound，2026 年 11 月 24 日起的新报告",
+ "res.data.mars_pool": "MARS，3000 段新片段",
+ "res.data.mbari_ci6": "MBARI 叫声指数，204 天"
 }

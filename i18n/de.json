@@ -1124,5 +1124,21 @@
  "hbk.scr.paper": "Artikelentwurf: Zahlen, Tabelle und Abbildung kommen direkt aus den Ergebnissen",
  "hbk.scr.handbook": "Dieses Handbuch",
  "hbk.crowd.p1": "Mitmachen: Im Spiel hören Besucher dieselben 300 Ausschnitte wie der blinde Test des Projektinhabers. Erst nach ihrer Antwort sehen sie den Modellwert jeder Sekunde, die Antwort des Inhabers und die Summe aller anderen. Gespeichert werden eine zufällige Kennung, die Hördauer und die Sprache. Über den GitHub-Weg ist der GitHub-Name des Einsenders am Formular öffentlich sichtbar; die Seite sagt das vor dem Einsenden.",
- "hbk.crowd.p2": "Wohin die Antworten gehen: Solange kein Datenbankdienst eingetragen ist (data/backend.json), öffnet „Einsenden“ ein vorausgefülltes GitHub-Formular. Eine GitHub-Automatik (.github/workflows/crowd-labels.yml) prüft jede Antwort, legt sie unter data/crowd/ ab, zählt neu (data/crowd_summary.json) und schließt das Formular. Mit einem eingetragenen Supabase-Projekt gehen Antworten ohne Konto direkt in eine Tabelle, in die die Seite nur schreiben darf."
+ "hbk.crowd.p2": "Wohin die Antworten gehen: Solange kein Datenbankdienst eingetragen ist (data/backend.json), öffnet „Einsenden“ ein vorausgefülltes GitHub-Formular. Eine GitHub-Automatik (.github/workflows/crowd-labels.yml) prüft jede Antwort, legt sie unter data/crowd/ ab, zählt neu (data/crowd_summary.json) und schließt das Formular. Mit einem eingetragenen Supabase-Projekt gehen Antworten ohne Konto direkt in eine Tabelle, in die die Seite nur schreiben darf.",
+ "res.group.round8": "Runde 8: neue Tests, Regeln vorab festgelegt",
+ "res.group.round8.d": "Nach drei Fachgutachten und einem kritischen Gegengutachten: ein neuer Test pro Art, nur an neuen Daten, Grenzen unverändert. Bisher wurden 15 vorab festgelegte Messgrößen an Erkennern geprüft; ein Bestehen in Runde 8 steht immer neben allen früheren Fehlschlägen.",
+ "res.r8_equiv": "Rechnet der Pi genau wie der Mac? (300 Hör-Ausschnitte)",
+ "res.r8a_recall": "Orca, strengere Zählregel: gemeldete Begegnungen gefunden",
+ "res.r8a_fa": "Orca, strengere Zählregel: Fehlalarme in ruhigen Zeiten",
+ "res.r8b_ba": "Buckelwal: zweite, größere Hörrunde (gewichtet)",
+ "res.r8c_blue_rho": "Blauwal-Rufindex aus 6 Stunden pro Tag",
+ "res.r8c_blue_ba": "Blauwal-Rufindex aus 6 Stunden pro Tag",
+ "res.r8c_blue_peak": "Blauwal-Rufindex aus 6 Stunden pro Tag",
+ "res.r8c_fin_rho": "Finnwal-Rufindex aus 6 Stunden pro Tag",
+ "res.r8c_fin_ba": "Finnwal-Rufindex aus 6 Stunden pro Tag",
+ "res.r8c_fin_peak": "Finnwal-Rufindex aus 6 Stunden pro Tag",
+ "res.m.diff": "größte Abweichung",
+ "res.data.orcasound_new": "Orcasound, neue Meldungen ab 24.11.2026",
+ "res.data.mars_pool": "MARS, 3.000 neue Ausschnitte",
+ "res.data.mbari_ci6": "MBARI-Rufindex, 204 Tage"
 }

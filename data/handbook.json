@@ -1,6 +1,6 @@
 {
- "build": "20261123141940",
- "built_at": "2026-11-23 14:19 CET",
+ "build": "20261123142635",
+ "built_at": "2026-11-23 14:26 CET",
  "libs": [
   [
    "d3",
@@ -113,9 +113,9 @@
  "own_js_lines": 3145,
  "html_lines": 1102,
  "i18n_keys": {
-  "en": 1126,
-  "de": 1126,
-  "zh": 1126
+  "en": 1142,
+  "de": 1142,
+  "zh": 1142
  },
  "data_files": [
   [
@@ -224,7 +224,7 @@
   ],
   [
    "data/results.json",
-   5243
+   7547
   ],
   [
    "data/screens.json",
@@ -279,7 +279,7 @@
    5818
   ]
  ],
- "data_bytes": 8772867,
+ "data_bytes": 8775171,
  "species_total": 93,
  "species_at_stations": 18,
  "species_with_clips": 14,
