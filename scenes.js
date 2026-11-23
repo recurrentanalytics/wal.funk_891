@@ -88,7 +88,7 @@
     const water = new THREE.Mesh(new THREE.PlaneGeometry(W * S, H * S, 1, 1), new THREE.ShaderMaterial({
       transparent: true, side: THREE.DoubleSide, depthWrite: false, uniforms: { t: { value: 0 } },
       vertexShader: 'varying vec2 p; void main(){ p = position.xy; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
-      fragmentShader: 'uniform float t; varying vec2 p; void main(){ float r = sin(p.x*1.7 + t*1.1) * sin(p.y*1.3 - t*.9) + .5*sin(p.x*4.1 - t*1.7) * sin(p.y*3.7 + t*1.3); float g = pow(max(0.0, r*.66), 6.0); if (gl_FrontFacing) gl_FragColor = vec4(vec3(.03,.2,.28) + g*.55, .30 + g*.5); else gl_FragColor = vec4(vec3(.35,.8,.85) + g*.6, .42 + g*.4); }' }));
+      fragmentShader: 'uniform float t; varying vec2 p; void main(){ float r = sin(dot(p, vec2(.9,.4))*.55 + t) + sin(dot(p, vec2(-.5,1.1))*.83 - t*1.2) + sin(dot(p, vec2(.3,-.8))*1.37 + t*.7) + sin(dot(p, vec2(1.3,.2))*2.1 - t*1.6); float g = pow(max(0.0, r*.25), 5.0) * .45; if (gl_FrontFacing) gl_FragColor = vec4(vec3(.03,.2,.28) + g*.55, .30 + g*.5); else gl_FragColor = vec4(vec3(.35,.8,.85) + g*.6, .42 + g*.4); }' }));
     water.rotation.x = -Math.PI / 2; water.position.y = 0.02; scene.add(water);
 
     /* light */
@@ -124,7 +124,7 @@
     const path = new THREE.CatmullRomCurve3(pts, false, 'centripetal', .5), pathKm = path.getLength() / S;
     const hud = document.createElement('div'); hud.className = 'dive-hud'; const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'play small'; btn.textContent = t('canyon.dive');
     const read = document.createElement('div'); read.className = 'dive-read'; hud.append(btn, read); host.append(hud);
-    let dive = null; const DUR = 55000, home = { p: new THREE.Vector3(hx - 46, 46, hz + 58), t: new THREE.Vector3(hx * .5, hy * .6, hz * .5) };
+    let dive = null; const DUR = 55000, home = { p: new THREE.Vector3(hx - 250, 250, hz + 320), t: new THREE.Vector3(hx * .5, hy * .6, hz * .5) }, hpV = new THREE.Vector3(hx, hy, hz);
     const stopDive = (toHome) => { dive = null; controls.enabled = true; btn.textContent = t('canyon.dive'); if (toHome) { camera.position.copy(home.p); controls.target.copy(home.t); } else controls.target.set(hx, hy + .5, hz); controls.update(); };
     btn.addEventListener('click', () => { if (dive) return stopDive(true); controls.autoRotate = false; controls.enabled = false; dive = { t0: performance.now() }; btn.textContent = t('canyon.surface'); });
     const ahead = new THREE.Vector3();
@@ -144,7 +144,7 @@
         sun.intensity = 1.35 * Math.exp(-depth / 160); hemi.intensity = .2 + .65 * Math.exp(-depth / 220); lamp.intensity = 2.2 * sst(40, 300, depth);
         snow.position.copy(camera.position); const a = snowG.attributes.position.array; for (let i = 1; i < a.length; i += 3) { a[i] -= .004; if (a[i] < -12) a[i] = 12; } snowG.attributes.position.needsUpdate = true;
       } else { scene.fog = fogAir; scene.background.copy(skyC); sun.intensity = 1.35; hemi.intensity = .85; lamp.intensity = 0; }
-      rings.forEach((r) => { const p = ((tt / 3 + r.userData.k / 3) % 1), s = 1 + p * 9; r.scale.set(s, s, s); r.material.opacity = (1 - p) * .7; });
+      const mk = Math.min(9, Math.max(1, camera.position.distanceTo(hpV) / 45)); dot.scale.setScalar(mk); rings.forEach((r) => { const p = ((tt / 3 + r.userData.k / 3) % 1), s = (1 + p * 9) * mk; r.scale.set(s, s, s); r.material.opacity = (1 - p) * .7; });
       read.textContent = under ? t('canyon.depth', { m: Math.round(depth).toLocaleString(I18N.locale) }) : '';
       read.classList.toggle('on', under);
     };
