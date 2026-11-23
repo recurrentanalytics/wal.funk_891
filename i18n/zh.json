@@ -621,10 +621,10 @@
  "nb.mac.d": "模型测试先在使用相同软件包版本的 Mac mini 上运行。散热器装好后，树莓派会完整重算全部内容并计时。在此之前，Mac 的结果为初步结果。",
  "nb.mac.f": "实验室，而非站点",
  "layer.currents.speed": "洋流速度",
- "amb.on": "开启水下音乐",
- "amb.off": "关闭水下音乐",
- "amb.state.on": "音乐开",
- "amb.state.off": "音乐关",
+ "amb.on": "开启实时海洋背景声",
+ "amb.off": "关闭实时海洋背景声",
+ "amb.state.on": "海洋声开",
+ "amb.state.off": "海洋声关",
  "pp.kicker": "实景",
  "pp.title": "这些地方的真实样子",
  "pp.moss.t": "加州莫斯兰丁",
@@ -636,5 +636,7 @@
  "pp.pt.t": "华盛顿州汤森港",
  "pp.pt.d": "位于普吉特海湾入口；Orcasound 的“Port Townsend”水听器挂在海洋科学中心外。",
  "pp.robinson.t": "莫里岛罗宾逊角",
- "pp.robinson.d": "普吉特海湾中部；Orcasound 的“Point Robinson”水听器所在地（目前不在线）。"
+ "pp.robinson.d": "普吉特海湾中部；Orcasound 的“Point Robinson”水听器所在地（目前不在线）。",
+ "amb.state.live": "实时：{name}",
+ "amb.live.note": "你正在实时收听 Orcasound 的 {name} 水听器（CC BY-NC-SA 4.0），延迟几秒。"
 }

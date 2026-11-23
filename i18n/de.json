@@ -621,10 +621,10 @@
  "nb.mac.d": "Modelltests laufen vorab auf einem Mac mini mit denselben Paketversionen. Sobald der Kühler da ist, rechnet der Pi alles komplett neu, mit Zeitmessung. Bis dahin sind Mac-Ergebnisse vorläufig.",
  "nb.mac.f": "Labor, nicht Station",
  "layer.currents.speed": "Strömungstempo",
- "amb.on": "Unterwassermusik einschalten",
- "amb.off": "Unterwassermusik ausschalten",
- "amb.state.on": "Musik an",
- "amb.state.off": "Musik aus",
+ "amb.on": "Live-Meer im Hintergrund einschalten",
+ "amb.off": "Live-Meer im Hintergrund ausschalten",
+ "amb.state.on": "Meer an",
+ "amb.state.off": "Meer aus",
  "pp.kicker": "In echt",
  "pp.title": "Die Orte, wie sie aussehen",
  "pp.moss.t": "Moss Landing, Kalifornien",
@@ -636,5 +636,7 @@
  "pp.pt.t": "Port Townsend, Washington",
  "pp.pt.d": "Am Eingang des Puget Sound; Orcasounds Hydrofon „Port Townsend“ hängt vor dem Marine Science Center.",
  "pp.robinson.t": "Point Robinson, Maury Island",
- "pp.robinson.d": "Mitten im Puget Sound; hier stand Orcasounds Hydrofon „Point Robinson“ (derzeit nicht im Livebetrieb)."
+ "pp.robinson.d": "Mitten im Puget Sound; hier stand Orcasounds Hydrofon „Point Robinson“ (derzeit nicht im Livebetrieb).",
+ "amb.state.live": "live: {name}",
+ "amb.live.note": "Du hörst live das Hydrofon {name} von Orcasound (CC BY-NC-SA 4.0), wenige Sekunden verzögert."
 }
