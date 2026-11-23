@@ -228,6 +228,18 @@ function worldMap(wd) {
       if (!pts.length) return; globe.setSightings(pts); chip('layer.sightings', '#ff8fd0', 'sight', true);
       notes.append(el('p', 'note', t('layer.sightings.note', { n: num(pts.length), total: num(g.count) })));
     }).catch(() => {});
+    // Live sightings in the Salish Sea from Acartia (CC BY 4.0). Observer names and free-text comments are not shown.
+    getJSON('https://acartia.io/api/v1/sightings/current').then((rows) => {
+      const KEY = { 'Southern Resident Orca': 'acartia.srkw', 'Orca': 'acartia.orca', 'Humpback': 'acartia.humpback', 'Gray Whale': 'acartia.gray' };
+      const pts = rows.map((r) => { const ts = Date.parse(String(r.created).replace(' ', 'T') + 'Z'), h = (Date.now() - ts) / 36e5; return { lat: +r.latitude, lon: +r.longitude, h, alpha: h < 24 ? 1 : .45,
+        text: `${KEY[r.type] ? t(KEY[r.type]) : t('acartia.other')} · ${t('acartia.count', { n: r.no_sighted || '?' })} · ${h < 48 ? t('acartia.hago', { h: num(h, h < 10 ? 1 : 0) }) : fmtD(ts)} · ${r.data_source_entity || r.data_source_name || 'Acartia'} / Acartia` }; })
+        .filter((p) => isFinite(p.lat) && isFinite(p.lon) && isFinite(p.h));
+      if (!pts.length) return;
+      globe.setPoints('acartia', pts, 0xffe066, .0035); chip('layer.acartia', '#ffe066', 'acartia', true);
+      const newest = Math.min(...pts.map((p) => p.h)), day = pts.filter((p) => p.h < 24).length;
+      const n = el('p', 'note'); n.append(t('layer.acartia.note', { n: num(pts.length), day: num(day), h: num(newest, newest < 10 ? 1 : 0) }) + ' ');
+      const z = el('button', 'ghost'); z.type = 'button'; z.textContent = t('layer.acartia.zoom'); z.addEventListener('click', () => { globe.flyTo(48.2, -123.0, 1.09); box.scrollIntoView({ block: 'center' }); }); n.append(z); notes.append(n);
+    }).catch(() => {});
     // Whale detections on Orcasound's fixed hydrophones in the last 48 hours
     Promise.all([getJSON('https://live.orcasound.net/api/json/feeds'), getJSON('https://live.orcasound.net/api/json/detections?page[limit]=200&sort=-timestamp&filter[category]=whale&include=feed')]).then(([f, d]) => {
       const feeds = {}; f.data.forEach((x) => { const ll = x.attributes.lat_lng; if (ll && ll.lat != null) feeds[x.id] = { name: x.attributes.name, lat: ll.lat, lon: ll.lng }; });

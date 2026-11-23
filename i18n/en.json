@@ -436,5 +436,15 @@
  "layer.sightings.note": "Pink dots: {n} of {total} whale and dolphin records from the last 30 days in GBIF.org, loaded by your browser. Records arrive there one to three weeks late, so this is not live tracking. Many come from Happywhale (CC BY-NC 4.0); tap a dot for species and date.",
  "layer.det.note": "Red rings: Orcasound hydrophones where listeners or the detector reported whales in the last 48 hours (Orcasound, CC BY-NC-SA 4.0). The ring marks the fixed hydrophone, not the animals' position; machine reports are unreviewed.",
  "layer.det.item": "{name}: {n} reports ({human} by people), latest {h} h ago",
- "layer.det.none": "No whale reports on Orcasound's hydrophones in the last 48 hours."
+ "layer.det.none": "No whale reports on Orcasound's hydrophones in the last 48 hours.",
+ "layer.acartia": "Live sightings, Salish Sea",
+ "layer.acartia.note": "Yellow dots: {n} whale sightings of the last days in the Salish Sea, {day} of them from the last 24 hours, the newest {h} h old. Reported by observers through Conserve.io's Whale Alert and others, shared by Acartia (acartia.io, CC BY 4.0). Brighter dots are from the last 24 hours. Observer names and comments are not shown. If you are on the water there, keep your distance and follow the Be Whale Wise guidelines.",
+ "layer.acartia.zoom": "Fly to the Salish Sea",
+ "acartia.srkw": "Southern Resident orca",
+ "acartia.orca": "Orca",
+ "acartia.humpback": "Humpback whale",
+ "acartia.gray": "Gray whale",
+ "acartia.other": "Whale, species not given",
+ "acartia.count": "{n} animals",
+ "acartia.hago": "{h} h ago"
 }

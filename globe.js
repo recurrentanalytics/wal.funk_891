@@ -21,7 +21,7 @@
   /* ---------------- Globe ---------------- */
   window.makeGlobe = function (host, wd, COL, showInfo) {
     if (!ok()) return null;
-    const S = stage(host, { dist: 3.0 });
+    const S = stage(host, { dist: 3.0, minD: 1.07 });
     // texture: ocean + land + graticule drawn with d3 on an equirectangular canvas
     const tc = document.createElement('canvas'); tc.width = 2048; tc.height = 1024; const g = tc.getContext('2d');
     const grad = g.createLinearGradient(0, 0, 0, 1024); grad.addColorStop(0, '#0a3a52'); grad.addColorStop(.5, '#0f4a66'); grad.addColorStop(1, '#0a3a52');
@@ -102,13 +102,18 @@
       L.sight.clear();
       list.forEach((o) => { const d = new THREE.Mesh(new THREE.SphereGeometry(.0075, 8, 6), new THREE.MeshBasicMaterial({ color: 0xff8fd0 })); d.position.copy(ll2v(o.lat, o.lon, 1.006)); d.userData = { text: o.text }; L.sight.add(d); pickables.push(d); });
     }
+    function setPoints(name, list, color, r) {
+      if (!L[name]) { L[name] = new THREE.Group(); S.scene.add(L[name]); } L[name].clear();
+      list.forEach((o) => { const d = new THREE.Mesh(new THREE.SphereGeometry(r, 8, 6), new THREE.MeshBasicMaterial({ color, transparent: true, opacity: o.alpha == null ? 1 : o.alpha })); d.position.copy(ll2v(o.lat, o.lon, 1.007)); d.userData = { text: o.text }; L[name].add(d); pickables.push(d); });
+    }
     function setDetections(list) {
       L.det.clear();
       list.forEach((o) => { const p = ll2v(o.lat, o.lon, 1.008);
         for (let k = 0; k < 2; k++) { const ring = new THREE.Mesh(new THREE.RingGeometry(.03, .037, 40), new THREE.MeshBasicMaterial({ color: 0xff6b5b, transparent: true, side: THREE.DoubleSide, depthWrite: false })); ring.position.copy(p); ring.lookAt(0, 0, 0); L.det.add(ring); rings.push(ring); }
         const d = new THREE.Mesh(new THREE.SphereGeometry(.013, 10, 8), new THREE.MeshBasicMaterial({ color: 0xff6b5b })); d.position.copy(p); d.userData = { text: o.text }; L.det.add(d); pickables.push(d); });
     }
-    return { highlight(id) { Object.entries(groups).forEach(([k, g2]) => { g2.visible = !id || k === id; }); }, setCurrents, setSightings, setDetections,
+    return { highlight(id) { Object.entries(groups).forEach(([k, g2]) => { g2.visible = !id || k === id; }); }, setCurrents, setSightings, setDetections, setPoints,
+      flyTo(lat, lon, dist) { S.ctl.autoRotate = false; S.cam.position.copy(ll2v(lat, lon, dist)); S.ctl.update(); },
       show(name, on) { const o = L[name]; if (o) o.visible = on; } };
   };
 

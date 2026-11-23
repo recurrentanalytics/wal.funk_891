@@ -436,5 +436,15 @@
  "layer.sightings.note": "粉色圆点：GBIF.org 近 30 天 {total} 条鲸豚记录中的 {n} 条，由你的浏览器加载。这些记录通常延迟一到三周，因此并非实时追踪。许多来自 Happywhale（CC BY-NC 4.0）；点击圆点查看物种和日期。",
  "layer.det.note": "红色圆环：过去 48 小时内听众或检测器报告有鲸的 Orcasound 水听器（Orcasound，CC BY-NC-SA 4.0）。圆环标示固定的水听器，而非动物位置；机器报告未经审核。",
  "layer.det.item": "{name}：{n} 条报告（其中 {human} 条来自人工），最近一次在 {h} 小时前",
- "layer.det.none": "过去 48 小时内 Orcasound 水听器没有鲸类报告。"
+ "layer.det.none": "过去 48 小时内 Orcasound 水听器没有鲸类报告。",
+ "layer.acartia": "萨利希海实时目击",
+ "layer.acartia.note": "黄色圆点：萨利希海近几天的 {n} 次鲸类目击，其中 {day} 次来自过去 24 小时，最新一次在 {h} 小时前。由观察者通过 Conserve.io 的 Whale Alert 等渠道报告，经 Acartia 共享（acartia.io，CC BY 4.0）。较亮的圆点来自过去 24 小时。不显示观察者姓名和评论。如果你在当地水域，请保持距离并遵守 Be Whale Wise 准则。",
+ "layer.acartia.zoom": "飞往萨利希海",
+ "acartia.srkw": "南方定居型虎鲸",
+ "acartia.orca": "虎鲸",
+ "acartia.humpback": "座头鲸",
+ "acartia.gray": "灰鲸",
+ "acartia.other": "鲸，未注明物种",
+ "acartia.count": "{n} 头",
+ "acartia.hago": "{h} 小时前"
 }

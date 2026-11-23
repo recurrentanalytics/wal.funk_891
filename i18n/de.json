@@ -436,5 +436,15 @@
  "layer.sightings.note": "Rosa Punkte: {n} von {total} Wal- und Delfinmeldungen der letzten 30 Tage aus GBIF.org, von deinem Browser geladen. Die Meldungen kommen dort ein bis drei Wochen verzögert an; es ist also kein Live-Tracking. Viele stammen von Happywhale (CC BY-NC 4.0); tippe auf einen Punkt für Art und Datum.",
  "layer.det.note": "Rote Ringe: Orcasound-Hydrofone, an denen Zuhörer oder der Detektor in den letzten 48 Stunden Wale gemeldet haben (Orcasound, CC BY-NC-SA 4.0). Der Ring markiert das feste Hydrofon, nicht die Position der Tiere; maschinelle Meldungen sind ungeprüft.",
  "layer.det.item": "{name}: {n} Meldungen ({human} von Menschen), zuletzt vor {h} h",
- "layer.det.none": "In den letzten 48 Stunden keine Walmeldungen an Orcasounds Hydrofonen."
+ "layer.det.none": "In den letzten 48 Stunden keine Walmeldungen an Orcasounds Hydrofonen.",
+ "layer.acartia": "Live-Sichtungen, Salish Sea",
+ "layer.acartia.note": "Gelbe Punkte: {n} Walsichtungen der letzten Tage im Salish Sea, {day} davon aus den letzten 24 Stunden, die neueste {h} h alt. Gemeldet von Beobachtenden über Whale Alert von Conserve.io und andere, bereitgestellt von Acartia (acartia.io, CC BY 4.0). Hellere Punkte stammen aus den letzten 24 Stunden. Namen und Kommentare der Beobachtenden werden nicht gezeigt. Wer dort auf dem Wasser ist: Abstand halten und die Be-Whale-Wise-Regeln beachten.",
+ "layer.acartia.zoom": "Zum Salish Sea fliegen",
+ "acartia.srkw": "Southern-Resident-Orca",
+ "acartia.orca": "Orca",
+ "acartia.humpback": "Buckelwal",
+ "acartia.gray": "Grauwal",
+ "acartia.other": "Wal, Art nicht angegeben",
+ "acartia.count": "{n} Tiere",
+ "acartia.hago": "vor {h} h"
 }
