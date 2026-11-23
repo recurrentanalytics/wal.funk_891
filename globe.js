@@ -24,7 +24,7 @@
     const S = stage(host, { dist: 3.0 });
     // texture: ocean + land + graticule drawn with d3 on an equirectangular canvas
     const tc = document.createElement('canvas'); tc.width = 2048; tc.height = 1024; const g = tc.getContext('2d');
-    const grad = g.createLinearGradient(0, 0, 0, 1024); grad.addColorStop(0, '#062636'); grad.addColorStop(.5, '#0a3346'); grad.addColorStop(1, '#062636');
+    const grad = g.createLinearGradient(0, 0, 0, 1024); grad.addColorStop(0, '#0a3a52'); grad.addColorStop(.5, '#0f4a66'); grad.addColorStop(1, '#0a3a52');
     g.fillStyle = grad; g.fillRect(0, 0, 2048, 1024);
     const proj = d3.geoEquirectangular().translate([1024, 512]).scale(1024 / Math.PI), path = d3.geoPath(proj, g);
     g.strokeStyle = 'rgba(94,230,215,.10)'; g.lineWidth = 1; g.beginPath(); path(d3.geoGraticule().step([15, 15])()); g.stroke();
@@ -32,14 +32,14 @@
     const earth = new THREE.Mesh(new THREE.SphereGeometry(1, 96, 64), new THREE.MeshStandardMaterial({ map: tex, roughness: .9, metalness: 0 }));
     S.scene.add(earth);
     fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/land-110m.json').then((r) => r.json()).then((topo) => {
-      g.fillStyle = '#1b4250'; g.strokeStyle = '#2f6b7d'; g.lineWidth = 1.2; g.beginPath(); path(topojson.feature(topo, topo.objects.land)); g.fill(); g.stroke(); tex.needsUpdate = true;
+      g.fillStyle = '#3e6f66'; g.strokeStyle = '#8fd8c8'; g.lineWidth = 1.4; g.beginPath(); path(topojson.feature(topo, topo.objects.land)); g.fill(); g.stroke(); tex.needsUpdate = true;
     }).catch(() => {});
     // atmosphere
     const atm = new THREE.Mesh(new THREE.SphereGeometry(1.06, 64, 48), new THREE.ShaderMaterial({ transparent: true, side: THREE.BackSide, blending: THREE.AdditiveBlending, depthWrite: false,
       vertexShader: 'varying vec3 n; void main(){ n = normalize(normalMatrix * normal); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
       fragmentShader: 'varying vec3 n; void main(){ float i = pow(0.75 - dot(n, vec3(0,0,1.0)), 3.0); gl_FragColor = vec4(0.37,0.9,0.84,1.0) * i; }' }));
     S.scene.add(atm);
-    S.scene.add(new THREE.HemisphereLight(0xcff7ff, 0x02121a, .9)); const sun = new THREE.DirectionalLight(0xffffff, .7); sun.position.set(3, 2, 4); S.scene.add(sun);
+    S.scene.add(new THREE.HemisphereLight(0xe6fbff, 0x0a2a36, 1.2)); const sun = new THREE.DirectionalLight(0xffffff, .7); sun.position.set(3, 2, 4); S.scene.add(sun);
     // hydrophones
     const groups = {}, pickables = [], rings = [];
     wd.archives.forEach((a) => {

@@ -409,5 +409,7 @@
  "learn.note": "{n} labelled windows so far; {sp}: balanced accuracy {ba} on held-out windows. Dashed: the 0.80 pass mark.",
  "queue.play": "Play",
  "queue.unusual": "Unusual sound near island {l}",
- "queue.unusual.why": "{day}, {h}:00 UTC hour · {z} robust SD from its island's centre"
+ "queue.unusual.why": "{day}, {h}:00 UTC hour · {z} robust SD from its island's centre",
+ "world.off.imos": "6 sites; coordinates not yet verified",
+ "world.off.onc": "free account and token needed"
 }

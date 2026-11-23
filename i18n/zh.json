@@ -409,5 +409,7 @@
  "learn.note": "目前已标注 {n} 个窗口；{sp}：在保留窗口上的平衡准确率为 {ba}。虚线：0.80 合格线。",
  "queue.play": "播放",
  "queue.unusual": "岛 {l} 附近的不寻常声音",
- "queue.unusual.why": "{day}，UTC {h}:00 时段 · 距其岛中心 {z} 个稳健标准差"
+ "queue.unusual.why": "{day}，UTC {h}:00 时段 · 距其岛中心 {z} 个稳健标准差",
+ "world.off.imos": "6 个站点；坐标尚未核实",
+ "world.off.onc": "需要免费账号和令牌"
 }

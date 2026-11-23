@@ -234,7 +234,7 @@ function worldMap(wd) {
     b.addEventListener('click', () => { const on = b.classList.toggle('on'); list.querySelectorAll('.wl-item').forEach((x) => x !== b && x.classList.remove('on')); hl(on ? a.id : null); showInfo(a); });
     list.append(b);
   });
-  const off = el('p', 'note'); off.append(el('b', '', t('world.offmap') + ' '), wd.offmap.map((o) => `${o.name} (${o.years ? o.years + ', ' : ''}${o.note})`).join(' · '));
+  const off = el('p', 'note'); off.append(el('b', '', t('world.offmap') + ' '), wd.offmap.map((o) => `${o.name} (${o.years ? o.years + ', ' : ''}${t('world.off.' + o.id)})`).join(' · '));
   list.after(off, el('p', 'note', t('world.gaps')));
 }
 

@@ -409,5 +409,7 @@
  "learn.note": "Bisher {n} markierte Fenster; {sp}: Balanced Accuracy {ba} an zurückgehaltenen Fenstern. Gestrichelt: die Grenze 0,80.",
  "queue.play": "Abspielen",
  "queue.unusual": "Ungewöhnlicher Klang nahe Insel {l}",
- "queue.unusual.why": "{day}, Stunde {h}:00 UTC · {z} robuste SD vom Zentrum seiner Insel"
+ "queue.unusual.why": "{day}, Stunde {h}:00 UTC · {z} robuste SD vom Zentrum seiner Insel",
+ "world.off.imos": "6 Standorte; Koordinaten noch nicht geprüft",
+ "world.off.onc": "kostenloses Konto und Token nötig"
 }

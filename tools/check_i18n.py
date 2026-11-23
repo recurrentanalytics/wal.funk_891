@@ -29,7 +29,11 @@ for f in [root / "index.html", *root.glob("*.js")]:
     s = f.read_text()
     used |= set(re.findall(r'data-i18n(?:-html|-aria|-title)?="([\w.\-]+)"', s))
     used |= set(re.findall(r"\bt\(\s*'([\w.\-]+)'", s))
+used = {k for k in used if not k.endswith('.')}
 for k in sorted(used - base): errors.append(f"used but not defined: {k}")
+import json as _j
+for o in _j.loads((root / 'data/world.json').read_text())['offmap']:
+    if f"world.off.{o['id']}" not in base: errors.append(f"world.json offmap {o['id']} has no text key world.off.{o['id']}")
 import collections
 ids = re.findall(r'\sid="([^"]+)"', (root / "index.html").read_text())
 for k, v in collections.Counter(ids).items():
