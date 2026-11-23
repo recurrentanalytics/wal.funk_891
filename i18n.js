@@ -22,7 +22,7 @@
       a.addEventListener('click', () => { try { localStorage.setItem('wl-lang', a.dataset.lang); } catch (e) {} });
     });
   }
-  const get = (l) => fetch(`i18n/${l}.json?v=${V}`).then((r) => r.json());
+  const get = (l) => fetch(`i18n/${l}.json?v=${V}`, { cache: "no-cache" }).then((r) => r.json());
   const ready = Promise.all([get('en'), lang === 'en' ? null : get(lang)]).then(([e, d]) => {
     en = e; dict = d || e;
     document.documentElement.lang = lang === 'zh' ? 'zh-Hans' : lang;
