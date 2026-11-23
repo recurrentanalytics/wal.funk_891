@@ -1,6 +1,6 @@
 {
- "build": "20261123111335",
- "built_at": "2026-11-23 11:13 CET",
+ "build": "20261123112326",
+ "built_at": "2026-11-23 11:23 CET",
  "libs": [
   [
    "d3",
@@ -55,7 +55,7 @@
   ],
   [
    "humpback3d.js",
-   206
+   235
   ],
   [
    "i18n.js",
@@ -90,12 +90,12 @@
    66
   ]
  ],
- "own_js_lines": 2473,
- "html_lines": 951,
+ "own_js_lines": 2502,
+ "html_lines": 952,
  "i18n_keys": {
-  "en": 875,
-  "de": 875,
-  "zh": 875
+  "en": 880,
+  "de": 880,
+  "zh": 880
  },
  "data_files": [
   [
@@ -156,7 +156,7 @@
   ],
   [
    "data/handbook.json",
-   2492
+   2584
   ],
   [
    "data/learning.json",
@@ -227,7 +227,7 @@
    5818
   ]
  ],
- "data_bytes": 8736084,
+ "data_bytes": 8736176,
  "species_total": 93,
  "species_at_stations": 18,
  "species_with_clips": 14,

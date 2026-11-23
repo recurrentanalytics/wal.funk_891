@@ -873,5 +873,10 @@
  "hbk.v.keys": "文本键",
  "hbk.v.repo": "源代码",
  "hbk.link": "手册与技术",
- "start.handbook": "一切如何运作：架构、技术栈、数据来源、检验与局限。可逐章浏览或保存为 PDF。"
+ "start.handbook": "一切如何运作：架构、技术栈、数据来源、检验与局限。可逐章浏览或保存为 PDF。",
+ "hb.hud.breach": "跃身",
+ "hb.hud.fluke": "举尾下潜",
+ "hb.hud.calf": "母鲸与幼崽",
+ "hb.hud.group": "群体",
+ "hb.hud.slow": "慢动作 0.3×"
 }

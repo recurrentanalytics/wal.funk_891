@@ -873,5 +873,10 @@
  "hbk.v.keys": "Text keys",
  "hbk.v.repo": "Source code",
  "hbk.link": "Handbook & tech",
- "start.handbook": "How it all works: architecture, tech stack, data sources, tests and limits. Click through or save as PDF."
+ "start.handbook": "How it all works: architecture, tech stack, data sources, tests and limits. Click through or save as PDF.",
+ "hb.hud.breach": "Breach",
+ "hb.hud.fluke": "Fluke-up dive",
+ "hb.hud.calf": "Mother and calf",
+ "hb.hud.group": "Group",
+ "hb.hud.slow": "slow motion 0.3×"
 }

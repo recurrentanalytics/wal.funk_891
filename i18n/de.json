@@ -873,5 +873,10 @@
  "hbk.v.keys": "Textschlüssel",
  "hbk.v.repo": "Quellcode",
  "hbk.link": "Handbuch & Technik",
- "start.handbook": "Wie alles funktioniert: Aufbau, Technik, Datenquellen, Prüfungen und Grenzen. Zum Durchklicken oder als PDF."
+ "start.handbook": "Wie alles funktioniert: Aufbau, Technik, Datenquellen, Prüfungen und Grenzen. Zum Durchklicken oder als PDF.",
+ "hb.hud.breach": "Sprung",
+ "hb.hud.fluke": "Abtauchen",
+ "hb.hud.calf": "Mutter und Kalb",
+ "hb.hud.group": "Gruppe",
+ "hb.hud.slow": "Zeitlupe 0,3×"
 }

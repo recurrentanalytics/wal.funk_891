@@ -82,24 +82,46 @@
     const g = new THREE.BufferGeometry(), posAttr = new THREE.Float32BufferAttribute(P, 3);
     g.setAttribute('position', posAttr); g.setIndex(I);
     const mesh = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: 0x03111a, transparent: true, opacity: .82, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 }));
-    const lg = new THREE.BufferGeometry(); lg.setAttribute('position', posAttr); lg.setIndex(LINES);
-    mesh.add(new THREE.LineSegments(lg, new THREE.LineBasicMaterial({ color: L < 8 ? 0xb8fff6 : 0x7ff3e6, transparent: true, opacity: .8 })));
-    mesh.userData = { base: Float32Array.from(P), U: Float32Array.from(U), PART: Uint8Array.from(PART), L, phase: Math.random() * TAU };
+    const nV = P.length / 3, cb = new Float32Array(nV * 3);
+    for (let i = 0; i < nV; i++) { const u = U[i], k = L < 8 ? .25 : 0; cb[i * 3] = .25 + .2 * (1 - u) + k; cb[i * 3 + 1] = .75 + .2 * (1 - u) + k * .5; cb[i * 3 + 2] = .85 + .1 * u; }
+    const lineCol = new THREE.BufferAttribute(cb.slice(), 3);
+    const lg = new THREE.BufferGeometry(); lg.setAttribute('position', posAttr); lg.setAttribute('color', lineCol); lg.setIndex(LINES);
+    mesh.add(new THREE.LineSegments(lg, new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: .78 })));
+    const nodes = []; for (let i = 0; i <= RINGS; i += 4) for (let s = 0; s < SEG; s += 3) nodes.push(i * SEG + s);
+    const ng = new THREE.BufferGeometry(); ng.setAttribute('position', posAttr); ng.setIndex(nodes);
+    mesh.add(new THREE.Points(ng, new THREE.PointsMaterial({ color: 0xd8fffa, size: L < 8 ? .07 : .11, transparent: true, opacity: .9 })));
+    mesh.userData = { base: Float32Array.from(P), U: Float32Array.from(U), PART: Uint8Array.from(PART), L, phase: Math.random() * TAU, lineCol, colBase: cb };
     return mesh;
   }
-  // fluke beat: dorso-ventral wave growing towards the tail; flukes pitch with the slope of the tail; fins sway slowly
-  function swim(mesh, t, amp, period) {
-    const { base, U, PART, L, phase } = mesh.userData, p = mesh.geometry.attributes.position.array, w = TAU / period;
-    const dy = (u) => amp * L * Math.pow(u, 2.4) * Math.sin(w * t + phase - u * 2.6);
-    const tailY = dy(1), slope = (dy(1) - dy(.97)) / (.03 * L), ang = Math.atan(slope) * 2.2, px = -.5 * L, ca = Math.cos(ang), sa = Math.sin(ang);
-    const fin = Math.sin(w * t * .5 + phase) * .06;
+  /* Organic motion: the body follows a flexible spine. Its bend angle along the body is the sum of a whole-body arch
+     (arch > 0: back humped, ends down, as when rounding out to dive; arch < 0: ends up, as in the air) and the travelling
+     fluke-beat wave. Each body ring is placed on the bent spine and turned with it; pectoral fins ride on the frame at
+     a third of the body, the flukes on the tail frame and pitch further with the beat. */
+  const NS = 72;
+  function swim(mesh, t, amp, period, arch = 0, fin = .06) {
+    const { base, U, PART, L, phase } = mesh.userData, p = mesh.geometry.attributes.position.array, w = TAU / period, u0 = .4;
+    const th = new Float32Array(NS + 1), sx = new Float32Array(NS + 1), sy = new Float32Array(NS + 1);
+    for (let k = 0; k <= NS; k++) {
+      const u = k / NS, ddu = amp * L * (2.4 * Math.pow(Math.max(u, 1e-3), 1.4) * Math.sin(w * t + phase - u * 2.6) - 2.6 * Math.pow(u, 2.4) * Math.cos(w * t + phase - u * 2.6));
+      th[k] = arch * (u - u0) * 1.7 - Math.atan(ddu / L);
+    }
+    const k0 = Math.round(u0 * NS); sx[k0] = (.5 - u0) * L; sy[k0] = 0; const du = L / NS;
+    for (let k = k0 + 1; k <= NS; k++) { const a = (th[k] + th[k - 1]) / 2; sx[k] = sx[k - 1] - du * Math.cos(a); sy[k] = sy[k - 1] - du * Math.sin(a); }
+    for (let k = k0 - 1; k >= 0; k--) { const a = (th[k] + th[k + 1]) / 2; sx[k] = sx[k + 1] + du * Math.cos(a); sy[k] = sy[k + 1] + du * Math.sin(a); }
+    const at = (u) => { const f = Math.max(0, Math.min(NS, u * NS)), k = Math.min(NS - 1, Math.floor(f)), r = f - k; return [sx[k] + (sx[k + 1] - sx[k]) * r, sy[k] + (sy[k + 1] - sy[k]) * r, th[k] + (th[k + 1] - th[k]) * r]; };
+    const [px3, py3, a3] = at(1), flA = a3 + (a3 - at(.9)[2]) * 1.6, c3 = Math.cos(flA), s3 = Math.sin(flA);
+    const [px2, py2, a2] = at(.3), fs = Math.sin(w * t * .5 + phase) * fin, c2 = Math.cos(a2), s2 = Math.sin(a2), xr2 = (.5 - .3) * L;
     for (let i = 0; i < U.length; i++) {
       const o = i * 3, x = base[o], y = base[o + 1], z = base[o + 2];
-      if (PART[i] === 3) { const lx = x - px; p[o] = px + lx * ca - y * sa; p[o + 1] = tailY + lx * sa + y * ca; p[o + 2] = z; }
-      else if (PART[i] === 2) { p[o] = x; p[o + 1] = y + (Math.abs(z) - .07 * L) * fin + dy(.3); p[o + 2] = z; }
-      else { p[o] = x; p[o + 1] = y + dy(U[i]); p[o + 2] = z; }
+      if (PART[i] === 3) { const lx = x + .5 * L; p[o] = px3 + lx * c3 - y * s3; p[o + 1] = py3 + lx * s3 + y * c3; p[o + 2] = z; }
+      else if (PART[i] === 2) { const lx = x - xr2, ly = y + (Math.abs(z) - .07 * L) * fs; p[o] = px2 + lx * c2 - ly * s2; p[o + 1] = py2 + lx * s2 + ly * c2; p[o + 2] = z; }
+      else { const [cx, cy, a] = at(U[i]), dx = x - (.5 - U[i]) * L, c = Math.cos(a), sn = Math.sin(a); p[o] = cx + dx * c - y * sn; p[o + 1] = cy + dx * sn + y * c; p[o + 2] = z; }
     }
     mesh.geometry.attributes.position.needsUpdate = true;
+    // technical look: a bright scan band runs along the body
+    const col = mesh.userData.lineCol; if (col) { const sc = (t * .12) % 1.4 - .2;
+      for (let i = 0; i < U.length; i++) { const g = Math.exp(-((U[i] - sc) ** 2) / .0015), b = mesh.userData.colBase; col.array[i * 3] = b[i * 3] + g * .7; col.array[i * 3 + 1] = b[i * 3 + 1] + g * .5; col.array[i * 3 + 2] = b[i * 3 + 2] + g * .4; }
+      col.needsUpdate = true; }
   }
 
   /* ---------- the world: sky, sea surface, light, particles ---------- */
@@ -110,6 +132,7 @@
     const r = new THREE.WebGLRenderer({ antialias: true }); r.setPixelRatio(Math.min(1.75, devicePixelRatio || 1)); r.setSize(W(), H());
     r.domElement.className = 'wire-canvas'; r.domElement.setAttribute('aria-hidden', 'true'); host.append(r.domElement);
     const fade = document.createElement('div'); fade.className = 'hb-fade'; host.append(fade);
+    const hud = document.createElement('div'); hud.className = 'hb-hud'; host.append(hud); let hudT = 0; const lastPos = new THREE.Vector3();
     const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(40, W() / H(), .1, 2000);
     const hemi = new THREE.HemisphereLight(0xcfe6f2, 0x0b1f2a, .9), sun = new THREE.DirectionalLight(0xfff0d8, 1.2); sun.position.set(-40, 80, 30); scene.add(hemi, sun);
     // sea surface: gentle swell, darker and glossier from above, bright and rippled from below
@@ -165,7 +188,9 @@
         else { const k = st - tExit; x = vx * k; y = vy * k - 4.905 * k * k; const vyN = vy - 9.81 * k; pitch = Math.atan2(vyN, vx) * .85 + .2; roll = Math.min(2.1, k * 1.25); if (y < -1 && k > .5 && !splashed) { splashed = true;
           for (let i = 0; i < 900; i++) { const a = Math.random() * TAU, s = 2 + Math.random() * 9; emit(x + (Math.random() - .5) * 10, .1, (Math.random() - .5) * 5, Math.cos(a) * s * .5, 3 + Math.random() * 12, Math.sin(a) * s * .5, 3); } } }
         if (st > tExit + 1.6) { const k = st - tExit - 1.6; y = Math.min(y, -1 - k * 1.5); }
-        place(adult, x, y, 0, pitch, roll); swim(adult, st, .06, 2.2);
+        // strong strokes to launch, then the body bends: ends lift in the air, flippers flail, it rebounds after the splash
+        const kk = st - tExit, archB = st < tExit ? 0 : kk < 1.8 ? -.75 * Math.sin(Math.min(1, kk / 1.4) * Math.PI * .5) : -.75 + Math.min(1, (kk - 1.8) / 1.5) * 1.0;
+        place(adult, x, y, 0, pitch, roll); swim(adult, st, st < tExit ? .09 : kk < 1.8 ? .02 : .05, st < tExit ? 1.3 : 2.4, archB, st < tExit ? .06 : .35);
         if (st > tExit - .1 && st < tExit + 1.4) for (let i = 0; i < 6; i++) emit(x + (Math.random() - .5) * 3, .2, (Math.random() - .5) * 2, (Math.random() - .5) * 2, 2 + Math.random() * 4, (Math.random() - .5) * 2, 2);
         cam.position.set(4 + t * .15, 2.2, 34); cam.lookAt(3, 4, 0);
       } else if (S.name === 'fluke') {
@@ -175,25 +200,29 @@
         if (st > 2.2 && !blown) { blown = true; }
         if (blown && st < 4.2) for (let i = 0; i < 10; i++) emit(x + .5 * 14 * .25 + (Math.random() - .5) * .6, 1.2, (Math.random() - .5) * .6, (Math.random() - .5) * 1.2, 7 + Math.random() * 3, (Math.random() - .5) * 1.2, 1.6);
         const dive = sst(4.5, 8.5, st); pitch = -1.25 * dive; y = -1.15 - 5.2 * dive;
-        place(adult, x, y, 0, pitch, 0); swim(adult, st, .05 * (1 - dive * .7), 3.2);
+        // rounding out: the back humps up (arch), the tail stock lifts and the flukes come up last
+        const archF = .06 + 1.05 * sst(0, .65, dive) - .5 * sst(.75, 1, dive);
+        place(adult, x, y, 0, pitch * .7, 0); swim(adult, st, .05 * (1 - dive * .7), 3.2, archF, .05);
         if (dive > .5 && dive < .99) for (let i = 0; i < 5; i++) { const fx = x - 7 * Math.cos(pitch) + (Math.random() - .5) * 3, fy = y - 7 * Math.sin(pitch); if (fy > 0) emit(fx, fy, (Math.random() - .5) * 4.5, 0, -1, 0, 1.4); }
         cam.position.set(x - 26 + t * .1, 3.2, 26); cam.lookAt(x - 2, 1.5, 0);
       } else if (S.name === 'calf') {
         setUnder(true); adult.visible = true; calf.visible = true;
         const sp = 1.2, x = -14 + st * sp;
-        place(adult, x, -14, 0, .03 * Math.sin(st * .4), .05); swim(adult, st, .045, 3.4);
-        place(calf, x + 3.6, -9.6, 2.4, .05 * Math.sin(st * .6 + 1), -.08); swim(calf, st, .06, 1.9);
+        place(adult, x, -14, 0, .03 * Math.sin(st * .4), .05); swim(adult, st, .045, 3.4, .09 * Math.sin(st * .35), .08);
+        place(calf, x + 3.6, -9.6, 2.4, .05 * Math.sin(st * .6 + 1), -.08); swim(calf, st, .07, 1.7, .14 * Math.sin(st * .55 + 1), .12);
         cam.position.set(x + 2 - 14, -11, 20); cam.lookAt(x + 1, -12, 0);
       } else {
         setUnder(true); adult.visible = true; w2.visible = true; w3.visible = true;
         const sp = 1.5, x = -18 + st * sp;
-        place(adult, x, -4, 0, 0, 0); swim(adult, st, .045, 3.0);
-        place(w2, x - 9, -6, -8, .02, .05); swim(w2, st + .9, .045, 3.1);
-        place(w3, x - 5, -5, 9, -.02, -.04); swim(w3, st + 1.7, .045, 2.9);
+        place(adult, x, -4, 0, 0, 0); swim(adult, st, .045, 3.0, .07 * Math.sin(st * .3), .07);
+        place(w2, x - 9, -6, -8, .02, .05); swim(w2, st + .9, .045, 3.1, .07 * Math.sin(st * .3 + 1), .07);
+        place(w3, x - 5, -5, 9, -.02, -.04); swim(w3, st + 1.7, .045, 2.9, .07 * Math.sin(st * .3 + 2), .07);
         cam.position.set(x - 6, -26, 6); cam.lookAt(x - 2, -2, 0);
       }
       snow.position.copy(cam.position); const a = snowG.attributes.position.array; for (let i = 1; i < a.length; i += 3) { a[i] -= dt * .15; if (a[i] < -30) a[i] = 30; } snowG.attributes.position.needsUpdate = true;
       stepP(dt * SLOW);
+      hudT += dt; if (hudT > .25 && window.I18N) { const v = adult.position.distanceTo(lastPos) / hudT / SLOW; lastPos.copy(adult.position); hudT = 0;
+        hud.textContent = `${I18N.t('hb.hud.' + S.name)} · Megaptera novaeangliae · L ${I18N.num(14, 1)} m · v ${I18N.num(v, 1)} m/s · z ${I18N.num(adult.position.y, 1)} m · ${I18N.t('hb.hud.slow')}`; }
       if (t > S.len) { si = (si + 1) % SC.length; begin(); }
     };
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
