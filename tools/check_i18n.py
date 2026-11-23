@@ -38,6 +38,7 @@ import collections
 ids = re.findall(r'\sid="([^"]+)"', (root / "index.html").read_text())
 for k, v in collections.Counter(ids).items():
     if v > 1: errors.append(f"index.html: duplicate id '{k}' ({v}x)")
+if re.search(r'(?m)^\.scene \{[^}]*opacity: 0', (root / 'index.html').read_text()): errors.append('index.html: bare .scene rule hides the 3D scenes; scope it to .stage')
 if errors:
     print("i18n check FAILED:"); [print("  -", e) for e in errors]; sys.exit(1)
 print(f"i18n check passed: {len(base)} keys in en, de, zh; {len(used)} used in the page")

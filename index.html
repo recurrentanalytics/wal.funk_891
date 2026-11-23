@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261123021102">
+<meta name="build" content="20261123021438">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Whale Listener</title>
 <meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls.">
@@ -277,8 +277,8 @@ footer { padding-block: 48px; color: var(--dim); font-size: 13px; border-top: 1p
 .stage { --stage-bg: #0b1a24; position: sticky; top: 64px; height: calc(100vh - 88px); max-height: 760px; border-radius: 18px; overflow: hidden; background: var(--stage-bg); transition: background-color 1s; border: 1px solid var(--line); }
 .stage svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity 1.2s; }
-.scene { opacity: 0; transition: opacity .9s; }
-.scene.on { opacity: 1; }
+.stage .scene { opacity: 0; transition: opacity .9s; }
+.stage .scene.on { opacity: 1; }
 .zoom { transition: transform 1.6s cubic-bezier(.3,.1,.2,1); transform-origin: 0 0; }
 .cable { stroke-dashoffset: 1200; transition: stroke-dashoffset 2.5s ease-out; }
 .zoom.draw-cable .cable { stroke-dashoffset: 0; }
@@ -719,13 +719,13 @@ footer { padding-block: 70px; background: linear-gradient(180deg, transparent, #
 <footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/whale-listener-status">GitHub</a></p></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="i18n.js?v=20261123021102"></script>
-<script src="globe.js?v=20261123021102"></script>
-<script src="app.js?v=20261123021102"></script>
-<script src="play.js?v=20261123021102"></script>
-<script src="atlas.js?v=20261123021102"></script>
-<script src="polish.js?v=20261123021102"></script>
-<script src="story.js?v=20261123021102"></script>
-<script src="scenes.js?v=20261123021102"></script>
+<script src="i18n.js?v=20261123021438"></script>
+<script src="globe.js?v=20261123021438"></script>
+<script src="app.js?v=20261123021438"></script>
+<script src="play.js?v=20261123021438"></script>
+<script src="atlas.js?v=20261123021438"></script>
+<script src="polish.js?v=20261123021438"></script>
+<script src="story.js?v=20261123021438"></script>
+<script src="scenes.js?v=20261123021438"></script>
 </body>
 </html>
