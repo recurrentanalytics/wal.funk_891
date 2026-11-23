@@ -562,5 +562,15 @@
  "machine.tchart.gate": "75 °C limit (brief)",
  "machine.tchart.pause": "78 °C pause",
  "machine.tchart.throttle": "85 °C hard throttling",
- "machine.tchart.throttled": "throttled"
+ "machine.tchart.throttled": "throttled",
+ "nav.start": "Start",
+ "nav.hear": "Listen & try",
+ "start.kicker": "Where to?",
+ "start.title": "Six ways into the deep",
+ "start.dive": "From the Raspberry Pi in a bedroom to the microphone 891 m down: the story in pictures.",
+ "start.whales": "18 species at our stations, their voices, every other whale species and their migrations month by month.",
+ "start.places": "Maps, a 3D canyon to dive into, the globe with currents and sightings, and live listening in the Salish Sea.",
+ "start.listen": "The sound landscape, the orca game against the models, and the microscope for deep calls.",
+ "start.results": "What the models can and cannot do, the sound atlas, finds to listen to, and the lab notebook with every check.",
+ "start.machine": "How the Pi is doing: temperature, cores, the current job, and what the terms mean."
 }

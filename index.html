@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261123092029">
+<meta name="build" content="20261123093842">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>wal.funk_891</title>
 <meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls.">
@@ -582,6 +582,19 @@ body.fs-on { overflow: hidden; } body.fs-on .toc, body.fs-on .lang-top, body.fs-
 .tc-bar button.on, .tc-bar button:hover { border-color: var(--glow); color: var(--glow); }
 .tc-wrap { position: relative; } .tc-wrap svg { touch-action: pan-y; }
 .tc-tip { position: absolute; top: 4px; background: rgba(2,18,25,.92); border: 1px solid rgba(255,138,124,.5); border-radius: 6px; padding: 3px 8px; font: 12px var(--mono); color: #d5e8ed; pointer-events: none; white-space: nowrap; }
+
+/* tabs */
+.toc a.active { color: var(--abyss); background: var(--glow); }
+.toc a.on:not(.active) { color: var(--muted); background: none; }
+[hidden] { display: none !important; }
+body:not([data-view="start"]) .hero { display: none; }
+.start { padding-block: 28px 56px; }
+.start-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; margin-top: 18px; }
+.start-card { position: relative; display: grid; gap: 6px; padding: 18px 18px 40px; border-radius: 16px; text-decoration: none; color: #b9d3db;
+  border: 1px solid rgba(94,230,215,.2); background: linear-gradient(160deg, rgba(94,230,215,.08), rgba(4,32,44,.4)); transition: border-color .2s, transform .2s; }
+.start-card b { font: 300 1.5rem/1.1 var(--display); color: #e6f4f7; } .start-card span { font-size: 14px; line-height: 1.45; }
+.start-card i { position: absolute; right: 16px; bottom: 12px; font-style: normal; color: var(--glow); font-size: 20px; }
+.start-card:hover, .start-card:focus-visible { border-color: var(--glow); transform: translateY(-2px); }
 </style>
 </head>
 <body>
@@ -609,6 +622,11 @@ body.fs-on { overflow: hidden; } body.fs-on .toc, body.fs-on .lang-top, body.fs-
 </div></nav>
 
 <main>
+  <section class="start" id="start"><div class="wrap">
+    <div class="kicker" data-i18n="start.kicker"></div>
+    <h2 data-i18n="start.title"></h2>
+    <div class="start-grid" id="start-grid"></div>
+  </div></section>
   <section class="dive" id="dive" data-part data-i18n-aria="dive.label">
     <div class="stage" id="stage" aria-hidden="true">
       <svg viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid meet">
@@ -815,15 +833,16 @@ body.fs-on { overflow: hidden; } body.fs-on .toc, body.fs-on .lang-top, body.fs-
 <footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/wal.funk_891">GitHub</a></p></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="i18n.js?v=20261123092029"></script>
-<script src="globe.js?v=20261123092029"></script>
-<script src="app.js?v=20261123092029"></script>
-<script src="play.js?v=20261123092029"></script>
-<script src="atlas.js?v=20261123092029"></script>
+<script src="i18n.js?v=20261123093842"></script>
+<script src="globe.js?v=20261123093842"></script>
+<script src="app.js?v=20261123093842"></script>
+<script src="play.js?v=20261123093842"></script>
+<script src="atlas.js?v=20261123093842"></script>
+<script src="tabs.js"></script>
 <script src="routes.js"></script>
-<script src="ui.js?v=20261123092029"></script>
-<script src="polish.js?v=20261123092029"></script>
-<script src="story.js?v=20261123092029"></script>
-<script src="scenes.js?v=20261123092029"></script>
+<script src="ui.js?v=20261123093842"></script>
+<script src="polish.js?v=20261123093842"></script>
+<script src="story.js?v=20261123093842"></script>
+<script src="scenes.js?v=20261123093842"></script>
 </body>
 </html>

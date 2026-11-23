@@ -562,5 +562,15 @@
  "machine.tchart.gate": "75 °C Grenze (Brief)",
  "machine.tchart.pause": "78 °C Pause",
  "machine.tchart.throttle": "85 °C starke Drosselung",
- "machine.tchart.throttled": "gedrosselt"
+ "machine.tchart.throttled": "gedrosselt",
+ "nav.start": "Start",
+ "nav.hear": "Hören & Mitmachen",
+ "start.kicker": "Wohin?",
+ "start.title": "Sechs Wege in die Tiefe",
+ "start.dive": "Vom Raspberry Pi im Schlafzimmer bis zum Mikrofon in 891 m Tiefe: die Geschichte in Bildern.",
+ "start.whales": "18 Arten an unseren Stationen, ihre Stimmen, alle anderen Walarten und ihre Wanderungen Monat für Monat.",
+ "start.places": "Karten, 3D-Canyon zum Eintauchen, der Globus mit Strömungen und Sichtungen, live ins Salish Sea hören.",
+ "start.listen": "Die Klanglandschaft, das Orca-Spiel gegen die Modelle und das Mikroskop für tiefe Rufe.",
+ "start.results": "Was die Modelle können und was nicht, der Klangatlas, Funde zum Anhören und das Laborbuch mit jeder Prüfung.",
+ "start.machine": "Wie es dem Pi geht: Temperatur, Kerne, laufende Aufgabe, und was die Begriffe bedeuten."
 }
