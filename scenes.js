@@ -83,6 +83,16 @@
     geo.setAttribute('color', new THREE.BufferAttribute(colAbove, 3)); geoB.setAttribute('color', new THREE.BufferAttribute(colTrue, 3));
     const mat = () => new THREE.MeshStandardMaterial({ vertexColors: true, roughness: .95, metalness: 0 });
     const above = new THREE.Mesh(geo, mat()), below = new THREE.Mesh(geoB, mat()); below.visible = false; scene.add(above, below);
+    /* detail from GMRT at ~50 m (three times finer than the mesh): baked colour (sediment, rock on steep walls, shading in
+       gullies) and an object-space normal map, so slides, gullies and the meandering canyon floor catch the light */
+    const tl = new THREE.TextureLoader(), aniso = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+    const tex = (f) => new Promise((ok, no) => tl.load('data/canyon/' + f, (x) => { x.anisotropy = aniso; ok(x); }, undefined, no));
+    Promise.all([tex('albedo_above.jpg'), tex('albedo_true.jpg'), tex('normal_obj.jpg')]).then(([ta, tt, tn]) => {
+      [[above, ta], [below, tt]].forEach(([m, map]) => {
+        m.material.dispose();
+        m.material = new THREE.MeshStandardMaterial({ map, normalMap: tn, normalMapType: THREE.ObjectSpaceNormalMap, roughness: .92, metalness: 0 });
+      });
+    }).catch(() => {});   // the vertex colours stay as a fallback
 
     /* water surface with moving glints; bright from below */
     const water = new THREE.Mesh(new THREE.PlaneGeometry(W * S, H * S, 1, 1), new THREE.ShaderMaterial({
@@ -92,7 +102,7 @@
     water.rotation.x = -Math.PI / 2; water.position.y = 0.02; scene.add(water);
 
     /* light */
-    const hemi = new THREE.HemisphereLight(0xdff4ff, 0x1a2a22, .85), sun = new THREE.DirectionalLight(0xfff1d6, 1.35); sun.position.set(-260, 420, 180); scene.add(hemi, sun);
+    const hemi = new THREE.HemisphereLight(0xdff4ff, 0x1a2a22, .85), sun = new THREE.DirectionalLight(0xfff1d6, 1.35); sun.position.set(-340, 300, 140); scene.add(hemi, sun);
     const lamp = new THREE.SpotLight(0xdff6ff, 0, 60, .62, .7, 1.1); camera.add(lamp); lamp.position.set(0, 0, 0); const lt = new THREE.Object3D(); lt.position.set(0, 0, -1); camera.add(lt); lamp.target = lt; scene.add(camera);
     const fogAir = new THREE.Fog(0x0a1a24, 400, 1600), fogSea = new THREE.FogExp2(0x0b5a66, .02); scene.fog = fogAir;
     const skyC = new THREE.Color(0x0a1a24), shallow = new THREE.Color(0x0e6f78), abyss = new THREE.Color(0x00070c), tmp = new THREE.Color(); scene.background = skyC.clone();
