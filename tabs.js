@@ -70,6 +70,7 @@
     if (grid) grid.replaceChildren(...VIEWS.slice(1).map((v) => {
       const a = mk('a', 'start-card'); a.href = href(v); a.append(mk('b', '', t(v.key)), mk('span', '', t(`start.${v.id}`)), mk('i', '', '→')); return a;
     }));
+    if (grid) { const a = mk('a', 'start-card hb-card'); a.href = 'handbook.html?lang=' + I18N.lang; a.append(mk('b', '', t('hbk.title')), mk('span', '', t('start.handbook')), mk('i', '', '↗')); grid.append(a); }
     fold();
     // current chapter + progress line in the bar
     let cur = null, ticking = false;

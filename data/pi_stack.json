@@ -1,0 +1,6 @@
+{"checked": "2026-11-23", "hardware": "Raspberry Pi 5, 8 GB RAM, Samsung 256 GB NVMe SSD, passive heatsink (Active Cooler ordered), Wi-Fi", "os": "Debian GNU/Linux 13 (trixie), kernel 6.18 (arm64)",
+ "python": "3.13.5", "env": "uv 0.13.9, one locked environment (uv.lock)",
+ "packages": {"tensorflow": "2.21.0", "perch-hoplite": "1.0.1", "whalu": "0.1.1", "kagglehub": "0.3.13", "numpy": "2.4.4", "scipy": "1.17.1", "scikit-learn": "1.9.1", "librosa": "0.11.0", "soundfile": "0.13.1", "boto3": "1.42.83", "joblib": "1.6.0", "pyarrow": "26.0.1", "polars": "1.39.3"},
+ "models": [["Perch 2.0 (perch_v2_cpu)", "Google DeepMind, via Kaggle", "5 s windows at 32 kHz → 1,536-number embedding"], ["Humpback whale CNN", "Google, via Kaggle", "10 kHz, score per second, threshold 0.7 as MBARI uses it"], ["whalu multispecies whale model", "Google, Apache-2.0", "tested, failed on orcas and on blue/fin calls"], ["Orca classifier", "own: logistic regression on Perch embeddings", "trained on one Orcasound day"]],
+ "services": [["whale-sampler.timer", "starts the sampler 5 min after boot and 10 min after each run (max 4 hours per run)"], ["whale-push.timer", "every 30 min: export status, push to the public page"], ["whale-health.service", "temperature, throttling, load and SSD temperature every 60 s"]],
+ "scripts": 26, "script_lines": 1736}

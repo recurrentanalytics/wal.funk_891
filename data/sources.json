@@ -1,0 +1,19 @@
+{"sources": [
+ ["MBARI Pacific Sound (MARS)", "https://registry.opendata.aws/pacific-sound/", "CC BY 4.0", "audio"],
+ ["Orcasound", "https://www.orcasound.net/", "CC BY-NC-SA 4.0", "audio"],
+ ["Orcasound detections", "https://live.orcasound.net/", "CC BY-NC-SA 4.0", "reports"],
+ ["NOAA NCEI passive acoustic data (DCLDE 2015, SanctSound)", "https://www.ncei.noaa.gov/products/passive-acoustic-data", "@pdus", "labels"],
+ ["Ryan et al. 2025 (MBARI daily indices)", "https://doi.org/10.6084/m9.figshare.24977925.v1", "CC BY 4.0", "refvals"],
+ ["NOAA Fisheries: Sounds in the Ocean", "https://www.fisheries.noaa.gov/national/science-data/sounds-ocean-mammals", "@noaaplay", "sounds"],
+ ["MBARI MARS on Freesound", "https://freesound.org/people/MBARI_MARS/", "CC BY-NC 4.0", "sounds"],
+ ["GMRT", "https://www.gmrt.org/", "CC BY 4.0", "seafloor"],
+ ["GBIF", "https://www.gbif.org/", "@percord", "sightings"],
+ ["Acartia", "https://acartia.io/", "CC BY 4.0", "live"],
+ ["NOAA CoastWatch", "https://coastwatch.noaa.gov/", "@pdus", "currents"],
+ ["Wikidata", "https://www.wikidata.org/", "CC0", "species"],
+ ["Wikimedia Commons", "https://commons.wikimedia.org/", "@perphoto", "photos"],
+ ["NOAA Fisheries species directory", "https://www.fisheries.noaa.gov/species-directory", "@pdus", "lengths"],
+ ["PanTHERIA (Jones et al. 2009)", "https://doi.org/10.6084/m9.figshare.3531875.v1", "CC0", "lengths"],
+ ["Natural Earth / world-atlas", "https://www.naturalearthdata.com/", "@pd", "coast"],
+ ["YouTube (CDFW, MBARI, OOI)", "https://www.youtube.com/", "@embed", "video"]
+]}
