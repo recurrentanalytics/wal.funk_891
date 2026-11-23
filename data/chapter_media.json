@@ -9,7 +9,7 @@
   "cap": "blue"
  },
  "whales": {
-  "wire": "humpback"
+  "hb": 0
  },
  "places": {
   "photo": {
@@ -21,7 +21,7 @@
   "cap": "monterey"
  },
  "listen": {
-  "wire": "orca"
+  "hb": 2
  },
  "results": {
   "photo": {
@@ -33,6 +33,12 @@
   "cap": "fluke"
  },
  "machine": {
-  "wire": "humpback"
+  "photo": {
+   "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Gray_Whale_Spyhopping_courtesy_of_Marc_Webber_USFWS.jpg/1920px-Gray_Whale_Spyhopping_courtesy_of_Marc_Webber_USFWS.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Gray_Whale_Spyhopping_courtesy_of_Marc_Webber_USFWS.jpg",
+   "by": "Marc Webber/USFWS.",
+   "lic": "Public domain"
+  },
+  "cap": "gray"
  }
 }

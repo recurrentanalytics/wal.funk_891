@@ -715,5 +715,7 @@
  "stop.seapig.t": "About 1,000 m · Sea pigs in the dark",
  "stop.seapig.d": "Sea pigs (Scotoplanes) and a crab on the mud at 1,282 m, about 10 km from the hydrophone. This is what the floor looks like down here.",
  "stop.mars.t": "Arrived · 891 m at the MARS node",
- "stop.mars.d": "Real footage from the MARS seafloor observatory on Smooth Ridge: an ROV connects a seismometer there in 2010. The hydrophone the Pi listens to is plugged into this same node."
+ "stop.mars.d": "Real footage from the MARS seafloor observatory on Smooth Ridge: an ROV connects a seismometer there in 2010. The hydrophone the Pi listens to is plugged into this same node.",
+ "hb.note": "Computer graphics: humpback whale in slow motion, breach arc with real gravity",
+ "chph.gray": "gray whale spyhopping"
 }
