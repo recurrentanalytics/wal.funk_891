@@ -81,12 +81,23 @@
       kids.forEach((k) => {
         if (k.matches(START) && !k.closest('details')) {
           const h = k.querySelector('h3, .scene-title') || k, kick = k.querySelector('.kicker');
-          cur = mk('details', 'sec-fold'); if (first) cur.open = true; first = false;
+          cur = mk('details', 'sec-fold'); cur.open = true; first = false;   // content opens; reference blocks (fold()) stay closed
           const sm = mk('summary'); if (kick) sm.append(mk('span', 'sf-k', kick.textContent)); sm.append(mk('span', 'sf-t', h.textContent || '…'), mk('i', 'sf-i'));
           const body = mk('div', 'sec-body'); cur.append(sm, body); k.before(cur); body.append(k);
           cur.addEventListener('toggle', () => { [0, 150, 500].forEach((ms) => setTimeout(() => dispatchEvent(new Event('resize')), ms)); setTimeout(layoutRail, 600); });
         } else if (cur && !k.matches('nav, .view-nav')) cur.querySelector('.sec-body').append(k);
       });
+    });
+    /* each chapter card: fold or unfold all its content blocks at once */
+    VIEWS.slice(1).forEach((v) => {
+      const card = $('ch-' + v.id); if (!card) return;
+      const blocks = () => v.sec.flatMap((id) => { const s = $(id); return s ? [...s.querySelectorAll('details.sec-fold')] : []; });
+      if (!blocks().length) return;
+      const b = mk('button', 'ch-fold'); b.type = 'button';
+      const label = () => { const open = blocks().some((d) => d.open); b.textContent = t(open ? 'fold.all.close' : 'fold.all.open'); b.setAttribute('aria-expanded', String(open)); };
+      b.addEventListener('click', () => { const open = blocks().some((d) => d.open); blocks().forEach((d) => { d.open = !open; }); label(); });
+      blocks().forEach((d) => d.addEventListener('toggle', label)); label();
+      (card.querySelector('.wrap') || card).append(b);
     });
     /* sub-chapters: a small ▾ next to each chapter in the top bar opens a short list of its sections and folds */
     const sub = mk('div', 'subnav'); sub.hidden = true; sub.setAttribute('role', 'menu'); document.body.append(sub);

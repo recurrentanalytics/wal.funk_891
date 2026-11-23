@@ -1172,5 +1172,7 @@
  "cat.title": "All {n} living whale and dolphin species",
  "cat.lede": "Search, filter, sort. Bright: reported at our stations. Hatched: not so far. Click to see the species in detail above.",
  "cat.showall": "Show all {n}",
- "cat.jump": "🔎 Search all {n} species ↓"
+ "cat.jump": "🔎 Search all {n} species ↓",
+ "fold.all.close": "Fold everything in this chapter",
+ "fold.all.open": "Unfold everything in this chapter"
 }

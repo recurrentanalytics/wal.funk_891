@@ -1172,5 +1172,7 @@
  "cat.title": "Alle {n} lebenden Wal- und Delfinarten",
  "cat.lede": "Suchen, filtern, sortieren. Hell: an unseren Stationen gemeldet. Schraffiert: bisher nicht. Ein Klick zeigt die Art oben im Detail.",
  "cat.showall": "Alle {n} zeigen",
- "cat.jump": "🔎 Alle {n} Arten durchsuchen ↓"
+ "cat.jump": "🔎 Alle {n} Arten durchsuchen ↓",
+ "fold.all.close": "Alles in diesem Kapitel zuklappen",
+ "fold.all.open": "Alles in diesem Kapitel aufklappen"
 }
