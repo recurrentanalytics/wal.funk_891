@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261123120705">
+<meta name="build" content="20261123121232">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>wal.funk_891</title>
 <meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls.">
@@ -819,6 +819,19 @@ body.has-gp .tour { bottom: calc(100px + env(safe-area-inset-bottom, 0px)); }
 .sp-copy { all: unset; cursor: pointer; padding: 7px 14px; border-radius: 8px; background: var(--glow); color: #021016; font: 500 13px var(--mono); }
 .sp-x { all: unset; cursor: pointer; position: absolute; top: 6px; right: 10px; font-size: 20px; color: var(--muted); }
 @media (max-width: 600px) { .gp.idle .gp-time { display: none; } }
+
+/* background sound menu */
+.amb-menu { position: fixed; z-index: 85; width: min(300px, calc(100% - 16px)); max-height: 70vh; overflow: auto; padding: 10px; border-radius: 14px; background: #06202c; border: 1px solid var(--glow); box-shadow: 0 20px 60px rgba(0,0,0,.55); }
+.amb-menu[hidden] { display: none; }
+.amb-menu b { display: block; padding: 2px 8px 8px; font: 500 12px var(--mono); color: var(--glow); letter-spacing: .06em; }
+.amb-menu i { display: block; padding: 8px 8px 4px; font: normal 500 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.amb-menu button { all: unset; box-sizing: border-box; cursor: pointer; display: block; width: 100%; padding: 7px 10px 7px 28px; border-radius: 8px; font-size: 14px; color: var(--text); position: relative; }
+.amb-menu button::before { content: ""; position: absolute; left: 9px; top: 12px; width: 9px; height: 9px; border-radius: 50%; border: 1px solid var(--muted); }
+.amb-menu button.on::before { background: var(--glow); border-color: var(--glow); box-shadow: 0 0 8px var(--glow); }
+.amb-menu button:hover, .amb-menu button:focus-visible { background: rgba(94,230,215,.1); }
+.amb-menu small { display: block; font-size: 12px; color: var(--muted); }
+.amb-menu p { margin: 8px 8px 2px; font-size: 12px; color: var(--muted); line-height: 1.4; }
+.gp.amb .gp-seek { visibility: hidden; }
 </style>
 </head>
 <body>
@@ -1063,22 +1076,22 @@ body.has-gp .tour { bottom: calc(100px + env(safe-area-inset-bottom, 0px)); }
 <footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="handbook.html" data-i18n="hbk.link"></a> · <a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/wal.funk_891">GitHub</a></p></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="i18n.js?v=20261123120705"></script>
-<script src="globe.js?v=20261123120705"></script>
-<script src="app.js?v=20261123120705"></script>
-<script src="play.js?v=20261123120705"></script>
-<script src="atlas.js?v=20261123120705"></script>
-<script src="humpback3d.js?v=20261123120705"></script>
-<script src="tabs.js?v=20261123120705"></script>
-<script src="tools.js?v=20261123120705"></script>
-<script src="nowbar.js?v=20261123120705"></script>
-<script src="ambient.js?v=20261123120705"></script>
-<script src="results.js?v=20261123120705"></script>
-<script src="cicompare.js?v=20261123120705"></script>
-<script src="routes.js?v=20261123120705"></script>
-<script src="ui.js?v=20261123120705"></script>
-<script src="polish.js?v=20261123120705"></script>
-<script src="story.js?v=20261123120705"></script>
-<script src="scenes.js?v=20261123120705"></script>
+<script src="i18n.js?v=20261123121232"></script>
+<script src="globe.js?v=20261123121232"></script>
+<script src="app.js?v=20261123121232"></script>
+<script src="play.js?v=20261123121232"></script>
+<script src="atlas.js?v=20261123121232"></script>
+<script src="humpback3d.js?v=20261123121232"></script>
+<script src="tabs.js?v=20261123121232"></script>
+<script src="tools.js?v=20261123121232"></script>
+<script src="nowbar.js?v=20261123121232"></script>
+<script src="ambient.js?v=20261123121232"></script>
+<script src="results.js?v=20261123121232"></script>
+<script src="cicompare.js?v=20261123121232"></script>
+<script src="routes.js?v=20261123121232"></script>
+<script src="ui.js?v=20261123121232"></script>
+<script src="polish.js?v=20261123121232"></script>
+<script src="story.js?v=20261123121232"></script>
+<script src="scenes.js?v=20261123121232"></script>
 </body>
 </html>

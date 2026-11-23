@@ -1032,5 +1032,19 @@
  "share.part.map": "Karte: {x}, {m}",
  "share.part.dive": "Tauchgang bei {x} %",
  "gp.idle": "Player",
- "gp.idle2": "Klick auf einen Wal oder ▶, dann läuft der Ton hier."
+ "gp.idle2": "Klick auf einen Wal oder ▶, dann läuft der Ton hier.",
+ "amb.menu.title": "Hintergrund-Ton",
+ "amb.menu.off": "Aus",
+ "amb.menu.auto": "Automatisch",
+ "amb.menu.auto.d": "das Hydrofon mit der letzten Walmeldung",
+ "amb.menu.now": "gerade: {name}",
+ "amb.menu.live": "Live-Hydrofone (Orcasound)",
+ "amb.menu.synth": "Erzeugte Unterwasserklänge",
+ "amb.menu.synth.d": "kein Livestream, im Browser erzeugt",
+ "amb.menu.note": "Spielt leise im Hintergrund. Jeder andere Ton auf der Seite blendet ihn aus.",
+ "gp.amb.live": "Hintergrund live: {name}",
+ "gp.amb.synth": "Hintergrund: erzeugte Unterwasserklänge",
+ "gp.amb.note": "leise im Hintergrund · Station oben rechts wählen",
+ "gp.amb.off": "pausiert",
+ "gp.live.t": "Live: {name}"
 }

@@ -107,16 +107,26 @@
   let media = null, vol = 1; const fmt = (s) => !isFinite(s) ? '' : `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
   const titleOf = (m) => (m.dataset && m.dataset.title) || decodeURIComponent((m.currentSrc || m.src || '').split('/').pop().split('?')[0]).replace(/\.(mp3|wav|ogg|m4a|flac|webm|m3u8)$/i, '').replace(/[_-]+/g, ' ') || t('gp.sound');
   const sync = () => { if (!media) return; gpPlay.textContent = media.paused ? '▶' : '❚❚'; gpPlay.setAttribute('aria-label', t(media.paused ? 'gp.play' : 'gp.pause'));
-    const d = media.duration; gpSeek.disabled = !isFinite(d); gpSeek.value = isFinite(d) && d ? Math.round(media.currentTime / d * 1000) : 0; gpTime.textContent = isFinite(d) ? `${fmt(media.currentTime)} / ${fmt(d)}` : t('gp.live'); };
+    const d = media.dataset && media.dataset.live ? Infinity : media.duration; gpSeek.disabled = !isFinite(d); gpSeek.value = isFinite(d) && d ? Math.round(media.currentTime / d * 1000) : 0; gpTime.textContent = isFinite(d) ? `${fmt(media.currentTime)} / ${fmt(d)}` : t('gp.live'); };
   const EV = ['play', 'pause', 'ended', 'timeupdate', 'durationchange', 'loadedmetadata'];
+  // the background stream shows here too whenever no other sound is in the player
+  let amb = null, ambFolded = false;
+  const showAmb = () => {
+    if (media) return;
+    if (amb && amb.loaded && !(ambFolded && !amb.on)) { gp.classList.remove('idle'); gp.classList.add('amb'); document.body.classList.add('has-gp');
+      gpT.textContent = amb.name ? t('gp.amb.live', { name: amb.name }) : t('gp.amb.synth'); gpTime.textContent = t(amb.on ? 'gp.amb.note' : 'gp.amb.off');
+      gpPlay.textContent = amb.on ? '❚❚' : '▶'; gpPlay.setAttribute('aria-label', t(amb.on ? 'gp.pause' : 'gp.play')); }
+    else idle();
+  };
+  document.addEventListener('wl-ambient', (e) => { amb = e.detail; if (amb.on) ambFolded = false; showAmb(); });
   document.addEventListener('wl-media', (e) => { const m = e.detail; if (media && media !== m) { EV.forEach((ev) => media.removeEventListener(ev, sync)); if (!media.paused) media.pause(); }
-    media = m; m.volume = vol; EV.forEach((ev) => m.addEventListener(ev, sync)); gpT.textContent = titleOf(m); gp.classList.remove('idle'); document.body.classList.add('has-gp'); sync(); });
-  gpPlay.addEventListener('click', () => { if (!media) return; media.paused ? media.play().catch(() => {}) : media.pause(); });
+    media = m; m.volume = vol; EV.forEach((ev) => m.addEventListener(ev, sync)); m.addEventListener('ended', () => { if (media === m) { EV.forEach((ev) => m.removeEventListener(ev, sync)); media = null; showAmb(); } }); gpT.textContent = titleOf(m); gp.classList.remove('idle', 'amb'); document.body.classList.add('has-gp'); sync(); });
+  gpPlay.addEventListener('click', () => { if (!media) { if (amb && window.wlAmbient) wlAmbient.set(!amb.on); return; } media.paused ? media.play().catch(() => {}) : media.pause(); });
   // stop ends the sound and folds the bar back to its small resting state; it never disappears
-  gpStop.addEventListener('click', () => { if (!media) return; media.pause(); try { media.currentTime = 0; } catch (e) {} EV.forEach((ev) => media.removeEventListener(ev, sync)); media = null; idle(); });
+  gpStop.addEventListener('click', () => { if (!media) { if (amb && amb.loaded && window.wlAmbient) { ambFolded = true; wlAmbient.set(false); } idle(); return; } media.pause(); try { media.currentTime = 0; } catch (e) {} EV.forEach((ev) => media.removeEventListener(ev, sync)); media = null; showAmb(); });
   gpSeek.addEventListener('input', () => { if (media && isFinite(media.duration)) media.currentTime = gpSeek.value / 1000 * media.duration; });
-  gpVol.addEventListener('input', () => { vol = +gpVol.value; if (media) media.volume = vol; });
-  const idle = () => { gp.classList.add('idle'); gpT.textContent = t('gp.idle'); gpTime.textContent = t('gp.idle2'); document.body.classList.remove('has-gp'); };
+  gpVol.addEventListener('input', () => { vol = +gpVol.value; if (media) media.volume = vol; else if (window.wlAmbient) wlAmbient.setVolume(vol); });
+  const idle = () => { gp.classList.add('idle'); gp.classList.remove('amb'); gpT.textContent = t('gp.idle'); gpTime.textContent = t('gp.idle2'); document.body.classList.remove('has-gp'); };
 
   /* ---------- guided tour ---------- */
   const STEPS = ['#top', '#dive', '#lineup', '#routes', '#bathy3d', '#live-card', '#listen', '#res-board', '#machine'];
@@ -145,7 +155,7 @@
     const bar = document.querySelector('.toc'), grp = el('div', 'tools');
     const mkB = (ico, key, fn, kbd) => { const b = el('button', 'tool-b'); b.type = 'button'; b.append(el('span', '', ico)); const lab = el('em', '', t(key)); b.append(lab); if (kbd) b.append(el('kbd', '', kbd)); b.title = t(key); b.setAttribute('aria-label', t(key)); b.addEventListener('click', (e) => { e.stopPropagation(); fn(); }); grp.append(b); return b; };
     mkB('⌕', 'srch.btn', open, /Mac/.test(navigator.platform) ? '⌘K' : 'Ctrl K'); mkB('🔗', 'share.btn', share); mkB('▸', 'tour.btn', startTour);
-    if (bar) bar.append(grp); document.body.append(ov, gp, cap, pop); idle();
+    if (bar) bar.append(grp); document.body.append(ov, gp, cap, pop); showAmb();
     gp.setAttribute('aria-label', t('gp.label')); gpStop.setAttribute('aria-label', t('gp.stop')); gpSeek.setAttribute('aria-label', t('gp.seek')); gpVol.setAttribute('aria-label', t('gp.vol'));
     const startCard = $('start-grid'); if (startCard) { const b = el('button', 'tour-cta', t('tour.cta')); b.type = 'button'; b.addEventListener('click', startTour); startCard.before(b); }
     restore();

@@ -1032,5 +1032,19 @@
  "share.part.map": "地图：{x}，{m}",
  "share.part.dive": "下潜进度 {x}%",
  "gp.idle": "播放器",
- "gp.idle2": "点击一头鲸或 ▶，声音就在这里播放。"
+ "gp.idle2": "点击一头鲸或 ▶，声音就在这里播放。",
+ "amb.menu.title": "背景声音",
+ "amb.menu.off": "关闭",
+ "amb.menu.auto": "自动",
+ "amb.menu.auto.d": "最近有鲸报告的水听器",
+ "amb.menu.now": "当前：{name}",
+ "amb.menu.live": "直播水听器（Orcasound）",
+ "amb.menu.synth": "生成的水下声音",
+ "amb.menu.synth.d": "非直播，在浏览器中生成",
+ "amb.menu.note": "在背景中轻声播放。页面上任何其他声音都会使其淡出。",
+ "gp.amb.live": "背景直播：{name}",
+ "gp.amb.synth": "背景：生成的水下声音",
+ "gp.amb.note": "在背景中轻声播放 · 在右上角选择站点",
+ "gp.amb.off": "已暂停",
+ "gp.live.t": "直播：{name}"
 }

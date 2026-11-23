@@ -1,6 +1,6 @@
 {
- "build": "20261123120705",
- "built_at": "2026-11-23 12:07 CET",
+ "build": "20261123121232",
+ "built_at": "2026-11-23 12:12 CET",
  "libs": [
   [
    "d3",
@@ -31,11 +31,11 @@
  "own_js": [
   [
    "ambient.js",
-   125
+   161
   ],
   [
    "app.js",
-   733
+   735
   ],
   [
    "atlas.js",
@@ -99,19 +99,19 @@
   ],
   [
    "tools.js",
-   153
+   163
   ],
   [
    "ui.js",
    88
   ]
  ],
- "own_js_lines": 2911,
- "html_lines": 1084,
+ "own_js_lines": 2959,
+ "html_lines": 1097,
  "i18n_keys": {
-  "en": 1034,
-  "de": 1034,
-  "zh": 1034
+  "en": 1048,
+  "de": 1048,
+  "zh": 1048
  },
  "data_files": [
   [

@@ -1032,5 +1032,19 @@
  "share.part.map": "map: {x}, {m}",
  "share.part.dive": "dive at {x} %",
  "gp.idle": "Player",
- "gp.idle2": "Click a whale or ▶ and the sound plays here."
+ "gp.idle2": "Click a whale or ▶ and the sound plays here.",
+ "amb.menu.title": "Background sound",
+ "amb.menu.off": "Off",
+ "amb.menu.auto": "Automatic",
+ "amb.menu.auto.d": "the hydrophone with the latest whale report",
+ "amb.menu.now": "now: {name}",
+ "amb.menu.live": "Live hydrophones (Orcasound)",
+ "amb.menu.synth": "Generated underwater sound",
+ "amb.menu.synth.d": "no live stream, made in the browser",
+ "amb.menu.note": "Plays quietly in the background. Any other sound on the page fades it out.",
+ "gp.amb.live": "Background live: {name}",
+ "gp.amb.synth": "Background: generated underwater sound",
+ "gp.amb.note": "quietly in the background · choose a station top right",
+ "gp.amb.off": "paused",
+ "gp.live.t": "Live: {name}"
 }

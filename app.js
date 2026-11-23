@@ -667,10 +667,12 @@ function live() {
       if (window.Hls && Hls.isSupported()) { hls = new Hls({ liveSyncDurationCount: 3 }); hls.loadSource(url); hls.attachMedia(audio); hls.on(Hls.Events.ERROR, (_, d) => { if (d.fatal) { stop(); state.textContent = t('live.down'); } }); }
       else if (audio.canPlayType('application/vnd.apple.mpegurl')) audio.src = url;
       else { state.textContent = t('live.unsupported'); return; }
+      audio.dataset.live = '1'; audio.dataset.title = t('gp.live.t', { name: sel.options[sel.selectedIndex].text });
       await audio.play(); playing = true; setBtn(); state.textContent = t('live.from', { name: sel.options[sel.selectedIndex].text }); draw();
     } catch (e) { stop(); state.textContent = t('live.fail'); }
   });
   sel.addEventListener('change', () => { if (playing) { stop(); btn.click(); } });
+  audio.addEventListener('pause', () => { if (playing) stop(); });
   // other parts of the page (the "right now" banner, search) can start a feed directly
   window.wlLive = (node) => { if (![...sel.options].some((o) => o.value === node)) return false; sel.value = node; if (playing) stop(); btn.click(); return true; };
 }
