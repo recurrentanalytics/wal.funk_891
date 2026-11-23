@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="build" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>wal.funk_891 · Listening</title>
+<meta name="theme-color" content="#04121a">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,500&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root { --bg: #04121a; --panel: #071d28; --line: rgba(94,230,215,.18); --glow: #5ee6d7; --text: #d5e8ed; --muted: #8fb4be; --amber: #ffb547; --red: #ff8a8a; --green: #7ee2a8;
+  --display: "Bricolage Grotesque", system-ui, sans-serif; --sans: "IBM Plex Sans", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.55 var(--sans); }
+a { color: var(--glow); }
+.top { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 12px; padding: 10px 16px; background: rgba(4,18,26,.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.top .brand { font: 500 15px var(--mono); color: var(--glow); text-decoration: none; }
+.top .sp { flex: 1; }
+.lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.lang a { padding: 5px 10px; font: 500 12px var(--mono); color: var(--muted); text-decoration: none; }
+.lang a[aria-current="true"] { background: var(--glow); color: #021016; }
+main { max-width: 980px; margin: 0 auto; padding: 20px 16px 80px; }
+h1 { font: 300 clamp(1.9rem, 5vw, 3rem)/1.1 var(--display); margin: 6px 0 10px; }
+.lede { color: #b9d3db; max-width: 66ch; }
+details.how { margin: 12px 0 18px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
+details.how summary { cursor: pointer; font-weight: 500; }
+details.how li { margin: 4px 0; color: #b9d3db; }
+.bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin: 14px 0 10px; font: 13px var(--mono); color: var(--muted); }
+.prog { flex: 1; min-width: 160px; height: 6px; border-radius: 3px; background: rgba(94,230,215,.12); overflow: hidden; }
+.prog i { display: block; height: 100%; background: var(--glow); width: 0; transition: width .3s; }
+.stage { position: relative; border-radius: 14px; overflow: hidden; background: #020b10; border: 1px solid var(--line); }
+.stage canvas { display: block; width: 100%; height: clamp(200px, 38vh, 340px); }
+.stage .ax { position: absolute; left: 8px; font: 10px var(--mono); color: var(--muted); }
+.stage .state { position: absolute; right: 10px; top: 8px; font: 12px var(--mono); color: var(--muted); }
+.stage .mine { position: absolute; left: 50%; top: 8px; transform: translateX(-50%); font: 500 12px var(--mono); padding: 2px 10px; border-radius: 999px; }
+.mine.yes { background: var(--green); color: #031; } .mine.no { background: var(--red); color: #300; } .mine.unsure { background: var(--amber); color: #320; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; align-items: center; }
+button { font: 500 14px var(--sans); cursor: pointer; border-radius: 12px; padding: 10px 16px; border: 1px solid var(--line); background: var(--panel); color: var(--text); }
+button:hover, button:focus-visible { border-color: var(--glow); }
+button kbd { font: 11px var(--mono); padding: 1px 6px; margin-left: 8px; border-radius: 5px; border: 1px solid currentColor; opacity: .7; }
+.ans button { flex: 1; min-width: 150px; padding: 16px; font-size: 16px; }
+.ans .yes { border-color: rgba(126,226,168,.6); } .ans .no { border-color: rgba(255,138,138,.6); } .ans .unsure { border-color: rgba(255,181,71,.6); }
+.ans .yes.on { background: var(--green); color: #031; } .ans .no.on { background: var(--red); color: #300; } .ans .unsure.on { background: var(--amber); color: #320; }
+.play { background: var(--glow); color: #021016; border-color: var(--glow); }
+.small { font-size: 13px; padding: 7px 12px; }
+.refs { margin-top: 26px; padding-top: 14px; border-top: 1px solid var(--line); }
+.refs h2, .data h2 { font: 300 1.4rem var(--display); margin: 0 0 8px; }
+.data { margin-top: 26px; padding-top: 14px; border-top: 1px solid var(--line); }
+.note { font-size: 13px; color: var(--muted); max-width: 70ch; }
+.grid { display: flex; flex-wrap: wrap; gap: 3px; margin: 10px 0; }
+.grid a { width: 14px; height: 14px; border-radius: 3px; background: rgba(94,230,215,.1); display: block; }
+.grid a.yes { background: var(--green); } .grid a.no { background: var(--red); } .grid a.unsure { background: var(--amber); } .grid a.cur { outline: 2px solid #fff; }
+@media (max-width: 600px) { .ans button { min-width: 0; padding: 14px 8px; font-size: 15px; } button kbd { display: none; } }
+</style>
+</head>
+<body>
+<div class="top">
+  <a class="brand" href="index.html">wal.funk_891</a>
+  <span class="sp"></span>
+  <div class="lang lang-top" role="group" aria-label="Language"><a href="?lang=en" data-lang="en" hreflang="en">EN</a><a href="?lang=de" data-lang="de" hreflang="de">DE</a><a href="?lang=zh" data-lang="zh" hreflang="zh">中文</a></div>
+</div>
+<main>
+  <h1 data-i18n="lab.title"></h1>
+  <p class="lede" data-i18n="lab.lede"></p>
+  <details class="how"><summary data-i18n="lab.how.t"></summary><ul>
+    <li data-i18n="lab.how.1"></li><li data-i18n="lab.how.2"></li><li data-i18n="lab.how.3"></li><li data-i18n="lab.how.4"></li><li data-i18n="lab.how.5"></li></ul></details>
+  <div class="bar"><span id="lb-n"></span><div class="prog"><i id="lb-prog"></i></div><span id="lb-done"></span></div>
+  <div class="stage"><canvas id="lb-spec"></canvas><span class="ax" style="top:6px">4 kHz</span><span class="ax" style="bottom:6px">0</span><span class="state" id="lb-state"></span><span class="mine" id="lb-mine" hidden></span></div>
+  <div class="row">
+    <button type="button" class="play" id="lb-play"></button>
+    <button type="button" id="lb-loop" aria-pressed="false"></button>
+    <span class="sp" style="flex:1"></span>
+    <button type="button" class="small" id="lb-prev"></button>
+    <button type="button" class="small" id="lb-next"></button>
+    <button type="button" class="small" id="lb-open"></button>
+  </div>
+  <div class="row ans">
+    <button type="button" class="yes" data-v="yes"><span data-i18n="lab.yes"></span><kbd>J</kbd></button>
+    <button type="button" class="no" data-v="no"><span data-i18n="lab.no"></span><kbd>N</kbd></button>
+    <button type="button" class="unsure" data-v="unsure"><span data-i18n="lab.unsure"></span><kbd>U</kbd></button>
+  </div>
+  <div class="grid" id="lb-grid" aria-label="clips"></div>
+  <section class="refs"><h2 data-i18n="lab.ref.t"></h2><p class="note" data-i18n="lab.ref.d"></p>
+    <div class="row"><button type="button" class="small" id="lb-ref1"></button><button type="button" class="small" id="lb-ref2"></button></div></section>
+  <section class="data"><h2 data-i18n="lab.data.t"></h2><p class="note" data-i18n="lab.data.d"></p>
+    <div class="row"><button type="button" class="small" id="lb-export"></button><label class="small"><input type="file" id="lb-import" accept="application/json" hidden><button type="button" class="small" id="lb-importb"></button></label></div>
+    <p class="note" id="lb-msg" role="status"></p>
+    <p class="note"><a href="https://github.com/recurrentanalytics/wal.funk_891/blob/main/label/RULES.md" data-i18n="lab.rules"></a></p></section>
+</main>
+<script src="i18n.js"></script>
+<script src="label.js"></script>
+</body>
+</html>

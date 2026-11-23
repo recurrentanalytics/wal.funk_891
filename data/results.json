@@ -205,6 +205,18 @@
      "date": null,
      "n": 300,
      "data": "mbari_hump"
+    },
+    {
+     "id": "s7f_owner",
+     "measure": "ba",
+     "value": null,
+     "mark": 0.8,
+     "dir": ">=",
+     "verdict": "pending",
+     "where": "mac",
+     "date": null,
+     "n": 300,
+     "data": "owner_labels"
     }
    ]
   },

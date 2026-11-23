@@ -25,7 +25,7 @@ for k in base:
 for l, d in langs.items():
     if len(d.get("whales.monthsabbr", "").split("|")) != 12: errors.append(f"{l}: whales.monthsabbr needs 12 parts")
 used = set()
-for f in [root / "index.html", root / "handbook.html", root / "paper.html", *root.glob("*.js")]:
+for f in [root / "index.html", root / "handbook.html", root / "paper.html", root / "label.html", *root.glob("*.js")]:
     s = f.read_text()
     used |= set(re.findall(r'data-i18n(?:-html|-aria|-title)?="([\w.\-]+)"', s))
     used |= set(re.findall(r"\bt\(\s*'([\w.\-]+)'", s))
