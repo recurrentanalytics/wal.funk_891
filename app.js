@@ -6,7 +6,7 @@ const svgEl = (tag, attrs = {}) => { const n = document.createElementNS(NS, tag)
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const getJSON = (u) => fetch(u, { cache: 'no-store' }).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); });
 const num = (n, d) => I18N.num(n, d);
-const SP = { 'Blue whale': 'blue', 'Fin whale': 'fin', 'North Pacific right whale': 'npright', 'Humpback whale': 'humpback', "Bryde's whale": 'brydes', 'Minke whale': 'minke', 'Killer whale (orca)': 'orca', 'Person': 'person' };
+const SP = { 'Blue whale': 'blue', 'Fin whale': 'fin', 'North Pacific right whale': 'npright', 'Humpback whale': 'humpback', "Bryde's whale": 'brydes', 'Minke whale': 'minke', 'Killer whale (orca)': 'orca', "Gray whale": 'gray', "Risso's dolphin": 'risso', "Common bottlenose dolphin": 'bottlenose', "Harbour porpoise": 'hporpoise', "Common dolphin": 'cdolphin', "Northern right whale dolphin": 'nrwd', "Baird's beaked whale": 'bairds', "Dall's porpoise": 'dalls', "Pacific white-sided dolphin": 'pwsd', "Sperm whale": 'sperm', "Cuvier's beaked whale": 'cuviers', "Pygmy sperm whale": 'pygmysperm', 'Person': 'person' };
 // Example sounds per whale. Ours: MBARI hour with whalu's label (candidates) and a human-labelled Orcasound clip.
 // NOAA: played straight from NOAA Fisheries "Sounds in the Ocean: Mammals" (not copied here; credit as on that page).
 const NOAA_S = 'https://www.fisheries.noaa.gov/s3/2023-04/', NOAA_PAGE = 'https://www.fisheries.noaa.gov/national/science-data/sounds-ocean-mammals';
@@ -22,7 +22,7 @@ const SOUNDS = {
 // pending = test running or waiting for data, partial = works only somewhere else, none = no detector tested at all.
 const DETECT = { blue: 'fail', fin: 'fail', humpback: 'pending', orca: 'partial', minke: 'none', brydes: 'none', npright: 'none' };
 const whaleAudio = new Audio(); whaleAudio.preload = 'none';
-const SPTEXT = { blue: 'blue', fin: 'fin', humpback: 'humpback', brydes: 'brydes', minke: 'minke', orca: 'orca', npright: 'right' };
+const SPTEXT = { blue: 'blue', fin: 'fin', humpback: 'humpback', brydes: 'brydes', minke: 'minke', orca: 'orca', npright: 'right', gray: 'gray', risso: 'risso', bottlenose: 'bottlenose', hporpoise: 'hporpoise', cdolphin: 'cdolphin', nrwd: 'nrwd', bairds: 'bairds', dalls: 'dalls', pwsd: 'pwsd', sperm: 'sperm', cuviers: 'cuviers', pygmysperm: 'pygmysperm' };
 const CODE2SP = { Mn: 'humpback', Bm: 'blue', Bp: 'fin', Ba: 'minke', Be: 'brydes', Oo: 'orca' };
 
 /* Spectrogram colour: abyss -> teal -> pale gold */
@@ -98,8 +98,12 @@ function whaleSVG(name, m, max, VB = 1000, VH = 200, fam = null) {
 function whales(w, S) {
   const lang = I18N.lang, spName = (x) => (x.name && (x.name[lang] || x.name.en)) || x.sci;
   const CUR = { 'Balaenoptera musculus': 'Blue whale', 'Balaenoptera physalus': 'Fin whale', 'Megaptera novaeangliae': 'Humpback whale', 'Orcinus orca': 'Killer whale (orca)',
-    'Balaenoptera acutorostrata': 'Minke whale', 'Balaenoptera edeni': "Bryde's whale", 'Eubalaena japonica': 'North Pacific right whale' };
+    'Balaenoptera acutorostrata': 'Minke whale', 'Balaenoptera edeni': "Bryde's whale", 'Eubalaena japonica': 'North Pacific right whale', "Eschrichtius robustus": "Gray whale", "Grampus griseus": "Risso's dolphin", "Tursiops truncatus": "Common bottlenose dolphin", "Phocoena phocoena": "Harbour porpoise", "Delphinus delphis": "Common dolphin", "Lissodelphis borealis": "Northern right whale dolphin", "Berardius bairdii": "Baird's beaked whale", "Phocoenoides dalli": "Dall's porpoise", "Lagenorhynchus obliquidens": "Pacific white-sided dolphin", "Physeter macrocephalus": "Sperm whale", "Ziphius cavirostris": "Cuvier's beaked whale", "Kogia breviceps": "Pygmy sperm whale" };
+  w.species.forEach((s) => { if (s.key && s.sounds) SOUNDS[s.key] = s.sounds; });
   const all = (S && S.species) || [], bySci = Object.fromEntries(all.map((x) => [x.sci, x]));
+  // evidence for every drawn species from the same GBIF counts (the first seven also keep their acoustic notes)
+  w.stations = w.stations || { seen: {}, heard: {} };
+  Object.entries(CUR).forEach(([sci, nm]) => { const k = SP[nm]; if (k && bySci[sci]) w.stations.seen[k] = bySci[sci].seen; });
   const atStation = all.filter((x) => x.seen[0] + x.seen[1] > 0 && x.len).sort((a, b) => b.len - a.len);
   const rest = all.filter((x) => !atStation.includes(x)).sort((a, b) => (a.family || '').localeCompare(b.family || '') || spName(a).localeCompare(spName(b), lang));
   const items = atStation.length ? atStation.map((x) => [CUR[x.sci] || x.sci, x.len, x]).concat([['Person', 1.8, null]]) : w.sizes.items.map(([n, m]) => [n, m, null]);
@@ -143,7 +147,7 @@ function whales(w, S) {
     more.addEventListener('click', () => { grid.hidden = !grid.hidden; more.setAttribute('aria-expanded', String(!grid.hidden)); more.textContent = t(grid.hidden ? 'allsp.show' : 'allsp.hide', { n: rest.length, total: all.length }); });
     line.parentElement.append(more, grid);
   }
-  const lo = Math.log10(10), hi = Math.log10(30000), pos = (hz) => 100 * (Math.log10(hz) - lo) / (hi - lo);
+  const lo = Math.log10(10), hi = Math.log10(200000), pos = (hz) => 100 * (Math.log10(hz) - lo) / (hi - lo);
   const kHz = (v) => v >= 1000 ? `${num(v / 1000, v % 1000 ? 1 : 0)}k` : num(v);
   function select(name, play) {
     buttons.forEach(([n, b]) => b.setAttribute('aria-pressed', String(n === name)));
@@ -176,13 +180,13 @@ function whales(w, S) {
     if (DETECT[key]) { const st = el('div', 'detect det-box-' + DETECT[key]); st.append(el('b', '', t('det.q') + ' ' + t(`det.state.${DETECT[key]}`)), el('p', '', t(`det.${key}`))); d.append(st); }
     const fx = el('div', 'facts');
     const fact = (v, k) => { const f = el('div', 'fact'); f.append(el('b', '', v), el('span', '', k)); return f; };
-    fx.append(fact(`${num(len, 1)} m`, t('whales.maxlen')), fact(sp.bands ? `${kHz(sp.bands[0])}–${kHz(sp.bands[1])} Hz` : '—', t('whales.range')), fact(sp.months ? t('whales.months', { n: sp.months.length }) : '—', t('whales.season')));
+    fx.append(fact(`${num(len, 1)} m`, t('whales.maxlen')), fact(sp.bands ? `${kHz(sp.bands[0])}–${kHz(sp.bands[1])} Hz` : '—', t('whales.range')), fact(sp.months ? (sp.months.length === 12 ? t('whales.allyear') : t('whales.months', { n: sp.months.length })) : '—', t(sp.months_kind === 'presence' ? 'whales.season.presence' : 'whales.season')));
     d.append(fx, el('span', 'kicker', t('whales.pitch')));
     const pitch = el('div', 'pitch');
     const ear = el('div', 'ear'); ear.style.left = pos(20) + '%'; ear.style.width = (pos(20000) - pos(20)) + '%'; pitch.append(ear);
     const unsure = sp.bands_note && sp.bands_note.includes('not verified');
     if (sp.bands) { const b = el('div', 'band' + (unsure ? ' unsure' : '')); b.style.left = pos(sp.bands[0]) + '%'; b.style.width = Math.max(1, pos(sp.bands[1]) - pos(sp.bands[0])) + '%'; pitch.append(b); }
-    [[10, '10'], [100, '100'], [1000, '1k'], [10000, '10k Hz']].forEach(([hz, tx]) => { const tk2 = el('span', 'tick', tx); tk2.style.left = pos(hz) + '%'; pitch.append(tk2); });
+    [[10, '10'], [100, '100'], [1000, '1k'], [10000, '10k'], [100000, '100k Hz']].forEach(([hz, tx]) => { const tk2 = el('span', 'tick', tx); tk2.style.left = pos(hz) + '%'; pitch.append(tk2); });
     d.append(pitch, el('p', 'note', t('whales.pitch.note') + (unsure ? ' ' + t('whales.unsure') : '')));
     d.append(el('p', '', t(`sp.${tk}.sound`)));
     // example sounds: a click on the whale plays all of them, one after another
@@ -210,7 +214,7 @@ function whales(w, S) {
     d.append(box);
     if (play && list.length) start(0, true);
     if (sp.months) {
-      d.append(el('span', 'kicker', t('whales.monthslabel')));
+      d.append(el('span', 'kicker', t(sp.months_kind === 'presence' ? 'whales.monthslabel.presence' : 'whales.monthslabel')));
       const mo = el('div', 'months'); t('whales.monthsabbr').split('|').forEach((c, i) => mo.append(el('i', sp.months.includes(i + 1) ? 'on' : '', c))); d.append(mo);
     }
     d.append(el('p', '', t(`sp.${tk}.monterey`)), el('span', 'status-pill', t(`sp.${tk}.status`)));

@@ -212,6 +212,494 @@
      "https://research.google/blog/whistles-songs-boings-and-biotwangs-recognizing-whale-vocalizations-with-ai/"
     ]
    ]
+  },
+  {
+   "name": "Gray whale",
+   "latin": "Eschrichtius robustus",
+   "key": "gray",
+   "sound": "Low moans (20–200 Hz) and pulsed “knocks”; all calls together span about 40 Hz to 4 kHz. No echolocation.",
+   "monterey": "Passes Monterey heading south from December to February and back north with calves from March to May. In the Salish Sea 15–20 animals feed around Whidbey Island each spring, near the Bush Point hydrophone.",
+   "status": "Eastern North Pacific population delisted under the ESA in 1994; the western population is endangered. All protected (MMPA).",
+   "bands": [
+    20,
+    4000
+   ],
+   "months": [
+    12,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "months_kind": "presence",
+   "sources": [
+    [
+     "NOAA",
+     "https://www.fisheries.noaa.gov/species/gray-whale"
+    ],
+    [
+     "DOSITS audio",
+     "https://dosits.org/galleries/audio-gallery/marine-mammals/baleen-whales/gray-whale/"
+    ],
+    [
+     "Guazzo et al. 2017",
+     "https://pmc.ncbi.nlm.nih.gov/articles/PMC5662093"
+    ],
+    [
+     "MBNMS seasons",
+     "https://montereybay.noaa.gov/visitor/seasons.html"
+    ]
+   ],
+   "sounds": [
+    {
+     "src": "https://cdn.freesound.org/previews/413/413377_6181234-hq.mp3",
+     "who": "mbarifs",
+     "call": "knocks",
+     "page": "https://freesound.org/people/MBARI_MARS/sounds/413377/"
+    }
+   ]
+  },
+  {
+   "name": "Risso's dolphin",
+   "latin": "Grampus griseus",
+   "key": "risso",
+   "sound": "Echolocation clicks with characteristic peaks at about 22–39 kHz (DOSITS gives up to over 100 kHz); whistles are little studied.",
+   "monterey": "Off Monterey all year, most often in August and September. Not documented in the Salish Sea.",
+   "status": "Not listed; protected (MMPA).",
+   "bands": [
+    20000,
+    110000
+   ],
+   "months": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "months_kind": "presence",
+   "sources": [
+    [
+     "NOAA",
+     "https://www.fisheries.noaa.gov/species/rissos-dolphin"
+    ],
+    [
+     "DOSITS audio",
+     "https://dosits.org/galleries/audio-gallery/marine-mammals/toothed-whales/rissos-dolphin/"
+    ],
+    [
+     "Soldevilla et al. 2008",
+     "https://pubmed.ncbi.nlm.nih.gov/18647003/"
+    ],
+    [
+     "MBNMS seasons",
+     "https://montereybay.noaa.gov/visitor/seasons.html"
+    ]
+   ],
+   "sounds": [
+    {
+     "src": "https://www.fisheries.noaa.gov/s3/2023-04/Grgr-clicks-NOAA-PAGroup-08-rissos-dolphin-clip.mp3",
+     "who": "noaa",
+     "call": "clicks"
+    }
+   ]
+  },
+  {
+   "name": "Common bottlenose dolphin",
+   "latin": "Tursiops truncatus",
+   "key": "bottlenose",
+   "sound": "Individual “signature whistles” (about 2–25 kHz), plus clicks around 110–130 kHz, buzzes and pops.",
+   "monterey": "Resident off California; when they are most common off Monterey is not verified. Not documented in the Salish Sea.",
+   "status": "Not listed; protected (MMPA).",
+   "bands": [
+    2000,
+    130000
+   ],
+   "months": null,
+   "months_kind": "presence",
+   "sources": [
+    [
+     "NOAA",
+     "https://www.fisheries.noaa.gov/species/common-bottlenose-dolphin"
+    ],
+    [
+     "DOSITS audio",
+     "https://dosits.org/galleries/audio-gallery/marine-mammals/toothed-whales/bottlenose-dolphin/"
+    ]
+   ],
+   "sounds": [
+    {
+     "src": "https://www.fisheries.noaa.gov/s3/2023-04/Tutr-multisound-NOAA-PAGroup-03-bottlenose-dolphin-clip.mp3",
+     "who": "noaa",
+     "call": "whistlesclicks"
+    }
+   ]
+  },
+  {
+   "name": "Harbour porpoise",
+   "latin": "Phocoena phocoena",
+   "key": "hporpoise",
+   "sound": "Only very high, narrow-band clicks at 110–150 kHz, far above human hearing (and above what the 16 kHz MBARI archive records).",
+   "monterey": "Off Monterey a separate population in shallow water (0–200 m), so not at the 891 m hydrophone. In the Salish Sea all year, the most often sighted cetacean.",
+   "status": "Not listed; protected (MMPA).",
+   "bands": [
+    110000,
+    150000
+   ],
+   "months": null,
+   "months_kind": "presence",
+   "sources": [
+    [
+     "NOAA",
+     "https://www.fisheries.noaa.gov/species/harbor-porpoise"
+    ],
+    [
+     "DOSITS audio",
+     "https://dosits.org/galleries/audio-gallery/marine-mammals/toothed-whales/harbor-porpoise/"
+    ],
+    [
+     "Kyhn et al. 2013",
+     "https://pmc.ncbi.nlm.nih.gov/articles/PMC3665716"
+    ],
+    [
+     "DFO 2025",
+     "https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41312284.pdf"
+    ]
+   ],
+   "sounds": []
+  },
+  {
+   "name": "Common dolphin",
+   "latin": "Delphinus delphis",
+   "key": "cdolphin",
+   "sound": "Lots of whistles (about 8–16 kHz) and clicks up to over 100 kHz.",
+   "monterey": "Common off California all year, peaking in the Monterey Bay sanctuary in August and September. Rare but increasing in the Salish Sea.",
+   "status": "Not listed; protected (MMPA).",
+   "bands": [
+    8000,
+    100000
+   ],
+   "months": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "months_kind": "presence",
+   "sources": [
+    [
+     "NOAA",
+     "https://www.fisheries.noaa.gov/species/short-beaked-common-dolphin"
+    ],
+    [
+     "DOSITS audio",
+     "https://dosits.org/galleries/audio-gallery/marine-mammals/toothed-whales/common-dolphin/"
+    ],
+    [
+     "MBNMS seasons",
+     "https://montereybay.noaa.gov/visitor/seasons.html"
+    ]
+   ],
+   "sounds": [
+    {
+     "src": "https://www.fisheries.noaa.gov/s3/2023-04/Dede-whistles-NOAA-PAGroup-01-short-beaked-common-dolphin-clip.mp3",
+     "who": "noaa",
+     "call": "whistles"
+    }
+   ]
+  },
+  {
+   "name": "Northern right whale dolphin",
+   "latin": "Lissodelphis borealis",
+   "key": "nrwd",
+   "sound": "Clicks and stereotyped series of 6–18 pulses; no whistles were found. Frequency range not verified.",
+   "monterey": "Off California mostly in winter and spring (about November to April). Very rare in the Salish Sea.",
+   "status": "Not listed; protected (MMPA).",
+   "bands": null,
+   "months": [
+    11,
+    12,
+    1,
+    2,
+    3,
+    4
+   ],
+   "months_kind": "presence",
+   "sources": [
+    [
+     "NOAA",
+     "https://www.fisheries.noaa.gov/species/northern-right-whale-dolphin"
+    ],
+    [
+     "Rankin et al. 2007",
+     "https://pubmed.ncbi.nlm.nih.gov/17348542/"
+    ],
+    [
+     "Soldevilla et al. 2006",
+     "https://www.cetus.ucsd.edu/docs/publications/SoldevillaCALCOFI2006.pdf"
+    ]
+   ],
+   "sounds": []
+  },
+  {
+   "name": "Baird's beaked whale",
+   "latin": "Berardius bairdii",
+   "key": "bairds",
+   "sound": "Echolocation clicks peaking around 25 kHz, plus whistles and pulse series. Exact range not verified.",
+   "monterey": "MBARI hears Baird’s and Cuvier’s beaked whales at the hydrophone “much more frequently than anyone expected”. NOAA: on the continental slope in summer and autumn, further offshore in winter. Not documented in the Salish Sea.",
+   "status": "Not listed; protected (MMPA).",
+   "bands": [
+    15000,
+    45000
+   ],
+   "months": null,
+   "months_kind": "presence",
+   "sources": [
+    [
+     "NOAA",
+     "https://www.fisheries.noaa.gov/species/bairds-beaked-whale"
+    ],
+    [
+     "Stimpert et al. 2014",
+     "https://pubmed.ncbi.nlm.nih.gov/25391309/"
+    ],
+    [
+     "MBARI",
+     "https://www.mbari.org/news/underwater-microphone-provides-tantalizing-new-perspective-on-monterey-bay/"
+    ]
+   ],
+   "sounds": [
+    {
+     "src": "https://cdn.freesound.org/previews/404/404315_6181234-hq.mp3",
+     "who": "mbarifs",
+     "call": "beakedclicks",
+     "page": "https://freesound.org/people/MBARI_MARS/sounds/404315/"
+    }
+   ]
+  },
+  {
+   "name": "Dall's porpoise",
+   "latin": "Phocoenoides dalli",
+   "key": "dalls",
+   "sound": "Only very high, narrow-band clicks at 117–160 kHz, inaudible to people.",
+   "monterey": "Off California more frequent in winter and spring. In the Salish Sea most numerous in winter, now rare in Puget Sound.",
+   "status": "Not listed; protected (MMPA).",
+   "bands": [
+    117000,
+    160000
+   ],
+   "months": null,
+   "months_kind": "presence",
+   "sources": [
+    [
+     "NOAA",
+     "https://www.fisheries.noaa.gov/species/dalls-porpoise"
+    ],
+    [
+     "DOSITS audio",
+     "https://dosits.org/galleries/audio-gallery/marine-mammals/toothed-whales/dalls-porpoise/"
+    ],
+    [
+     "Kyhn et al. 2013",
+     "https://pmc.ncbi.nlm.nih.gov/articles/PMC3665716"
+    ]
+   ],
+   "sounds": []
+  },
+  {
+   "name": "Pacific white-sided dolphin",
+   "latin": "Lagenorhynchus obliquidens",
+   "key": "pwsd",
+   "sound": "Two click types with peaks at about 22–37 kHz; whistles are described but not measured.",
+   "monterey": "Off Monterey all year, most often in August and September; MBARI has recorded them at the hydrophone. Uncommon in the Salish Sea, mostly in Juan de Fuca Strait.",
+   "status": "Not listed; protected (MMPA).",
+   "bands": [
+    20000,
+    40000
+   ],
+   "months": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "months_kind": "presence",
+   "sources": [
+    [
+     "NOAA",
+     "https://www.fisheries.noaa.gov/species/pacific-white-sided-dolphin"
+    ],
+    [
+     "DOSITS audio",
+     "https://dosits.org/galleries/audio-gallery/marine-mammals/toothed-whales/white-sided-dolphin/"
+    ],
+    [
+     "Soldevilla et al. 2008",
+     "https://pubmed.ncbi.nlm.nih.gov/18647003/"
+    ],
+    [
+     "MBNMS seasons",
+     "https://montereybay.noaa.gov/visitor/seasons.html"
+    ]
+   ],
+   "sounds": [
+    {
+     "src": "https://cdn.freesound.org/previews/404/404313_6181234-hq.mp3",
+     "who": "mbarifs",
+     "call": "clicks",
+     "page": "https://freesound.org/people/MBARI_MARS/sounds/404313/"
+    },
+    {
+     "src": "https://cdn.freesound.org/previews/404/404148_6181234-hq.mp3",
+     "who": "mbarifs",
+     "call": "calls",
+     "page": "https://freesound.org/people/MBARI_MARS/sounds/404148/"
+    }
+   ]
+  },
+  {
+   "name": "Sperm whale",
+   "latin": "Physeter macrocephalus",
+   "key": "sperm",
+   "sound": "Loud clicks from under 100 Hz to 30 kHz, most energy at 5–25 kHz; plus “codas” (click patterns) and fast “creaks” while hunting.",
+   "monterey": "Heard at the MBARI hydrophone all year over seven years, with a winter peak. Not documented in the Salish Sea.",
+   "status": "Endangered since 1970 (ESA); depleted (MMPA).",
+   "bands": [
+    100,
+    30000
+   ],
+   "months": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "months_kind": "presence",
+   "sources": [
+    [
+     "NOAA",
+     "https://www.fisheries.noaa.gov/species/sperm-whale"
+    ],
+    [
+     "DOSITS audio",
+     "https://dosits.org/galleries/audio-gallery/marine-mammals/toothed-whales/sperm-whale/"
+    ],
+    [
+     "Oestreich et al. 2024",
+     "https://pubmed.ncbi.nlm.nih.gov/39313840/"
+    ]
+   ],
+   "sounds": [
+    {
+     "src": "https://cdn.freesound.org/previews/404/404318_6181234-hq.mp3",
+     "who": "mbarifs",
+     "call": "clicks",
+     "page": "https://freesound.org/people/MBARI_MARS/sounds/404318/"
+    },
+    {
+     "src": "https://www.fisheries.noaa.gov/s3/2023-04/Phma-clicks-NOAA-PAGroup-01-sperm-clip.mp3",
+     "who": "noaa",
+     "call": "clicks"
+    }
+   ]
+  },
+  {
+   "name": "Cuvier's beaked whale",
+   "latin": "Ziphius cavirostris",
+   "key": "cuviers",
+   "sound": "Frequency-modulated echolocation clicks around 42 kHz (about 31–53 kHz), each only 0.2 ms long. Social sounds not verified.",
+   "monterey": "MBARI hears it often at the hydrophone. According to NOAA its seasons are not known. Not documented in the Salish Sea.",
+   "status": "Not listed; protected (MMPA).",
+   "bands": [
+    31000,
+    53000
+   ],
+   "months": null,
+   "months_kind": "presence",
+   "sources": [
+    [
+     "NOAA",
+     "https://www.fisheries.noaa.gov/species/cuviers-beaked-whale"
+    ],
+    [
+     "Zimmer et al. 2005",
+     "https://pubmed.ncbi.nlm.nih.gov/16018493/"
+    ],
+    [
+     "MBARI",
+     "https://www.mbari.org/news/underwater-microphone-provides-tantalizing-new-perspective-on-monterey-bay/"
+    ]
+   ],
+   "sounds": [
+    {
+     "src": "https://www.fisheries.noaa.gov/s3/2023-04/Zica-clicks-NOAA-PAGroup-01-0.3x-HPF12kHz-cuviers-clip.mp3",
+     "who": "noaa",
+     "call": "clicksslow"
+    },
+    {
+     "src": "https://cdn.freesound.org/previews/404/404315_6181234-hq.mp3",
+     "who": "mbarifs",
+     "call": "beakedclicks",
+     "page": "https://freesound.org/people/MBARI_MARS/sounds/404315/"
+    }
+   ]
+  },
+  {
+   "name": "Pygmy sperm whale",
+   "latin": "Kogia breviceps",
+   "key": "pygmysperm",
+   "sound": "Very high, narrow-band clicks peaking around 125–130 kHz, inaudible to people.",
+   "monterey": "Lives offshore in the California Current; seasons unknown. Not documented in the Salish Sea.",
+   "status": "Not listed; protected (MMPA).",
+   "bands": [
+    60000,
+    130000
+   ],
+   "months": null,
+   "months_kind": "presence",
+   "sources": [
+    [
+     "NOAA",
+     "https://www.fisheries.noaa.gov/species/pygmy-sperm-whale"
+    ],
+    [
+     "Merkens et al. 2018",
+     "https://research-repository.st-andrews.ac.uk/bitstream/10023/17127/1/Merkens_etal_2018_Ksima_FinalSubmission_180102.pdf"
+    ]
+   ],
+   "sounds": []
   }
  ],
  "known": [
@@ -441,6 +929,126 @@
     null
    ],
    "source": "https://commons.wikimedia.org/wiki/File:North_Pacific_right_whale_(Eubalaena_japonica)_-_John_Durban_(NOAA).jpg"
+  },
+  "Gray whale": {
+   "file": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/58/Gray_whale.jpg/800px-Gray_whale.jpg",
+   "alt": "Gray whale",
+   "credit": "Wikimedia Commons",
+   "licence": [
+    "Public domain",
+    null
+   ],
+   "source": "https://commons.wikimedia.org/wiki/File:Gray_whale.jpg"
+  },
+  "Risso's dolphin": {
+   "file": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Rundkopfdelfin.jpg",
+   "alt": "Risso's dolphin",
+   "credit": "National Marine Mammal Laboratory, no individual author credit given",
+   "licence": [
+    "Public domain",
+    null
+   ],
+   "source": "https://commons.wikimedia.org/wiki/File:Rundkopfdelfin.jpg"
+  },
+  "Common bottlenose dolphin": {
+   "file": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/Tursiops_truncatus_01-cropped.jpg/800px-Tursiops_truncatus_01-cropped.jpg",
+   "alt": "Common bottlenose dolphin",
+   "credit": "NASA",
+   "licence": [
+    "Public domain",
+    null
+   ],
+   "source": "https://commons.wikimedia.org/wiki/File:Tursiops_truncatus_01-cropped.jpg"
+  },
+  "Harbour porpoise": {
+   "file": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/Daan_Close_Up.PNG/800px-Daan_Close_Up.PNG",
+   "alt": "Harbour porpoise",
+   "credit": "AVampireTear",
+   "licence": [
+    "CC BY-SA 3.0",
+    null
+   ],
+   "source": "https://commons.wikimedia.org/wiki/File:Daan_Close_Up.PNG"
+  },
+  "Common dolphin": {
+   "file": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/81/Delphinus_delphis_326708883.jpg/800px-Delphinus_delphis_326708883.jpg",
+   "alt": "Common dolphin",
+   "credit": "bogsuckers",
+   "licence": [
+    "CC BY 4.0",
+    null
+   ],
+   "source": "https://commons.wikimedia.org/wiki/File:Delphinus_delphis_326708883.jpg"
+  },
+  "Northern right whale dolphin": {
+   "file": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/Anim1749_-_Flickr_-_NOAA_Photo_Library.jpg/800px-Anim1749_-_Flickr_-_NOAA_Photo_Library.jpg",
+   "alt": "Northern right whale dolphin",
+   "credit": "Credit: NOAA NMFS.",
+   "licence": [
+    "Public domain",
+    null
+   ],
+   "source": "https://commons.wikimedia.org/wiki/File:Anim1749_-_Flickr_-_NOAA_Photo_Library.jpg"
+  },
+  "Baird's beaked whale": {
+   "file": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/Berardius_bairdii.jpg/800px-Berardius_bairdii.jpg",
+   "alt": "Baird's beaked whale",
+   "credit": "NOAA United States. National Marine Fisheries Service",
+   "licence": [
+    "Public domain",
+    null
+   ],
+   "source": "https://commons.wikimedia.org/wiki/File:Berardius_bairdii.jpg"
+  },
+  "Dall's porpoise": {
+   "file": "https://upload.wikimedia.org/wikipedia/commons/f/f5/Dalls_Porpoise_Underwater.JPG",
+   "alt": "Dall's porpoise",
+   "credit": "Wikimedia Commons",
+   "licence": [
+    "Public domain",
+    null
+   ],
+   "source": "https://commons.wikimedia.org/wiki/File:Dalls_Porpoise_Underwater.JPG"
+  },
+  "Pacific white-sided dolphin": {
+   "file": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/19/PacificWhiteSidedDolphine.jpg/800px-PacificWhiteSidedDolphine.jpg",
+   "alt": "Pacific white-sided dolphin",
+   "credit": "Captain Budd Christman, NOAA Corps",
+   "licence": [
+    "Public domain",
+    null
+   ],
+   "source": "https://commons.wikimedia.org/wiki/File:PacificWhiteSidedDolphine.jpg"
+  },
+  "Sperm whale": {
+   "file": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/Mother_and_baby_sperm_whale.jpg/800px-Mother_and_baby_sperm_whale.jpg",
+   "alt": "Sperm whale",
+   "credit": "Gabriel Barathieu",
+   "licence": [
+    "CC BY-SA 2.0",
+    null
+   ],
+   "source": "https://commons.wikimedia.org/wiki/File:Mother_and_baby_sperm_whale.jpg"
+  },
+  "Cuvier's beaked whale": {
+   "file": "https://upload.wikimedia.org/wikipedia/commons/3/39/Ziphius_cavirostris_47619123_%28cropped%29.jpg",
+   "alt": "Cuvier's beaked whale",
+   "credit": "Charlotte Kirchner",
+   "licence": [
+    "CC BY 4.0",
+    null
+   ],
+   "source": "https://commons.wikimedia.org/wiki/File:Ziphius_cavirostris_47619123_(cropped).jpg"
+  },
+  "Pygmy sperm whale": {
+   "file": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/Kogia_breviceps.jpg/800px-Kogia_breviceps.jpg",
+   "alt": "Pygmy sperm whale",
+   "credit": "Wikimedia Commons",
+   "licence": [
+    "Public domain",
+    null
+   ],
+   "source": "https://commons.wikimedia.org/wiki/File:Kogia_breviceps.jpg"
   }
  },
  "stations": {
@@ -492,6 +1100,21 @@
    ],
    "orca": [
     "orcasound"
+   ],
+   "gray": [
+    "mbarirec"
+   ],
+   "sperm": [
+    "mbarirec"
+   ],
+   "bairds": [
+    "mbarirec"
+   ],
+   "cuviers": [
+    "mbarirec"
+   ],
+   "pwsd": [
+    "mbarirec"
    ]
   },
   "gbif_query": "https://api.gbif.org/v1/occurrence/search?taxonKey=<species>&geometry=<area polygon>&year=2015,2026&hasCoordinate=true"
