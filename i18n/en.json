@@ -428,5 +428,13 @@
  "build.kicker": "Being built",
  "build.title": "This view grows with every hour the Pi listens to",
  "build.prog": "{done} of {total} sampled days done, {skip} skipped (archive missing or silent)",
- "build.note": "It appears once a few hours are done and is rebuilt every night from real measurements only."
+ "build.note": "It appears once a few hours are done and is rebuilt every night from real measurements only.",
+ "layer.currents": "Ocean currents",
+ "layer.sightings": "Whale sightings, last 30 days",
+ "layer.det": "Heard on Orcasound, last 48 h",
+ "layer.currents.note": "Currents: real surface currents of {date} from satellite altimetry (NOAA CoastWatch / NESDIS STAR; Sentinel data courtesy of Copernicus; generated using AVISO+ products). Brighter and longer streaks are faster. Fetched by the Pi once a day; this product shows the large-scale flow without the wind-driven part.",
+ "layer.sightings.note": "Pink dots: {n} of {total} whale and dolphin records from the last 30 days in GBIF.org, loaded by your browser. Records arrive there one to three weeks late, so this is not live tracking. Many come from Happywhale (CC BY-NC 4.0); tap a dot for species and date.",
+ "layer.det.note": "Red rings: Orcasound hydrophones where listeners or the detector reported whales in the last 48 hours (Orcasound, CC BY-NC-SA 4.0). The ring marks the fixed hydrophone, not the animals' position; machine reports are unreviewed.",
+ "layer.det.item": "{name}: {n} reports ({human} by people), latest {h} h ago",
+ "layer.det.none": "No whale reports on Orcasound's hydrophones in the last 48 hours."
 }

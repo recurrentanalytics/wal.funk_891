@@ -428,5 +428,13 @@
  "build.kicker": "Im Aufbau",
  "build.title": "Diese Ansicht wächst mit jeder Stunde, die der Pi anhört",
  "build.prog": "{done} von {total} Stichproben-Tagen fertig, {skip} übersprungen (Archiv fehlt oder stumm)",
- "build.note": "Sie erscheint, sobald einige Stunden fertig sind, und wird jede Nacht neu berechnet, nur aus echten Messungen."
+ "build.note": "Sie erscheint, sobald einige Stunden fertig sind, und wird jede Nacht neu berechnet, nur aus echten Messungen.",
+ "layer.currents": "Meeresströmungen",
+ "layer.sightings": "Walsichtungen, letzte 30 Tage",
+ "layer.det": "Auf Orcasound gehört, letzte 48 h",
+ "layer.currents.note": "Strömungen: echte Oberflächenströmungen vom {date} aus Satelliten-Höhenmessung (NOAA CoastWatch / NESDIS STAR; Sentinel-Daten mit freundlicher Genehmigung von Copernicus; erzeugt mit AVISO+-Produkten). Hellere und längere Streifen sind schneller. Der Pi holt sie einmal täglich; das Produkt zeigt die großräumige Strömung ohne den windgetriebenen Anteil.",
+ "layer.sightings.note": "Rosa Punkte: {n} von {total} Wal- und Delfinmeldungen der letzten 30 Tage aus GBIF.org, von deinem Browser geladen. Die Meldungen kommen dort ein bis drei Wochen verzögert an; es ist also kein Live-Tracking. Viele stammen von Happywhale (CC BY-NC 4.0); tippe auf einen Punkt für Art und Datum.",
+ "layer.det.note": "Rote Ringe: Orcasound-Hydrofone, an denen Zuhörer oder der Detektor in den letzten 48 Stunden Wale gemeldet haben (Orcasound, CC BY-NC-SA 4.0). Der Ring markiert das feste Hydrofon, nicht die Position der Tiere; maschinelle Meldungen sind ungeprüft.",
+ "layer.det.item": "{name}: {n} Meldungen ({human} von Menschen), zuletzt vor {h} h",
+ "layer.det.none": "In den letzten 48 Stunden keine Walmeldungen an Orcasounds Hydrofonen."
 }

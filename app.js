@@ -213,7 +213,30 @@ function worldMap(wd) {
   const showInfo = (a, s) => { info.replaceChildren(el('b', '', a.name), el('span', '', ` · ${s ? s.name + ' · ' : ''}${a.years} · ${a.rate} · ${t('world.licence', { l: a.licence === 'not verified' ? t('world.notverified') : a.licence })}`)); };
   let hl = () => {};
   const globe = window.makeGlobe ? window.makeGlobe(box, wd, COL, showInfo) : null;
-  if (globe) { box.classList.add('globe'); hl = (id) => globe.highlight(id); }
+  if (globe) {
+    box.classList.add('globe'); hl = (id) => globe.highlight(id);
+    box.addEventListener('globe-text', (e) => { info.replaceChildren(el('span', '', e.detail)); });
+    const bar = $('world-layers'); bar.replaceChildren();
+    const chip = (key, col, name, on) => { const b = el('button', 'area-chip'); b.type = 'button'; b.setAttribute('aria-pressed', String(on)); const d = el('i'); d.style.background = col; b.append(d, t(key)); b.addEventListener('click', () => { const v = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', String(v)); globe.show(name, v); }); bar.append(b); return b; };
+    const fmtD = (d) => new Date(d).toLocaleDateString(I18N.locale, { day: 'numeric', month: 'short', year: 'numeric' });
+    const notes = $('world-notes'); notes.replaceChildren();
+    getJSON('data/currents.json').then((c) => { globe.setCurrents(c); chip('layer.currents', '#73f2ff', 'cur', true); notes.append(el('p', 'note', t('layer.currents.note', { date: fmtD(c.time) }))); }).catch(() => {});
+    // Whale sightings of the last 30 days from GBIF (1-3 weeks behind), fetched by the visitor's browser
+    const iso = (d) => d.toISOString().slice(0, 10), now = new Date(), from = new Date(now - 30 * 864e5);
+    getJSON(`https://api.gbif.org/v1/occurrence/search?taxonKey=733&hasCoordinate=true&eventDate=${iso(from)},${iso(now)}&limit=300`).then((g) => {
+      const pts = g.results.filter((r) => r.decimalLatitude != null).map((r) => ({ lat: r.decimalLatitude, lon: r.decimalLongitude, text: `${r.species || r.scientificName || 'Cetacea'} · ${fmtD(r.eventDate)} · GBIF` }));
+      if (!pts.length) return; globe.setSightings(pts); chip('layer.sightings', '#ff8fd0', 'sight', true);
+      notes.append(el('p', 'note', t('layer.sightings.note', { n: num(pts.length), total: num(g.count) })));
+    }).catch(() => {});
+    // Whale detections on Orcasound's fixed hydrophones in the last 48 hours
+    Promise.all([getJSON('https://live.orcasound.net/api/json/feeds'), getJSON('https://live.orcasound.net/api/json/detections?page[limit]=200&sort=-timestamp&filter[category]=whale')]).then(([f, d]) => {
+      const feeds = {}; f.data.forEach((x) => { const ll = x.attributes.lat_lng; if (ll && ll.lat != null) feeds[x.id] = { name: x.attributes.name, lat: ll.lat, lon: ll.lng }; });
+      const by = {}; d.data.forEach((x) => { const age = (Date.now() - Date.parse(x.attributes.timestamp)) / 36e5; const id = x.relationships && x.relationships.feed && x.relationships.feed.data && x.relationships.feed.data.id; if (age > 48 || !feeds[id]) return; (by[id] = by[id] || { n: 0, human: 0, last: age }); by[id].n++; if (x.attributes.source === 'human') by[id].human++; by[id].last = Math.min(by[id].last, age); });
+      const list = Object.entries(by).map(([id, v]) => ({ ...feeds[id], text: t('layer.det.item', { name: feeds[id].name, n: v.n, human: v.human, h: num(v.last, v.last < 10 ? 1 : 0) }) }));
+      chip('layer.det', '#ff6b5b', 'det', true); globe.setDetections(list);
+      notes.append(el('p', 'note', list.length ? t('layer.det.note') + ' ' + list.map((x) => x.text).join(' · ') : t('layer.det.none')));
+    }).catch(() => {});
+  }
   else {
     const W = 1000, H = 520, svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': t('world.title') }); box.append(svg);
     const proj = d3.geoNaturalEarth1().rotate([150, 0]).fitExtent([[8, 8], [W - 8, H - 8]], { type: 'Sphere' }), path = d3.geoPath(proj);

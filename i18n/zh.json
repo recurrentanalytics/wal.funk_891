@@ -428,5 +428,13 @@
  "build.kicker": "建设中",
  "build.title": "这个视图会随着树莓派收听的每一小时而成长",
  "build.prog": "{total} 个抽样日中已完成 {done} 个，跳过 {skip} 个（档案缺失或无声）",
- "build.note": "完成几个小时后就会出现，并每晚仅根据真实测量重新计算。"
+ "build.note": "完成几个小时后就会出现，并每晚仅根据真实测量重新计算。",
+ "layer.currents": "洋流",
+ "layer.sightings": "近 30 天鲸类目击",
+ "layer.det": "Orcasound 近 48 小时听到",
+ "layer.currents.note": "洋流：{date} 的真实海表流场，来自卫星测高（NOAA CoastWatch / NESDIS STAR；Sentinel 数据由 Copernicus 提供；使用 AVISO+ 产品生成）。越亮越长的条纹流速越快。树莓派每天获取一次；该产品显示大尺度流动，不含风生部分。",
+ "layer.sightings.note": "粉色圆点：GBIF.org 近 30 天 {total} 条鲸豚记录中的 {n} 条，由你的浏览器加载。这些记录通常延迟一到三周，因此并非实时追踪。许多来自 Happywhale（CC BY-NC 4.0）；点击圆点查看物种和日期。",
+ "layer.det.note": "红色圆环：过去 48 小时内听众或检测器报告有鲸的 Orcasound 水听器（Orcasound，CC BY-NC-SA 4.0）。圆环标示固定的水听器，而非动物位置；机器报告未经审核。",
+ "layer.det.item": "{name}：{n} 条报告（其中 {human} 条来自人工），最近一次在 {h} 小时前",
+ "layer.det.none": "过去 48 小时内 Orcasound 水听器没有鲸类报告。"
 }

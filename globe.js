@@ -63,9 +63,53 @@
     S.r.domElement.addEventListener('click', (e) => {
       const b = S.r.domElement.getBoundingClientRect(); m.set(((e.clientX - b.left) / b.width) * 2 - 1, -((e.clientY - b.top) / b.height) * 2 + 1);
       ray.setFromCamera(m, S.cam); ray.params.Mesh = { threshold: .02 };
-      const hit = ray.intersectObjects(pickables.filter((p) => p.parent.visible), false)[0]; if (hit) showInfo(hit.object.userData.a, hit.object.userData.s);
+      const hit = ray.intersectObjects(pickables.filter((p) => p.visible && p.parent.visible), false)[0]; if (hit) { const u = hit.object.userData; if (u.text) host.dispatchEvent(new CustomEvent('globe-text', { detail: u.text })); else showInfo(u.a, u.s); }
     });
-    return { highlight(id) { Object.entries(groups).forEach(([k, g2]) => { g2.visible = !id || k === id; }); } };
+    /* ---- extra layers: currents (NOAA), sightings (GBIF), live detections (Orcasound) ---- */
+    const L = { cur: null, sight: new THREE.Group(), det: new THREE.Group() }; S.scene.add(L.sight, L.det);
+    function setCurrents(c) {
+      const dec = (b64) => { const r = atob(b64), o = new Int8Array(r.length); for (let i = 0; i < r.length; i++) o[i] = (r.charCodeAt(i) << 24) >> 24; return o; };
+      const U = dec(c.u), V = dec(c.v), nlat = c.nlat, nlon = c.nlon;
+      const at = (lat, lon) => { const i = Math.round((lat - c.lat0) / c.step), j = ((Math.round((lon - c.lon0) / c.step) % nlon) + nlon) % nlon; if (i < 0 || i >= nlat) return null; const k = i * nlon + j; return U[k] === -128 ? null : [U[k] * c.scale, V[k] * c.scale]; };
+      const N = host.clientWidth < 600 ? 2200 : 5000, T = 10, LIFE = 140, K = 0.6;
+      const pos = new Float32Array(N * (T - 1) * 6), col = new Float32Array(N * (T - 1) * 6), trail = new Float32Array(N * T * 3), P = [];
+      const put = (lat, lon, out, o) => { const v = ll2v(lat, lon, 1.004); out[o] = v.x; out[o + 1] = v.y; out[o + 2] = v.z; };
+      const spawn = (p, i) => { for (let n = 0; n < 30; n++) { const lat = Math.asin(Math.random() * 1.9 - .95) * 180 / Math.PI, lon = Math.random() * 360 - 180; if (at(lat, lon)) { p.lat = lat; p.lon = lon; break; } } p.age = Math.floor(Math.random() * LIFE); for (let t = 0; t < T; t++) put(p.lat, p.lon, trail, (i * T + t) * 3); };
+      for (let i = 0; i < N; i++) { const p = { lat: 0, lon: 0, age: 0, sp: 0 }; P.push(p); spawn(p, i); }
+      const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.BufferAttribute(pos, 3)); geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+      const lines = new THREE.LineSegments(geo, new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
+      S.scene.add(lines); L.cur = lines;
+      const step = () => {
+        for (let i = 0; i < N; i++) {
+          const p = P[i], uv = at(p.lat, p.lon);
+          if (!uv || p.age++ > LIFE || Math.abs(p.lat) > 86) { spawn(p, i); p.age = 0; continue; }
+          p.sp = Math.hypot(uv[0], uv[1]); p.lat += uv[1] * K; p.lon += uv[0] * K / Math.max(.2, Math.cos(p.lat * Math.PI / 180));
+          trail.copyWithin(i * T * 3, i * T * 3 + 3, (i + 1) * T * 3); put(p.lat, p.lon, trail, (i * T + T - 1) * 3);
+          const b = Math.min(1, .18 + p.sp * 1.6);
+          for (let t = 0; t < T - 1; t++) {
+            const o = (i * (T - 1) + t) * 6, src = (i * T + t) * 3;
+            for (let q = 0; q < 6; q++) pos[o + q] = trail[src + q];
+            const f0 = b * t / T, f1 = b * (t + 1) / T;
+            col[o] = .45 * f0; col[o + 1] = .95 * f0; col[o + 2] = f0; col[o + 3] = .45 * f1; col[o + 4] = .95 * f1; col[o + 5] = f1;
+          }
+        }
+        geo.attributes.position.needsUpdate = true; geo.attributes.color.needsUpdate = true;
+      };
+      for (let w = 0; w < 14; w++) step();
+      if (!reduce) S.ticks.push(() => { if (lines.visible) step(); });
+    }
+    function setSightings(list) {
+      L.sight.clear();
+      list.forEach((o) => { const d = new THREE.Mesh(new THREE.SphereGeometry(.0075, 8, 6), new THREE.MeshBasicMaterial({ color: 0xff8fd0 })); d.position.copy(ll2v(o.lat, o.lon, 1.006)); d.userData = { text: o.text }; L.sight.add(d); pickables.push(d); });
+    }
+    function setDetections(list) {
+      L.det.clear();
+      list.forEach((o) => { const p = ll2v(o.lat, o.lon, 1.008);
+        for (let k = 0; k < 2; k++) { const ring = new THREE.Mesh(new THREE.RingGeometry(.03, .037, 40), new THREE.MeshBasicMaterial({ color: 0xff6b5b, transparent: true, side: THREE.DoubleSide, depthWrite: false })); ring.position.copy(p); ring.lookAt(0, 0, 0); L.det.add(ring); rings.push(ring); }
+        const d = new THREE.Mesh(new THREE.SphereGeometry(.013, 10, 8), new THREE.MeshBasicMaterial({ color: 0xff6b5b })); d.position.copy(p); d.userData = { text: o.text }; L.det.add(d); pickables.push(d); });
+    }
+    return { highlight(id) { Object.entries(groups).forEach(([k, g2]) => { g2.visible = !id || k === id; }); }, setCurrents, setSightings, setDetections,
+      show(name, on) { const o = L[name]; if (o) o.visible = on; } };
   };
 
   /* ---------------- Sound galaxy ---------------- */
