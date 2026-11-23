@@ -229,7 +229,7 @@ function worldMap(wd) {
       notes.append(el('p', 'note', t('layer.sightings.note', { n: num(pts.length), total: num(g.count) })));
     }).catch(() => {});
     // Whale detections on Orcasound's fixed hydrophones in the last 48 hours
-    Promise.all([getJSON('https://live.orcasound.net/api/json/feeds'), getJSON('https://live.orcasound.net/api/json/detections?page[limit]=200&sort=-timestamp&filter[category]=whale')]).then(([f, d]) => {
+    Promise.all([getJSON('https://live.orcasound.net/api/json/feeds'), getJSON('https://live.orcasound.net/api/json/detections?page[limit]=200&sort=-timestamp&filter[category]=whale&include=feed')]).then(([f, d]) => {
       const feeds = {}; f.data.forEach((x) => { const ll = x.attributes.lat_lng; if (ll && ll.lat != null) feeds[x.id] = { name: x.attributes.name, lat: ll.lat, lon: ll.lng }; });
       const by = {}; d.data.forEach((x) => { const age = (Date.now() - Date.parse(x.attributes.timestamp)) / 36e5; const id = x.relationships && x.relationships.feed && x.relationships.feed.data && x.relationships.feed.data.id; if (age > 48 || !feeds[id]) return; (by[id] = by[id] || { n: 0, human: 0, last: age }); by[id].n++; if (x.attributes.source === 'human') by[id].human++; by[id].last = Math.min(by[id].last, age); });
       const list = Object.entries(by).map(([id, v]) => ({ ...feeds[id], text: t('layer.det.item', { name: feeds[id].name, n: v.n, human: v.human, h: num(v.last, v.last < 10 ? 1 : 0) }) }));

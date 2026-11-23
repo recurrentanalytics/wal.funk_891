@@ -71,7 +71,7 @@
       const dec = (b64) => { const r = atob(b64), o = new Int8Array(r.length); for (let i = 0; i < r.length; i++) o[i] = (r.charCodeAt(i) << 24) >> 24; return o; };
       const U = dec(c.u), V = dec(c.v), nlat = c.nlat, nlon = c.nlon;
       const at = (lat, lon) => { const i = Math.round((lat - c.lat0) / c.step), j = ((Math.round((lon - c.lon0) / c.step) % nlon) + nlon) % nlon; if (i < 0 || i >= nlat) return null; const k = i * nlon + j; return U[k] === -128 ? null : [U[k] * c.scale, V[k] * c.scale]; };
-      const N = host.clientWidth < 600 ? 2200 : 5000, T = 10, LIFE = 140, K = 0.6;
+      const N = host.clientWidth < 600 ? 3000 : 8000, T = 12, LIFE = 150, K = 0.6;
       const pos = new Float32Array(N * (T - 1) * 6), col = new Float32Array(N * (T - 1) * 6), trail = new Float32Array(N * T * 3), P = [];
       const put = (lat, lon, out, o) => { const v = ll2v(lat, lon, 1.004); out[o] = v.x; out[o + 1] = v.y; out[o + 2] = v.z; };
       const spawn = (p, i) => { for (let n = 0; n < 30; n++) { const lat = Math.asin(Math.random() * 1.9 - .95) * 180 / Math.PI, lon = Math.random() * 360 - 180; if (at(lat, lon)) { p.lat = lat; p.lon = lon; break; } } p.age = Math.floor(Math.random() * LIFE); for (let t = 0; t < T; t++) put(p.lat, p.lon, trail, (i * T + t) * 3); };
@@ -85,7 +85,7 @@
           if (!uv || p.age++ > LIFE || Math.abs(p.lat) > 86) { spawn(p, i); p.age = 0; continue; }
           p.sp = Math.hypot(uv[0], uv[1]); p.lat += uv[1] * K; p.lon += uv[0] * K / Math.max(.2, Math.cos(p.lat * Math.PI / 180));
           trail.copyWithin(i * T * 3, i * T * 3 + 3, (i + 1) * T * 3); put(p.lat, p.lon, trail, (i * T + T - 1) * 3);
-          const b = Math.min(1, .18 + p.sp * 1.6);
+          const b = Math.min(1, .38 + p.sp * 2.4);
           for (let t = 0; t < T - 1; t++) {
             const o = (i * (T - 1) + t) * 6, src = (i * T + t) * 3;
             for (let q = 0; q < 6; q++) pos[o + q] = trail[src + q];
