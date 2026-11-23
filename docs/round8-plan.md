@@ -82,3 +82,20 @@ What this shows: computing MBARI's published call-index method from 6 hours per 
 closely; one hour per day was not enough (7c). What it does not show: detection of single calls, independence from
 MBARI (same audio, same method), or that the Pi can do it at this volume (≈ 130 MB per day streamed; the Pi must repeat
 it after the migration). These days had been processed once by the one-hour job; no parameter was tuned on them.
+
+## 8a-r Orca, retrospective (added 2026-11-23, before any audio for it was fetched)
+
+Owner question: can 8a be judged now instead of waiting weeks? Yes, as an **additional, separate test** on older data
+that was never looked at. 8a itself (blocks from 2026-11-24) continues unchanged.
+
+- Same frozen model (sha256 760fb809…90e6), same **primary rule: ≥ 3 windows ≥ 0.9 per 10-min block**, same marks:
+  recall ≥ 0.70 and false alarm ≤ 0.10. The old rule (≥ 3 windows ≥ 0.5) is reported alongside.
+- Candidate events: human orca reports 2023-06-22 to 2026-11-23 (Orcasound API), clustered as in 8a (30 min), at most one
+  per feed per 12 h: 355 clusters; of these 328 are more than 1 day away from every step-7e block on that feed.
+  The training data (Pod.Cast, 2017-2020) does not overlap these years.
+- Order: the 328 shuffled with seed 8801; taken in that order, at most 8 events per feed, until **40 events with usable
+  audio** are scored (events without ≥ 590 s of audio are skipped and counted).
+- Quiet blocks: for each scored event, 2 random 10-min blocks on the same feed within ±7 days, ≥ 6 h from any human
+  whale report on any feed and > 1 day from every 7e block; quiet blocks without audio are replaced by the next draw.
+- Decided once all 40 events are done (≥ 30 events and ≥ 60 quiet blocks needed, else "not enough data").
+- Counted as an extra test on the page; a pass here does not change 7e.
