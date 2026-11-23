@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261123023243">
+<meta name="build" content="20261123023748">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Whale Listener</title>
 <meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls.">
@@ -495,6 +495,27 @@ footer { padding-block: 70px; background: linear-gradient(180deg, transparent, #
 @media (max-width: 760px) { .glance { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .gauge { width: auto; } .gauge .g-v, .gauge .g-l { white-space: nowrap; }
 .part::before { -webkit-text-stroke-color: rgba(94,230,215,.17); }
+
+/* fullscreen, info card, dive, background flow */
+#bgflow { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; opacity: .38; }
+.fs-btn { position: absolute; right: 10px; top: 10px; z-index: 6; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px; border: 1px solid rgba(94,230,215,.3); background: rgba(2,11,16,.7); color: var(--fg); cursor: pointer; backdrop-filter: blur(6px); transition: border-color .2s, transform .2s; }
+.fs-btn:hover { border-color: var(--glow); transform: scale(1.08); } .fs-btn svg { width: 16px; height: 16px; }
+.fs-btn:focus-visible { outline: 2px solid var(--glow); }
+.fs { position: fixed !important; inset: 0 !important; z-index: 500 !important; width: 100vw !important; height: 100dvh !important; max-height: none !important; margin: 0 !important; border-radius: 0 !important; background: #020b10 !important; overflow: auto; padding: 0; }
+.fs.smap, .fs.tl, .fs.atlas-main { padding: 18px; display: flex; flex-direction: column; }
+.fs.smap canvas, .fs.tl canvas, .fs.atlas-main canvas { flex: 1; height: auto !important; max-height: none !important; min-height: 0; aspect-ratio: auto; }
+.fs#spec-wrap canvas, .fs.mc-stage canvas { height: 100% !important; }
+.fs#map svg { width: 100%; height: 100%; } .fs#stage { top: 0 !important; }
+.fs-part { z-index: 400 !important; position: relative; }
+.fs-part .rv { transform: none !important; opacity: 1 !important; }
+body.fs-on { overflow: hidden; } body.fs-on .toc, body.fs-on .lang-top, body.fs-on #bgflow { display: none; }
+.gcard { position: absolute; left: 12px; bottom: 12px; z-index: 5; width: min(330px, calc(100% - 24px)); max-height: calc(100% - 24px); overflow: auto; display: grid; gap: 4px; padding: 14px 16px; border-radius: 16px; border: 1px solid rgba(94,230,215,.35); background: rgba(2,11,16,.88); backdrop-filter: blur(10px); box-shadow: 0 30px 80px -30px rgba(0,0,0,.9); cursor: default; }
+.gcard b { font: 300 1.5rem/1.1 var(--display); padding-right: 28px; } .gcard i { color: var(--muted); font-size: 13px; }
+.gcard dl { display: grid; grid-template-columns: auto 1fr; gap: 3px 12px; margin: 8px 0 4px; font-size: 13px; } .gcard dt { color: var(--muted); } .gcard dd { margin: 0; overflow-wrap: anywhere; }
+.gcard a { font-size: 13px; } .gcard .note { margin: 4px 0 0; font-size: 12px; }
+.gcard-x { all: unset; position: absolute; right: 10px; top: 6px; cursor: pointer; font-size: 22px; color: var(--muted); padding: 2px 8px; } .gcard-x:hover { color: var(--fg); }
+.dive-hud { position: absolute; left: 12px; top: 12px; z-index: 5; display: flex; align-items: center; gap: 12px; }
+.dive-read { font: 300 clamp(1.4rem, 4vw, 2.4rem) var(--display); color: var(--fg); text-shadow: 0 0 20px rgba(94,230,215,.7); opacity: 0; transition: opacity .5s; font-variant-numeric: tabular-nums; } .dive-read.on { opacity: 1; }
 </style>
 </head>
 <body>
@@ -569,7 +590,7 @@ footer { padding-block: 70px; background: linear-gradient(180deg, transparent, #
     <p class="note" data-i18n="areas.note"></p>
     <div class="place-cards" id="place-list"></div>
     <div class="scene-card">
-      <div class="scene-head"><span class="kicker" data-i18n="canyon.kicker"></span><h3 class="scene-title" data-i18n="canyon.title"></h3><p class="note" data-i18n="canyon.note"></p></div>
+      <div class="scene-head"><span class="kicker" data-i18n="canyon.kicker"></span><h3 class="scene-title" data-i18n="canyon.title"></h3><p class="note" data-i18n="canyon.note"></p><p class="note" id="dive-len"></p></div>
       <div class="scene tall" id="bathy3d"><div class="scene-msg" data-i18n="ui.loading"></div></div>
       <div class="scene-legend"><span><i style="background:linear-gradient(90deg,#0a1f3a,#1d6f8a,#7fd6d0)"></i><span data-i18n="canyon.legend.depth"></span></span><span><i style="background:#5c6b4e"></i><span data-i18n="canyon.legend.land"></span></span><span><i style="background:var(--amber)"></i><span data-i18n="canyon.legend.hp"></span></span><span class="src" data-i18n="canyon.credit"></span></div>
     </div>
@@ -721,13 +742,14 @@ footer { padding-block: 70px; background: linear-gradient(180deg, transparent, #
 <footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/whale-listener-status">GitHub</a></p></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="i18n.js?v=20261123023243"></script>
-<script src="globe.js?v=20261123023243"></script>
-<script src="app.js?v=20261123023243"></script>
-<script src="play.js?v=20261123023243"></script>
-<script src="atlas.js?v=20261123023243"></script>
-<script src="polish.js?v=20261123023243"></script>
-<script src="story.js?v=20261123023243"></script>
-<script src="scenes.js?v=20261123023243"></script>
+<script src="i18n.js?v=20261123023748"></script>
+<script src="globe.js?v=20261123023748"></script>
+<script src="app.js?v=20261123023748"></script>
+<script src="play.js?v=20261123023748"></script>
+<script src="atlas.js?v=20261123023748"></script>
+<script src="ui.js?v=20261123023748"></script>
+<script src="polish.js?v=20261123023748"></script>
+<script src="story.js?v=20261123023748"></script>
+<script src="scenes.js?v=20261123023748"></script>
 </body>
 </html>

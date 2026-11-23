@@ -63,7 +63,7 @@
     S.r.domElement.addEventListener('click', (e) => {
       const b = S.r.domElement.getBoundingClientRect(); m.set(((e.clientX - b.left) / b.width) * 2 - 1, -((e.clientY - b.top) / b.height) * 2 + 1);
       ray.setFromCamera(m, S.cam); ray.params.Mesh = { threshold: .02 };
-      const hit = ray.intersectObjects(pickables.filter((p) => p.visible && p.parent.visible), false)[0]; if (hit) { const u = hit.object.userData; if (u.text) host.dispatchEvent(new CustomEvent('globe-text', { detail: u.text })); else showInfo(u.a, u.s); }
+      const hit = ray.intersectObjects(pickables.filter((p) => p.visible && p.parent.visible), false)[0]; if (hit) { const u = hit.object.userData; if (u.text || u.card) host.dispatchEvent(new CustomEvent('globe-text', { detail: u.card || u.text })); else showInfo(u.a, u.s); }
     });
     /* ---- extra layers: currents (NOAA), sightings (GBIF), live detections (Orcasound) ---- */
     const L = { cur: null, sight: new THREE.Group(), det: new THREE.Group() }; S.scene.add(L.sight, L.det);
@@ -100,17 +100,17 @@
     }
     function setSightings(list) {
       L.sight.clear();
-      list.forEach((o) => { const d = new THREE.Mesh(new THREE.SphereGeometry(.0075, 8, 6), new THREE.MeshBasicMaterial({ color: 0xff8fd0 })); d.position.copy(ll2v(o.lat, o.lon, 1.006)); d.userData = { text: o.text }; L.sight.add(d); pickables.push(d); scal.push({ o: d, min: .08 }); });
+      list.forEach((o) => { const d = new THREE.Mesh(new THREE.SphereGeometry(.0075, 8, 6), new THREE.MeshBasicMaterial({ color: 0xff8fd0 })); d.position.copy(ll2v(o.lat, o.lon, 1.006)); d.userData = { text: o.text, card: o.card }; L.sight.add(d); pickables.push(d); scal.push({ o: d, min: .08 }); });
     }
     function setPoints(name, list, color, r) {
       if (!L[name]) { L[name] = new THREE.Group(); S.scene.add(L[name]); } L[name].clear();
-      list.forEach((o) => { const d = new THREE.Mesh(new THREE.SphereGeometry(r, 8, 6), new THREE.MeshBasicMaterial({ color, transparent: true, opacity: o.alpha == null ? 1 : o.alpha })); d.position.copy(ll2v(o.lat, o.lon, 1.0015)); d.userData = { text: o.text }; L[name].add(d); pickables.push(d); scal.push({ o: d, min: .14 }); });
+      list.forEach((o) => { const d = new THREE.Mesh(new THREE.SphereGeometry(r, 8, 6), new THREE.MeshBasicMaterial({ color, transparent: true, opacity: o.alpha == null ? 1 : o.alpha })); d.position.copy(ll2v(o.lat, o.lon, 1.0015)); d.userData = { text: o.text, card: o.card }; L[name].add(d); pickables.push(d); scal.push({ o: d, min: .14 }); });
     }
     function setDetections(list) {
       L.det.clear();
       list.forEach((o) => { const p = ll2v(o.lat, o.lon, 1.008);
         for (let k = 0; k < 2; k++) { const ring = new THREE.Mesh(new THREE.RingGeometry(.03, .037, 40), new THREE.MeshBasicMaterial({ color: 0xff6b5b, transparent: true, side: THREE.DoubleSide, depthWrite: false })); ring.position.copy(p); ring.lookAt(0, 0, 0); L.det.add(ring); rings.push(ring); }
-        const d = new THREE.Mesh(new THREE.SphereGeometry(.013, 10, 8), new THREE.MeshBasicMaterial({ color: 0xff6b5b })); d.position.copy(p); d.userData = { text: o.text }; L.det.add(d); pickables.push(d); scal.push({ o: d, min: .05 }); });
+        const d = new THREE.Mesh(new THREE.SphereGeometry(.013, 10, 8), new THREE.MeshBasicMaterial({ color: 0xff6b5b })); d.position.copy(p); d.userData = { text: o.text, card: o.card }; L.det.add(d); pickables.push(d); scal.push({ o: d, min: .05 }); });
     }
     return { highlight(id) { Object.entries(groups).forEach(([k, g2]) => { g2.visible = !id || k === id; }); }, setCurrents, setSightings, setDetections, setPoints,
       flyTo(lat, lon, dist) { S.ctl.autoRotate = false; S.cam.position.copy(ll2v(lat, lon, dist)); S.ctl.update(); },
