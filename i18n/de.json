@@ -424,5 +424,9 @@
  "tl.again": "Noch einmal",
  "tl.ready": "{n} Tage bereit",
  "tl.note": "Bisher {n} Tage angehört; {skip} Tage übersprungen, weil das Archiv fehlt oder stumm ist. Der Pi arbeitet das Archiv in zufälliger Reihenfolge ab, damit sich das Bild über alle Jahre gleichmäßig füllt.",
- "world.site1": "1 Standort"
+ "world.site1": "1 Standort",
+ "build.kicker": "Im Aufbau",
+ "build.title": "Diese Ansicht wächst mit jeder Stunde, die der Pi anhört",
+ "build.prog": "{done} von {total} Stichproben-Tagen fertig, {skip} übersprungen (Archiv fehlt oder stumm)",
+ "build.note": "Sie erscheint, sobald einige Stunden fertig sind, und wird jede Nacht neu berechnet, nur aus echten Messungen."
 }

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261123020017">
+<meta name="build" content="20261123020506">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Whale Listener</title>
 <meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls.">
@@ -382,6 +382,10 @@ html[data-lang="zh"] h1 { letter-spacing: 0; }
 .tl-date { font: 300 1.6rem var(--display); font-variant-numeric: tabular-nums; }
 .tl canvas { display: block; width: 100%; height: clamp(220px, 34vw, 380px); border-radius: 10px; }
 .tl-bars { display: flex; height: 14px; border-radius: 7px; overflow: hidden; margin-top: 10px; background: rgba(23,70,90,.4); }
+.building { display: grid; gap: 8px; padding: 26px 22px; border: 1px dashed var(--line); border-radius: 12px; background: repeating-linear-gradient(135deg, rgba(23,70,90,.18) 0 12px, transparent 12px 24px); }
+.building b { font: 300 1.4rem var(--display); }
+.building .bar { height: 8px; border-radius: 4px; background: rgba(23,70,90,.7); overflow: hidden; } .building .bar span { display: block; height: 100%; background: var(--glow); }
+.atlas-wrap.empty { grid-template-columns: minmax(0, 1fr); }
 </style>
 </head>
 <body>
@@ -606,12 +610,12 @@ html[data-lang="zh"] h1 { letter-spacing: 0; }
 <footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/whale-listener-status">GitHub</a></p></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="i18n.js?v=20261123020017"></script>
-<script src="globe.js?v=20261123020017"></script>
-<script src="app.js?v=20261123020017"></script>
-<script src="play.js?v=20261123020017"></script>
-<script src="atlas.js?v=20261123020017"></script>
-<script src="story.js?v=20261123020017"></script>
-<script src="scenes.js?v=20261123020017"></script>
+<script src="i18n.js?v=20261123020506"></script>
+<script src="globe.js?v=20261123020506"></script>
+<script src="app.js?v=20261123020506"></script>
+<script src="play.js?v=20261123020506"></script>
+<script src="atlas.js?v=20261123020506"></script>
+<script src="story.js?v=20261123020506"></script>
+<script src="scenes.js?v=20261123020506"></script>
 </body>
 </html>

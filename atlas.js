@@ -3,6 +3,17 @@
 (function () {
   const PAL = ['#5ee6d7', '#ffb547', '#ff6b5b', '#b48cff', '#4c8dff', '#b7f36a', '#ff8fd0', '#ffd166', '#06d6a0', '#ef476f', '#8ecae6', '#f4a261', '#c77dff', '#90be6d', '#e9c46a', '#48cae4'];
   const LETTER = (i) => String.fromCharCode(65 + i);
+  function building(target, prog) {
+    const host = typeof target === 'string' ? $(target) : target; if (!host) return;
+    const card = el('div', 'building');
+    card.append(el('span', 'kicker', t('build.kicker')), el('b', '', t('build.title')));
+    if (prog) {
+      const bar = el('div', 'bar'); const f = el('span'); f.style.width = `${Math.max(1, 100 * (prog.done + prog.skipped) / prog.total)}%`; bar.append(f);
+      card.append(bar, el('span', 'note', t('build.prog', { done: num(prog.done), total: num(prog.total), skip: num(prog.skipped) })));
+    }
+    card.append(el('span', 'note', t('build.note')));
+    host.replaceWith(card); card.id = host.id;
+  }
 
   function atlas(a) {
     const cv = $('atlas'), box = $('atlas-side'), mf = $('atlas-months');
@@ -148,7 +159,14 @@
   }
 
   I18N.ready.then(() => {
-    getJSON('data/atlas.json').then((a) => { atlas(a); galaxy(a); timelapse(a); }).catch(() => { $('atlas-sum').textContent = t('atlas.empty'); $('atlas-side').replaceChildren(el('p', 'note', t('atlas.empty'))); $('tl-note').textContent = t('atlas.empty'); $('galaxy').replaceChildren(el('div', 'scene-msg', t('atlas.empty'))); });
+    getJSON('data/atlas.json').then((a) => {
+      if (!a.points || !a.points.length) throw new Error('building');
+      atlas(a); galaxy(a); timelapse(a);
+    }).catch(() => getJSON('data/status.json').then((st) => st.sample).catch(() => null).then((prog) => {
+      building('atlas', prog); $('atlas-side').closest('.atlas-wrap').classList.add('empty'); $('atlas-side').remove(); $('atlas-months').parentElement.remove(); $('atlas-sum').remove();
+      building('tl', prog); $('tl-play').parentElement.remove(); $('tl-bars').remove(); $('tl-note').remove();
+      building('galaxy', prog);
+    })).catch(() => { $('atlas-sum').textContent = t('atlas.empty'); $('atlas-side').replaceChildren(el('p', 'note', t('atlas.empty'))); $('tl-note').textContent = t('atlas.empty'); $('galaxy').replaceChildren(el('div', 'scene-msg', t('atlas.empty'))); });
     document.addEventListener('queue-ready', () => getJSON('data/candidates.json').then(outliers).catch(() => {}), { once: true });
     getJSON('data/learning.json').then(learning).catch(() => learning(null));
   });

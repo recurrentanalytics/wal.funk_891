@@ -424,5 +424,9 @@
  "tl.again": "Play again",
  "tl.ready": "{n} days ready",
  "tl.note": "{n} days listened to so far; {skip} days skipped because the archive is missing or silent. The order in which the Pi works through the archive is random, so the picture fills evenly across all years.",
- "world.site1": "1 site"
+ "world.site1": "1 site",
+ "build.kicker": "Being built",
+ "build.title": "This view grows with every hour the Pi listens to",
+ "build.prog": "{done} of {total} sampled days done, {skip} skipped (archive missing or silent)",
+ "build.note": "It appears once a few hours are done and is rebuilt every night from real measurements only."
 }
