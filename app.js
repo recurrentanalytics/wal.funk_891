@@ -466,7 +466,7 @@ function results(s) {
     box.append(p);
   });
   const g = $('gates'); g.replaceChildren();
-  const ids = { 'Hardware audit': 'audit', 'Environment': 'env', 'Correctness (whalu model)': 'test_whalu', 'Correctness (Perch 2.0)': 'test_perch', 'Benchmark, one MBARI day': 'bench', 'Unattended design': 'design', 'Seven-day trial': 'trial', 'Science layer': 'science' };
+  const ids = { 'Hardware audit': 'audit', 'Environment': 'env', 'Correctness (whalu model)': 'test_whalu', 'Correctness (Perch 2.0)': 'test_perch', 'Benchmark, one MBARI day': 'bench', 'whalu on human-labelled blue and fin calls (DCLDE)': 'dclde', 'Sampling gate without cooler': 'gate4c', 'MBARI call index, blue and fin': 'ci', 'Unattended design': 'design', 'Seven-day trial': 'trial', 'Science layer': 'science' };
   (s.steps || []).forEach((r) => {
     const id = ids[r.name]; const li = el('li'); const tx = el('div');
     const res = id && I18N.t(`step.${id}.r`) !== `step.${id}.r` ? t(`step.${id}.r`) : (r.result || '');

@@ -28,13 +28,13 @@
    "id": "speed",
    "date": "2026-11-23",
    "status": "fail",
-   "figure": "1.18\u00d7"
+   "figure": "1.18×"
   },
   {
    "id": "heat",
    "date": "2026-11-23",
    "status": "note",
-   "figure": "90.6 \u00b0C"
+   "figure": "90.6 °C"
   },
   {
    "id": "blue",
@@ -59,6 +59,42 @@
    "date": "2026-11-23",
    "status": "note",
    "figure": "1 h / day"
+  },
+  {
+   "id": "gate4c",
+   "date": "2026-11-23",
+   "status": "fail",
+   "figure": "58 s"
+  },
+  {
+   "id": "exception",
+   "date": "2026-11-23",
+   "status": "note",
+   "figure": "80 °C"
+  },
+  {
+   "id": "unattended",
+   "date": "2026-11-23",
+   "status": "pass",
+   "figure": "kill -9"
+  },
+  {
+   "id": "ci",
+   "date": "2026-11-23",
+   "status": "fail",
+   "figure": "0.79"
+  },
+  {
+   "id": "humpback",
+   "date": "2026-11-23",
+   "status": "running",
+   "figure": "300"
+  },
+  {
+   "id": "mac",
+   "date": "2026-11-23",
+   "status": "note",
+   "figure": "M4"
   }
  ]
 }
