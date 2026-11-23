@@ -74,6 +74,7 @@
     tc.addEventListener('change', draw);
     play.addEventListener('click', () => { playing = !playing; play.textContent = playing ? '❚❚' : '▶'; play.setAttribute('aria-label', t(playing ? 'routes.pause' : 'routes.play')); });
     document.addEventListener('routes-species', (e) => { if (D[e.detail]) setSp(e.detail); });
+    window.wlRoutes = { get: () => ({ sp, m }), set: (k, mm) => { if (k) setSp(k); if (mm != null && mm >= 0 && mm < 12) { playing = false; play.textContent = '▶'; play.setAttribute('aria-label', t('routes.play')); slider.value = mm; slider.dispatchEvent(new Event('input')); } } };
     // drag to turn the map east-west, wheel / buttons to zoom
     let drag = null;
     cv.addEventListener('pointerdown', (e) => { drag = { x: e.clientX, lon: view.lon }; cv.setPointerCapture(e.pointerId); });

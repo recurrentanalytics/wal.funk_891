@@ -1,6 +1,6 @@
 {
- "build": "20261123114300",
- "built_at": "2026-11-23 11:43 CET",
+ "build": "20261123115010",
+ "built_at": "2026-11-23 11:50 CET",
  "libs": [
   [
    "d3",
@@ -35,7 +35,7 @@
   ],
   [
    "app.js",
-   731
+   733
   ],
   [
    "atlas.js",
@@ -83,11 +83,11 @@
   ],
   [
    "routes.js",
-   102
+   103
   ],
   [
    "scenes.js",
-   369
+   370
   ],
   [
    "story.js",
@@ -98,16 +98,20 @@
    124
   ],
   [
+   "tools.js",
+   135
+  ],
+  [
    "ui.js",
    88
   ]
  ],
- "own_js_lines": 2723,
- "html_lines": 1027,
+ "own_js_lines": 2862,
+ "html_lines": 1070,
  "i18n_keys": {
-  "en": 990,
-  "de": 990,
-  "zh": 990
+  "en": 1026,
+  "de": 1026,
+  "zh": 1026
  },
  "data_files": [
   [
@@ -168,7 +172,7 @@
   ],
   [
    "data/handbook.json",
-   2689
+   2720
   ],
   [
    "data/learning.json",
@@ -243,7 +247,7 @@
    5818
   ]
  ],
- "data_bytes": 8740601,
+ "data_bytes": 8740632,
  "species_total": 93,
  "species_at_stations": 18,
  "species_with_clips": 14,

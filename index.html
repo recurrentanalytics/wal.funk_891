@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261123114300">
+<meta name="build" content="20261123115010">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>wal.funk_891</title>
 <meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls.">
@@ -763,6 +763,48 @@ details.sec-fold > summary:hover .sf-t { color: var(--glow); }
 .nb-go { all: unset; cursor: pointer; padding: 5px 12px; border-radius: 999px; background: #ff8a7c; color: #1a0603; font-weight: 500; font-size: 13px; }
 .nb-x { all: unset; cursor: pointer; font-size: 20px; color: #ffcfc8; padding: 0 6px; }
 @media (prefers-reduced-motion: reduce) { .nb-dot { animation: none; } }
+
+/* top bar tools: search, link, tour */
+.tools { display: inline-flex; gap: 4px; flex: none; margin-left: auto; }
+.tool-b { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); font: 500 12px var(--mono); }
+.tool-b:hover, .tool-b:focus-visible { color: var(--glow); border-color: var(--glow); }
+.tool-b span { font-size: 15px; line-height: 1; } .tool-b em { font-style: normal; }
+.tool-b kbd { font: 10px var(--mono); padding: 1px 5px; border-radius: 5px; border: 1px solid var(--line); color: var(--muted); }
+body.noscroll { overflow: hidden; }
+.srch { position: fixed; inset: 0; z-index: 80; background: rgba(2,10,15,.72); backdrop-filter: blur(6px); display: grid; place-items: start center; padding: 10vh 16px 16px; }
+.srch[hidden] { display: none; }
+.srch-box { width: min(680px, 100%); background: #06202c; border: 1px solid rgba(94,230,215,.35); border-radius: 16px; box-shadow: 0 30px 80px rgba(0,0,0,.5); overflow: hidden; }
+.srch-box input { all: unset; box-sizing: border-box; width: 100%; padding: 16px 18px; font: 400 18px var(--sans); color: var(--text); border-bottom: 1px solid var(--line); }
+.srch-list { list-style: none; margin: 0; padding: 6px; max-height: 56vh; overflow: auto; }
+.srch-list li { display: grid; grid-template-columns: 90px minmax(0, 1fr); gap: 0 12px; padding: 8px 12px; border-radius: 10px; cursor: pointer; }
+.srch-list li.on { background: rgba(94,230,215,.12); }
+.srch-list small { grid-row: span 2; font: 500 10px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--glow); padding-top: 3px; }
+.srch-list b { font-weight: 500; color: var(--text); } .srch-list span { color: var(--muted); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.srch-hint { margin: 0; padding: 8px 18px 12px; font: 11px var(--mono); color: var(--muted); }
+.wl-toast { position: fixed; left: 50%; bottom: 90px; transform: translate(-50%, 20px); opacity: 0; z-index: 90; padding: 8px 16px; border-radius: 999px; background: var(--glow); color: #021016; font: 500 13px var(--mono); transition: .25s; pointer-events: none; }
+.wl-toast.on { opacity: 1; transform: translate(-50%, 0); }
+/* one player for all sounds */
+.gp { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 60; width: min(760px, calc(100% - 24px)); display: grid; grid-template-columns: auto auto minmax(0, 1fr) minmax(80px, 200px) 70px auto; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 14px; background: rgba(6,32,44,.94); border: 1px solid rgba(94,230,215,.35); backdrop-filter: blur(10px); box-shadow: 0 16px 40px rgba(0,0,0,.45); }
+.gp[hidden] { display: none; }
+.gp-b { all: unset; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: rgba(94,230,215,.14); color: var(--glow); font-size: 13px; }
+.gp-x { background: none; color: var(--muted); font-size: 20px; }
+.gp-meta { min-width: 0; display: grid; } .gp-t { font-weight: 500; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .gp-time { font: 11px var(--mono); color: var(--muted); }
+.gp input[type=range] { width: 100%; accent-color: var(--glow); }
+body.has-gp { padding-bottom: 80px; }
+@media (max-width: 600px) { .gp { grid-template-columns: auto minmax(0, 1fr) auto; } .gp-stop, .gp-vol { display: none; } .gp-seek { grid-column: 1 / -1; grid-row: 2; } .gp > .gp-b:nth-child(2), .gp-vol { display: none; } .tool-b em, .tool-b kbd { display: none; } .tool-b { padding: 5px 8px; } }
+/* guided tour */
+.tour-cta { all: unset; cursor: pointer; display: inline-block; margin: 0 0 18px; padding: 10px 18px; border-radius: 999px; background: var(--glow); color: #021016; font: 500 14px var(--sans); }
+.tour { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); z-index: 70; width: min(560px, calc(100% - 24px)); padding: 14px 16px 10px; border-radius: 16px; background: rgba(6,32,44,.96); border: 1px solid var(--glow); box-shadow: 0 20px 60px rgba(0,0,0,.55); overflow: hidden; }
+.tour[hidden] { display: none; }
+body.has-gp .tour { bottom: calc(100px + env(safe-area-inset-bottom, 0px)); }
+.tour-n { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--glow); }
+.tour-t { margin: 6px 0 10px; font-size: 15px; line-height: 1.5; }
+.tour-bar { position: absolute; left: 0; top: 0; height: 3px; width: 100%; background: var(--glow); transform-origin: left; transform: scaleX(0); }
+.tour-ctl { display: flex; gap: 6px; } .tour-ctl button { all: unset; cursor: pointer; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line); color: var(--text); font: 500 13px var(--mono); }
+.tour-ctl .tour-end { margin-left: auto; color: var(--muted); }
+.tour-hi { outline: 2px solid var(--glow); outline-offset: 6px; border-radius: 12px; transition: outline-color .4s; }
+/* phones: less chrome */
+@media (max-width: 600px) { .rail { display: none; } .toc a { padding: 6px 9px; font-size: 12px; } .nowbar { top: 40px; font-size: 13px; } }
 </style>
 </head>
 <body>
@@ -1007,21 +1049,22 @@ details.sec-fold > summary:hover .sf-t { color: var(--glow); }
 <footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="handbook.html" data-i18n="hbk.link"></a> · <a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/wal.funk_891">GitHub</a></p></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="i18n.js?v=20261123114300"></script>
-<script src="globe.js?v=20261123114300"></script>
-<script src="app.js?v=20261123114300"></script>
-<script src="play.js?v=20261123114300"></script>
-<script src="atlas.js?v=20261123114300"></script>
-<script src="humpback3d.js?v=20261123114300"></script>
-<script src="tabs.js?v=20261123114300"></script>
-<script src="nowbar.js?v=20261123114300"></script>
-<script src="ambient.js?v=20261123114300"></script>
-<script src="results.js?v=20261123114300"></script>
-<script src="cicompare.js?v=20261123114300"></script>
-<script src="routes.js?v=20261123114300"></script>
-<script src="ui.js?v=20261123114300"></script>
-<script src="polish.js?v=20261123114300"></script>
-<script src="story.js?v=20261123114300"></script>
-<script src="scenes.js?v=20261123114300"></script>
+<script src="i18n.js?v=20261123115010"></script>
+<script src="globe.js?v=20261123115010"></script>
+<script src="app.js?v=20261123115010"></script>
+<script src="play.js?v=20261123115010"></script>
+<script src="atlas.js?v=20261123115010"></script>
+<script src="humpback3d.js?v=20261123115010"></script>
+<script src="tabs.js?v=20261123115010"></script>
+<script src="tools.js?v=20261123115010"></script>
+<script src="nowbar.js?v=20261123115010"></script>
+<script src="ambient.js?v=20261123115010"></script>
+<script src="results.js?v=20261123115010"></script>
+<script src="cicompare.js?v=20261123115010"></script>
+<script src="routes.js?v=20261123115010"></script>
+<script src="ui.js?v=20261123115010"></script>
+<script src="polish.js?v=20261123115010"></script>
+<script src="story.js?v=20261123115010"></script>
+<script src="scenes.js?v=20261123115010"></script>
 </body>
 </html>

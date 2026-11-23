@@ -150,6 +150,7 @@ function whales(w, S) {
   const lo = Math.log10(10), hi = Math.log10(200000), pos = (hz) => 100 * (Math.log10(hz) - lo) / (hi - lo);
   const kHz = (v) => v >= 1000 ? `${num(v / 1000, v % 1000 ? 1 : 0)}k` : num(v);
   function select(name, play) {
+    window.wlCurSpecies = name; whaleAudio.dataset.title = (SP[name] ? t(`sp.${SP[name]}.name`) : spName(bySci[name] || {}) || name);
     buttons.forEach(([n, b]) => b.setAttribute('aria-pressed', String(n === name)));
     whaleAudio.pause(); buttons.forEach(([, b]) => b.classList.remove('sounding'));
     if (!SP[name]) return selectOther(bySci[name] || items.find((it) => it[0] === name)[2], play);
@@ -274,6 +275,7 @@ function whales(w, S) {
     src.append(' · GBIF'); d.append(src);
   }
   select('Blue whale');
+  window.wlSelectSpecies = (k, play) => { const key = CUR[k] || k; if (!SP[key] && !bySci[key] && !items.find((it) => it[0] === key)) return false; select(key, !!play); return true; };
   const k = $('known'); k.replaceChildren();
   [0, 1, 2].forEach((i) => k.append(el('div', '', t(`known.${i}`))));
 }

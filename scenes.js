@@ -269,6 +269,7 @@
     const syncCtl = () => { if (!dive) return; pp.textContent = dive.playing ? '❚❚' : '▶'; pp.setAttribute('aria-label', t(dive.playing ? 'dive.pause' : 'dive.play')); rng.value = Math.round(dive.u * 1000); };
     pp.addEventListener('click', () => { if (!dive) return; dive.playing = !dive.playing; dive.last = performance.now(); syncCtl(); });
     rng.addEventListener('input', () => { if (!dive) return; dive.u = rng.value / 1000; hideStop(); dive.pausedAt = 0; dive.scrubbed = true; });
+    window.wlDive = { get: () => (dive ? dive.u : null), to: (u) => { if (!dive) btn.click(); dive.u = Math.max(0, Math.min(1, u)); dive.scrubbed = true; dive.playing = false; syncCtl(); } };
     let look = { yaw: 0, pitch: 0 }, drag = null;
     renderer.domElement.addEventListener('pointerdown', (e) => { if (!dive) return; drag = { x: e.clientX, y: e.clientY, yaw: look.yaw, pitch: look.pitch }; renderer.domElement.setPointerCapture(e.pointerId); });
     renderer.domElement.addEventListener('pointermove', (e) => { if (!drag) return; look.yaw = drag.yaw - (e.clientX - drag.x) * .005; look.pitch = Math.max(-1.1, Math.min(1.1, drag.pitch - (e.clientY - drag.y) * .004)); });

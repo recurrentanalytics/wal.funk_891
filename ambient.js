@@ -113,7 +113,7 @@
   }, 350);
   const watch = (m) => { if (watched.has(m)) return; watched.add(m); ['pause', 'ended', 'emptied', 'error'].forEach((ev) => m.addEventListener(ev, release)); m.addEventListener('playing', () => duck(m)); };
   const origPlay = HTMLMediaElement.prototype.play;
-  HTMLMediaElement.prototype.play = function () { if (!(this.dataset && this.dataset.ambient)) { watch(this); duck(this); } const p = origPlay.apply(this, arguments); if (p && p.catch) p.catch(() => release()); return p; };
+  HTMLMediaElement.prototype.play = function () { if (!(this.dataset && this.dataset.ambient)) { watch(this); duck(this); document.dispatchEvent(new CustomEvent('wl-media', { detail: this })); } const p = origPlay.apply(this, arguments); if (p && p.catch) p.catch(() => release()); return p; };
   document.addEventListener('play', (e) => { if (e.target instanceof HTMLMediaElement) { watch(e.target); duck(e.target); } }, true);
   setInterval(() => { if (ducked) release(); }, 2000);   // safety net if a stop event is missed
   // Web Audio players (e.g. the sound microscope) report themselves here
