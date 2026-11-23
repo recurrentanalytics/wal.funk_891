@@ -129,7 +129,7 @@
       transparent: true, side: THREE.DoubleSide, depthWrite: false, uniforms: { t: { value: 0 } },
       vertexShader: 'varying vec2 p; void main(){ p = position.xy; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
       fragmentShader: 'uniform float t; varying vec2 p; void main(){ float r = sin(dot(p, vec2(.9,.4))*.55 + t) + sin(dot(p, vec2(-.5,1.1))*.83 - t*1.2) + sin(dot(p, vec2(.3,-.8))*1.37 + t*.7) + sin(dot(p, vec2(1.3,.2))*2.1 - t*1.6); float g = pow(max(0.0, r*.25), 5.0) * .45; if (gl_FrontFacing) gl_FragColor = vec4(vec3(.03,.2,.28) + g*.55, .30 + g*.5); else gl_FragColor = vec4(vec3(.35,.8,.85) + g*.6, .42 + g*.4); }' }));
-    water.rotation.x = -Math.PI / 2; water.position.y = 0.02; scene.add(water);
+    water.rotation.x = -Math.PI / 2; water.position.y = 0.02; water.material.polygonOffset = true; water.material.polygonOffsetFactor = -1; scene.add(water);
 
     /* light */
     const hemi = new THREE.HemisphereLight(0xdff4ff, 0x1a2a22, .85), sun = new THREE.DirectionalLight(0xfff1d6, 1.35); sun.position.set(-340, 300, 140); scene.add(hemi, sun);
@@ -178,6 +178,9 @@
         if (u >= 1) stopDive(false);
       }
       const under = camera.position.y < 0, depth = Math.max(0, -mOf(camera.position.y));
+      // depth precision: a tiny near plane is only needed close to the ground; from high up it makes coast and water flicker
+      const nearWanted = under || dive ? 0.05 : Math.min(4, Math.max(0.05, camera.position.y / 80));
+      if (Math.abs(nearWanted - camera.near) > camera.near * 0.2) { camera.near = nearWanted; camera.updateProjectionMatrix(); }
       above.visible = !under; below.visible = under; snow.visible = under;
       if (under) {
         const d = sst(0, 700, depth); tmp.copy(shallow).lerp(abyss, d); fogSea.color.copy(tmp); fogSea.density = .018 + .05 * d; scene.fog = fogSea; scene.background.copy(tmp);
