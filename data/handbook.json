@@ -1,5 +1,5 @@
 {
- "build": "20261123122204",
+ "build": "20261123122213",
  "built_at": "2026-11-23 12:22 CET",
  "libs": [
   [
@@ -176,7 +176,7 @@
   ],
   [
    "data/handbook.json",
-   2798
+   2828
   ],
   [
    "data/learning.json",
@@ -255,7 +255,7 @@
    5818
   ]
  ],
- "data_bytes": 8743641,
+ "data_bytes": 8743671,
  "species_total": 93,
  "species_at_stations": 18,
  "species_with_clips": 14,
