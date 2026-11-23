@@ -580,5 +580,6 @@
  "fold.gates": "All steps and pass marks · open",
  "fold.nb": "All lab notebook entries · open",
  "fold.words": "All terms · open",
- "fold.open": "open"
+ "fold.open": "open",
+ "fold.world": "Sources, licences and every station on the world map · open"
 }

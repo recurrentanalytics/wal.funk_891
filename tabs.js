@@ -12,18 +12,18 @@
     { id: 'machine', key: 'nav.machine', sec: ['machine', 'words'] },
   ];
   // blocks that start folded: [element id, summary key]
-  const FOLD = [['gates', 'fold.gates'], ['nb', 'fold.nb'], ['gloss', 'fold.words']];
+  const FOLD = [['gates', 'fold.gates'], ['nb', 'fold.nb'], ['gloss', 'fold.words'], ['world-notes', 'fold.world', ['world-list']]];
   const $ = (id) => document.getElementById(id);
   const mk = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
   const href = (v) => '#' + (v.id === 'start' ? 'top' : 'ch-' + v.id);
 
   function fold() {
-    FOLD.forEach(([id, key]) => {
+    FOLD.forEach(([id, key, more]) => {
       const el = $(id) || document.querySelector('.' + id); if (!el || el.closest('details')) return;
       const d = mk('details', 'fold'); const s = mk('summary', '', t(key)); d.append(s);
       const prev = el.previousElementSibling; el.before(d);
       if (prev && prev.matches('h3.sub-h, h3.scene-title')) d.prepend(s), s.textContent = prev.textContent + ' · ' + t('fold.open'), prev.remove();
-      d.append(el);
+      d.append(el); (more || []).forEach((m) => { const x = $(m); if (x) d.append(x); });
     });
   }
   function openTarget() {
