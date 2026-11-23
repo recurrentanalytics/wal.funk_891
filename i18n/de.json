@@ -1091,7 +1091,7 @@
  "lab.g.short": "Du gegen das Modell",
  "lab.g.title": "Du gegen das Modell: Singt hier ein Buckelwal?",
  "lab.g.lede": "300 Ausschnitte von je 10 Sekunden aus 891 m Tiefe. Hör zu, entscheide, und dann siehst du, was Googles Buckelwalmodell, der Projektinhaber und alle anderen gesagt haben. Deine Antworten helfen: Wo Mensch und Modell sich streiten, zählt jede weitere Stimme.",
- "lab.g.how": "Du antwortest zuerst, erst danach wird aufgedeckt. Deine Antworten gehen anonym ins Projekt (eine zufällige Kennung, kein Name). Wie lange du zugehört hast, wird mitgeschickt.",
+ "lab.g.how": "Du antwortest zuerst, erst danach wird aufgedeckt. Mitgeschickt werden eine zufällige Kennung, wie lange du zugehört hast, und die Sprache; kein Name. Achtung: Eingesendet wird über ein GitHub-Formular, und dort steht dein GitHub-Benutzername öffentlich daneben. Wer das nicht will, spielt einfach ohne Einsenden.",
  "lab.g.ownerlink": "der blinde Test des Projektinhabers",
  "lab.g.tally": "Du und das Modell: {m} von {n} einig · du und der Projektinhaber: {o} von {k}",
  "lab.g.you": "Du",
@@ -1106,7 +1106,7 @@
  "lab.g.say.youyes": "Du hörst Gesang, das Modell nicht. Vielleicht leise oder sehr weit weg, oder etwas anderes.",
  "lab.g.say.modelyes": "Das Modell hört Gesang, du nicht. Hör nochmal genau hin, vielleicht unten im Bild.",
  "lab.g.say.unsure": "Unsicher ist ehrlich. Diese Antwort zählt trotzdem mit.",
- "lab.g.send": "{n} Antworten einsenden (über GitHub)",
+ "lab.g.send": "{n} Antworten einsenden (über GitHub, mit deinem GitHub-Namen sichtbar)",
  "lab.g.sent": "GitHub ist in einem neuen Tab geöffnet. Dort nur noch auf „Submit new issue“ klicken.",
  "lab.g.issue.body": "Antworten aus dem Spiel „Du gegen das Modell“ auf der wal.funk_891-Seite. Bitte unverändert absenden; eine Automatik übernimmt sie.",
  "lab.g.live": "{a} Antworten von {p} Menschen bisher",
@@ -1123,6 +1123,6 @@
  "hbk.scr.game": "Spiel „Du gegen das Modell“: erst antworten, dann aufdecken",
  "hbk.scr.paper": "Artikelentwurf: Zahlen, Tabelle und Abbildung kommen direkt aus den Ergebnissen",
  "hbk.scr.handbook": "Dieses Handbuch",
- "hbk.crowd.p1": "Mitmachen: Im Spiel hören Besucher dieselben 300 Ausschnitte wie der blinde Test des Projektinhabers. Erst nach ihrer Antwort sehen sie den Modellwert jeder Sekunde, die Antwort des Inhabers und die Summe aller anderen. Antworten werden anonym gespeichert (zufällige Kennung, Hördauer, Sprache).",
+ "hbk.crowd.p1": "Mitmachen: Im Spiel hören Besucher dieselben 300 Ausschnitte wie der blinde Test des Projektinhabers. Erst nach ihrer Antwort sehen sie den Modellwert jeder Sekunde, die Antwort des Inhabers und die Summe aller anderen. Gespeichert werden eine zufällige Kennung, die Hördauer und die Sprache. Über den GitHub-Weg ist der GitHub-Name des Einsenders am Formular öffentlich sichtbar; die Seite sagt das vor dem Einsenden.",
  "hbk.crowd.p2": "Wohin die Antworten gehen: Solange kein Datenbankdienst eingetragen ist (data/backend.json), öffnet „Einsenden“ ein vorausgefülltes GitHub-Formular. Eine GitHub-Automatik (.github/workflows/crowd-labels.yml) prüft jede Antwort, legt sie unter data/crowd/ ab, zählt neu (data/crowd_summary.json) und schließt das Formular. Mit einem eingetragenen Supabase-Projekt gehen Antworten ohne Konto direkt in eine Tabelle, in die die Seite nur schreiben darf."
 }

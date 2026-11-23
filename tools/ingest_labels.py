@@ -24,7 +24,7 @@ for r in (d.get("labels") or [])[:400]:
     if c in ids and v in ("yes", "no", "unsure"): rows.append([c, v, ms if ms is None else max(0, min(600000, ms))])
 if not rows: print("skip no valid rows"); sys.exit(0)
 out = root / "data" / "crowd"; out.mkdir(exist_ok=True)
-json.dump({"issue": num, "user": (iss.get("user") or {}).get("login"), "created_at": iss.get("created_at"), "session": sess, "labels": rows},
+json.dump({"issue": num, "created_at": iss.get("created_at"), "session": sess, "labels": rows},
           open(out / f"issue-{num}.json", "w"), separators=(",", ":"))
 # summary over all files; one vote per session and clip (the latest file wins)
 votes = {}

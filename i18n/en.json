@@ -1091,7 +1091,7 @@
  "lab.g.short": "You vs the model",
  "lab.g.title": "You vs the model: is a humpback singing here?",
  "lab.g.lede": "300 clips of 10 seconds from 891 m down. Listen, decide, and then see what Google’s humpback model, the project owner and everyone else said. Your answers help: where human and model disagree, every extra voice counts.",
- "lab.g.how": "You answer first, the reveal comes after. Your answers go to the project anonymously (a random id, no name). How long you listened is sent along.",
+ "lab.g.how": "You answer first, the reveal comes after. Sent along: a random id, how long you listened, and the language; no name. Note: sending goes through a GitHub form, where your GitHub username appears publicly next to it. If you do not want that, just play without sending.",
  "lab.g.ownerlink": "the project owner’s blind test",
  "lab.g.tally": "You and the model: {m} of {n} agree · you and the project owner: {o} of {k}",
  "lab.g.you": "You",
@@ -1106,7 +1106,7 @@
  "lab.g.say.youyes": "You hear song, the model does not. Maybe faint or far away, or something else.",
  "lab.g.say.modelyes": "The model hears song, you do not. Listen again closely, maybe low in the picture.",
  "lab.g.say.unsure": "Unsure is honest. This answer still counts.",
- "lab.g.send": "Send {n} answers (via GitHub)",
+ "lab.g.send": "Send {n} answers (via GitHub, your GitHub name is visible)",
  "lab.g.sent": "GitHub opened in a new tab. Just click “Submit new issue” there.",
  "lab.g.issue.body": "Answers from the game “You vs the model” on the wal.funk_891 page. Please submit unchanged; an automation takes them in.",
  "lab.g.live": "{a} answers from {p} people so far",
@@ -1123,6 +1123,6 @@
  "hbk.scr.game": "Game “You vs the model”: answer first, then the reveal",
  "hbk.scr.paper": "Article draft: numbers, table and figure come straight from the results",
  "hbk.scr.handbook": "This handbook",
- "hbk.crowd.p1": "Taking part: in the game, visitors hear the same 300 clips as the project owner’s blind test. Only after answering do they see the model score for each second, the owner’s answer and the sum of everyone else’s. Answers are stored anonymously (random id, listening time, language).",
+ "hbk.crowd.p1": "Taking part: in the game, visitors hear the same 300 clips as the project owner’s blind test. Only after answering do they see the model score for each second, the owner’s answer and the sum of everyone else’s. Stored are a random id, the listening time and the language. On the GitHub route the sender’s GitHub name is publicly visible on the form; the page says so before sending.",
  "hbk.crowd.p2": "Where answers go: as long as no database service is set (data/backend.json), “Send” opens a prefilled GitHub form. A GitHub automation (.github/workflows/crowd-labels.yml) checks every answer, stores it under data/crowd/, recounts (data/crowd_summary.json) and closes the form. With a Supabase project set, answers go straight into a table the page may only write to, no account needed."
 }
