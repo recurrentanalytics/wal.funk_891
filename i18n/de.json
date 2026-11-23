@@ -1167,7 +1167,10 @@
  "cat.count": "{n} von {total}",
  "cat.reset": "Filter zurücksetzen",
  "cat.none": "Keine Art passt zu diesen Filtern.",
- "cat.open": "Katalog aller {total} lebenden Wal- und Delfinarten öffnen: suchen und filtern",
- "cat.close": "Katalog schließen",
- "nav.sub": "Unterkapitel von {ch}"
+ "nav.sub": "Unterkapitel von {ch}",
+ "cat.kicker": "Katalog",
+ "cat.title": "Alle {n} lebenden Wal- und Delfinarten",
+ "cat.lede": "Suchen, filtern, sortieren. Hell: an unseren Stationen gemeldet. Schraffiert: bisher nicht. Ein Klick zeigt die Art oben im Detail.",
+ "cat.showall": "Alle {n} zeigen",
+ "cat.jump": "🔎 Alle {n} Arten durchsuchen ↓"
 }

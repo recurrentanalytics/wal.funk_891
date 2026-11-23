@@ -95,7 +95,7 @@
       const out = [];
       v.sec.forEach((id) => { const s = $(id); if (!s) return;
         const h = s.querySelector('h2'); if (h && id !== 'top') out.push([h.textContent.trim(), h, 0]);
-        s.querySelectorAll('details.sec-fold > summary .sf-t, details.fold > summary').forEach((x) => { out.push([x.textContent.trim().split(' · ')[0], x.closest('details'), 1]); }); });
+        s.querySelectorAll('details.sec-fold > summary .sf-t, details.fold > summary, .cat-head h3').forEach((x) => { out.push([x.textContent.trim().split(' · ')[0], x.closest('details.fold') || (x.closest('.cat-head') ? x.closest('.catalog') : x.closest('details')), 1]); }); });
       return out.filter(([tx]) => tx && tx !== '…').slice(0, 14);
     };
     const hideSub = () => { sub.hidden = true; subFor = null; links.forEach((l) => l.classList.remove('sub-open')); };

@@ -1167,7 +1167,10 @@
  "cat.count": "{n} of {total}",
  "cat.reset": "Reset filters",
  "cat.none": "No species matches these filters.",
- "cat.open": "Open the catalogue of all {total} living whale and dolphin species: search and filter",
- "cat.close": "Close the catalogue",
- "nav.sub": "Sections of {ch}"
+ "nav.sub": "Sections of {ch}",
+ "cat.kicker": "Catalogue",
+ "cat.title": "All {n} living whale and dolphin species",
+ "cat.lede": "Search, filter, sort. Bright: reported at our stations. Hatched: not so far. Click to see the species in detail above.",
+ "cat.showall": "Show all {n}",
+ "cat.jump": "🔎 Search all {n} species ↓"
 }

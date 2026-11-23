@@ -1,6 +1,6 @@
 {
- "build": "20261123150139",
- "built_at": "2026-11-23 15:01 CET",
+ "build": "20261123150441",
+ "built_at": "2026-11-23 15:04 CET",
  "libs": [
   [
    "d3",
@@ -35,7 +35,7 @@
   ],
   [
    "app.js",
-   778
+   784
   ],
   [
    "atlas.js",
@@ -110,12 +110,12 @@
    88
   ]
  ],
- "own_js_lines": 3231,
- "html_lines": 1128,
+ "own_js_lines": 3237,
+ "html_lines": 1133,
  "i18n_keys": {
-  "en": 1171,
-  "de": 1171,
-  "zh": 1171
+  "en": 1174,
+  "de": 1174,
+  "zh": 1174
  },
  "data_files": [
   [
@@ -244,7 +244,7 @@
   ],
   [
    "data/status.json",
-   12324
+   12896
   ],
   [
    "data/step7a_mac.json",
@@ -279,7 +279,7 @@
    5818
   ]
  ],
- "data_bytes": 8775171,
+ "data_bytes": 8775743,
  "species_total": 93,
  "species_at_stations": 18,
  "species_with_clips": 14,

@@ -1167,7 +1167,10 @@
  "cat.count": "{total} 种中的 {n} 种",
  "cat.reset": "重置筛选",
  "cat.none": "没有符合这些筛选条件的物种。",
- "cat.open": "打开全部 {total} 种现存鲸豚的目录：搜索和筛选",
- "cat.close": "关闭目录",
- "nav.sub": "{ch} 的小节"
+ "nav.sub": "{ch} 的小节",
+ "cat.kicker": "目录",
+ "cat.title": "全部 {n} 种现存鲸豚",
+ "cat.lede": "搜索、筛选、排序。高亮：在我们站点有报告。斜线：尚无报告。点击可在上方查看物种详情。",
+ "cat.showall": "显示全部 {n} 种",
+ "cat.jump": "🔎 搜索全部 {n} 个物种 ↓"
 }

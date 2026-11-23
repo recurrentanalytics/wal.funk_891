@@ -134,8 +134,8 @@ function whales(w, S) {
   if (all.length) {
     const MYST = new Set(['Balaenopteridae', 'Balaenidae', 'Eschrichtiidae', 'Neobalaenidae']);
     const RISK = { CR: 0, EN: 1, VU: 2, NT: 3, LC: 4, DD: 5 };
-    const more = el('button', 'more-sp'); more.type = 'button'; more.setAttribute('aria-expanded', 'false');
-    const cat = el('div', 'catalog'); cat.hidden = true;
+    const cat = el('div', 'catalog'); cat.id = 'catalog'; let expanded = false;
+    const showAll = el('button', 'more-sp'); showAll.type = 'button';
     const bar = el('div', 'cat-bar'), q = el('input', 'cat-q'); q.type = 'search'; q.placeholder = t('cat.search'); q.setAttribute('aria-label', t('cat.search'));
     const chips = (name, opts, multi) => { const g = el('div', 'cat-chips'); g.setAttribute('role', 'group'); g.setAttribute('aria-label', t('cat.' + name));
       g.append(el('span', 'cat-l', t('cat.' + name)));
@@ -176,19 +176,25 @@ function whales(w, S) {
       list.sort(by === 'name' ? (a, b) => nm(a).localeCompare(nm(b), lang) : by === 'big' ? (a, b) => (b.x.len || 0) - (a.x.len || 0) : by === 'small' ? (a, b) => (a.x.len || 99) - (b.x.len || 99)
         : by === 'risk' ? (a, b) => (RISK[a.x.iucn] ?? 9) - (RISK[b.x.iucn] ?? 9) || nm(a).localeCompare(nm(b), lang) : (a, b) => (a.x.family || '').localeCompare(b.x.family || '') || nm(a).localeCompare(nm(b), lang));
       grid.replaceChildren(); let last = null;
+      const active0 = s || G.length || R.length || Z.length || M.length || F, total = list.length;
+      if (!active0 && !expanded) list = list.slice(0, 12);
       list.forEach((o) => { const head = by === 'fam' ? o.x.family : by === 'risk' ? t('iucn.' + (o.x.iucn || 'DD')) : null;
         if (head && head !== last) { last = head; grid.append(el('div', 'fam', head + (by === 'fam' ? ' · ' + t(MYST.has(o.x.family) ? 'cat.myst' : 'cat.odon') : ''))); } grid.append(o.c); });
       if (!list.length) grid.append(el('p', 'note', t('cat.none')));
-      count.textContent = t('cat.count', { n: list.length, total: all.length });
+      count.textContent = t('cat.count', { n: total, total: all.length });
+      showAll.hidden = !!active0 || expanded; showAll.textContent = t('cat.showall', { n: all.length });
       const active = s || G.length || R.length || Z.length || M.length || F; reset.hidden = !active;
     }
     q.addEventListener('input', render); fam.addEventListener('change', render); sort.addEventListener('change', render);
     reset.addEventListener('click', () => { q.value = ''; fam.value = ''; sort.value = 'fam'; bar.querySelectorAll('.chip[aria-pressed]').forEach((b) => b.setAttribute('aria-pressed', 'false')); render(); });
-    cat.append(bar, grid); render();
-    const label = () => { more.textContent = t(cat.hidden ? 'cat.open' : 'cat.close', { total: all.length, n: all.length - atStation.length }); };
-    more.addEventListener('click', () => { cat.hidden = !cat.hidden; more.setAttribute('aria-expanded', String(!cat.hidden)); label(); if (!cat.hidden) q.focus({ preventScroll: true }); });
-    label(); line.parentElement.append(more, cat);
-    window.wlCatalog = () => { if (cat.hidden) more.click(); };
+    showAll.addEventListener('click', () => { expanded = true; render(); });
+    const head = el('div', 'cat-head'); head.append(el('span', 'kicker', t('cat.kicker')), el('h3', 'scene-title', t('cat.title', { n: all.length })), el('p', 'note', t('cat.lede')));
+    cat.append(head, bar, grid, showAll); render();
+    const ex = document.querySelector('#whales .explorer'); (ex || line.parentElement).after(cat);
+    const jump = el('a', 'cat-jump', t('cat.jump', { n: all.length })); jump.href = '#catalog';
+    jump.addEventListener('click', (e) => { e.preventDefault(); if (window.wlReveal) wlReveal(cat); cat.scrollIntoView({ behavior: 'smooth', block: 'start' }); setTimeout(() => q.focus({ preventScroll: true }), 600); });
+    line.before(jump);
+    window.wlCatalog = () => jump.click();
   }
   const lo = Math.log10(10), hi = Math.log10(200000), pos = (hz) => 100 * (Math.log10(hz) - lo) / (hi - lo);
   const kHz = (v) => v >= 1000 ? `${num(v / 1000, v % 1000 ? 1 : 0)}k` : num(v);
