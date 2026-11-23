@@ -67,7 +67,7 @@
     const cellM = kmX * 1000, cellMy = kmY * 1000;
     for (let i = 0; i < n; i++) {
       const c = i % C, r = (i / C) | 0, m = z[i];
-      pos.setY(i, yOf(m));
+      pos.setY(i, yOf(m) + (m >= 0 ? .08 : 0));          // land sits a hair above the water plane: no flicker at the shore
       const dx = (z[r * C + Math.min(C - 1, c + 1)] - z[r * C + Math.max(0, c - 1)]) / (2 * cellM), dy = (z[Math.min(R - 1, r + 1) * C + c] - z[Math.max(0, r - 1) * C + c]) / (2 * cellMy);
       const slope = Math.hypot(dx, dy), h = Math.sin(i * 12.9898) * 43758.5453, noise = .9 + .2 * (h - Math.floor(h));
       let a;
@@ -129,7 +129,7 @@
       transparent: true, side: THREE.DoubleSide, depthWrite: false, uniforms: { t: { value: 0 } },
       vertexShader: 'varying vec2 p; void main(){ p = position.xy; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
       fragmentShader: 'uniform float t; varying vec2 p; void main(){ float r = sin(dot(p, vec2(.9,.4))*.55 + t) + sin(dot(p, vec2(-.5,1.1))*.83 - t*1.2) + sin(dot(p, vec2(.3,-.8))*1.37 + t*.7) + sin(dot(p, vec2(1.3,.2))*2.1 - t*1.6); float g = pow(max(0.0, r*.25), 5.0) * .45; if (gl_FrontFacing) gl_FragColor = vec4(vec3(.03,.2,.28) + g*.55, .30 + g*.5); else gl_FragColor = vec4(vec3(.35,.8,.85) + g*.6, .42 + g*.4); }' }));
-    water.rotation.x = -Math.PI / 2; water.position.y = 0.02; water.material.polygonOffset = true; water.material.polygonOffsetFactor = -1; scene.add(water);
+    water.rotation.x = -Math.PI / 2; water.position.y = 0.0; scene.add(water);
 
     /* light */
     const hemi = new THREE.HemisphereLight(0xdff4ff, 0x1a2a22, .85), sun = new THREE.DirectionalLight(0xfff1d6, 1.35); sun.position.set(-340, 300, 140); scene.add(hemi, sun);
