@@ -3,7 +3,11 @@
    Rules: label/RULES.md (written before any clip was drawn). */
 (function () {
   const $ = (id) => document.getElementById(id);
-  const KEY = 'wl-labels-7f';
+  const MODE = new URLSearchParams(location.search).get('mode') === 'owner' ? 'owner' : 'game';
+  const KEY = MODE === 'owner' ? 'wl-labels-7f' : 'wl-game-7f';
+  const B = (document.querySelector('meta[name="build"]') || {}).content || '';
+  let GAME = null, CROWD = {}, BACK = { type: 'none' }, session = '';
+  try { session = localStorage.getItem('wl-session') || ''; if (!session) { session = Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem('wl-session', session); } } catch (e) { session = 'anon' + Math.random().toString(36).slice(2); }
   const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { return {}; } };
   let L = load();
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(L)); } catch (e) { $('lb-msg').textContent = t('lab.nostore'); } };
@@ -40,12 +44,12 @@
 
   // ---------- playback ----------
   function stop() { if (src) { src.onended = null; try { src.stop(); } catch (e) {} src = null; } cancelAnimationFrame(raf); playhead(); $('lb-play').textContent = '▶ ' + t('lab.play'); }
-  function play() { if (!buf) return; stop(); audioCtx().resume(); src = ctx.createBufferSource(); src.buffer = buf; src.loop = loop; src.connect(ctx.destination); t0 = ctx.currentTime; src.start();
+  let heardFrom = 0; function play() { if (!buf) return; stop(); if (!heardFrom) heardFrom = performance.now(); audioCtx().resume(); src = ctx.createBufferSource(); src.buffer = buf; src.loop = loop; src.connect(ctx.destination); t0 = ctx.currentTime; src.start();
     src.onended = () => { src = null; stop(); }; $('lb-play').textContent = '❚❚ ' + t('lab.pause'); raf = requestAnimationFrame(playhead); }
   async function show(k, autoplay) {
-    i = Math.max(0, Math.min(ids.length - 1, k)); stop(); buf = null; specImg = null; const tok = ++loadToken, id = ids[i];
+    i = Math.max(0, Math.min(ids.length - 1, k)); stop(); buf = null; specImg = null; heardFrom = 0; hideReveal(); const tok = ++loadToken, id = ids[i];
     $('lb-state').textContent = t('lab.loading'); draw();
-    try { const ab = await (await fetch(`label/clips/${id}.mp3`)).arrayBuffer(); const b = await audioCtx().decodeAudioData(ab); if (tok !== loadToken) return; buf = b; spectrogram(b); $('lb-state').textContent = ''; if (autoplay) play(); }
+    try { const ab = await (await fetch(`label/clips/${id}.mp3`)).arrayBuffer(); const b = await audioCtx().decodeAudioData(ab); if (tok !== loadToken) return; buf = b; spectrogram(b); $('lb-state').textContent = ''; if (MODE === 'game' && L[id]) reveal(); else if (autoplay) play(); }
     catch (e) { $('lb-state').textContent = t('lab.fail'); console.error('clip', id, e); }
   }
   function draw() {
@@ -58,8 +62,68 @@
   }
   const nextOpen = () => { for (let k = 1; k <= ids.length; k++) { const j = (i + k) % ids.length; if (!L[ids[j]]) return j; } return -1; };
   function answer(v) {
-    if (!ids.length) return; L[ids[i]] = { v, at: new Date().toISOString() }; save(); draw();
+    if (!ids.length) return;
+    if (MODE === 'game') { if (L[ids[i]]) return; const ms = heardFrom ? Math.round(performance.now() - heardFrom) : 0; L[ids[i]] = { v, at: new Date().toISOString(), ms }; save(); draw(); send(ids[i], v, ms); reveal(); return; }
+    L[ids[i]] = { v, at: new Date().toISOString() }; save(); draw();
     const j = nextOpen(); if (j >= 0) setTimeout(() => show(j, true), 250); else { stop(); $('lb-msg').textContent = t('lab.all'); }
+  }
+  // ---------- game: reveal, tally, sending ----------
+  const isSong = (c) => GAME && GAME.clips[c] && Math.max(...GAME.clips[c].s) >= .7;
+  function tally() {
+    const mine = ids.filter((c) => L[c] && L[c].v !== 'unsure');
+    const mm = mine.filter((c) => (L[c].v === 'yes') === isSong(c)).length, ow = mine.filter((c) => GAME.clips[c].o !== 'unsure'), mo = ow.filter((c) => L[c].v === GAME.clips[c].o).length;
+    $('lb-tally').textContent = t('lab.g.tally', { m: mm, n: mine.length, o: mo, k: ow.length });
+  }
+  function hideReveal() { const r = $('lb-reveal'); if (r) r.hidden = true; document.querySelector('.ans').hidden = false; }
+  function reveal() {
+    const c = ids[i], g = GAME.clips[c], r = $('lb-reveal'), mx = Math.max(...g.s), mine = L[c].v;
+    r.replaceChildren();
+    const row = (who, txt, cls) => { const d = document.createElement('div'); d.className = 'rv-row'; const b = document.createElement('b'); b.textContent = who; const s = document.createElement('span'); s.className = 'rv ' + cls; s.textContent = txt; d.append(b, s); r.append(d); };
+    row(t('lab.g.you'), t('lab.' + mine), mine);
+    row(t('lab.g.model'), t(mx >= .7 ? 'lab.g.song' : 'lab.g.nosong', { p: Math.round(mx * 100) }), mx >= .7 ? 'yes' : 'no');
+    row(t('lab.g.owner'), t('lab.' + g.o), g.o);
+    const cr = CROWD[c]; if (cr && (cr.yes + cr.no + cr.unsure) > 0) row(t('lab.g.crowd'), t('lab.g.crowdv', { y: cr.yes, n: cr.no, u: cr.unsure }), 'crowd');
+    const bars = document.createElement('div'); bars.className = 'rv-bars'; bars.title = t('lab.g.bars');
+    g.s.forEach((v) => { const i2 = document.createElement('i'); i2.style.height = Math.max(4, v * 100) + '%'; if (v >= .7) i2.className = 'hit'; bars.append(i2); });
+    const bl = document.createElement('small'); bl.textContent = t('lab.g.bars'); r.append(bars, bl);
+    const verdict = document.createElement('p'); verdict.className = 'rv-say';
+    verdict.textContent = mine === 'unsure' ? t('lab.g.say.unsure') : (mine === 'yes') === (mx >= .7) ? t('lab.g.say.agree') : t(mine === 'yes' ? 'lab.g.say.youyes' : 'lab.g.say.modelyes');
+    r.append(verdict);
+    const nx = document.createElement('button'); nx.type = 'button'; nx.className = 'play'; nx.textContent = t('lab.next') + ' →'; nx.addEventListener('click', () => { const j = nextOpen(); if (j >= 0) show(j, true); else $('lb-msg').textContent = t('lab.all'); }); r.append(nx);
+    document.querySelector('.ans').hidden = true; r.hidden = false; nx.focus(); tally(); pending();
+  }
+  // where answers go: Supabase if data/backend.json names one, else they wait here until sent through GitHub
+  const QKEY = 'wl-game-queue';
+  const queue = () => { try { return JSON.parse(localStorage.getItem(QKEY) || '[]'); } catch (e) { return []; } };
+  const setQueue = (q) => { try { localStorage.setItem(QKEY, JSON.stringify(q)); } catch (e) {} };
+  async function send(clip, v, ms) {
+    const rec = { clip, v, session, listened_ms: Math.min(600000, ms), lang: I18N.lang };
+    if (BACK.type === 'supabase') {
+      try { const r = await fetch(BACK.url + '/rest/v1/labels', { method: 'POST', headers: { apikey: BACK.key, Authorization: 'Bearer ' + BACK.key, 'Content-Type': 'application/json', Prefer: 'return=minimal' }, body: JSON.stringify(rec) }); if (r.ok) return; } catch (e) {}
+    }
+    const q = queue(); q.push(rec); setQueue(q); pending();
+  }
+  function pending() {
+    const q = queue(), b = $('lb-send'); if (!b) return;
+    b.hidden = !q.length; b.textContent = t('lab.g.send', { n: q.length });
+  }
+  function sendGitHub() {
+    const q = queue(); if (!q.length) return;
+    const body = t('lab.g.issue.body') + '\n\n```json\n' + JSON.stringify({ step: '7f-crowd', session, labels: q.map((r) => [r.clip, r.v, r.listened_ms]) }) + '\n```\n';
+    const url = 'https://github.com/recurrentanalytics/wal.funk_891/issues/new?title=' + encodeURIComponent('[labels] ' + q.length + ' answers') + '&body=' + encodeURIComponent(body);
+    window.open(url, '_blank', 'noopener'); setQueue([]); pending(); $('lb-msg').textContent = t('lab.g.sent');
+  }
+  async function loadCrowd() {
+    try {
+      if (BACK.type === 'supabase') {
+        const h = { apikey: BACK.key, Authorization: 'Bearer ' + BACK.key };
+        const [cs, tot] = await Promise.all([fetch(BACK.url + '/rest/v1/clip_summary?select=*', { headers: h }).then((r) => r.json()), fetch(BACK.url + '/rest/v1/totals?select=*', { headers: h }).then((r) => r.json())]);
+        cs.forEach((x) => { CROWD[x.clip] = x; }); if (tot[0]) $('lb-crowd').textContent = t('lab.g.live', { a: tot[0].answers, p: tot[0].people });
+      } else {
+        const d = await (await fetch('data/crowd_summary.json?v=' + B, { cache: 'no-cache' })).json(); CROWD = d.clips || {};
+        $('lb-crowd').textContent = t('lab.g.github', { a: d.answers || 0, p: d.people || 0 });
+      }
+    } catch (e) {}
   }
   function exportJSON() {
     const out = { rules: 'label/RULES.md', step: '7f', exported_at: new Date().toISOString(), n_clips: ids.length, n_labelled: Object.keys(L).length, labels: L };
@@ -74,7 +138,8 @@
   let refA = null; const ref = (url) => { stop(); if (refA && !refA.paused) { refA.pause(); return; } refA = new Audio(url); refA.play().catch(() => {}); };
 
   I18N.ready.then(async () => {
-    document.title = 'wal.funk_891 · ' + t('lab.short');
+    document.title = 'wal.funk_891 · ' + t(MODE === 'game' ? 'lab.g.short' : 'lab.short');
+    if (MODE === 'game') { document.querySelectorAll('[data-owner]').forEach((x) => { x.hidden = true; }); document.querySelectorAll('[data-game]').forEach((x) => { x.hidden = false; }); }
     $('lb-play').textContent = '▶ ' + t('lab.play'); $('lb-loop').textContent = '⟲ ' + t('lab.loop'); $('lb-prev').textContent = '← ' + t('lab.prev'); $('lb-next').textContent = t('lab.next') + ' →'; $('lb-open').textContent = t('lab.open');
     $('lb-ref1').textContent = '▶ ' + t('lab.ref.mbari'); $('lb-ref2').textContent = '▶ ' + t('lab.ref.noaa'); $('lb-export').textContent = '⤓ ' + t('lab.export'); $('lb-importb').textContent = '⤒ ' + t('lab.import');
     $('lb-play').addEventListener('click', () => (src ? stop() : play()));
@@ -89,8 +154,18 @@
       if (k === 'j' || k === 'y' || k === '1') answer('yes'); else if (k === 'n' || k === '2') answer('no'); else if (k === 'u' || k === '3') answer('unsure');
       else if (k === ' ') { e.preventDefault(); src ? stop() : play(); } else if (k === 'arrowleft') show(i - 1, true); else if (k === 'arrowright') show(i + 1, true); });
     addEventListener('resize', () => { if (buf) spectrogram(buf); });
-    try { const d = await (await fetch('label/clips.json?v=' + ((document.querySelector('meta[name="build"]') || {}).content || ''))).json(); ids = d.clips; }
+    try { const d = await (await fetch('label/clips.json?v=' + B)).json(); ids = d.clips; }
     catch (e) { $('lb-state').textContent = t('lab.fail'); return; }
+    if (MODE === 'game') {
+      document.body.classList.add('game');
+      try { GAME = await (await fetch('data/game_7f.json?v=' + B)).json(); } catch (e) { $('lb-state').textContent = t('lab.fail'); return; }
+      try { BACK = await (await fetch('data/backend.json?v=' + B, { cache: 'no-cache' })).json(); } catch (e) {}
+      // each visitor gets their own order, kept for later visits
+      let ord = null; try { ord = JSON.parse(localStorage.getItem('wl-game-order') || 'null'); } catch (e) {}
+      if (!ord || ord.length !== ids.length) { ord = ids.slice(); for (let k = ord.length - 1; k > 0; k--) { const j = Math.floor(Math.random() * (k + 1)); [ord[k], ord[j]] = [ord[j], ord[k]]; } try { localStorage.setItem('wl-game-order', JSON.stringify(ord)); } catch (e) {} }
+      ids = ord; $('lb-send').addEventListener('click', sendGitHub); pending(); tally(); loadCrowd();
+      addEventListener('keydown', (e) => { if (e.key === 'Enter' && !$('lb-reveal').hidden) { e.preventDefault(); $('lb-reveal').querySelector('button').click(); } });
+    }
     const grid = $('lb-grid'); ids.forEach((id, k) => { const a = document.createElement('a'); a.href = '#'; a.title = String(k + 1); a.addEventListener('click', (e) => { e.preventDefault(); show(k, true); }); grid.append(a); });
     const j = ids.findIndex((x) => !L[x]); show(j >= 0 ? j : 0, false);
   });

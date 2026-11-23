@@ -1,0 +1,4 @@
+{
+ "type": "none",
+ "note": "Answers wait in the visitor's browser and are sent through a prefilled GitHub issue. Set type 'supabase' with url and the public anon key to collect them directly."
+}

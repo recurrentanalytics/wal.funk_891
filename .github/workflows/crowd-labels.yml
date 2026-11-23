@@ -1,0 +1,41 @@
+# Answers from the game "You vs the model" arrive as GitHub issues titled "[labels] ...". This takes them into
+# data/crowd/, rebuilds data/crowd_summary.json, thanks the sender and closes the issue. The issue text is read only by
+# tools/ingest_labels.py as JSON; it is never put into a shell command.
+name: crowd labels
+on:
+  issues:
+    types: [opened]
+permissions:
+  contents: write
+  issues: write
+concurrency:
+  group: crowd-labels
+  cancel-in-progress: false
+jobs:
+  ingest:
+    if: startsWith(github.event.issue.title, '[labels]')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: run
+        run: echo "result=$(python3 tools/ingest_labels.py)" >> "$GITHUB_OUTPUT"
+      - name: commit
+        if: startsWith(steps.run.outputs.result, 'ok')
+        run: |
+          git config user.name "wal.funk_891 bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/crowd data/crowd_summary.json
+          git commit -m "Crowd labels from issue #${{ github.event.issue.number }}"
+          for i in 1 2 3; do git pull --rebase -q && git push -q && break; sleep 5; done
+      - name: reply
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESULT: ${{ steps.run.outputs.result }}
+          NUM: ${{ github.event.issue.number }}
+        run: |
+          if [[ "$RESULT" == ok* ]]; then
+            gh issue comment "$NUM" --repo "$GITHUB_REPOSITORY" --body "Thank you! ${RESULT#ok } answers are in. They show on the page within a few minutes."
+            gh issue close "$NUM" --repo "$GITHUB_REPOSITORY"
+          else
+            gh issue comment "$NUM" --repo "$GITHUB_REPOSITORY" --body "Could not read answers from this issue ($RESULT). Please use the Send button on the game page."
+          fi

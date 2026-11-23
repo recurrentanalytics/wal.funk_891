@@ -1,6 +1,6 @@
 {
- "build": "20261123125607",
- "built_at": "2026-11-23 12:56 CET",
+ "build": "20261123130127",
+ "built_at": "2026-11-23 13:01 CET",
  "libs": [
   [
    "d3",
@@ -63,7 +63,7 @@
   ],
   [
    "label.js",
-   97
+   172
   ],
   [
    "nowbar.js",
@@ -83,7 +83,7 @@
   ],
   [
    "results.js",
-   48
+   49
   ],
   [
    "routes.js",
@@ -110,17 +110,21 @@
    88
   ]
  ],
- "own_js_lines": 3057,
- "html_lines": 1097,
+ "own_js_lines": 3133,
+ "html_lines": 1102,
  "i18n_keys": {
-  "en": 1089,
-  "de": 1089,
-  "zh": 1089
+  "en": 1114,
+  "de": 1114,
+  "zh": 1114
  },
  "data_files": [
   [
    "data/atlas.json",
    22
+  ],
+  [
+   "data/backend.json",
+   195
   ],
   [
    "data/bathy.json",
@@ -167,12 +171,20 @@
    490727
   ],
   [
+   "data/crowd_summary.json",
+   40
+  ],
+  [
    "data/currents.json",
    173096
   ],
   [
    "data/dist.json",
    1715048
+  ],
+  [
+   "data/game_7f.json",
+   23789
   ],
   [
    "data/handbook.json",
@@ -259,7 +271,7 @@
    5818
   ]
  ],
- "data_bytes": 8744907,
+ "data_bytes": 8768931,
  "species_total": 93,
  "species_at_stations": 18,
  "species_with_clips": 14,
