@@ -42,13 +42,13 @@
       card.append(w); first.before(card); v.first = card;
     });
     // big photos and wireframe whales behind the chapter titles
-    fetch('data/chapter_media.json').then((r) => r.json()).then((M) => VIEWS.slice(1).forEach((v) => {
+    fetch('data/chapter_media.json?v=' + ((document.querySelector('meta[name=build]') || {}).content || '')).then((r) => r.json()).then((M) => VIEWS.slice(1).forEach((v) => {
       const m = M[v.id], card = $('ch-' + v.id); if (!m || !card) return;
       if (m.photo) {
         card.classList.add('has-photo'); const bg = mk('div', 'ch-bg'); bg.style.backgroundImage = `url("${m.photo.src}")`; card.prepend(bg);
         const cr = mk('a', 'ch-credit', `${t('whales.photo')} ${m.photo.by} · ${m.photo.lic}${m.cap ? ' · ' + t('chph.' + m.cap) : ''}`); cr.href = m.photo.page; cr.rel = 'noopener'; card.append(cr);
-      } else if (m.hb != null && window.humpbackScene) {
-        card.classList.add('has-wire', 'has-hb'); const host = mk('div', 'ch-wire'); card.prepend(host); requestAnimationFrame(() => window.humpbackScene(host, m.hb));
+      } else if ((m.hb != null || m.wire) && window.humpbackScene) {
+        card.classList.add('has-wire', 'has-hb'); const host = mk('div', 'ch-wire'); card.prepend(host); requestAnimationFrame(() => window.humpbackScene(host, m.hb || 0));
         const cr = mk('span', 'ch-credit', t('hb.note')); card.append(cr);
       }
     })).catch(() => {});
