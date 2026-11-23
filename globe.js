@@ -1,0 +1,92 @@
+/* 3D globe of open hydrophone archives, and the 3D sound galaxy. Needs THREE + OrbitControls, d3, topojson. */
+(function () {
+  const ok = () => window.THREE && THREE.OrbitControls;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function stage(host, { autoRotate = true, dist = 3.2, minD = 1.4, maxD = 8, fov = 40 } = {}) {
+    host.replaceChildren();
+    const r = new THREE.WebGLRenderer({ antialias: true, alpha: true }); r.setPixelRatio(Math.min(2, devicePixelRatio || 1)); host.append(r.domElement);
+    const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(fov, 1, 0.01, 100); cam.position.set(0, 0, dist);
+    const ctl = new THREE.OrbitControls(cam, r.domElement); ctl.enableDamping = true; ctl.dampingFactor = .08; ctl.minDistance = minD; ctl.maxDistance = maxD; ctl.enablePan = false;
+    ctl.autoRotate = autoRotate && !reduce; ctl.autoRotateSpeed = .4; ctl.addEventListener('start', () => { ctl.autoRotate = false; });
+    const size = () => { const w = host.clientWidth, h = host.clientHeight; r.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); };
+    size(); new ResizeObserver(size).observe(host);
+    let visible = false, raf = 0; const ticks = [];
+    const loop = () => { ctl.update(); ticks.forEach((f) => f()); r.render(scene, cam); if (visible) raf = requestAnimationFrame(loop); };
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; cancelAnimationFrame(raf); if (visible) loop(); }, { rootMargin: '100px' }).observe(host);
+    return { scene, cam, ctl, r, ticks, host };
+  }
+  const ll2v = (lat, lon, rad = 1) => { const p = (90 - lat) * Math.PI / 180, l = (lon + 180) * Math.PI / 180; return new THREE.Vector3(-rad * Math.sin(p) * Math.cos(l), rad * Math.cos(p), rad * Math.sin(p) * Math.sin(l)); };
+
+  /* ---------------- Globe ---------------- */
+  window.makeGlobe = function (host, wd, COL, showInfo) {
+    if (!ok()) return null;
+    const S = stage(host, { dist: 3.0 });
+    // texture: ocean + land + graticule drawn with d3 on an equirectangular canvas
+    const tc = document.createElement('canvas'); tc.width = 2048; tc.height = 1024; const g = tc.getContext('2d');
+    const grad = g.createLinearGradient(0, 0, 0, 1024); grad.addColorStop(0, '#062636'); grad.addColorStop(.5, '#0a3346'); grad.addColorStop(1, '#062636');
+    g.fillStyle = grad; g.fillRect(0, 0, 2048, 1024);
+    const proj = d3.geoEquirectangular().translate([1024, 512]).scale(1024 / Math.PI), path = d3.geoPath(proj, g);
+    g.strokeStyle = 'rgba(94,230,215,.10)'; g.lineWidth = 1; g.beginPath(); path(d3.geoGraticule().step([15, 15])()); g.stroke();
+    const tex = new THREE.CanvasTexture(tc); if (THREE.sRGBEncoding) tex.encoding = THREE.sRGBEncoding;
+    const earth = new THREE.Mesh(new THREE.SphereGeometry(1, 96, 64), new THREE.MeshStandardMaterial({ map: tex, roughness: .9, metalness: 0 }));
+    S.scene.add(earth);
+    fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/land-110m.json').then((r) => r.json()).then((topo) => {
+      g.fillStyle = '#1b4250'; g.strokeStyle = '#2f6b7d'; g.lineWidth = 1.2; g.beginPath(); path(topojson.feature(topo, topo.objects.land)); g.fill(); g.stroke(); tex.needsUpdate = true;
+    }).catch(() => {});
+    // atmosphere
+    const atm = new THREE.Mesh(new THREE.SphereGeometry(1.06, 64, 48), new THREE.ShaderMaterial({ transparent: true, side: THREE.BackSide, blending: THREE.AdditiveBlending, depthWrite: false,
+      vertexShader: 'varying vec3 n; void main(){ n = normalize(normalMatrix * normal); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
+      fragmentShader: 'varying vec3 n; void main(){ float i = pow(0.75 - dot(n, vec3(0,0,1.0)), 3.0); gl_FragColor = vec4(0.37,0.9,0.84,1.0) * i; }' }));
+    S.scene.add(atm);
+    S.scene.add(new THREE.HemisphereLight(0xcff7ff, 0x02121a, .9)); const sun = new THREE.DirectionalLight(0xffffff, .7); sun.position.set(3, 2, 4); S.scene.add(sun);
+    // hydrophones
+    const groups = {}, pickables = [], rings = [];
+    wd.archives.forEach((a) => {
+      const grp = new THREE.Group(); groups[a.id] = grp; S.scene.add(grp);
+      const col = new THREE.Color(COL[a.status]);
+      a.sites.forEach((s) => {
+        const p = ll2v(s.lat, s.lon, 1.005);
+        const dot = new THREE.Mesh(new THREE.SphereGeometry(a.status === 'used' ? .016 : .009, 12, 10), new THREE.MeshBasicMaterial({ color: col }));
+        dot.position.copy(p); dot.userData = { a, s }; grp.add(dot); pickables.push(dot);
+        const spike = new THREE.Mesh(new THREE.CylinderGeometry(.0025, .0025, a.status === 'used' ? .12 : .05, 6), new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: .7 }));
+        spike.position.copy(p.clone().multiplyScalar(1 + (a.status === 'used' ? .06 : .025))); spike.lookAt(0, 0, 0); spike.rotateX(Math.PI / 2); grp.add(spike);
+        if (a.status === 'used') { const ring = new THREE.Mesh(new THREE.RingGeometry(.02, .026, 32), new THREE.MeshBasicMaterial({ color: col, transparent: true, side: THREE.DoubleSide })); ring.position.copy(p); ring.lookAt(0, 0, 0); grp.add(ring); rings.push(ring); }
+      });
+    });
+    const t0 = performance.now();
+    S.ticks.push(() => { const tt = (performance.now() - t0) / 1000; rings.forEach((r, i) => { const k = ((tt / 2.5) + i * .3) % 1; r.scale.setScalar(1 + k * 3); r.material.opacity = (1 - k) * .9; }); });
+    // start over the Pacific
+    S.cam.position.copy(ll2v(30, -140, 3.0)); S.ctl.update();
+    // picking
+    const ray = new THREE.Raycaster(), m = new THREE.Vector2();
+    S.r.domElement.addEventListener('click', (e) => {
+      const b = S.r.domElement.getBoundingClientRect(); m.set(((e.clientX - b.left) / b.width) * 2 - 1, -((e.clientY - b.top) / b.height) * 2 + 1);
+      ray.setFromCamera(m, S.cam); ray.params.Mesh = { threshold: .02 };
+      const hit = ray.intersectObjects(pickables.filter((p) => p.parent.visible), false)[0]; if (hit) showInfo(hit.object.userData.a, hit.object.userData.s);
+    });
+    return { highlight(id) { Object.entries(groups).forEach(([k, g2]) => { g2.visible = !id || k === id; }); } };
+  };
+
+  /* ---------------- Sound galaxy ---------------- */
+  window.makeGalaxy = function (host, a, PAL, onPick) {
+    if (!ok() || !a || !a.points3 || !a.points3.length) return null;
+    const S = stage(host, { dist: 2.6, minD: .5, maxD: 6, fov: 50 });
+    S.scene.fog = new THREE.FogExp2(0x020b10, .18);
+    const n = a.points3.length, pos = new Float32Array(n * 3), col = new Float32Array(n * 3);
+    a.points3.forEach(([x, y, z, c], i) => { pos.set([(x - .5) * 2.4, (y - .5) * 2.4, (z - .5) * 2.4], i * 3); const k = new THREE.Color(PAL[c % PAL.length]); col.set([k.r, k.g, k.b], i * 3); });
+    const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.BufferAttribute(pos, 3)); geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+    // soft round sprite
+    const sc = document.createElement('canvas'); sc.width = sc.height = 64; const sg = sc.getContext('2d'); const rg = sg.createRadialGradient(32, 32, 0, 32, 32, 32);
+    rg.addColorStop(0, 'rgba(255,255,255,1)'); rg.addColorStop(.35, 'rgba(255,255,255,.55)'); rg.addColorStop(1, 'rgba(255,255,255,0)'); sg.fillStyle = rg; sg.fillRect(0, 0, 64, 64);
+    const mat = new THREE.PointsMaterial({ size: .045, map: new THREE.CanvasTexture(sc), vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true });
+    const pts = new THREE.Points(geo, mat); S.scene.add(pts);
+    S.ticks.push(() => { if (!reduce) pts.rotation.y += .0006; });
+    const ray = new THREE.Raycaster(); ray.params.Points = { threshold: .03 }; const m = new THREE.Vector2();
+    S.r.domElement.addEventListener('click', (e) => {
+      const b = S.r.domElement.getBoundingClientRect(); m.set(((e.clientX - b.left) / b.width) * 2 - 1, -((e.clientY - b.top) / b.height) * 2 + 1);
+      ray.setFromCamera(m, S.cam); const hit = ray.intersectObject(pts)[0]; if (hit) onPick(a.points3[hit.index]);
+    });
+    return S;
+  };
+})();

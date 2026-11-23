@@ -147,7 +147,7 @@
  "live.tz": "(Pacific time)",
  "world.kicker": "Worldwide",
  "world.title": "Open ocean microphones around the world",
- "world.note": "Every dot is a hydrophone whose recordings can be downloaded without an account. Coordinates come from each archive's own metadata. Tap a group to highlight it.",
+ "world.note": "Every glowing spike is a hydrophone whose recordings can be downloaded without an account; amber ones are the two the Pi listens to now. Coordinates come from each archive's own metadata. Drag to turn the globe, tap a hydrophone or a group below.",
  "world.used": "used now",
  "world.open": "open, not used yet",
  "world.account": "needs a free account",

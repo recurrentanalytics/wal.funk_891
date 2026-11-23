@@ -207,40 +207,31 @@ function areas(g, path) {
 /* ---------- World map of open archives ---------- */
 function worldMap(wd) {
   const box = $('world'); box.replaceChildren();
-  const W = 1000, H = 520, svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': t('world.title') }); box.append(svg);
-  const proj = d3.geoNaturalEarth1().rotate([150, 0]).fitExtent([[8, 8], [W - 8, H - 8]], { type: 'Sphere' });
-  const path = d3.geoPath(proj);
-  svg.append(svgEl('path', { class: 'sphere', d: path({ type: 'Sphere' }) }), svgEl('path', { class: 'grat', d: path(d3.geoGraticule().step([30, 30])()) }));
   const COL = { used: '#ffb547', open: '#5ee6d7', account: '#7fa2ae' };
-  const groups = {};
   const info = $('world-info');
   const showInfo = (a, s) => { info.replaceChildren(el('b', '', a.name), el('span', '', ` · ${s ? s.name + ' · ' : ''}${a.years} · ${a.rate} · ${t('world.licence', { l: a.licence === 'not verified' ? t('world.notverified') : a.licence })}`)); };
-  const drawPts = () => {
-    wd.archives.forEach((a) => {
-      const g = svgEl('g', { class: 'wgroup', 'data-id': a.id }); groups[a.id] = g;
-      a.sites.forEach((s) => {
-        const [x, y] = proj([s.lon, s.lat]);
-        const c = svgEl('circle', { cx: x, cy: y, r: a.status === 'used' ? 6 : 4, fill: COL[a.status], class: a.status === 'used' ? 'wused' : '' });
-        c.addEventListener('pointerenter', () => showInfo(a, s)); c.addEventListener('click', () => showInfo(a, s));
-        const tt = svgEl('title'); tt.textContent = `${a.name}: ${s.name}`; c.append(tt); g.append(c);
-      });
+  let hl = () => {};
+  const globe = window.makeGlobe ? window.makeGlobe(box, wd, COL, showInfo) : null;
+  if (globe) { box.classList.add('globe'); hl = (id) => globe.highlight(id); }
+  else {
+    const W = 1000, H = 520, svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': t('world.title') }); box.append(svg);
+    const proj = d3.geoNaturalEarth1().rotate([150, 0]).fitExtent([[8, 8], [W - 8, H - 8]], { type: 'Sphere' }), path = d3.geoPath(proj);
+    svg.append(svgEl('path', { class: 'sphere', d: path({ type: 'Sphere' }) }), svgEl('path', { class: 'grat', d: path(d3.geoGraticule().step([30, 30])()) }));
+    const groups = {};
+    const drawPts = () => wd.archives.forEach((a) => {
+      const g = svgEl('g', { class: 'wgroup' }); groups[a.id] = g;
+      a.sites.forEach((s) => { const [x, y] = proj([s.lon, s.lat]); const c = svgEl('circle', { cx: x, cy: y, r: a.status === 'used' ? 6 : 4, fill: COL[a.status], class: a.status === 'used' ? 'wused' : '' }); c.addEventListener('click', () => showInfo(a, s)); g.append(c); });
       svg.append(g);
     });
-  };
-  fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/land-110m.json').then((r) => r.json()).then((topo) => {
-    svg.append(svgEl('path', { class: 'land', d: path(topojson.feature(topo, topo.objects.land)) })); drawPts();
-  }).catch(drawPts);
+    fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/land-110m.json').then((r) => r.json()).then((topo) => { svg.append(svgEl('path', { class: 'land', d: path(topojson.feature(topo, topo.objects.land)) })); drawPts(); }).catch(drawPts);
+    hl = (id) => Object.entries(groups).forEach(([k, g]) => g.classList.toggle('dim', !!id && k !== id));
+  }
   const list = $('world-list'); list.replaceChildren();
   wd.archives.forEach((a) => {
     const b = el('button', 'wl-item'); b.type = 'button';
     const dot = el('i'); dot.style.background = COL[a.status];
     b.append(dot, el('b', '', a.name), el('span', '', `${{ used: t('world.used'), open: t('world.open'), account: t('world.account') }[a.status]} · ${t('world.sites', { n: a.sites.length })} · ${a.years}`));
-    b.addEventListener('click', () => {
-      const on = b.classList.toggle('on');
-      list.querySelectorAll('.wl-item').forEach((x) => x !== b && x.classList.remove('on'));
-      Object.entries(groups).forEach(([id, g]) => g.classList.toggle('dim', on && id !== a.id));
-      showInfo(a);
-    });
+    b.addEventListener('click', () => { const on = b.classList.toggle('on'); list.querySelectorAll('.wl-item').forEach((x) => x !== b && x.classList.remove('on')); hl(on ? a.id : null); showInfo(a); });
     list.append(b);
   });
   const off = el('p', 'note'); off.append(el('b', '', t('world.offmap') + ' '), wd.offmap.map((o) => `${o.name} (${o.years ? o.years + ', ' : ''}${o.note})`).join(' · '));
