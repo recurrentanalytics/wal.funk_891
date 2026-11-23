@@ -31,10 +31,10 @@
     const W = () => host.clientWidth, H = () => host.clientHeight;
     const r = new THREE.WebGLRenderer({ antialias: true, alpha: true }); r.setPixelRatio(Math.min(2, devicePixelRatio || 1)); r.setSize(W(), H()); host.append(r.domElement);
     r.domElement.className = 'wire-canvas'; r.domElement.setAttribute('aria-hidden', 'true');
-    const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(34, W() / H(), .1, 100); cam.position.set(2, 1.2, 15); cam.lookAt(2, .6, 0);
+    const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(34, W() / H(), .1, 100); cam.position.set(1.5, 1.4, 19); cam.lookAt(1.5, .9, 0);
     const geo = body(kind), base = geo.attributes.position.array.slice();
     const whale = new THREE.Group();
-    const lines = new THREE.LineSegments(new THREE.WireframeGeometry(geo), new THREE.LineBasicMaterial({ color: 0x5ee6d7, transparent: true, opacity: .75 }));
+    const lines = new THREE.LineSegments(new THREE.WireframeGeometry(geo), new THREE.LineBasicMaterial({ color: 0x7ff3e6, transparent: true, opacity: .9 }));
     const fill = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: 0x03141c, transparent: true, opacity: .55, side: THREE.DoubleSide }));
     whale.add(fill, lines); scene.add(whale);
     // the water line: a faint grid seen nearly edge-on
@@ -54,13 +54,13 @@
       const p = geo.attributes.position.array;
       for (let i = 0; i < p.length; i += 3) { const x = base[i]; const k = Math.max(0, x) / 3; p[i + 1] = base[i + 1] + Math.sin(tt * 1.6 - x * .6) * .18 * k * k; }
       geo.attributes.position.needsUpdate = true; lines.geometry.dispose(); lines.geometry = new THREE.WireframeGeometry(geo);
-      if (u < .45) { const s = u / .45; whale.position.set(-6 + s * 7, -1.7 + Math.sin(tt) * .08, 0); whale.rotation.set(0, 0, .04 * flex); splashed = false; }
+      if (u < .45) { const s = u / .45; whale.position.set(-7 + s * 7, -1.7 + Math.sin(tt) * .08, 0); whale.rotation.set(0, 0, .04 * flex); splashed = false; }
       else if (u < .72) {
         const s = (u - .45) / .27, arc = Math.sin(s * Math.PI);
-        whale.position.set(1 + s * 3.2, -1.7 + arc * 4.0, 0);
+        whale.position.set(0 + s * 3.2, -1.7 + arc * 4.0, 0);
         whale.rotation.set(s * Math.PI * .8, 0, -.9 + s * 1.9);          // twist and fall on its side, like a humpback
         if (s > .82 && !splashed) { splashed = true; boom(whale.position.x); }
-      } else { const s = (u - .72) / .28; whale.position.set(4.2 + s * 6, -1.8 - s * .4, 0); whale.rotation.set(Math.PI * .8 * (1 - s), 0, 1 * (1 - s)); }
+      } else { const s = (u - .72) / .28; whale.position.set(3.2 + s * 5, -1.8 - s * .4, 0); whale.rotation.set(Math.PI * .8 * (1 - s), 0, 1 * (1 - s)); }
       if (splashT >= 0) {
         const dt = .016; splashT += dt; splash.material.opacity = Math.max(0, .9 - splashT * .6);
         for (let i = 0; i < SN; i++) { sv[i][1] -= 9.8 * dt; sp[i * 3] += sv[i][0] * dt; sp[i * 3 + 1] = Math.max(-.2, sp[i * 3 + 1] + sv[i][1] * dt); sp[i * 3 + 2] += sv[i][2] * dt; }
