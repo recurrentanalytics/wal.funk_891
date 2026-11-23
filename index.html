@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261123112627">
+<meta name="build" content="20261123113323">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>wal.funk_891</title>
 <meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls.">
@@ -703,6 +703,31 @@ main img:not(button img):not(.sp-card img), .chapter.has-photo { cursor: zoom-in
 body.lb-on { overflow: hidden; }
 .scene-label.photo-pin { cursor: pointer; pointer-events: auto; border-color: var(--amber); color: #ffe2b0; }
 .scene-label.photo-pin:hover { background: rgba(255,181,71,.2); }
+
+/* results board */
+.res-board { margin: 18px 0 30px; }
+.rb-kpi { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.rb-k { padding: 14px 16px; border-radius: 14px; border: 1px solid rgba(94,230,215,.2); background: rgba(4,32,44,.5); }
+.rb-k b { display: block; font: 300 2.4rem/1 var(--display); } .rb-k span { font-size: 13px; color: #b9d3db; }
+.rb-k.pass b { color: #7ee2a8; } .rb-k.fail b { color: #ff8a8a; } .rb-k.pending b { color: var(--amber); } .rb-k.mac b { color: #9fc3ff; }
+.rb-paper { display: inline-block; margin: 14px 0 6px; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--glow); color: var(--glow); text-decoration: none; font-size: 14px; }
+.rb-paper::after { content: " →"; } .rb-paper:hover { background: rgba(94,230,215,.1); }
+.rb-group { margin-top: 22px; padding: 14px 16px; border-radius: 16px; border: 1px solid rgba(94,230,215,.15); background: rgba(4,32,44,.35); }
+.rb-group h3 { margin: 0; font: 300 1.4rem/1.2 var(--display); } .rb-group > .note { margin: 4px 0 10px; }
+.rb-row { display: grid; grid-template-columns: minmax(0, 2.4fr) 80px 90px minmax(0, 1.6fr) 110px; gap: 12px; align-items: center; padding: 9px 4px; border-top: 1px solid rgba(94,230,215,.1); color: inherit; text-decoration: none; }
+a.rb-row:hover { background: rgba(94,230,215,.05); }
+.rb-head { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); border-top: 0; }
+.rb-name b { display: block; font-weight: 500; font-size: 14px; } .rb-name small { color: #7fa2ae; font-size: 11.5px; }
+.rb-v { font: 500 15px var(--mono); } .rb-m { font: 12px var(--mono); color: var(--amber); }
+.rb-bar { position: relative; height: 8px; border-radius: 4px; background: rgba(127,162,174,.18); }
+.rb-bar.wait { background: repeating-linear-gradient(90deg, rgba(255,181,71,.25) 0 6px, transparent 6px 12px); }
+.rb-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; opacity: .35; } .rb-fill.pass { background: #7ee2a8; } .rb-fill.fail { background: #ff8a8a; } .rb-fill.note { background: #9fc3ff; }
+.rb-val { position: absolute; top: -4px; width: 4px; height: 16px; margin-left: -2px; border-radius: 2px; } .rb-val.pass { background: #7ee2a8; } .rb-val.fail { background: #ff8a8a; } .rb-val.note { background: #9fc3ff; }
+.rb-mark { position: absolute; top: -6px; bottom: -6px; width: 0; border-left: 2px dashed var(--amber); }
+.rb-band { position: absolute; top: -3px; bottom: -3px; background: rgba(255,181,71,.3); border: 1px dashed var(--amber); }
+.pill.pass { color: #7ee2a8; border-color: rgba(126,226,168,.5); } .pill.fail { color: #ff8a8a; border-color: rgba(255,138,138,.5); } .pill.pending { color: var(--amber); border-color: rgba(255,181,71,.5); } .pill.note { color: #9fc3ff; border-color: rgba(159,195,255,.5); }
+.rb-row .pill { justify-self: start; padding: 2px 10px; border-radius: 999px; border: 1px solid; font: 500 11.5px var(--mono); }
+@media (max-width: 760px) { .rb-kpi { grid-template-columns: repeat(2, 1fr); } .rb-row { grid-template-columns: minmax(0, 1fr) auto; } .rb-head { display: none; } .rb-row .rb-bar { grid-column: 1 / -1; } .rb-m { display: none; } }
 </style>
 </head>
 <body>
@@ -858,6 +883,8 @@ body.lb-on { overflow: hidden; }
     <div class="kicker" data-i18n="results.kicker"></div>
     <h2 data-i18n="results.title"></h2>
     <p class="lede-big" data-i18n="results.lede"></p>
+    <div class="res-board" id="res-board"></div>
+    <h3 class="scene-title sub-h" data-i18n="res.details"></h3>
     <div class="score-grid" id="scores"></div>
     <div class="panel cic-panel" style="margin-top:16px"><span class="kicker" data-i18n="cic.kicker"></span><h3 class="scene-title" data-i18n="cic.title"></h3>
       <p class="note" data-i18n="cic.lede"></p><div id="cic"></div></div>
@@ -945,19 +972,20 @@ body.lb-on { overflow: hidden; }
 <footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="handbook.html" data-i18n="hbk.link"></a> · <a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/wal.funk_891">GitHub</a></p></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="i18n.js?v=20261123112627"></script>
-<script src="globe.js?v=20261123112627"></script>
-<script src="app.js?v=20261123112627"></script>
-<script src="play.js?v=20261123112627"></script>
-<script src="atlas.js?v=20261123112627"></script>
-<script src="humpback3d.js?v=20261123112627"></script>
-<script src="tabs.js?v=20261123112627"></script>
-<script src="ambient.js?v=20261123112627"></script>
-<script src="cicompare.js?v=20261123112627"></script>
-<script src="routes.js?v=20261123112627"></script>
-<script src="ui.js?v=20261123112627"></script>
-<script src="polish.js?v=20261123112627"></script>
-<script src="story.js?v=20261123112627"></script>
-<script src="scenes.js?v=20261123112627"></script>
+<script src="i18n.js?v=20261123113323"></script>
+<script src="globe.js?v=20261123113323"></script>
+<script src="app.js?v=20261123113323"></script>
+<script src="play.js?v=20261123113323"></script>
+<script src="atlas.js?v=20261123113323"></script>
+<script src="humpback3d.js?v=20261123113323"></script>
+<script src="tabs.js?v=20261123113323"></script>
+<script src="ambient.js?v=20261123113323"></script>
+<script src="results.js?v=20261123113323"></script>
+<script src="cicompare.js?v=20261123113323"></script>
+<script src="routes.js?v=20261123113323"></script>
+<script src="ui.js?v=20261123113323"></script>
+<script src="polish.js?v=20261123113323"></script>
+<script src="story.js?v=20261123113323"></script>
+<script src="scenes.js?v=20261123113323"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 {
- "build": "20261123112627",
- "built_at": "2026-11-23 11:26 CET",
+ "build": "20261123113323",
+ "built_at": "2026-11-23 11:33 CET",
  "libs": [
   [
    "d3",
@@ -62,12 +62,20 @@
    49
   ],
   [
+   "paper.js",
+   67
+  ],
+  [
    "play.js",
    135
   ],
   [
    "polish.js",
    14
+  ],
+  [
+   "results.js",
+   47
   ],
   [
    "routes.js",
@@ -90,12 +98,12 @@
    88
   ]
  ],
- "own_js_lines": 2545,
- "html_lines": 963,
+ "own_js_lines": 2659,
+ "html_lines": 991,
  "i18n_keys": {
-  "en": 885,
-  "de": 885,
-  "zh": 885
+  "en": 987,
+  "de": 987,
+  "zh": 987
  },
  "data_files": [
   [
@@ -191,6 +199,10 @@
    241100
   ],
   [
+   "data/results.json",
+   3741
+  ],
+  [
    "data/soundmap.json",
    31586
   ],
@@ -227,7 +239,7 @@
    5818
   ]
  ],
- "data_bytes": 8736176,
+ "data_bytes": 8739917,
  "species_total": 93,
  "species_at_stations": 18,
  "species_with_clips": 14,
