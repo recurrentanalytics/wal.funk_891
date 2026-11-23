@@ -404,7 +404,8 @@ function results(s) {
     li.append(el('span', 'n', String(r.step).padStart(2, '0')), tx, el('span', 's ' + r.status, t(`status.${r.status}`))); g.append(li);
   });
   const perch = (s.models || []).find((m) => /perch/i.test(m.model));
-  if (perch && perch.balanced_accuracy != null) $('g-model').textContent = t('glance.model.val', { score: num(perch.balanced_accuracy, 3) });
+  const sm = s.sample || {};
+  if (sm.total) $('g-hours').textContent = t('glance.hours.val', { done: num(sm.done || 0), total: num(sm.total) });
 }
 
 /* ---------- Sound map ---------- */
@@ -555,7 +556,6 @@ function calendar(c) {
   const tot = {}; c.hours.forEach((h) => Object.entries(h.counts).forEach(([k, n]) => { tot[k] = (tot[k] || 0) + n; }));
   const found = Object.entries(tot).filter(([, n]) => n > 0).map(([k, n]) => `${num(n)} ${CODE2SP[k] ? t(`sp.${CODE2SP[k]}.name`) : k}`).join(', ');
   $('cal-sum').textContent = t('finds.sum', { done: num(c.hours.length), total: num(totalH), pct: num(100 * c.hours.length / totalH, 3), found: found || t('finds.none') });
-  $('g-hours').textContent = t('glance.hours.val', { done: num(c.hours.length), total: num(totalH) });
   const cal = $('cal'); cal.replaceChildren();
   for (let y = 2015; y <= now.getUTCFullYear(); y++) {
     const row = el('div', 'cal-year'), days = el('div', 'cal-days'), jan1 = new Date(Date.UTC(y, 0, 1));
