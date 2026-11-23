@@ -73,24 +73,38 @@ function whalePath(L, H, fin, kind, flipper) {
   if (flipper) { const fx = orca ? .2 : .26, len = flipper; p.push(`M ${f(fx, .8)} Q ${f(fx + len * .45, 1.0)} ${f(fx + len, 1.2)} Q ${f(fx + len * .55, 1.02)} ${f(fx + .07, .8)} Z`); }
   return p.join(' ');
 }
-function whaleSVG(name, m, max, VB = 1000, VH = 200) {
+// silhouette kind by family, for species beyond the curated seven
+const FAMKIND = { Balaenidae: 'right', Physeteridae: 'sperm', Kogiidae: 'sperm', Eschrichtiidae: 'gray', Delphinidae: 'dolphin', Phocoenidae: 'dolphin',
+  Ziphiidae: 'dolphin', Monodontidae: 'dolphin', Platanistidae: 'dolphin', Iniidae: 'dolphin', Pontoporiidae: 'dolphin', Lipotidae: 'dolphin', Neobalaenidae: 'baleen' };
+function whaleSVG(name, m, max, VB = 1000, VH = 200, fam = null) {
   const s = svgEl('svg', { viewBox: `0 0 ${VB} ${VH}`, preserveAspectRatio: 'xMinYMax meet', 'aria-hidden': 'true' });
   const L = VB * m / max;
   if (name === 'Person') {
     const u = L / 8;
     s.append(svgEl('path', { d: `M${u * 1.6} ${VH - L} a${u * .55} ${u * .55} 0 1 1 0.01 0 Z M${u * 1.05} ${VH - L + u * 1.2} h${u * 1.1} l${u * .3} ${u * 3} h${-u * .45} v${u * 3.8} h${-u * .45} v${-u * 2.4} h${-u * .1} v${u * 2.4} h${-u * .45} v${-u * 3.8} h${-u * .45} Z` }));
   } else {
-    const kind = /orca/i.test(name) ? 'orca' : /right/i.test(name) ? 'right' : 'baleen', hump = /humpback/i.test(name);
-    const H = L * (kind === 'right' ? .22 : kind === 'orca' ? .2 : hump ? .17 : .12);
-    const p = svgEl('path', { d: whalePath(L, H, kind === 'orca' ? H * .85 : hump ? H * .1 : H * .14, kind, hump ? .3 : kind === 'orca' ? .09 : .1) });
+    const fk = fam && FAMKIND[fam];
+    const kind = /orca/i.test(name) ? 'orca' : /right whale/i.test(name) ? 'right' : fk === 'right' || fk === 'sperm' ? 'right' : fk === 'dolphin' ? 'orca' : 'baleen', hump = /humpback/i.test(name);
+    const dolphin = fk === 'dolphin' && kind === 'orca' && !/orca/i.test(name);
+    const H = L * (fk === 'sperm' ? .2 : kind === 'right' ? .22 : dolphin ? .19 : kind === 'orca' ? .2 : hump ? .17 : fk === 'gray' ? .15 : .12);
+    const fin = dolphin ? H * .45 : kind === 'orca' ? H * .85 : hump ? H * .1 : fk === 'gray' ? H * .02 : H * .14;
+    const p = svgEl('path', { d: whalePath(L, H, fin, kind, hump ? .3 : kind === 'orca' ? .09 : .1) });
     p.setAttribute('transform', `translate(0 ${(VH - H * 1.2).toFixed(1)})`); s.append(p);
   }
   return s;
 }
 
 /* ---------- Whales explorer ---------- */
-function whales(w) {
-  const max = w.sizes.items[0][1];
+function whales(w, S) {
+  const lang = I18N.lang, spName = (x) => (x.name && (x.name[lang] || x.name.en)) || x.sci;
+  const CUR = { 'Balaenoptera musculus': 'Blue whale', 'Balaenoptera physalus': 'Fin whale', 'Megaptera novaeangliae': 'Humpback whale', 'Orcinus orca': 'Killer whale (orca)',
+    'Balaenoptera acutorostrata': 'Minke whale', 'Balaenoptera edeni': "Bryde's whale", 'Eubalaena japonica': 'North Pacific right whale' };
+  const all = (S && S.species) || [], bySci = Object.fromEntries(all.map((x) => [x.sci, x]));
+  const atStation = all.filter((x) => x.seen[0] + x.seen[1] > 0 && x.len).sort((a, b) => b.len - a.len);
+  const rest = all.filter((x) => !atStation.includes(x)).sort((a, b) => (a.family || '').localeCompare(b.family || '') || spName(a).localeCompare(spName(b), lang));
+  const items = atStation.length ? atStation.map((x) => [CUR[x.sci] || x.sci, x.len, x]).concat([['Person', 1.8, null]]) : w.sizes.items.map(([n, m]) => [n, m, null]);
+  const lenOf = Object.fromEntries(items.map(([n, m]) => [n, m]));
+  const max = items[0][1];
   const facts = Object.fromEntries(w.species.map((s) => [s.name, s]));
   const factOf = (name) => /right whale/i.test(name) ? facts['Right whales'] : facts[name] || Object.values(facts).find((s) => s.name.startsWith(name.split(' (')[0]));
   const photos = w.photos || {};
@@ -100,24 +114,42 @@ function whales(w) {
   const ab = el('span'); ab.append(el('i', 'det det-absent'), t('st.legend')); legend.append(ab);
   line.parentElement.append(legend);
   const buttons = [];
-  w.sizes.items.forEach(([name, m]) => {
+  items.forEach(([name, m, x]) => {
     const key = SP[name], isPerson = name === 'Person';
     const btn = el('button', 'whale-btn' + (isPerson ? ' person' : '')); btn.type = 'button';
     btn.setAttribute('aria-pressed', 'false');
-    const nm = el('span', 'nm', t(`sp.${key}.name`));
-    if (DETECT[key]) { const dot = el('i', 'det det-' + DETECT[key]); dot.title = t(`det.state.${DETECT[key]}`); nm.prepend(dot); }
-    btn.append(nm, el('span', 'len', `${num(m, 1)} m`), whaleSVG(name, m, max));
-    const ev = w.stations || {}, seen = (ev.seen || {})[key], heard = (ev.heard || {})[key];
-    if (!isPerson && ev.seen && !(seen && (seen[0] + seen[1]) > 0) && !(heard && heard.length)) { btn.classList.add('absent'); btn.title = t('st.absent.short'); }
+    const nm = el('span', 'nm', key ? t(`sp.${key}.name`) : spName(x));
+    const dk = isPerson ? null : DETECT[key] || 'none';
+    if (dk) { const dot = el('i', 'det det-' + dk); dot.title = t(`det.state.${dk}`); nm.prepend(dot); }
+    btn.append(nm, el('span', 'len', `${num(m, 1)} m`), whaleSVG(name, m, max, 1000, 200, x && x.family));
     if (isPerson) btn.disabled = true; else btn.addEventListener('click', () => select(name, true));
     buttons.push([name, btn]); line.append(btn);
   });
+  // every other living whale and dolphin species: hidden until asked for, hatched
+  if (rest.length) {
+    const more = el('button', 'more-sp'); more.type = 'button'; more.setAttribute('aria-expanded', 'false');
+    more.textContent = t('allsp.show', { n: rest.length, total: all.length });
+    const grid = el('div', 'all-sp'); grid.hidden = true;
+    let fam = null;
+    rest.forEach((x) => {
+      if (x.family !== fam) { fam = x.family; grid.append(el('div', 'fam', fam || '—')); }
+      const c = el('button', 'sp-card'); c.type = 'button'; c.title = t('st.absent.short');
+      if (x.img) { const i = el('img'); i.loading = 'lazy'; i.alt = ''; i.src = x.img.src; c.append(i); } else c.append(el('span', 'noimg'));
+      c.append(el('b', '', spName(x)), el('i', '', x.sci), el('small', 'iucn iucn-' + (x.iucn || 'NA'), x.iucn ? t(`iucn.${x.iucn}`) : '—'));
+      const nameKey = CUR[x.sci] || x.sci;
+      c.addEventListener('click', () => { grid.querySelectorAll('.sp-card').forEach((o) => o.classList.toggle('on', o === c)); select(nameKey, true); });
+      buttons.push([nameKey, c]); grid.append(c);
+    });
+    more.addEventListener('click', () => { grid.hidden = !grid.hidden; more.setAttribute('aria-expanded', String(!grid.hidden)); more.textContent = t(grid.hidden ? 'allsp.show' : 'allsp.hide', { n: rest.length, total: all.length }); });
+    line.parentElement.append(more, grid);
+  }
   const lo = Math.log10(10), hi = Math.log10(30000), pos = (hz) => 100 * (Math.log10(hz) - lo) / (hi - lo);
   const kHz = (v) => v >= 1000 ? `${num(v / 1000, v % 1000 ? 1 : 0)}k` : num(v);
   function select(name, play) {
     buttons.forEach(([n, b]) => b.setAttribute('aria-pressed', String(n === name)));
     whaleAudio.pause(); buttons.forEach(([, b]) => b.classList.remove('sounding'));
-    const key = SP[name], tk = SPTEXT[key], sp = factOf(name) || {}, len = w.sizes.items.find((x) => x[0] === name)[1];
+    if (!SP[name]) return selectOther(bySci[name] || items.find((it) => it[0] === name)[2]);
+    const key = SP[name], tk = SPTEXT[key], sp = factOf(name) || {}, len = lenOf[name] || (w.sizes.items.find((x) => x[0] === name) || [0, 0])[1];
     const d = $('detail'); d.replaceChildren();
     const ph = photos[name];
     if (ph) {
@@ -187,6 +219,30 @@ function whales(w) {
       sp.sources.forEach(([tx, u], i) => { const a = el('a', '', tx); a.href = u; a.rel = 'noopener'; src.append(a); if (i < sp.sources.length - 1) src.append(' · '); });
       d.append(src);
     }
+  }
+  function selectOther(x) {
+    const d = $('detail'); d.replaceChildren(); if (!x) return;
+    if (x.img) {
+      const fig = el('figure', 'photo'); const img = el('img'); img.src = x.img.src.replace(/\/\d+px-/, '/640px-'); img.onerror = () => { img.onerror = null; img.src = x.img.src; }; img.alt = spName(x); img.loading = 'lazy';
+      const cap = el('figcaption'); cap.append(`${t('whales.photo')} ${x.img.by || '—'} · ${x.img.lic || ''} · `);
+      const a = el('a', '', 'Wikimedia Commons'); a.href = x.img.page; a.rel = 'noopener'; cap.append(a); fig.append(img, cap); d.append(fig);
+    }
+    d.append(el('h3', 'big', spName(x)), el('div', 'lat', `${x.sci}${x.family ? ' · ' + x.family : ''}`));
+    const absent = x.seen[0] + x.seen[1] === 0, box2 = el('div', 'evidence' + (absent ? ' absent' : ''));
+    box2.append(el('b', '', t('st.q')), el('p', '', absent ? t('st.absent', { since: 2015 }) : t('st.seen', { m: num(x.seen[0]), s: num(x.seen[1]), since: 2015 })));
+    d.append(box2);
+    const st = el('div', 'detect det-box-none'); st.append(el('b', '', t('det.q') + ' ' + t('det.state.none')), el('p', '', t('det.other'))); d.append(st);
+    const fx = el('div', 'facts');
+    const fact = (v, k) => { const f = el('div', 'fact'); f.append(el('b', '', v), el('span', '', k)); return f; };
+    fx.append(fact(x.len ? `${num(x.len, 1)} m` : '—', t(x.len_src && x.len_src[0] === 'pantheria' ? 'whales.meanlen' : 'whales.maxlen')), fact(x.iucn ? t(`iucn.${x.iucn}`) : '—', t('whales.iucn')));
+    d.append(fx);
+    const go = el('button', 'map-go'); go.type = 'button'; go.textContent = t('routes.show', { name: spName(x) });
+    go.addEventListener('click', () => { document.dispatchEvent(new CustomEvent('routes-species', { detail: x.sci })); $('routes').scrollIntoView({ behavior: 'smooth' }); });
+    d.append(go, el('p', 'note', t('sound.none')));
+    const src = el('p', 'src', t('whales.sources') + ' '); const wd = el('a', '', 'Wikidata'); wd.href = `https://www.wikidata.org/wiki/${x.qid}`; wd.rel = 'noopener'; src.append(wd);
+    if (x.len_src && x.len_src[1]) { const n = el('a', '', 'NOAA'); n.href = x.len_src[1]; n.rel = 'noopener'; src.append(' · ', n); }
+    if (x.len_src && x.len_src[0] === 'pantheria') src.append(' · PanTHERIA');
+    src.append(' · GBIF'); d.append(src);
   }
   select('Blue whale');
   const k = $('known'); k.replaceChildren();
@@ -603,7 +659,7 @@ function menu() {
 I18N.ready.then(() => {
   menu();
   getJSON('data/clip.json').then((c) => { hero(c.grid); player(c); }).catch(() => { $('clipnote').textContent = t('listen.loadfail'); });
-  getJSON('whales.json').then((w) => { whales(w); localMap(w.hydrophones); }).catch(() => { $('detail').textContent = t('ui.loadfail'); });
+  Promise.all([getJSON('whales.json'), getJSON('data/species.json').catch(() => null)]).then(([w, S]) => { whales(w, S); localMap(w.hydrophones); }).catch(() => { $('detail').textContent = t('ui.loadfail'); });
   getJSON('data/world.json').then(worldMap).catch(() => { $('world').textContent = t('ui.loadfail'); });
   getJSON('data/status.json').then((s) => { machine(s); results(s); }).catch(() => { $('stamp').textContent = t('machine.loadfail'); $('stamp').classList.add('err'); $('live-text').textContent = t('hero.noreport'); });
   getJSON('data/soundmap.json').then(soundmap).catch(() => { $('smap-note').textContent = t('ui.loadfail'); });

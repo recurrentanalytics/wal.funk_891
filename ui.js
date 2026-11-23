@@ -1,7 +1,7 @@
 /* Fullscreen for every visualisation, and the page-wide current field as a quiet background. */
 (function () {
   /* ---------- fullscreen ---------- */
-  const TARGETS = ['#stage', '#map', '#bathy3d', '#world', '#spec-wrap', '#land3d', '.mc-stage', '.smap', '.atlas-main', '#galaxy', '.tl'];
+  const TARGETS = ['#stage', '#map', '#bathy3d', '#world', '#spec-wrap', '#land3d', '.mc-stage', '.smap', '.atlas-main', '#galaxy', '.tl', '#routes-map'];
   const ICON = { open: '<path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>', close: '<path d="M3 3l10 10M13 3L3 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>' };
   let active = null;
   const poke = () => { dispatchEvent(new Event('resize')); setTimeout(() => dispatchEvent(new Event('resize')), 120); setTimeout(() => dispatchEvent(new Event('resize')), 400); };

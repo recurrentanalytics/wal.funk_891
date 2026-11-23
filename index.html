@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261123090443">
+<meta name="build" content="20261123091823">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>wal.funk_891</title>
 <meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls.">
@@ -548,6 +548,35 @@ body.fs-on { overflow: hidden; } body.fs-on .toc, body.fs-on .lang-top, body.fs-
 .evidence { margin: 12px 0 0; padding: 10px 14px; border-radius: 10px; border-left: 3px solid var(--glow); background: rgba(94,230,215,.06); }
 .evidence b { display: block; font-size: 14px; } .evidence p { margin: 4px 0 0; font-size: 14px; color: #b9d3db; }
 .evidence.absent { border-left-color: #7fa2ae; background: repeating-linear-gradient(135deg, rgba(127,162,174,.1) 0 2px, transparent 2px 9px); }
+
+/* all species, hatched, on request */
+.more-sp { all: unset; cursor: pointer; display: block; margin: 14px 0 6px; padding: 10px 14px; border-radius: 10px; border: 1px dashed rgba(127,162,174,.5); color: #b9d3db; font-size: 14px; }
+.more-sp:hover { border-color: var(--glow); color: var(--glow); } .more-sp:focus-visible { outline: 2px solid var(--glow); }
+.all-sp { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; margin-top: 8px; }
+.all-sp .fam { grid-column: 1 / -1; font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--glow); margin-top: 10px; }
+.sp-card { all: unset; cursor: pointer; display: grid; gap: 3px; padding: 8px; border-radius: 10px; font-size: 13px; color: #b9d3db;
+  background: repeating-linear-gradient(135deg, rgba(127,162,174,.12) 0 2px, transparent 2px 9px); border: 1px solid rgba(127,162,174,.2); }
+.sp-card:hover, .sp-card.on { border-color: var(--glow); } .sp-card:focus-visible { outline: 2px solid var(--glow); }
+.sp-card img, .sp-card .noimg { width: 100%; aspect-ratio: 16/10; object-fit: cover; border-radius: 6px; filter: grayscale(.85) brightness(.8); background: rgba(127,162,174,.15); }
+.sp-card:hover img, .sp-card.on img { filter: none; }
+.sp-card b { font-weight: 500; color: #d5e8ed; } .sp-card i { font-size: 11px; color: #7fa2ae; }
+.iucn { font: 11px var(--mono); } .iucn-CR, .iucn-EN { color: #ff8a8a; } .iucn-VU, .iucn-NT { color: var(--amber); } .iucn-LC { color: #8fd8c8; } .iucn-DD, .iucn-NA { color: #7fa2ae; }
+.map-go { all: unset; cursor: pointer; display: inline-block; margin: 10px 0 4px; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--glow); color: var(--glow); font-size: 13px; }
+.map-go:hover { background: rgba(94,230,215,.12); }
+/* distribution / migration map */
+.routes-ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 12px 0 8px; font-size: 13px; }
+.routes-ctl select, .routes-ctl input[type=range] { background: rgba(4,32,44,.8); color: #d5e8ed; border: 1px solid rgba(94,230,215,.3); border-radius: 8px; padding: 6px 8px; font: inherit; max-width: 100%; }
+.routes-ctl input[type=range] { padding: 0; flex: 1 1 140px; accent-color: var(--glow); }
+.rt-play { all: unset; cursor: pointer; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--glow); color: var(--glow); }
+.rt-play:disabled { opacity: .3; cursor: default; }
+.rt-month { min-width: 5.5em; color: var(--glow); font: 500 14px var(--mono); }
+.rt-chk { display: inline-flex; align-items: center; gap: 4px; color: #b9d3db; } .rt-vs { color: var(--amber); }
+.routes-map { position: relative; border-radius: 14px; overflow: hidden; background: #021219; border: 1px solid rgba(94,230,215,.15); min-height: 260px; touch-action: pan-y; }
+.routes-map canvas { display: block; cursor: grab; } .routes-map canvas:active { cursor: grabbing; }
+.rt-tip { position: absolute; pointer-events: none; background: rgba(2,18,25,.92); border: 1px solid rgba(94,230,215,.4); border-radius: 6px; padding: 4px 8px; font: 12px var(--mono); color: #d5e8ed; }
+.rt-zoom { position: absolute; left: 10px; bottom: 10px; display: grid; gap: 4px; }
+.rt-zoom button { all: unset; cursor: pointer; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 6px; background: rgba(2,18,25,.85); border: 1px solid rgba(94,230,215,.3); color: #d5e8ed; }
+.routes-map.fs canvas { height: 100% !important; }
 </style>
 </head>
 <body>
@@ -608,6 +637,12 @@ body.fs-on { overflow: hidden; } body.fs-on .toc, body.fs-on .lang-top, body.fs-
       <div class="panel detail" id="detail" aria-live="polite">—</div>
     </div>
     <div class="known" id="known"></div>
+    <div class="sub-h" id="routes"><span class="kicker" data-i18n="routes.kicker"></span><h3 class="scene-title" data-i18n="routes.title"></h3>
+      <p class="note" data-i18n="routes.lede"></p></div>
+    <div class="routes-ctl" id="routes-ctl"></div>
+    <div class="routes-map" id="routes-map"><div class="scene-msg" data-i18n="routes.loading"></div></div>
+    <p class="note" id="routes-note"></p>
+    <p class="note" data-i18n="routes.caveat"></p>
     <div class="sub-h" id="voices-anchor"><span class="kicker" data-i18n="voices.kicker"></span><h3 class="scene-title" data-i18n="voices.title"></h3>
       <p class="note" data-i18n="voices.lede"></p><p class="note" data-i18n="voices.speed.note"></p></div>
     <div class="voices" id="voices"></div>
@@ -775,14 +810,15 @@ body.fs-on { overflow: hidden; } body.fs-on .toc, body.fs-on .lang-top, body.fs-
 <footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/wal.funk_891">GitHub</a></p></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="i18n.js?v=20261123090443"></script>
-<script src="globe.js?v=20261123090443"></script>
-<script src="app.js?v=20261123090443"></script>
-<script src="play.js?v=20261123090443"></script>
-<script src="atlas.js?v=20261123090443"></script>
-<script src="ui.js?v=20261123090443"></script>
-<script src="polish.js?v=20261123090443"></script>
-<script src="story.js?v=20261123090443"></script>
-<script src="scenes.js?v=20261123090443"></script>
+<script src="i18n.js?v=20261123091823"></script>
+<script src="globe.js?v=20261123091823"></script>
+<script src="app.js?v=20261123091823"></script>
+<script src="play.js?v=20261123091823"></script>
+<script src="atlas.js?v=20261123091823"></script>
+<script src="routes.js"></script>
+<script src="ui.js?v=20261123091823"></script>
+<script src="polish.js?v=20261123091823"></script>
+<script src="story.js?v=20261123091823"></script>
+<script src="scenes.js?v=20261123091823"></script>
 </body>
 </html>
