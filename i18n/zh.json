@@ -1203,5 +1203,17 @@
  "hero.paused": "树莓派已暂停 · {temp} °C · 已抽样 {done}/{total} 天 · 所有测试先在 Mac mini 上运行",
  "dt.voice": "声音",
  "dt.range": "栖息地",
- "dt.proof": "本站证据"
+ "dt.proof": "本站证据",
+ "lib.title": "文献库",
+ "lib.lede": "wal.funk_891 所依据的全部文献：研究、数据集、模型。每个 DOI 都已在 Crossref 或 DataCite 核对；标题和作者均取自那里。",
+ "lib.built": "{n} 项 · 生成于 {at}",
+ "lib.zotero": "用于 Zotero（RDF，含分类）",
+ "lib.bib": "BibTeX",
+ "lib.howto": "在 Zotero 中：文件 › 导入… › 选择 RDF 文件。它带有“By topic”和“By page”两组分类；作品在页面上的出处写在其笔记中。",
+ "lib.search": "搜索：作者、标题、主题……",
+ "lib.all": "全部",
+ "lib.checked": "已核对（{by}，{at}）",
+ "lib.cited": "引用于：",
+ "lib.count": "{total} 项中的 {n} 项",
+ "lib.docs": "项目笔记"
 }

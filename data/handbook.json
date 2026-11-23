@@ -1,6 +1,6 @@
 {
- "build": "20261123160538",
- "built_at": "2026-11-23 16:05 CET",
+ "build": "20261123163355",
+ "built_at": "2026-11-23 16:33 CET",
  "libs": [
   [
    "d3",
@@ -66,6 +66,10 @@
    185
   ],
   [
+   "library.js",
+   42
+  ],
+  [
    "nowbar.js",
    32
   ],
@@ -103,7 +107,7 @@
   ],
   [
    "tools.js",
-   165
+   166
   ],
   [
    "ui.js",
@@ -114,12 +118,12 @@
    147
   ]
  ],
- "own_js_lines": 3427,
+ "own_js_lines": 3470,
  "html_lines": 1227,
  "i18n_keys": {
-  "en": 1205,
-  "de": 1205,
-  "zh": 1205
+  "en": 1217,
+  "de": 1217,
+  "zh": 1217
  },
  "data_files": [
   [
@@ -192,11 +196,15 @@
   ],
   [
    "data/handbook.json",
-   3111
+   3151
   ],
   [
    "data/learning.json",
    14
+  ],
+  [
+   "data/library.json",
+   12412
   ],
   [
    "data/pi_stack.json",
@@ -252,7 +260,7 @@
   ],
   [
    "data/status.json",
-   12896
+   13473
   ],
   [
    "data/step7a_mac.json",
@@ -287,7 +295,7 @@
    5818
   ]
  ],
- "data_bytes": 8775893,
+ "data_bytes": 8788922,
  "species_total": 93,
  "species_at_stations": 18,
  "species_with_clips": 14,

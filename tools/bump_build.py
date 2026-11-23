@@ -4,7 +4,7 @@ import re, time, json
 from pathlib import Path
 root = Path(__file__).resolve().parent.parent
 b = time.strftime("%Y%m%d%H%M%S")
-for name in ("index.html", "handbook.html", "paper.html", "label.html"):
+for name in ("index.html", "handbook.html", "paper.html", "label.html", "library.html"):
     p = root / name
     if not p.exists(): continue
     s = p.read_text()

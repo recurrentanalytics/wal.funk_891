@@ -1203,5 +1203,17 @@
  "hero.paused": "Pi pausiert · {temp} °C · {done} von {total} Tagen abgehört · alle Tests laufen zuerst auf dem Mac mini",
  "dt.voice": "Stimme",
  "dt.range": "Lebensraum",
- "dt.proof": "Nachweis bei uns"
+ "dt.proof": "Nachweis bei uns",
+ "lib.title": "Bibliothek",
+ "lib.lede": "Alle Werke, auf denen wal.funk_891 aufbaut: Studien, Datensätze, Modelle. Jede DOI ist bei Crossref oder DataCite nachgeprüft; Titel und Autoren stammen von dort.",
+ "lib.built": "{n} Werke · gebaut {at}",
+ "lib.zotero": "Für Zotero (RDF, mit Sammlungen)",
+ "lib.bib": "BibTeX",
+ "lib.howto": "In Zotero: Datei › Importieren… › die RDF-Datei wählen. Sie bringt Sammlungen „By topic“ und „By page“ mit; wo ein Werk auf der Seite vorkommt, steht in der Notiz.",
+ "lib.search": "Suchen: Autor, Titel, Thema …",
+ "lib.all": "Alle",
+ "lib.checked": "geprüft ({by}, {at})",
+ "lib.cited": "Zitiert in:",
+ "lib.count": "{n} von {total}",
+ "lib.docs": "Projektnotizen"
 }

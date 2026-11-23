@@ -1203,5 +1203,17 @@
  "hero.paused": "Pi paused · {temp} °C · {done} of {total} days sampled · all tests run on the Mac mini first",
  "dt.voice": "Voice",
  "dt.range": "Where they live",
- "dt.proof": "Evidence here"
+ "dt.proof": "Evidence here",
+ "lib.title": "Library",
+ "lib.lede": "Every work wal.funk_891 builds on: studies, datasets, models. Each DOI is checked against Crossref or DataCite; titles and authors come from there.",
+ "lib.built": "{n} works · built {at}",
+ "lib.zotero": "For Zotero (RDF, with collections)",
+ "lib.bib": "BibTeX",
+ "lib.howto": "In Zotero: File › Import… › choose the RDF file. It brings collections \"By topic\" and \"By page\"; where a work appears on the site is in its note.",
+ "lib.search": "Search: author, title, topic …",
+ "lib.all": "All",
+ "lib.checked": "checked ({by}, {at})",
+ "lib.cited": "Cited in:",
+ "lib.count": "{n} of {total}",
+ "lib.docs": "project notes"
 }
