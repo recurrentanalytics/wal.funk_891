@@ -152,7 +152,7 @@ function whales(w, S) {
   function select(name, play) {
     buttons.forEach(([n, b]) => b.setAttribute('aria-pressed', String(n === name)));
     whaleAudio.pause(); buttons.forEach(([, b]) => b.classList.remove('sounding'));
-    if (!SP[name]) return selectOther(bySci[name] || items.find((it) => it[0] === name)[2]);
+    if (!SP[name]) return selectOther(bySci[name] || items.find((it) => it[0] === name)[2], play);
     const key = SP[name], tk = SPTEXT[key], sp = factOf(name) || {}, len = lenOf[name] || (w.sizes.items.find((x) => x[0] === name) || [0, 0])[1];
     const d = $('detail'); d.replaceChildren();
     const ph = photos[name];
@@ -224,7 +224,7 @@ function whales(w, S) {
       d.append(src);
     }
   }
-  function selectOther(x) {
+  function selectOther(x, playIt) {
     const d = $('detail'); d.replaceChildren(); if (!x) return;
     if (x.img) {
       const fig = el('figure', 'photo'); const img = el('img'); img.src = x.img.src.replace(/\/\d+px-/, '/640px-'); img.onerror = () => { img.onerror = null; img.src = x.img.src; }; img.alt = spName(x); img.loading = 'lazy';
@@ -242,8 +242,33 @@ function whales(w, S) {
     d.append(fx);
     const go = el('button', 'map-go'); go.type = 'button'; go.textContent = t('routes.show', { name: spName(x) });
     go.addEventListener('click', () => { document.dispatchEvent(new CustomEvent('routes-species', { detail: x.sci })); $('routes').scrollIntoView({ behavior: 'smooth' }); });
-    d.append(go, el('p', 'note', t('sound.none')));
+    const inf = x.info || {}, L = (o) => o && (o[lang] || o.en);
+    if (L(inf.sound)) {
+      d.append(el('span', 'kicker', t('whales.pitch')));
+      const pitch = el('div', 'pitch'); const ear = el('div', 'ear'); ear.style.left = pos(20) + '%'; ear.style.width = (pos(20000) - pos(20)) + '%'; pitch.append(ear);
+      if (inf.lo && inf.hi) { const bb = el('div', 'band'); bb.style.left = pos(inf.lo) + '%'; bb.style.width = Math.max(1, pos(inf.hi) - pos(inf.lo)) + '%'; pitch.append(bb); }
+      [[10, '10'], [100, '100'], [1000, '1k'], [10000, '10k'], [100000, '100k Hz']].forEach(([hz, tx]) => { const tk2 = el('span', 'tick', tx); tk2.style.left = pos(hz) + '%'; pitch.append(tk2); });
+      d.append(pitch, el('p', 'note', inf.lo && inf.hi ? `${kHz(inf.lo)}–${kHz(inf.hi)} Hz · ${t('whales.pitch.note')}` : t('other.noband')));
+      d.append(el('p', '', L(inf.sound)));
+    }
+    if (L(inf.range)) d.append(el('span', 'kicker', t('other.range')), el('p', '', L(inf.range)));
+    if (L(inf.status)) d.append(el('span', 'status-pill', L(inf.status)));
+    // example sounds: tap to play all, like the drawn whales
+    const clips = inf.clips || [], box = el('div', 'sounds'); box.append(el('span', 'kicker', t('sound.title', { n: clips.length })));
+    if (!clips.length) box.append(el('p', 'note', t('sound.none')));
+    const rows = clips.map((c, i) => { const r = el('button', 'snd'); r.type = 'button'; r.append(el('i', 'ic', '▶'), el('span', 'lb', c.call || t('other.clip')), el('small', '', c.licence || ''), el('span', 'bar'));
+      r.addEventListener('click', () => (whaleAudio.dataset.i === String(i) && !whaleAudio.paused) ? whaleAudio.pause() : start(i, false)); box.append(r); return r; });
+    let chain = true;
+    const mark = () => rows.forEach((r, j) => { const on = whaleAudio.dataset.i === String(j) && !whaleAudio.paused; r.classList.toggle('on', on); r.querySelector('.ic').textContent = on ? '❚❚' : '▶'; });
+    const start = (i, all) => { chain = all; whaleAudio.src = clips[i].src; whaleAudio.dataset.i = String(i); whaleAudio.play().then(mark).catch(() => { rows[i].classList.add('err'); if (all && i + 1 < clips.length) start(i + 1, true); }); };
+    whaleAudio.onended = () => { const i = +whaleAudio.dataset.i; if (chain && i + 1 < clips.length) start(i + 1, true); else mark(); };
+    whaleAudio.onpause = mark; whaleAudio.ontimeupdate = () => { const r = rows[+whaleAudio.dataset.i]; if (r && whaleAudio.duration) r.querySelector('.bar').style.width = (100 * whaleAudio.currentTime / whaleAudio.duration) + '%'; };
+    clips.forEach((c) => { if (c.credit) box.append(el('p', 'note', `${c.call ? c.call + ': ' : ''}${c.credit}`)); });
+    if ((inf.listen || []).length) { const p = el('p', 'note', t('other.listen') + ' '); inf.listen.forEach(([lb, u], i) => { const a2 = el('a', '', lb); a2.href = u; a2.rel = 'noopener'; a2.target = '_blank'; p.append(a2); if (i < inf.listen.length - 1) p.append(' · '); }); box.append(p); }
+    d.append(box, go);
+    if (playIt && clips.length) start(0, true);
     const src = el('p', 'src', t('whales.sources') + ' '); const wd = el('a', '', 'Wikidata'); wd.href = `https://www.wikidata.org/wiki/${x.qid}`; wd.rel = 'noopener'; src.append(wd);
+    (inf.sources || []).slice(0, 4).forEach(([lb, u]) => { const a2 = el('a', '', lb.split(':')[0]); a2.href = u; a2.rel = 'noopener'; src.append(' · ', a2); });
     if (x.len_src && x.len_src[1]) { const n = el('a', '', 'NOAA'); n.href = x.len_src[1]; n.rel = 'noopener'; src.append(' · ', n); }
     if (x.len_src && x.len_src[0] === 'pantheria') src.append(' · PanTHERIA');
     src.append(' · GBIF'); d.append(src);

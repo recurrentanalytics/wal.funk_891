@@ -722,5 +722,9 @@
  "dive.route": "Position auf der Strecke",
  "dive.look": "Ziehen zum Umsehen",
  "dive.pause": "Anhalten",
- "dive.play": "Weiter"
+ "dive.play": "Weiter",
+ "other.noband": "Frequenzbereich nicht belegt.",
+ "other.range": "Wo sie leben",
+ "other.clip": "Aufnahme",
+ "other.listen": "Anhören (externe Seite):"
 }

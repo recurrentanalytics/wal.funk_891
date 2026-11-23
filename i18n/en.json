@@ -722,5 +722,9 @@
  "dive.route": "Position on the route",
  "dive.look": "Drag to look around",
  "dive.pause": "Pause",
- "dive.play": "Continue"
+ "dive.play": "Continue",
+ "other.noband": "Frequency range not documented.",
+ "other.range": "Where they live",
+ "other.clip": "recording",
+ "other.listen": "Listen (external page):"
 }

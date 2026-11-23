@@ -722,5 +722,9 @@
  "dive.route": "航线上的位置",
  "dive.look": "拖动可环顾四周",
  "dive.pause": "暂停",
- "dive.play": "继续"
+ "dive.play": "继续",
+ "other.noband": "频率范围无可靠记录。",
+ "other.range": "分布",
+ "other.clip": "录音",
+ "other.listen": "收听（外部网页）："
 }
