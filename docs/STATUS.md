@@ -483,3 +483,9 @@ Pi's hourly call index (MBARI's method, 2 kHz archive) vs MBARI's published dail
 - The manifest (clip → date, stratum, score) stays off the public repo until the labels are in: it would reveal the
   model's view. Listening page: label.html?mode=r8b (tested: buttons unlock after one full playback, answers saved).
 - Library page and Obsidian vault (docs/) published; library DOIs checked at Crossref/DataCite.
+
+## 2026-11-23 — Round 8c: first pass (Mac mini, preliminary)
+
+- Call index from 6 h/day on 204 days: blue Spearman 0.867, BA 0.907, peak November; fin 0.952, 0.897, November.
+  Both species pass all three marks. Meaning: the method reproduces MBARI's daily index; not single-call detection.
+  Details in [[round8-plan]]. Round 9 clips: 1,500 drawn + 40 repeats.

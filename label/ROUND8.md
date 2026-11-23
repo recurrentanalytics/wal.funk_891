@@ -1,3 +1,11 @@
+---
+title: "Round 8: one new test per species"
+date: 2026-11-23
+type: plan
+status: active
+tags: [wal.funk_891, test, round8]
+---
+
 # Round 8: one new test per species, rules fixed before any new data
 
 Written 2026-11-23, before any data for these tests was fetched. Proposals came from three specialist reviews (orca,
@@ -60,3 +68,17 @@ The step-7e orca blocks follow after the cooler (≈ 7.7 h of audio through Perc
   at 00, 04, 08, 12, 16, 20 UTC (byte ranges only, about 26 GB in total, streamed and discarded).
 - Pass, per species, unchanged from 7c: Spearman ≥ 0.60, presence BA ≥ 0.80 (call index ≥ 1.01), peak month of the
   monthly mean in October-December. A fail is final for this method.
+
+## Result 8c (Mac mini, preliminary, 2026-11-23)
+
+All 204 days computed (none skipped), 6 hours per day, scored once against MBARI's daily call index.
+
+| Species | Spearman (≥ 0.60) | Presence BA (≥ 0.80) | Peak month (Oct-Dec) | MBARI's peak, same days | Verdict |
+|---|---|---|---|---|---|
+| Blue | **0.867** | **0.907** | November | November | **PASS** |
+| Fin | **0.952** | **0.897** | November | November | **PASS** |
+
+What this shows: computing MBARI's published call-index method from 6 hours per day reproduces MBARI's daily values
+closely; one hour per day was not enough (7c). What it does not show: detection of single calls, independence from
+MBARI (same audio, same method), or that the Pi can do it at this volume (≈ 130 MB per day streamed; the Pi must repeat
+it after the migration). These days had been processed once by the one-hour job; no parameter was tuned on them.

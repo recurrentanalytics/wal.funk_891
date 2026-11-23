@@ -1,6 +1,6 @@
 {
- "build": "20261123164335",
- "built_at": "2026-11-23 16:43 CET",
+ "build": "20261123222354",
+ "built_at": "2026-11-23 22:23 CET",
  "libs": [
   [
    "d3",
@@ -236,7 +236,11 @@
   ],
   [
    "data/results.json",
-   7547
+   7577
+  ],
+  [
+   "data/round8c_mac.json",
+   822
   ],
   [
    "data/screens.json",
@@ -295,7 +299,7 @@
    5818
   ]
  ],
- "data_bytes": 8789284,
+ "data_bytes": 8790136,
  "species_total": 93,
  "species_at_stations": 18,
  "species_with_clips": 14,
