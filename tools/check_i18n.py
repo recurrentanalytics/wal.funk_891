@@ -30,6 +30,10 @@ for f in [root / "index.html", *root.glob("*.js")]:
     used |= set(re.findall(r'data-i18n(?:-html|-aria|-title)?="([\w.\-]+)"', s))
     used |= set(re.findall(r"\bt\(\s*'([\w.\-]+)'", s))
 for k in sorted(used - base): errors.append(f"used but not defined: {k}")
+import collections
+ids = re.findall(r'\sid="([^"]+)"', (root / "index.html").read_text())
+for k, v in collections.Counter(ids).items():
+    if v > 1: errors.append(f"index.html: duplicate id '{k}' ({v}x)")
 if errors:
     print("i18n check FAILED:"); [print("  -", e) for e in errors]; sys.exit(1)
 print(f"i18n check passed: {len(base)} keys in en, de, zh; {len(used)} used in the page")

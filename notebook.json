@@ -1,0 +1,10 @@
+{"entries": [
+ {"id": "audit", "date": "2026-11-22", "status": "pass", "figure": "0x0"},
+ {"id": "env", "date": "2026-11-22", "status": "pass", "figure": "22 s"},
+ {"id": "whalu", "date": "2026-11-22", "status": "fail", "figure": "0.50"},
+ {"id": "perch", "date": "2026-11-23", "status": "pass", "figure": "0.945"},
+ {"id": "speed", "date": "2026-11-23", "status": "fail", "figure": "1.18×"},
+ {"id": "heat", "date": "2026-11-23", "status": "note", "figure": "90.6 °C"},
+ {"id": "blue", "date": "2026-11-23", "status": "note", "figure": "43 Hz"},
+ {"id": "plan4b", "date": "2026-11-23", "status": "running", "figure": "287 + 300"}
+]}
