@@ -717,5 +717,10 @@
  "stop.mars.t": "到达 · MARS 节点，891 米",
  "stop.mars.d": "来自 Smooth Ridge 上 MARS 海底观测站的真实画面：2010 年一台水下机器人在那里接入了一台地震仪。树莓派收听的水听器也接在这个节点上。",
  "hb.note": "计算机图形：慢动作座头鲸，跃身轨迹采用真实重力",
- "chph.gray": "灰鲸浮窥"
+ "chph.gray": "灰鲸浮窥",
+ "dive.speed": "速度",
+ "dive.route": "航线上的位置",
+ "dive.look": "拖动可环顾四周",
+ "dive.pause": "暂停",
+ "dive.play": "继续"
 }

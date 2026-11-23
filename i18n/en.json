@@ -717,5 +717,10 @@
  "stop.mars.t": "Arrived · 891 m at the MARS node",
  "stop.mars.d": "Real footage from the MARS seafloor observatory on Smooth Ridge: an ROV connects a seismometer there in 2010. The hydrophone the Pi listens to is plugged into this same node.",
  "hb.note": "Computer graphics: humpback whale in slow motion, breach arc with real gravity",
- "chph.gray": "gray whale spyhopping"
+ "chph.gray": "gray whale spyhopping",
+ "dive.speed": "Speed",
+ "dive.route": "Position on the route",
+ "dive.look": "Drag to look around",
+ "dive.pause": "Pause",
+ "dive.play": "Continue"
 }

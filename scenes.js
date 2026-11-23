@@ -164,7 +164,7 @@
     const path = new THREE.CatmullRomCurve3(pts, false, 'centripetal', .5), pathKm = path.getLength() / S;
     const hud = document.createElement('div'); hud.className = 'dive-hud'; const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'play small'; btn.textContent = t('canyon.dive');
     const read = document.createElement('div'); read.className = 'dive-read'; hud.append(btn, read); host.append(hud);
-    let dive = null; const DUR = 55000, home = { p: new THREE.Vector3(hx - 250, 250, hz + 320), t: new THREE.Vector3(hx * .5, hy * .6, hz * .5) }, hpV = new THREE.Vector3(hx, hy, hz);
+    let dive = null; const DUR = 110000, home = { p: new THREE.Vector3(hx - 250, 250, hz + 320), t: new THREE.Vector3(hx * .5, hy * .6, hz * .5) }, hpV = new THREE.Vector3(hx, hy, hz);
     /* stops on the way down: real pictures from these depths (free photos shown directly; videos only load from YouTube
        when someone presses play). The dive waits at each stop until "continue" or 12 s without a video. */
     const STOPS = [
@@ -197,21 +197,38 @@
       tx.append(h, p, c, go); card.append(media, tx);
       if (!st.end) stopTimer = setTimeout(() => { if (!ytOn) { hideStop(); onGo && onGo(); } }, 12000);
     };
-    const stopDive = (toHome) => { hideStop(); dive = null; controls.enabled = true; btn.textContent = t('canyon.dive'); if (toHome) { camera.position.copy(home.p); controls.target.copy(home.t); } else controls.target.set(hx, hy + .5, hz); controls.update(); };
-    btn.addEventListener('click', () => { if (dive) return stopDive(true); controls.autoRotate = false; controls.enabled = false; dive = { t0: performance.now(), done: new Set(), pause: 0 }; btn.textContent = t('canyon.surface'); });
+    const stopDive = (toHome) => { hideStop(); dive = null; ctl.hidden = true; look.yaw = look.pitch = 0; controls.enabled = true; btn.textContent = t('canyon.dive'); if (toHome) { camera.position.copy(home.p); controls.target.copy(home.t); } else controls.target.set(hx, hy + .5, hz); controls.update(); };
+    btn.addEventListener('click', () => { if (dive) return stopDive(true); controls.autoRotate = false; controls.enabled = false; dive = { u: 0, done: new Set(), playing: true, last: performance.now() }; btn.textContent = t('canyon.surface'); ctl.hidden = false; syncCtl(); });
+    /* steering: pause, speed, scrub along the route, drag to look around */
+    const ctl = document.createElement('div'); ctl.className = 'dive-ctl'; ctl.hidden = true;
+    const pp = document.createElement('button'); pp.type = 'button'; pp.className = 'dc-btn';
+    const spd = document.createElement('select'); [['0.5', '0,5×'], ['1', '1×'], ['2', '2×']].forEach(([v, l]) => { const o = document.createElement('option'); o.value = v; o.textContent = l; spd.append(o); }); spd.value = '1'; spd.setAttribute('aria-label', t('dive.speed'));
+    const rng = document.createElement('input'); rng.type = 'range'; rng.min = 0; rng.max = 1000; rng.value = 0; rng.setAttribute('aria-label', t('dive.route'));
+    const hint = document.createElement('small'); hint.textContent = t('dive.look');
+    ctl.append(pp, spd, rng, hint); hud.append(ctl);
+    const syncCtl = () => { if (!dive) return; pp.textContent = dive.playing ? '❚❚' : '▶'; pp.setAttribute('aria-label', t(dive.playing ? 'dive.pause' : 'dive.play')); rng.value = Math.round(dive.u * 1000); };
+    pp.addEventListener('click', () => { if (!dive) return; dive.playing = !dive.playing; dive.last = performance.now(); syncCtl(); });
+    rng.addEventListener('input', () => { if (!dive) return; dive.u = rng.value / 1000; hideStop(); dive.pausedAt = 0; dive.scrubbed = true; });
+    let look = { yaw: 0, pitch: 0 }, drag = null;
+    renderer.domElement.addEventListener('pointerdown', (e) => { if (!dive) return; drag = { x: e.clientX, y: e.clientY, yaw: look.yaw, pitch: look.pitch }; renderer.domElement.setPointerCapture(e.pointerId); });
+    renderer.domElement.addEventListener('pointermove', (e) => { if (!drag) return; look.yaw = drag.yaw - (e.clientX - drag.x) * .005; look.pitch = Math.max(-1.1, Math.min(1.1, drag.pitch - (e.clientY - drag.y) * .004)); });
+    renderer.domElement.addEventListener('pointerup', () => { drag = null; });
     const ahead = new THREE.Vector3();
 
     const t0 = performance.now();
     o.tick = () => {
       const now = performance.now(), tt = (now - t0) / 1000; water.material.uniforms.t.value = tt;
-      if (dive && dive.pausedAt) { /* waiting at a stop */ }
-      else if (dive) {
-        const u = Math.min(1, (now - dive.t0 - dive.pause) / DUR), e = u * u * (3 - 2 * u);
-        path.getPointAt(e, camera.position); path.getPointAt(Math.min(1, e + .012), ahead); if (e > .97) ahead.set(hx, hy + .5, hz); camera.lookAt(ahead);
+      if (dive) {
+        if (!dive.pausedAt && dive.playing) dive.u = Math.min(1, dive.u + (now - dive.last) / DUR * +spd.value);
+        dive.last = now; if (!drag) { look.yaw *= .985; look.pitch *= .985; }
+        const u = dive.u, e = u * u * (3 - 2 * u);
+        if (Math.round(u * 1000) !== +rng.value && document.activeElement !== rng) rng.value = Math.round(u * 1000);
+        path.getPointAt(e, camera.position); path.getPointAt(Math.min(1, e + .012), ahead); if (e > .97) ahead.set(hx, hy + .5, hz); camera.lookAt(ahead); camera.rotateY(look.yaw); camera.rotateX(look.pitch);
         const dNow = Math.max(0, -mOf(camera.position.y));
+        if (dive.scrubbed) { dive.scrubbed = false; dive.done = new Set(STOPS.map((x, i) => i).filter((i) => !STOPS[i].end && STOPS[i].depth <= dNow)); }
         const st = STOPS.find((x, i) => !x.end && !dive.done.has(i) && dNow >= x.depth);
-        if (st) { dive.done.add(STOPS.indexOf(st)); dive.pausedAt = now; const d0 = dive; showStop(st, () => { if (dive === d0) { d0.pause += performance.now() - d0.pausedAt; d0.pausedAt = 0; } }); }
-        if (u >= 1) { stopDive(false); showStop(STOPS[STOPS.length - 1]); }
+        if (st && !dive.pausedAt) { dive.done.add(STOPS.indexOf(st)); dive.pausedAt = now; const d0 = dive; showStop(st, () => { if (dive === d0) { d0.pausedAt = 0; d0.last = performance.now(); } }); }
+        if (u >= 1 && !dive.pausedAt) { stopDive(false); showStop(STOPS[STOPS.length - 1]); }
       }
       const under = camera.position.y < 0, depth = Math.max(0, -mOf(camera.position.y));
       // depth precision: a tiny near plane is only needed close to the ground; from high up it makes coast and water flicker

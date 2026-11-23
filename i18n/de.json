@@ -717,5 +717,10 @@
  "stop.mars.t": "Angekommen · 891 m am MARS-Knoten",
  "stop.mars.d": "Echte Aufnahmen vom Unterwasser-Observatorium MARS auf dem Smooth Ridge: Ein Tauchroboter schließt dort 2010 ein Seismometer an. An diesem Knoten hängt auch das Hydrofon, das der Pi abhört.",
  "hb.note": "Computergrafik: Buckelwal in Zeitlupe, Sprungbahn mit echter Schwerkraft",
- "chph.gray": "Grauwal beim „Spyhopping“"
+ "chph.gray": "Grauwal beim „Spyhopping“",
+ "dive.speed": "Tempo",
+ "dive.route": "Position auf der Strecke",
+ "dive.look": "Ziehen zum Umsehen",
+ "dive.pause": "Anhalten",
+ "dive.play": "Weiter"
 }
