@@ -1233,5 +1233,8 @@
  "lab.r9.ref.blue": "蓝鲸，NOAA（8×）",
  "lab.r9.ref.fin": "长须鲸脉冲，NOAA（5×）",
  "lab.r9.ref.marsb": "蓝鲸候选，MARS（10×）",
- "lab.r9.ref.marsf": "长须鲸候选，MARS（10×）"
+ "lab.r9.ref.marsf": "长须鲸候选，MARS（10×）",
+ "res.r8ar_recall": "虎鲸，更严格规则，回溯：找到的已报告相遇",
+ "res.r8ar_fa": "虎鲸，更严格规则，回溯：安静时段的误报",
+ "res.data.orcasound_old": "Orcasound，2023-2026，此前从未使用"
 }

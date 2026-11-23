@@ -1,6 +1,6 @@
 {
- "build": "20261123222757",
- "built_at": "2026-11-23 22:27 CET",
+ "build": "20261123223012",
+ "built_at": "2026-11-23 22:30 CET",
  "libs": [
   [
    "d3",
@@ -121,9 +121,9 @@
  "own_js_lines": 3488,
  "html_lines": 1227,
  "i18n_keys": {
-  "en": 1235,
-  "de": 1235,
-  "zh": 1235
+  "en": 1238,
+  "de": 1238,
+  "zh": 1238
  },
  "data_files": [
   [
@@ -236,7 +236,7 @@
   ],
   [
    "data/results.json",
-   7577
+   8035
   ],
   [
    "data/round8c_mac.json",
@@ -299,7 +299,7 @@
    5818
   ]
  ],
- "data_bytes": 8793348,
+ "data_bytes": 8793806,
  "species_total": 93,
  "species_at_stations": 18,
  "species_with_clips": 14,

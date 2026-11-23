@@ -1233,5 +1233,8 @@
  "lab.r9.ref.blue": "Blauwal, NOAA (8×)",
  "lab.r9.ref.fin": "Finnwal-Pulse, NOAA (5×)",
  "lab.r9.ref.marsb": "Blauwal-Kandidat, MARS (10×)",
- "lab.r9.ref.marsf": "Finnwal-Kandidat, MARS (10×)"
+ "lab.r9.ref.marsf": "Finnwal-Kandidat, MARS (10×)",
+ "res.r8ar_recall": "Orca, strengere Regel, rückblickend: gemeldete Begegnungen gefunden",
+ "res.r8ar_fa": "Orca, strengere Regel, rückblickend: Fehlalarme in ruhigen Zeiten",
+ "res.data.orcasound_old": "Orcasound, 2023-2026, nie zuvor benutzt"
 }

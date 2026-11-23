@@ -325,6 +325,30 @@
      "data": "orcasound_new"
     },
     {
+     "id": "r8ar_recall",
+     "measure": "recall",
+     "value": null,
+     "mark": 0.7,
+     "dir": ">=",
+     "verdict": "pending",
+     "where": "mac",
+     "date": null,
+     "n": null,
+     "data": "orcasound_old"
+    },
+    {
+     "id": "r8ar_fa",
+     "measure": "fa",
+     "value": null,
+     "mark": 0.1,
+     "dir": "<=",
+     "verdict": "pending",
+     "where": "mac",
+     "date": null,
+     "n": null,
+     "data": "orcasound_old"
+    },
+    {
      "id": "r8b_ba",
      "measure": "ba",
      "value": null,

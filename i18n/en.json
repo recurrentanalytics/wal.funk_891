@@ -1233,5 +1233,8 @@
  "lab.r9.ref.blue": "Blue whale, NOAA (8×)",
  "lab.r9.ref.fin": "Fin pulses, NOAA (5×)",
  "lab.r9.ref.marsb": "Blue candidate, MARS (10×)",
- "lab.r9.ref.marsf": "Fin candidate, MARS (10×)"
+ "lab.r9.ref.marsf": "Fin candidate, MARS (10×)",
+ "res.r8ar_recall": "Orca, stricter rule, retrospective: reported encounters found",
+ "res.r8ar_fa": "Orca, stricter rule, retrospective: false alarms in quiet times",
+ "res.data.orcasound_old": "Orcasound, 2023-2026, never used before"
 }
