@@ -1000,9 +1000,9 @@
  "srch.k.doc": "Dokument",
  "srch.handbook": "Handbuch",
  "srch.paper": "Artikelentwurf",
- "share.btn": "Link",
- "share.copied": "Link zu dieser Ansicht kopiert",
- "share.copy": "Link kopieren:",
+ "share.btn": "Link teilen",
+ "share.copied": "Kopiert ✓",
+ "share.copy": "Kopieren",
  "gp.label": "Player",
  "gp.play": "Abspielen",
  "gp.pause": "Pause",
@@ -1024,5 +1024,13 @@
  "tour.s6": "Live: Orcasound-Hydrofone zum Reinhören, in diesem Moment.",
  "tour.s7": "Ein Spektrogramm macht Töne sichtbar. Blau- und Finnwale rufen tiefer, als Menschen hören.",
  "tour.s8": "Jeder Test hat eine vorher festgelegte Schwelle: bestanden, durchgefallen oder offen. Nichts wird geschönt.",
- "tour.s9": "Und so geht es dem Pi gerade: Temperatur, Fortschritt, Fehler."
+ "tour.s9": "Und so geht es dem Pi gerade: Temperatur, Fortschritt, Fehler.",
+ "share.title": "Link zu genau dieser Ansicht",
+ "share.explain": "Wer den Link öffnet, sieht die Seite so wie du gerade:",
+ "share.part.at": "Abschnitt „{x}“",
+ "share.part.sp": "Art: {x}",
+ "share.part.map": "Karte: {x}, {m}",
+ "share.part.dive": "Tauchgang bei {x} %",
+ "gp.idle": "Player",
+ "gp.idle2": "Klick auf einen Wal oder ▶, dann läuft der Ton hier."
 }

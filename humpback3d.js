@@ -1,7 +1,7 @@
 /* A humpback whale in slow motion for the chapter cards. Procedural anatomy (14 m adult, 4.5 m calf): knobbly rostrum,
    throat grooves, small dorsal fin on a hump, very long white pectoral fins with a tubercled leading edge, broad flukes
    with a serrated trailing edge. Swims with an up-and-down fluke beat, always nose first. Four scenes, each faded in and
-   out: a breach on a ballistic arc (real gravity, shown at 0.3x), a fluke-up dive after a blow, a mother with her calf,
+   out: a breach on a ballistic arc (real gravity, shown at 0.3x), a fluke-up dive (0.4x) after a blow, a mother with her calf,
    and three whales seen from below against the bright surface. Renders only while visible. */
 (function () {
   const TAU = Math.PI * 2, clamp = (v, a, b) => Math.max(a, Math.min(b, v)), sst = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
@@ -93,35 +93,55 @@
     mesh.userData = { base: Float32Array.from(P), U: Float32Array.from(U), PART: Uint8Array.from(PART), L, phase: Math.random() * TAU, lineCol, colBase: cb };
     return mesh;
   }
-  /* Organic motion: the body follows a flexible spine. Its bend angle along the body is the sum of a whole-body arch
-     (arch > 0: back humped, ends down, as when rounding out to dive; arch < 0: ends up, as in the air) and the travelling
-     fluke-beat wave. Each body ring is placed on the bent spine and turned with it; pectoral fins ride on the frame at
-     a third of the body, the flukes on the tail frame and pitch further with the beat. */
-  const NS = 72;
-  function swim(mesh, t, amp, period, arch = 0, fin = .06) {
-    const { base, U, PART, L, phase } = mesh.userData, p = mesh.geometry.attributes.position.array, w = TAU / period, u0 = .4;
-    const th = new Float32Array(NS + 1), sx = new Float32Array(NS + 1), sy = new Float32Array(NS + 1);
-    for (let k = 0; k <= NS; k++) {
-      const u = k / NS, ddu = amp * L * (2.4 * Math.pow(Math.max(u, 1e-3), 1.4) * Math.sin(w * t + phase - u * 2.6) - 2.6 * Math.pow(u, 2.4) * Math.cos(w * t + phase - u * 2.6));
-      th[k] = arch * (u - u0) * 1.7 - Math.atan(ddu / L);
+  /* Organic motion, after how cetaceans actually swim. The body is a flexible spine sampled along its length:
+     1. a base curve: either the body's own bend ("arch", put mostly into the lumbar region and tail stock, the head
+        stays stiff; arch > 0 humps the back, < 0 bends the ends up) or a path in the water that every part of the body
+        follows in turn, as a whale does when it rolls over the surface into a dive;
+     2. the fluke beat: an up-and-down wave travelling from head to tail, A(u) sin(wt - Ku). Its amplitude is small at
+        the head (recoil), smallest near the flippers and largest at the flukes (about 0.2 L peak to peak, cetacean
+        kinematics after Fish 1998); about one wavelength fits on the body;
+     3. the flukes pitch on the tail stock a quarter cycle out of phase with their heave, so they meet the water at an
+        angle, as a propulsor does. Out of the water they beat no more and just follow the body. */
+  const NS = 72, LW = (() => { const w = (u) => sst(.12, .42, u) * (1 - .35 * sst(.9, 1, u)) * (1 + .8 * sst(.55, .85, u)); const c = [0]; for (let k = 1; k <= NS; k++) c.push(c[k - 1] + w(k / NS)); return c.map((v) => v / c[NS]); })();
+  function swim(mesh, t, o) {
+    const { base, U, PART, L, phase } = mesh.userData, p = mesh.geometry.attributes.position.array;
+    const amp = o.amp == null ? .08 : o.amp, w = TAU / (o.period || 3.4), K = 5.6, arch = o.arch || 0, fin = o.fin == null ? .06 : o.fin, u0 = o.anchor == null ? .4 : o.anchor;
+    const bx = new Float32Array(NS + 1), by = new Float32Array(NS + 1), bth = new Float32Array(NS + 1), sx = new Float32Array(NS + 1), sy = new Float32Array(NS + 1), th = new Float32Array(NS + 1), du = L / NS;
+    if (o.path) { for (let k = 0; k <= NS; k++) { const q = o.path(o.s - k / NS * L); bx[k] = q[0]; by[k] = q[1]; bth[k] = q[2]; } }
+    else {
+      const k0 = Math.round(u0 * NS); for (let k = 0; k <= NS; k++) bth[k] = 1.7 * arch * (LW[k] - LW[k0]);
+      bx[k0] = o.anchor == null ? (.5 - u0) * L : 0; by[k0] = 0;
+      for (let k = k0 + 1; k <= NS; k++) { const a = (bth[k] + bth[k - 1]) / 2; bx[k] = bx[k - 1] - du * Math.cos(a); by[k] = by[k - 1] - du * Math.sin(a); }
+      for (let k = k0 - 1; k >= 0; k--) { const a = (bth[k] + bth[k + 1]) / 2; bx[k] = bx[k + 1] + du * Math.cos(a); by[k] = by[k + 1] + du * Math.sin(a); }
     }
-    const k0 = Math.round(u0 * NS); sx[k0] = (.5 - u0) * L; sy[k0] = 0; const du = L / NS;
-    for (let k = k0 + 1; k <= NS; k++) { const a = (th[k] + th[k - 1]) / 2; sx[k] = sx[k - 1] - du * Math.cos(a); sy[k] = sy[k - 1] - du * Math.sin(a); }
-    for (let k = k0 - 1; k >= 0; k--) { const a = (th[k] + th[k + 1]) / 2; sx[k] = sx[k + 1] + du * Math.cos(a); sy[k] = sy[k + 1] + du * Math.sin(a); }
-    const at = (u) => { const f = Math.max(0, Math.min(NS, u * NS)), k = Math.min(NS - 1, Math.floor(f)), r = f - k; return [sx[k] + (sx[k + 1] - sx[k]) * r, sy[k] + (sy[k + 1] - sy[k]) * r, th[k] + (th[k + 1] - th[k]) * r]; };
-    const [px3, py3, a3] = at(1), flA = a3 + (a3 - at(.9)[2]) * 1.6, c3 = Math.cos(flA), s3 = Math.sin(flA);
-    const [px2, py2, a2] = at(.3), fs = Math.sin(w * t * .5 + phase) * fin, c2 = Math.cos(a2), s2 = Math.sin(a2), xr2 = (.5 - .3) * L;
+    const ph = w * t + phase;
+    for (let k = 0; k <= NS; k++) { const u = k / NS, d = amp * L * (.2 - .8 * u + 1.6 * u * u) * Math.sin(ph - K * u); sx[k] = bx[k] - d * Math.sin(bth[k]); sy[k] = by[k] + d * Math.cos(bth[k]); }
+    for (let k = 0; k <= NS; k++) { const a = Math.max(0, k - 1), b = Math.min(NS, k + 1); th[k] = Math.atan2(sy[a] - sy[b], sx[a] - sx[b]); }
+    const at = (u) => { const f = clamp(u * NS, 0, NS), k = Math.min(NS - 1, Math.floor(f)), r = f - k; return [sx[k] + (sx[k + 1] - sx[k]) * r, sy[k] + (sy[k + 1] - sy[k]) * r, th[k] + (th[k + 1] - th[k]) * r]; };
+    const [px3, py3, a3] = at(1), flA = a3 - amp * 3.6 * Math.cos(ph - K) + (o.flukeBend || 0), c3 = Math.cos(flA), s3 = Math.sin(flA);
+    const [px2, py2, a2] = at(.3), fs = Math.sin(ph * .5) * fin, c2 = Math.cos(a2), s2 = Math.sin(a2), xr2 = (.5 - .3) * L;
     for (let i = 0; i < U.length; i++) {
-      const o = i * 3, x = base[o], y = base[o + 1], z = base[o + 2];
-      if (PART[i] === 3) { const lx = x + .5 * L; p[o] = px3 + lx * c3 - y * s3; p[o + 1] = py3 + lx * s3 + y * c3; p[o + 2] = z; }
-      else if (PART[i] === 2) { const lx = x - xr2, ly = y + (Math.abs(z) - .07 * L) * fs; p[o] = px2 + lx * c2 - ly * s2; p[o + 1] = py2 + lx * s2 + ly * c2; p[o + 2] = z; }
-      else { const [cx, cy, a] = at(U[i]), dx = x - (.5 - U[i]) * L, c = Math.cos(a), sn = Math.sin(a); p[o] = cx + dx * c - y * sn; p[o + 1] = cy + dx * sn + y * c; p[o + 2] = z; }
+      const o3 = i * 3, x = base[o3], y = base[o3 + 1], z = base[o3 + 2];
+      if (PART[i] === 3) { const lx = x + .5 * L; p[o3] = px3 + lx * c3 - y * s3; p[o3 + 1] = py3 + lx * s3 + y * c3; p[o3 + 2] = z; }
+      else if (PART[i] === 2) { const lx = x - xr2, ly = y + (Math.abs(z) - .07 * L) * fs; p[o3] = px2 + lx * c2 - ly * s2; p[o3 + 1] = py2 + lx * s2 + ly * c2; p[o3 + 2] = z; }
+      else { const [cx, cy, a] = at(U[i]), dx = x - (.5 - U[i]) * L, c = Math.cos(a), sn = Math.sin(a); p[o3] = cx + dx * c - y * sn; p[o3 + 1] = cy + dx * sn + y * c; p[o3 + 2] = z; }
     }
     mesh.geometry.attributes.position.needsUpdate = true;
-    // technical look: a bright scan band runs along the body
+    mesh.userData.spine = { head: at(.08), mid: at(.45), tail: [px3, py3, flA] };
     const col = mesh.userData.lineCol; if (col) { const sc = (t * .12) % 1.4 - .2;
       for (let i = 0; i < U.length; i++) { const g = Math.exp(-((U[i] - sc) ** 2) / .0015), b = mesh.userData.colBase; col.array[i * 3] = b[i * 3] + g * .7; col.array[i * 3 + 1] = b[i * 3 + 1] + g * .5; col.array[i * 3 + 2] = b[i * 3 + 2] + g * .4; }
       col.needsUpdate = true; }
+  }
+  // a path in the x-y plane from its heading angle phi(s): returns s -> [x, y, phi], straight beyond its ends
+  function makePath(phi, s0, s1, anchorS, ax, ay) {
+    const ds = .05, n = Math.ceil((s1 - s0) / ds), X = new Float32Array(n + 1), Y = new Float32Array(n + 1), F = new Float32Array(n + 1);
+    for (let i = 0; i <= n; i++) F[i] = phi(s0 + i * ds);
+    for (let i = 1; i <= n; i++) { const a = (F[i] + F[i - 1]) / 2; X[i] = X[i - 1] + ds * Math.cos(a); Y[i] = Y[i - 1] + ds * Math.sin(a); }
+    const ia = Math.round((anchorS - s0) / ds), ox = ax - X[ia], oy = ay - Y[ia];
+    for (let i = 0; i <= n; i++) { X[i] += ox; Y[i] += oy; }
+    return (s) => { if (s <= s0) return [X[0] - (s0 - s) * Math.cos(F[0]), Y[0] - (s0 - s) * Math.sin(F[0]), F[0]];
+      if (s >= s1) return [X[n] + (s - s1) * Math.cos(F[n]), Y[n] + (s - s1) * Math.sin(F[n]), F[n]];
+      const f = (s - s0) / ds, i = Math.min(n - 1, Math.floor(f)), r = f - i; return [X[i] + (X[i + 1] - X[i]) * r, Y[i] + (Y[i + 1] - Y[i]) * r, F[i] + (F[i + 1] - F[i]) * r]; };
   }
 
   /* ---------- the world: sky, sea surface, light, particles ---------- */
@@ -169,62 +189,73 @@
     [adult, calf, w2, w3].forEach((m) => scene.add(m));
     const place = (m, x, y, z, pitch, roll, yaw = 0) => { m.position.set(x, y, z); m.rotation.set(roll, yaw, pitch, 'YZX'); };
     const setUnder = (u) => { seaU.under.value = u ? 1 : 0; scene.fog = u ? fogSea : fogAir; scene.background = u ? seaCol : skyCol; rays.visible = u; snow.visible = u; hemi.intensity = u ? .55 : .9; sun.intensity = u ? .5 : 1.2; };
-    const SLOW = .3, SC = [
-      { len: 26, name: 'breach' }, { len: 28, name: 'fluke' }, { len: 26, name: 'calf' }, { len: 24, name: 'group' },
+    const SC = [
+      { len: 30, name: 'breach', slow: .3 }, { len: 42, name: 'fluke', slow: .4 }, { len: 26, name: 'calf', slow: .3 }, { len: 24, name: 'group', slow: .3 },
     ];
+    // breach: a J-shaped run from depth, straight up the last 1.3 body lengths at 60 deg, leaving the water at 8.5 m/s
+    const BA = 1.05, BV = 8.5, BT = 2.6;
+    const breachPath = makePath((s) => BA * sst(-30, -18, s), -40, 10, 0, 0, 0);
+    // fluke-up dive: the body slides into the water through one entry point E at the surface. Ahead of E it bends down
+    // into the dive; behind E the back and tail stock rise in a line that tips up the more of the body has gone under,
+    // so the flukes lift clear and then slip in almost vertically where the back went down.
+    const EX = 4, EY = -1.25;
+    const divePath = (sh) => { const al = 1.2 * sst(3.5, 11.2, sh); return makePath((s) => s < 0 ? -al : -al - (1.32 - al) * sst(0, 5, s), -16, 24, 0, EX, EY); };
     let si = startScene % SC.length, sT = 0, splashed = false, blown = false;
-    const begin = () => { sT = 0; splashed = false; blown = false; [adult, calf, w2, w3].forEach((m) => { m.visible = false; }); for (let k = 0; k < NP; k++) pl[k] = 0; };
+    const begin = () => { sT = 0; splashed = false; blown = false; [adult, calf, w2, w3].forEach((m) => { m.visible = false; m.position.set(0, 0, 0); m.rotation.set(0, 0, 0); }); for (let k = 0; k < NP; k++) pl[k] = 0; };
     begin();
     const run = (dt) => {
-      const S = SC[si]; sT += dt; const t = sT, st = t * SLOW;          // simulated seconds in slow motion
+      const S = SC[si]; sT += dt; const t = sT, st = t * S.slow;          // simulated seconds in slow motion
       fade.style.opacity = String(Math.max(sst(1.2, 0, t), sst(S.len - 1.4, S.len, t)));
-      seaU.t.value += dt * SLOW * 2;
+      seaU.t.value += dt * S.slow * 2;
       if (S.name === 'breach') {
         setUnder(false); adult.visible = true;
-        // approach under water at 50 deg, exit at 8.5 m/s, then a ballistic arc (g = 9.81) while rolling onto the back
-        const v0 = 8.5, ang = 1.05, tExit = 2.2, vx = v0 * Math.cos(ang), vy = v0 * Math.sin(ang);
-        let x, y, pitch, roll;
-        if (st < tExit) { const k = st - tExit; x = vx * k; y = vy * k; pitch = ang; roll = 0; }
-        else { const k = st - tExit; x = vx * k; y = vy * k - 4.905 * k * k; const vyN = vy - 9.81 * k; pitch = Math.atan2(vyN, vx) * .85 + .2; roll = Math.min(2.1, k * 1.25); if (y < -1 && k > .5 && !splashed) { splashed = true;
-          for (let i = 0; i < 900; i++) { const a = Math.random() * TAU, s = 2 + Math.random() * 9; emit(x + (Math.random() - .5) * 10, .1, (Math.random() - .5) * 5, Math.cos(a) * s * .5, 3 + Math.random() * 12, Math.sin(a) * s * .5, 3); } } }
-        if (st > tExit + 1.6) { const k = st - tExit - 1.6; y = Math.min(y, -1 - k * 1.5); }
-        // strong strokes to launch, then the body bends: ends lift in the air, flippers flail, it rebounds after the splash
-        const kk = st - tExit, archB = st < tExit ? 0 : kk < 1.8 ? -.75 * Math.sin(Math.min(1, kk / 1.4) * Math.PI * .5) : -.75 + Math.min(1, (kk - 1.8) / 1.5) * 1.0;
-        place(adult, x, y, 0, pitch, roll); swim(adult, st, st < tExit ? .09 : kk < 1.8 ? .02 : .05, st < tExit ? 1.3 : 2.4, archB, st < tExit ? .06 : .35);
-        if (st > tExit - .1 && st < tExit + 1.4) for (let i = 0; i < 6; i++) emit(x + (Math.random() - .5) * 3, .2, (Math.random() - .5) * 2, (Math.random() - .5) * 2, 2 + Math.random() * 4, (Math.random() - .5) * 2, 2);
+        const k = st - BT, L = 14;
+        if (k < 0) {
+          // under water: every part follows the J-shaped run, hard strokes with the flukes
+          place(adult, 0, 0, 0, 0, 0); swim(adult, st, { path: breachPath, s: BV * k + .5 * L, amp: .12, period: 1.5, fin: .03 });
+        } else {
+          // airborne centre of mass on a ballistic arc (g = 9.81); the tail keeps beating until it is out, then the body
+          // flexes: back bent hollow with head and tail up, pectoral fins flung out, a slow roll onto the side and back
+          const vx = BV * Math.cos(BA), vy = BV * Math.sin(BA), x = vx * k, y = vy * k - 4.905 * k * k, vyN = vy - 9.81 * k;
+          const out = sst(0, L / BV, k), pitch = Math.atan2(vyN, vx) * .8 + .2 * BA, roll = Math.min(2.2, k * 1.2);
+          const archB = -.42 * sst(.2, 1.3, k) + .6 * sst(2.1, 3.2, k);
+          if (y < -1 && k > .5 && !splashed) { splashed = true;
+            for (let i = 0; i < 900; i++) { const a = Math.random() * TAU, s = 2 + Math.random() * 9; emit(x + (Math.random() - .5) * 10, .1, (Math.random() - .5) * 5, Math.cos(a) * s * .5, 3 + Math.random() * 12, Math.sin(a) * s * .5, 3); } }
+          const yy = k > 1.6 ? Math.min(y, -1 - (k - 1.6) * 1.5) : y;
+          place(adult, x, yy, 0, pitch, roll); swim(adult, st, { amp: .12 * (1 - out) + .012, period: 1.5 + out * 2, arch: archB, fin: .06 + .3 * out, flukeBend: -.25 * sst(.6, 1.4, k) });
+          if (k < 1.4) for (let i = 0; i < 6; i++) emit(x * .4 + (Math.random() - .5) * 3, .2, (Math.random() - .5) * 2, (Math.random() - .5) * 2, 2 + Math.random() * 4, (Math.random() - .5) * 2, 2);
+        }
         cam.position.set(4 + t * .15, 2.2, 34); cam.lookAt(3, 4, 0);
       } else if (S.name === 'fluke') {
         setUnder(false); adult.visible = true;
-        // cruise at the surface, blow, arch the back and raise the flukes while sliding down
-        const sp = 1.8, x = -10 + st * sp; let y = -1.15, pitch = 0;
-        if (st > 2.2 && !blown) { blown = true; }
-        if (blown && st < 4.2) for (let i = 0; i < 10; i++) emit(x + .5 * 14 * .25 + (Math.random() - .5) * .6, 1.2, (Math.random() - .5) * .6, (Math.random() - .5) * 1.2, 7 + Math.random() * 3, (Math.random() - .5) * 1.2, 1.6);
-        const dive = sst(4.5, 8.5, st); pitch = -1.25 * dive; y = -1.15 - 5.2 * dive;
-        // rounding out: the back humps up (arch), the tail stock lifts and the flukes come up last
-        const archF = .06 + 1.05 * sst(0, .65, dive) - .5 * sst(.75, 1, dive);
-        place(adult, x, y, 0, pitch * .7, 0); swim(adult, st, .05 * (1 - dive * .7), 3.2, archF, .05);
-        if (dive > .5 && dive < .99) for (let i = 0; i < 5; i++) { const fx = x - 7 * Math.cos(pitch) + (Math.random() - .5) * 3, fy = y - 7 * Math.sin(pitch); if (fy > 0) emit(fx, fy, (Math.random() - .5) * 4.5, 0, -1, 0, 1.4); }
-        cam.position.set(x - 26 + t * .1, 3.2, 26); cam.lookAt(x - 2, 1.5, 0);
+        const sh = -10 + 1.6 * st;
+        place(adult, 0, 0, 0, 0, 0);
+        swim(adult, st, { path: divePath(sh), s: sh, amp: .07 * (1 - sst(-6, -1, sh)) + .008, period: 3.4, fin: .04, flukeBend: .15 * sst(6, 11, sh) });
+        const sp = adult.userData.spine, [tx, ty] = sp.tail;
+        if (st > .6 && st < 2.6) for (let i = 0; i < 10; i++) emit(sp.head[0] - 1.6 + (Math.random() - .5) * .6, .9, (Math.random() - .5) * .6, (Math.random() - .5) * 1.2, 7 + Math.random() * 3, (Math.random() - .5) * 1.2, 1.6);
+        if (ty > .2 && sh > 6) for (let i = 0; i < 5; i++) emit(tx + (Math.random() - .5) * 1.2, ty + Math.random() * 1.6, (Math.random() - .5) * 4.5, 0, -1, 0, 1.4);
+        cam.position.set(EX - 17 + t * .08, 3, 16); cam.lookAt(EX - 2.5, .6, 0);
       } else if (S.name === 'calf') {
         setUnder(true); adult.visible = true; calf.visible = true;
         const sp = 1.2, x = -14 + st * sp;
-        place(adult, x, -14, 0, .03 * Math.sin(st * .4), .05); swim(adult, st, .045, 3.4, .09 * Math.sin(st * .35), .08);
-        place(calf, x + 3.6, -9.6, 2.4, .05 * Math.sin(st * .6 + 1), -.08); swim(calf, st, .07, 1.7, .14 * Math.sin(st * .55 + 1), .12);
+        place(adult, x, -14, 0, .03 * Math.sin(st * .4), .05); swim(adult, st, { amp: .07, period: 3.4, arch: .06 * Math.sin(st * .35), fin: .08 });
+        place(calf, x + 3.6, -9.6, 2.4, .05 * Math.sin(st * .6 + 1), -.08); swim(calf, st, { amp: .1, period: 1.7, arch: .1 * Math.sin(st * .55 + 1), fin: .12 });
         cam.position.set(x + 2 - 14, -11, 20); cam.lookAt(x + 1, -12, 0);
       } else {
         setUnder(true); adult.visible = true; w2.visible = true; w3.visible = true;
         const sp = 1.5, x = -18 + st * sp;
-        place(adult, x, -4, 0, 0, 0); swim(adult, st, .045, 3.0, .07 * Math.sin(st * .3), .07);
-        place(w2, x - 9, -6, -8, .02, .05); swim(w2, st + .9, .045, 3.1, .07 * Math.sin(st * .3 + 1), .07);
-        place(w3, x - 5, -5, 9, -.02, -.04); swim(w3, st + 1.7, .045, 2.9, .07 * Math.sin(st * .3 + 2), .07);
+        place(adult, x, -4, 0, 0, 0); swim(adult, st, { amp: .07, period: 3.0, arch: .05 * Math.sin(st * .3), fin: .07 });
+        place(w2, x - 9, -6, -8, .02, .05); swim(w2, st + .9, { amp: .07, period: 3.1, arch: .05 * Math.sin(st * .3 + 1), fin: .07 });
+        place(w3, x - 5, -5, 9, -.02, -.04); swim(w3, st + 1.7, { amp: .07, period: 2.9, arch: .05 * Math.sin(st * .3 + 2), fin: .07 });
         cam.position.set(x - 6, -26, 6); cam.lookAt(x - 2, -2, 0);
       }
       snow.position.copy(cam.position); const a = snowG.attributes.position.array; for (let i = 1; i < a.length; i += 3) { a[i] -= dt * .15; if (a[i] < -30) a[i] = 30; } snowG.attributes.position.needsUpdate = true;
-      stepP(dt * SLOW);
-      hudT += dt; if (hudT > .25 && window.I18N) { const v = adult.position.distanceTo(lastPos) / hudT / SLOW; lastPos.copy(adult.position); hudT = 0;
-        hud.textContent = `${I18N.t('hb.hud.' + S.name)} · Megaptera novaeangliae · L ${I18N.num(14, 1)} m · v ${I18N.num(v, 1)} m/s · z ${I18N.num(adult.position.y, 1)} m · ${I18N.t('hb.hud.slow')}`; }
+      stepP(dt * S.slow);
+      hudT += dt; if (hudT > .25 && window.I18N) { const m = adult.userData.spine ? adult.localToWorld(new THREE.Vector3(adult.userData.spine.mid[0], adult.userData.spine.mid[1], 0)) : adult.position.clone(); const v = m.distanceTo(lastPos) / hudT / S.slow; lastPos.copy(m); hudT = 0;
+        hud.textContent = `${I18N.t('hb.hud.' + S.name)} · Megaptera novaeangliae · L ${I18N.num(14, 1)} m · v ${I18N.num(v, 1)} m/s · z ${I18N.num(lastPos.y, 1)} m · ${I18N.t('hb.hud.slow')}`; }
       if (t > S.len) { si = (si + 1) % SC.length; begin(); }
     };
+    host.wlSeek = (i, tt) => { si = i; begin(); run(tt); r.render(scene, cam); adult.updateMatrixWorld(); const g = adult.geometry.attributes.position.array, P = adult.userData.PART, v = new THREE.Vector3(); let fy = -99; for (let k = 0; k < P.length; k++) if (P[k] === 3) fy = Math.max(fy, adult.localToWorld(v.set(g[k * 3], g[k * 3 + 1], g[k * 3 + 2])).y); const w = (q) => { const z = adult.localToWorld(new THREE.Vector3(q[0], q[1], 0)); return [+z.x.toFixed(2), +z.y.toFixed(2)]; }; const s = adult.userData.spine; return { head: w(s.head), mid: w(s.mid), tail: w(s.tail), flukeTop: +fy.toFixed(2) }; };   // for checking poses
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
     let visible = false, raf = 0, last = 0;
     const loop = (ts) => { if (!visible) return; const dt = last ? Math.min(.05, (ts - last) / 1000) : 0; last = ts; run(dt); r.render(scene, cam); raf = requestAnimationFrame(loop); };

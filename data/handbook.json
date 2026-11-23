@@ -1,6 +1,6 @@
 {
- "build": "20261123115010",
- "built_at": "2026-11-23 11:50 CET",
+ "build": "20261123120154",
+ "built_at": "2026-11-23 12:01 CET",
  "libs": [
   [
    "d3",
@@ -55,7 +55,7 @@
   ],
   [
    "humpback3d.js",
-   235
+   266
   ],
   [
    "i18n.js",
@@ -99,19 +99,19 @@
   ],
   [
    "tools.js",
-   135
+   153
   ],
   [
    "ui.js",
    88
   ]
  ],
- "own_js_lines": 2862,
- "html_lines": 1070,
+ "own_js_lines": 2911,
+ "html_lines": 1084,
  "i18n_keys": {
-  "en": 1026,
-  "de": 1026,
-  "zh": 1026
+  "en": 1034,
+  "de": 1034,
+  "zh": 1034
  },
  "data_files": [
   [
@@ -172,7 +172,7 @@
   ],
   [
    "data/handbook.json",
-   2720
+   2754
   ],
   [
    "data/learning.json",
@@ -208,7 +208,7 @@
   ],
   [
    "data/results.json",
-   3741
+   4992
   ],
   [
    "data/soundmap.json",
@@ -225,6 +225,10 @@
   [
    "data/status.json",
    10882
+  ],
+  [
+   "data/step7a_mac.json",
+   1170
   ],
   [
    "data/voices/Bm.mp3",
@@ -247,7 +251,7 @@
    5818
   ]
  ],
- "data_bytes": 8740632,
+ "data_bytes": 8743087,
  "species_total": 93,
  "species_at_stations": 18,
  "species_with_clips": 14,

@@ -1000,9 +1000,9 @@
  "srch.k.doc": "文档",
  "srch.handbook": "手册",
  "srch.paper": "文章草稿",
- "share.btn": "链接",
- "share.copied": "已复制此视图的链接",
- "share.copy": "复制链接：",
+ "share.btn": "分享链接",
+ "share.copied": "已复制 ✓",
+ "share.copy": "复制",
  "gp.label": "播放器",
  "gp.play": "播放",
  "gp.pause": "暂停",
@@ -1024,5 +1024,13 @@
  "tour.s6": "直播：Orcasound 水听器，此刻即可收听。",
  "tour.s7": "声谱图让声音可见。蓝鲸和长须鲸的叫声低于人类听觉范围。",
  "tour.s8": "每项测试都有事先设定的阈值：通过、失败或待定。没有任何美化。",
- "tour.s9": "这是树莓派当前的状态：温度、进度、错误。"
+ "tour.s9": "这是树莓派当前的状态：温度、进度、错误。",
+ "share.title": "指向当前视图的链接",
+ "share.explain": "打开此链接的人会看到与你现在相同的页面：",
+ "share.part.at": "章节“{x}”",
+ "share.part.sp": "物种：{x}",
+ "share.part.map": "地图：{x}，{m}",
+ "share.part.dive": "下潜进度 {x}%",
+ "gp.idle": "播放器",
+ "gp.idle2": "点击一头鲸或 ▶，声音就在这里播放。"
 }

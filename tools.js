@@ -64,16 +64,33 @@
   function stateURL() {
     const u = new URL(location.href), p = u.searchParams; ['sp', 'rsp', 'rm', 'dive'].forEach((k) => p.delete(k));
     if (window.wlCurSpecies && wlCurSpecies !== DEF_SP) p.set('sp', wlCurSpecies);
-    if (window.wlRoutes) { const r = wlRoutes.get(); if (r.sp) p.set('rsp', r.sp); p.set('rm', r.m + 1); }
+    if (window.wlRoutes && window.wlRoutesTouched) { const r = wlRoutes.get(); if (r.sp) p.set('rsp', r.sp); p.set('rm', r.m + 1); }
     if (window.wlDive && wlDive.get() != null) p.set('dive', wlDive.get().toFixed(3));
     let best = null; document.querySelectorAll('main section[id], .chapter[id]').forEach((s) => { if (s.getBoundingClientRect().top < innerHeight * 0.35) best = s; });
     u.hash = best ? best.id : ''; return u.toString();
   }
-  async function share() {
-    const url = stateURL();
-    if (navigator.share && matchMedia('(pointer: coarse)').matches) { try { await navigator.share({ title: document.title, url }); return; } catch (e) { if (e.name === 'AbortError') return; } }
-    try { await navigator.clipboard.writeText(url); toast(t('share.copied')); } catch (e) { prompt(t('share.copy'), url); }
+  const pop = el('div', 'share-pop'); pop.hidden = true; pop.setAttribute('role', 'dialog');
+  const popT = el('p', 'sp-what'), popU = el('input', 'sp-url'), popRow = el('div', 'sp-row'), popCopy = el('button', 'sp-copy'), popX = el('button', 'sp-x', '×');
+  popU.readOnly = true; popCopy.type = popX.type = 'button'; popRow.append(popU, popCopy); pop.append(popX, el('b', 'sp-h'), popT, popRow);
+  function describe() {
+    const parts = []; let best = null; document.querySelectorAll('main section[id]').forEach((s) => { if (s.getBoundingClientRect().top < innerHeight * 0.35) best = s; });
+    const h = best && best.querySelector('h2'); if (h) parts.push(t('share.part.at', { x: h.textContent.trim() }));
+    const d = document.querySelector('#detail h3'); if (window.wlCurSpecies && wlCurSpecies !== DEF_SP && d) parts.push(t('share.part.sp', { x: d.textContent.trim() }));
+    if (window.wlRoutes && window.wlRoutesTouched) { const o = document.querySelector('#routes-ctl select'), m = document.querySelector('.rt-month'); if (o && m) parts.push(t('share.part.map', { x: o.options[o.selectedIndex].text, m: m.textContent.trim() })); }
+    if (window.wlDive && wlDive.get() != null) parts.push(t('share.part.dive', { x: Math.round(wlDive.get() * 100) }));
+    return parts;
   }
+  async function share() {
+    const url = stateURL(); pop.querySelector('.sp-h').textContent = t('share.title');
+    popT.textContent = t('share.explain') + ' ' + describe().join(' · '); popU.value = url; popCopy.textContent = t('share.copy');
+    pop.hidden = false; popU.focus(); popU.select();
+    try { await navigator.clipboard.writeText(url); popCopy.textContent = t('share.copied'); } catch (e) {}
+  }
+  popCopy.addEventListener('click', async () => { if (navigator.share && matchMedia('(pointer: coarse)').matches) { try { await navigator.share({ title: document.title, url: popU.value }); return; } catch (e) {} }
+    try { await navigator.clipboard.writeText(popU.value); } catch (e) { popU.select(); document.execCommand('copy'); } popCopy.textContent = t('share.copied'); });
+  popX.addEventListener('click', () => { pop.hidden = true; });
+  addEventListener('keydown', (e) => { if (e.key === 'Escape') pop.hidden = true; });
+  document.addEventListener('click', (e) => { if (!pop.hidden && !pop.contains(e.target) && !e.target.closest('.tool-b')) pop.hidden = true; });
   function restore() {
     const p = new URLSearchParams(location.search);
     if (p.get('sp')) later(() => window.wlSelectSpecies, () => { if (wlSelectSpecies(p.get('sp')) && !location.hash) show($('detail')); });
@@ -82,7 +99,7 @@
   }
 
   /* ---------- one player for every sound ---------- */
-  const gp = el('div', 'gp'); gp.hidden = true; gp.setAttribute('role', 'region');
+  const gp = el('div', 'gp idle'); gp.setAttribute('role', 'region');
   const gpPlay = el('button', 'gp-b', '❚❚'), gpStop = el('button', 'gp-b gp-stop', '■'), gpT = el('b', 'gp-t'), gpTime = el('span', 'gp-time'), gpSeek = el('input', 'gp-seek'), gpVol = el('input', 'gp-vol'), gpX = el('button', 'gp-b gp-x', '×');
   [gpPlay, gpStop, gpX].forEach((b) => { b.type = 'button'; });
   gpSeek.type = gpVol.type = 'range'; gpSeek.min = 0; gpSeek.max = 1000; gpSeek.value = 0; gpVol.min = 0; gpVol.max = 1; gpVol.step = .05; gpVol.value = 1;
@@ -93,12 +110,13 @@
     const d = media.duration; gpSeek.disabled = !isFinite(d); gpSeek.value = isFinite(d) && d ? Math.round(media.currentTime / d * 1000) : 0; gpTime.textContent = isFinite(d) ? `${fmt(media.currentTime)} / ${fmt(d)}` : t('gp.live'); };
   const EV = ['play', 'pause', 'ended', 'timeupdate', 'durationchange', 'loadedmetadata'];
   document.addEventListener('wl-media', (e) => { const m = e.detail; if (media && media !== m) { EV.forEach((ev) => media.removeEventListener(ev, sync)); if (!media.paused) media.pause(); }
-    media = m; m.volume = vol; EV.forEach((ev) => m.addEventListener(ev, sync)); gpT.textContent = titleOf(m); gp.hidden = false; document.body.classList.add('has-gp'); sync(); });
+    media = m; m.volume = vol; EV.forEach((ev) => m.addEventListener(ev, sync)); gpT.textContent = titleOf(m); gp.classList.remove('idle'); document.body.classList.add('has-gp'); sync(); });
   gpPlay.addEventListener('click', () => { if (!media) return; media.paused ? media.play().catch(() => {}) : media.pause(); });
   gpStop.addEventListener('click', () => { if (!media) return; media.pause(); try { media.currentTime = 0; } catch (e) {} sync(); });
   gpSeek.addEventListener('input', () => { if (media && isFinite(media.duration)) media.currentTime = gpSeek.value / 1000 * media.duration; });
   gpVol.addEventListener('input', () => { vol = +gpVol.value; if (media) media.volume = vol; });
-  gpX.addEventListener('click', () => { if (media) media.pause(); gp.hidden = true; document.body.classList.remove('has-gp'); });
+  const idle = () => { gp.classList.add('idle'); gpT.textContent = t('gp.idle'); gpTime.textContent = t('gp.idle2'); document.body.classList.remove('has-gp'); };
+  gpX.addEventListener('click', () => { if (media) { media.pause(); EV.forEach((ev) => media.removeEventListener(ev, sync)); media = null; } idle(); });
 
   /* ---------- guided tour ---------- */
   const STEPS = ['#top', '#dive', '#lineup', '#routes', '#bathy3d', '#live-card', '#listen', '#res-board', '#machine'];
@@ -126,8 +144,8 @@
   I18N.ready.then(() => {
     const bar = document.querySelector('.toc'), grp = el('div', 'tools');
     const mkB = (ico, key, fn, kbd) => { const b = el('button', 'tool-b'); b.type = 'button'; b.append(el('span', '', ico)); const lab = el('em', '', t(key)); b.append(lab); if (kbd) b.append(el('kbd', '', kbd)); b.title = t(key); b.setAttribute('aria-label', t(key)); b.addEventListener('click', (e) => { e.stopPropagation(); fn(); }); grp.append(b); return b; };
-    mkB('⌕', 'srch.btn', open, /Mac/.test(navigator.platform) ? '⌘K' : 'Ctrl K'); mkB('↗', 'share.btn', share); mkB('▸', 'tour.btn', startTour);
-    if (bar) bar.append(grp); document.body.append(ov, gp, cap);
+    mkB('⌕', 'srch.btn', open, /Mac/.test(navigator.platform) ? '⌘K' : 'Ctrl K'); mkB('🔗', 'share.btn', share); mkB('▸', 'tour.btn', startTour);
+    if (bar) bar.append(grp); document.body.append(ov, gp, cap, pop); idle();
     gp.setAttribute('aria-label', t('gp.label')); gpStop.setAttribute('aria-label', t('gp.stop')); gpX.setAttribute('aria-label', t('gp.close')); gpSeek.setAttribute('aria-label', t('gp.seek')); gpVol.setAttribute('aria-label', t('gp.vol'));
     const startCard = $('start-grid'); if (startCard) { const b = el('button', 'tour-cta', t('tour.cta')); b.type = 'button'; b.addEventListener('click', startTour); startCard.before(b); }
     restore();

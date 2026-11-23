@@ -1000,9 +1000,9 @@
  "srch.k.doc": "Document",
  "srch.handbook": "Handbook",
  "srch.paper": "Article draft",
- "share.btn": "Link",
- "share.copied": "Link to this view copied",
- "share.copy": "Copy link:",
+ "share.btn": "Share link",
+ "share.copied": "Copied ✓",
+ "share.copy": "Copy",
  "gp.label": "Player",
  "gp.play": "Play",
  "gp.pause": "Pause",
@@ -1024,5 +1024,13 @@
  "tour.s6": "Live: Orcasound hydrophones to listen in, right now.",
  "tour.s7": "A spectrogram makes sound visible. Blue and fin whales call lower than humans can hear.",
  "tour.s8": "Every test has a threshold fixed in advance: pass, fail or open. Nothing is polished.",
- "tour.s9": "And this is how the Pi is doing: temperature, progress, errors."
+ "tour.s9": "And this is how the Pi is doing: temperature, progress, errors.",
+ "share.title": "Link to exactly this view",
+ "share.explain": "Whoever opens the link sees the page as you do now:",
+ "share.part.at": "section “{x}”",
+ "share.part.sp": "species: {x}",
+ "share.part.map": "map: {x}, {m}",
+ "share.part.dive": "dive at {x} %",
+ "gp.idle": "Player",
+ "gp.idle2": "Click a whale or ▶ and the sound plays here."
 }

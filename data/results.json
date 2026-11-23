@@ -1,28 +1,277 @@
-{"updated": "2026-11-23",
+{
+ "updated": "2026-11-23",
  "groups": [
-  {"id": "orca", "rows": [
-   {"id": "s3_whalu", "measure": "ba", "value": 0.50, "mark": 0.80, "dir": ">=", "verdict": "fail", "where": "pi", "date": "2026-11-22", "n": 462, "data": "orcasound_labelled"},
-   {"id": "s3_perch", "measure": "ba", "value": 0.945, "mark": 0.80, "dir": ">=", "verdict": "pass", "where": "pi", "date": "2026-11-22", "n": 462, "data": "orcasound_labelled"},
-   {"id": "s7e_recall", "measure": "recall", "value": null, "mark": 0.70, "dir": ">=", "verdict": "pending", "where": "mac", "date": null, "n": 60, "data": "orcasound_reports"},
-   {"id": "s7e_fa", "measure": "fa", "value": null, "mark": 0.10, "dir": "<=", "verdict": "pending", "where": "mac", "date": null, "n": 60, "data": "orcasound_reports"}]},
-  {"id": "bluefin", "rows": [
-   {"id": "dclde_blue_whalu", "measure": "recall", "value": 0.0, "mark": 0.70, "dir": ">=", "verdict": "fail", "where": "pi", "date": "2026-11-23", "n": 240, "data": "dclde"},
-   {"id": "dclde_fin_whalu", "measure": "recall", "value": 0.0, "mark": 0.70, "dir": ">=", "verdict": "fail", "where": "pi", "date": "2026-11-23", "n": 47, "data": "dclde"},
-   {"id": "s7a_blue", "measure": "ba", "value": null, "mark": 0.80, "dir": ">=", "verdict": "pending", "where": "mac", "date": null, "n": 1800, "data": "dclde"},
-   {"id": "s7a_fin", "measure": "ba", "value": null, "mark": 0.80, "dir": ">=", "verdict": "pending", "where": "mac", "date": null, "n": 1800, "data": "dclde"},
-   {"id": "ci_blue_rho", "measure": "rho", "value": 0.671, "mark": 0.60, "dir": ">=", "verdict": "pass", "where": "pi", "date": "2026-11-23", "n": 300, "data": "mbari_ci"},
-   {"id": "ci_blue_ba", "measure": "ba", "value": 0.803, "mark": 0.80, "dir": ">=", "verdict": "pass", "where": "pi", "date": "2026-11-23", "n": 300, "data": "mbari_ci"},
-   {"id": "ci_blue_peak", "measure": "peak", "value": 9, "mark": "10-12", "dir": "in", "verdict": "fail", "where": "pi", "date": "2026-11-23", "n": 300, "data": "mbari_ci"},
-   {"id": "ci_fin_rho", "measure": "rho", "value": 0.813, "mark": 0.60, "dir": ">=", "verdict": "pass", "where": "pi", "date": "2026-11-23", "n": 300, "data": "mbari_ci"},
-   {"id": "ci_fin_ba", "measure": "ba", "value": 0.790, "mark": 0.80, "dir": ">=", "verdict": "fail", "where": "pi", "date": "2026-11-23", "n": 300, "data": "mbari_ci"},
-   {"id": "ci_fin_peak", "measure": "peak", "value": 10, "mark": "10-12", "dir": "in", "verdict": "pass", "where": "pi", "date": "2026-11-23", "n": 300, "data": "mbari_ci"}]},
-  {"id": "humpback", "rows": [
-   {"id": "s7d_rho", "measure": "rho", "value": null, "mark": 0.60, "dir": ">=", "verdict": "pending", "where": "pi", "date": null, "n": 300, "data": "mbari_hump"},
-   {"id": "s7d_ba", "measure": "ba", "value": null, "mark": 0.80, "dir": ">=", "verdict": "pending", "where": "pi", "date": null, "n": 300, "data": "mbari_hump"}]},
-  {"id": "pi", "rows": [
-   {"id": "s4_speed", "measure": "speed", "value": 1.18, "mark": 10, "dir": ">=", "verdict": "fail", "where": "pi", "date": "2026-11-23", "n": 1, "data": "mbari_hour"},
-   {"id": "s4_heat", "measure": "temp", "value": 90.6, "mark": 75, "dir": "<=", "verdict": "fail", "where": "pi", "date": "2026-11-23", "n": 1, "data": "mbari_hour"},
-   {"id": "s4c_heat", "measure": "temp", "value": 75.2, "mark": 75, "dir": "<=", "verdict": "fail", "where": "pi", "date": "2026-11-23", "n": 3, "data": "mbari_hour"},
-   {"id": "s5_crash", "measure": "crash", "value": 1, "mark": 1, "dir": ">=", "verdict": "pass", "where": "pi", "date": "2026-11-23", "n": 1, "data": "mbari_hour"},
-   {"id": "sampling", "measure": "speed", "value": 1.4, "mark": 1.0, "dir": ">=", "verdict": "note", "where": "pi", "date": "2026-11-23", "n": 1, "data": "mbari_hour"}]}
- ]}
+  {
+   "id": "orca",
+   "rows": [
+    {
+     "id": "s3_whalu",
+     "measure": "ba",
+     "value": 0.5,
+     "mark": 0.8,
+     "dir": ">=",
+     "verdict": "fail",
+     "where": "pi",
+     "date": "2026-11-22",
+     "n": 462,
+     "data": "orcasound_labelled"
+    },
+    {
+     "id": "s3_perch",
+     "measure": "ba",
+     "value": 0.945,
+     "mark": 0.8,
+     "dir": ">=",
+     "verdict": "pass",
+     "where": "pi",
+     "date": "2026-11-22",
+     "n": 462,
+     "data": "orcasound_labelled"
+    },
+    {
+     "id": "s7e_recall",
+     "measure": "recall",
+     "value": null,
+     "mark": 0.7,
+     "dir": ">=",
+     "verdict": "pending",
+     "where": "mac",
+     "date": null,
+     "n": 60,
+     "data": "orcasound_reports"
+    },
+    {
+     "id": "s7e_fa",
+     "measure": "fa",
+     "value": null,
+     "mark": 0.1,
+     "dir": "<=",
+     "verdict": "pending",
+     "where": "mac",
+     "date": null,
+     "n": 60,
+     "data": "orcasound_reports"
+    }
+   ]
+  },
+  {
+   "id": "bluefin",
+   "rows": [
+    {
+     "id": "dclde_blue_whalu",
+     "measure": "recall",
+     "value": 0.0,
+     "mark": 0.7,
+     "dir": ">=",
+     "verdict": "fail",
+     "where": "pi",
+     "date": "2026-11-23",
+     "n": 240,
+     "data": "dclde"
+    },
+    {
+     "id": "dclde_fin_whalu",
+     "measure": "recall",
+     "value": 0.0,
+     "mark": 0.7,
+     "dir": ">=",
+     "verdict": "fail",
+     "where": "pi",
+     "date": "2026-11-23",
+     "n": 47,
+     "data": "dclde"
+    },
+    {
+     "id": "s7a_blue",
+     "measure": "ba",
+     "value": 0.545,
+     "mark": 0.8,
+     "dir": ">=",
+     "verdict": "fail",
+     "where": "mac",
+     "date": "2026-11-23",
+     "n": 3000,
+     "data": "dclde"
+    },
+    {
+     "id": "s7a_fin",
+     "measure": "ba",
+     "value": 0.647,
+     "mark": 0.8,
+     "dir": ">=",
+     "verdict": "fail",
+     "where": "mac",
+     "date": "2026-11-23",
+     "n": 3000,
+     "data": "dclde"
+    },
+    {
+     "id": "ci_blue_rho",
+     "measure": "rho",
+     "value": 0.671,
+     "mark": 0.6,
+     "dir": ">=",
+     "verdict": "pass",
+     "where": "pi",
+     "date": "2026-11-23",
+     "n": 300,
+     "data": "mbari_ci"
+    },
+    {
+     "id": "ci_blue_ba",
+     "measure": "ba",
+     "value": 0.803,
+     "mark": 0.8,
+     "dir": ">=",
+     "verdict": "pass",
+     "where": "pi",
+     "date": "2026-11-23",
+     "n": 300,
+     "data": "mbari_ci"
+    },
+    {
+     "id": "ci_blue_peak",
+     "measure": "peak",
+     "value": 9,
+     "mark": "10-12",
+     "dir": "in",
+     "verdict": "fail",
+     "where": "pi",
+     "date": "2026-11-23",
+     "n": 300,
+     "data": "mbari_ci"
+    },
+    {
+     "id": "ci_fin_rho",
+     "measure": "rho",
+     "value": 0.813,
+     "mark": 0.6,
+     "dir": ">=",
+     "verdict": "pass",
+     "where": "pi",
+     "date": "2026-11-23",
+     "n": 300,
+     "data": "mbari_ci"
+    },
+    {
+     "id": "ci_fin_ba",
+     "measure": "ba",
+     "value": 0.79,
+     "mark": 0.8,
+     "dir": ">=",
+     "verdict": "fail",
+     "where": "pi",
+     "date": "2026-11-23",
+     "n": 300,
+     "data": "mbari_ci"
+    },
+    {
+     "id": "ci_fin_peak",
+     "measure": "peak",
+     "value": 10,
+     "mark": "10-12",
+     "dir": "in",
+     "verdict": "pass",
+     "where": "pi",
+     "date": "2026-11-23",
+     "n": 300,
+     "data": "mbari_ci"
+    }
+   ]
+  },
+  {
+   "id": "humpback",
+   "rows": [
+    {
+     "id": "s7d_rho",
+     "measure": "rho",
+     "value": null,
+     "mark": 0.6,
+     "dir": ">=",
+     "verdict": "pending",
+     "where": "pi",
+     "date": null,
+     "n": 300,
+     "data": "mbari_hump"
+    },
+    {
+     "id": "s7d_ba",
+     "measure": "ba",
+     "value": null,
+     "mark": 0.8,
+     "dir": ">=",
+     "verdict": "pending",
+     "where": "pi",
+     "date": null,
+     "n": 300,
+     "data": "mbari_hump"
+    }
+   ]
+  },
+  {
+   "id": "pi",
+   "rows": [
+    {
+     "id": "s4_speed",
+     "measure": "speed",
+     "value": 1.18,
+     "mark": 10,
+     "dir": ">=",
+     "verdict": "fail",
+     "where": "pi",
+     "date": "2026-11-23",
+     "n": 1,
+     "data": "mbari_hour"
+    },
+    {
+     "id": "s4_heat",
+     "measure": "temp",
+     "value": 90.6,
+     "mark": 75,
+     "dir": "<=",
+     "verdict": "fail",
+     "where": "pi",
+     "date": "2026-11-23",
+     "n": 1,
+     "data": "mbari_hour"
+    },
+    {
+     "id": "s4c_heat",
+     "measure": "temp",
+     "value": 75.2,
+     "mark": 75,
+     "dir": "<=",
+     "verdict": "fail",
+     "where": "pi",
+     "date": "2026-11-23",
+     "n": 3,
+     "data": "mbari_hour"
+    },
+    {
+     "id": "s5_crash",
+     "measure": "crash",
+     "value": 1,
+     "mark": 1,
+     "dir": ">=",
+     "verdict": "pass",
+     "where": "pi",
+     "date": "2026-11-23",
+     "n": 1,
+     "data": "mbari_hour"
+    },
+    {
+     "id": "sampling",
+     "measure": "speed",
+     "value": 1.4,
+     "mark": 1.0,
+     "dir": ">=",
+     "verdict": "note",
+     "where": "pi",
+     "date": "2026-11-23",
+     "n": 1,
+     "data": "mbari_hour"
+    }
+   ]
+  }
+ ]
+}
