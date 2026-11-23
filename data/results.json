@@ -31,25 +31,25 @@
     {
      "id": "s7e_recall",
      "measure": "recall",
-     "value": null,
+     "value": 0.958,
      "mark": 0.7,
      "dir": ">=",
-     "verdict": "pending",
+     "verdict": "pass",
      "where": "mac",
-     "date": null,
-     "n": 60,
+     "date": "2026-11-23",
+     "n": 24,
      "data": "orcasound_reports"
     },
     {
      "id": "s7e_fa",
      "measure": "fa",
-     "value": null,
+     "value": 0.273,
      "mark": 0.1,
      "dir": "<=",
-     "verdict": "pending",
+     "verdict": "fail",
      "where": "mac",
-     "date": null,
-     "n": 60,
+     "date": "2026-11-23",
+     "n": 22,
      "data": "orcasound_reports"
     }
    ]

@@ -1,6 +1,6 @@
 {
- "build": "20261123132731",
- "built_at": "2026-11-23 13:27 CET",
+ "build": "20261123141212",
+ "built_at": "2026-11-23 14:12 CET",
  "libs": [
   [
    "d3",
@@ -188,7 +188,7 @@
   ],
   [
    "data/handbook.json",
-   2999
+   3040
   ],
   [
    "data/learning.json",
@@ -224,7 +224,7 @@
   ],
   [
    "data/results.json",
-   5231
+   5243
   ],
   [
    "data/screens.json",
@@ -251,6 +251,10 @@
    1170
   ],
   [
+   "data/step7e_mac.json",
+   381
+  ],
+  [
    "data/step7f_mac.json",
    887
   ],
@@ -275,7 +279,7 @@
    5818
   ]
  ],
- "data_bytes": 8771810,
+ "data_bytes": 8772244,
  "species_total": 93,
  "species_at_stations": 18,
  "species_with_clips": 14,

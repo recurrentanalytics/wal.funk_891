@@ -1,0 +1,24 @@
+{
+ "rules": "docs/step7e-orca-orcasound.md",
+ "blocks": 60,
+ "skipped": 14,
+ "rule_ge_1": {
+  "recall": 0.958,
+  "false_alarm": 0.545,
+  "n_event": 24,
+  "n_quiet": 22
+ },
+ "rule_ge_3": {
+  "recall": 0.958,
+  "false_alarm": 0.273,
+  "n_event": 24,
+  "n_quiet": 22
+ },
+ "rule_ge_10": {
+  "recall": 0.875,
+  "false_alarm": 0.091,
+  "n_event": 24,
+  "n_quiet": 22
+ },
+ "PASS": false
+}

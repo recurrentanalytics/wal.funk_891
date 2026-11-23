@@ -510,7 +510,7 @@
  "det.blue": "whalu found 0 of 240 blue whale calls marked by people. MBARI’s own call index, recomputed by the Pi from one hour a day, follows the season (correlation 0.67) but narrowly failed. A third attempt with Perch also failed (balanced accuracy 0.55, preliminary, Mac mini).",
  "det.fin": "whalu found 0 of 47 marked fin whale calls. MBARI’s call index from one hour a day: correlation 0.81, but just below the mark on “song yes or no” (0.79 instead of 0.80). An attempt with Perch also failed (balanced accuracy 0.65, preliminary, Mac mini).",
  "det.humpback": "Google’s humpback model, used the way MBARI uses it, now scores every hour the Pi listens to. The verdict against MBARI’s published values comes once 300 days are in (about mid-December).",
- "det.orca": "The orca classifier scored 94 % on one Orcasound test day. Off Monterey it is useless: it fires on one window in five. A test on 30 orca encounters reported by people is running.",
+ "det.orca": "The orca classifier scored 94 % on one Orcasound test day. Off Monterey it is useless: it fires on one window in five. Of 24 orca encounters reported by people it found 23 (96 %), but it also fired in 27 % of quiet times; 10 % was allowed. Failed (preliminary, Mac mini).",
  "det.minke": "The Pi has no tested detector for minke whales.",
  "det.brydes": "The Pi has no tested detector for Bryde’s whales.",
  "det.npright": "The Pi has no tested detector for the North Pacific right whale. It is extremely rare; only a few dozen live in the eastern Pacific.",
