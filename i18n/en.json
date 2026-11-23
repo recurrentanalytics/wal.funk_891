@@ -456,6 +456,7 @@
  "canyon.dive.note": "Dive in: a camera ride of about {km} km from the canyon head off Moss Landing along the deepest line of the canyon, then up onto Smooth Ridge to the hydrophone. Sunlight fades with depth as it does in the sea; below a few hundred metres only the camera's lamp lights the floor. The floor's colours are an illustration from depth and slope, not photographs.",
  "card.hydrophone": "Hydrophone",
  "card.sighting": "Sighting record",
+ "card.reportedAs": "reported as “{name}”",
  "card.live": "Live sighting",
  "card.heard": "Heard at the hydrophone",
  "card.when": "When",

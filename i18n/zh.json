@@ -456,6 +456,7 @@
  "canyon.dive.note": "潜入：一段约 {km} 公里的镜头之旅，从莫斯兰丁外的峡谷源头沿峡谷最深线前行，再爬上 Smooth Ridge 到达水听器。阳光像在海中一样随深度消失；几百米以下只有镜头的灯照亮海底。海底颜色是根据深度和坡度绘制的示意，并非照片。",
  "card.hydrophone": "水听器",
  "card.sighting": "目击记录",
+ "card.reportedAs": "报告名称：“{name}”",
  "card.live": "实时目击",
  "card.heard": "水听器听到",
  "card.when": "时间",

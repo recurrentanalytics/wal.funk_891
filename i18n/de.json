@@ -456,6 +456,7 @@
  "canyon.dive.note": "Eintauchen: eine Kamerafahrt von etwa {km} km vom Canyonkopf vor Moss Landing entlang der tiefsten Linie des Canyons und dann hinauf auf den Smooth Ridge zum Hydrofon. Das Sonnenlicht schwindet mit der Tiefe wie im Meer; unter einigen hundert Metern beleuchtet nur noch die Lampe der Kamera den Boden. Die Farben des Bodens sind eine Darstellung aus Tiefe und Hangneigung, keine Fotos.",
  "card.hydrophone": "Hydrofon",
  "card.sighting": "Sichtungsmeldung",
+ "card.reportedAs": "gemeldet als „{name}“",
  "card.live": "Live-Sichtung",
  "card.heard": "Am Hydrofon gehört",
  "card.when": "Wann",

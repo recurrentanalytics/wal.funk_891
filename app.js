@@ -233,11 +233,15 @@ function worldMap(wd) {
     const fmtD = (d) => new Date(d).toLocaleDateString(I18N.locale, { day: 'numeric', month: 'short', year: 'numeric' });
     const notes = $('world-notes'); notes.replaceChildren();
     getJSON('data/currents.json').then((c) => { globe.setCurrents(c); chip('layer.currents', '#73f2ff', 'cur', true); notes.append(el('p', 'note', t('layer.currents.note', { date: fmtD(c.time) }))); }).catch(() => {});
+    // species name in the page language where we have one; otherwise the scientific name, with the reporter's own name kept as a hint
+    const LATIN = { 'Balaenoptera musculus': 'blue', 'Balaenoptera physalus': 'fin', 'Megaptera novaeangliae': 'humpback', 'Orcinus orca': 'orca', 'Balaenoptera acutorostrata': 'minke', 'Balaenoptera edeni': 'brydes', 'Eubalaena glacialis': 'naright', 'Eubalaena japonica': 'npright' };
+    const spName = (r) => { const sci = r.species || r.scientificName || 'Cetacea', k = LATIN[r.species];
+      return k ? { title: t(`sp.${k}.name`), sub: sci } : { title: sci, sub: r.vernacularName ? t('card.reportedAs', { name: r.vernacularName }) : '' }; };
     // Whale sightings of the last 30 days from GBIF (1-3 weeks behind), fetched by the visitor's browser
     const iso = (d) => d.toISOString().slice(0, 10), now = new Date(), from = new Date(now - 30 * 864e5);
     getJSON(`https://api.gbif.org/v1/occurrence/search?taxonKey=733&hasCoordinate=true&eventDate=${iso(from)},${iso(now)}&limit=300`).then((g) => {
       const pts = g.results.filter((r) => r.decimalLatitude != null).map((r) => ({ lat: r.decimalLatitude, lon: r.decimalLongitude, text: r.species || 'Cetacea',
-        card: { kind: t('card.sighting'), title: r.vernacularName || r.species || r.scientificName || 'Cetacea', sub: r.vernacularName ? r.species : '',
+        card: { kind: t('card.sighting'), ...spName(r),
           rows: [[t('card.when'), fmtD(r.eventDate)], [t('card.where'), [r.waterBody, r.locality, r.stateProvince, r.country].filter(Boolean).slice(0, 2).join(', ') || coord(r.decimalLatitude, r.decimalLongitude)], [t('card.coords'), coord(r.decimalLatitude, r.decimalLongitude)], [t('card.count'), r.individualCount], [t('card.basis'), { HUMAN_OBSERVATION: t('card.basis.human'), MACHINE_OBSERVATION: t('card.basis.machine') }[r.basisOfRecord] || ''], [t('card.dataset'), r.datasetName || r.institutionCode], [t('card.licence'), lic(r.license)]],
           links: [[t('card.record'), `https://www.gbif.org/occurrence/${r.key}`]], note: t('card.gbif.note') } }));
       if (!pts.length) return; globe.setSightings(pts); chip('layer.sightings', '#ff8fd0', 'sight', true);
