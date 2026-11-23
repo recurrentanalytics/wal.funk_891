@@ -55,7 +55,7 @@
     const yOf = (m) => m / 1000 * EX * S, mOf = (y) => y / (EX * S) * 1000;
     const o = { autoRotate: true, minD: 1, maxD: 900, bg: 0x0a1a24 };
     const { scene, camera, controls, renderer, label } = makeScene(host, o);
-    renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.2; if (THREE.sRGBEncoding) renderer.outputEncoding = THREE.sRGBEncoding;
+    
     camera.near = 0.05; camera.far = 3000; camera.updateProjectionMatrix(); controls.maxPolarAngle = Math.PI * 0.97;
 
     /* terrain: albedo from depth, height and slope; a second colour set bakes how water absorbs light when seen from above */
