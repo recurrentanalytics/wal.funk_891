@@ -26,9 +26,11 @@
       d.append(el); (more || []).forEach((m) => { const x = $(m); if (x) d.append(x); });
     });
   }
+  // open every folded block around an element (deep links, buttons that jump somewhere)
+  window.wlReveal = (el) => { let opened = false; for (let d = el && el.closest('details'); d; d = d.parentElement && d.parentElement.closest('details')) if (!d.open) { d.open = true; opened = true; } return opened; };
   function openTarget() {
     const id = decodeURIComponent(location.hash.slice(1)); const el = id && $(id); if (!el) return;
-    const d = el.closest('details'); if (d && !d.open) { d.open = true; requestAnimationFrame(() => el.scrollIntoView({ block: 'start' })); }
+    if (wlReveal(el)) requestAnimationFrame(() => el.scrollIntoView({ block: 'start' }));
   }
   function build() {
     const nav = document.querySelector('.toc .wrap'); if (!nav) return;

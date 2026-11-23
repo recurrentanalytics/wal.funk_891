@@ -1,5 +1,5 @@
 {
- "build": "20261123113917",
+ "build": "20261123113936",
  "built_at": "2026-11-23 11:39 CET",
  "libs": [
   [
@@ -91,14 +91,14 @@
   ],
   [
    "tabs.js",
-   122
+   124
   ],
   [
    "ui.js",
    88
   ]
  ],
- "own_js_lines": 2684,
+ "own_js_lines": 2686,
  "html_lines": 1016,
  "i18n_keys": {
   "en": 987,
@@ -164,7 +164,7 @@
   ],
   [
    "data/handbook.json",
-   2687
+   2689
   ],
   [
    "data/learning.json",
@@ -239,7 +239,7 @@
    5818
   ]
  ],
- "data_bytes": 8740599,
+ "data_bytes": 8740601,
  "species_total": 93,
  "species_at_stations": 18,
  "species_with_clips": 14,

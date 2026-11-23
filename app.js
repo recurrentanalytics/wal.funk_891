@@ -241,7 +241,7 @@ function whales(w, S) {
     fx.append(fact(x.len ? `${num(x.len, 1)} m` : '—', t(x.len_src && x.len_src[0] === 'pantheria' ? 'whales.meanlen' : 'whales.maxlen')), fact(x.iucn ? t(`iucn.${x.iucn}`) : '—', t('whales.iucn')));
     d.append(fx);
     const go = el('button', 'map-go'); go.type = 'button'; go.textContent = t('routes.show', { name: spName(x) });
-    go.addEventListener('click', () => { document.dispatchEvent(new CustomEvent('routes-species', { detail: x.sci })); $('routes').scrollIntoView({ behavior: 'smooth' }); });
+    go.addEventListener('click', () => { document.dispatchEvent(new CustomEvent('routes-species', { detail: x.sci })); (window.wlReveal && wlReveal($('routes'))); $('routes').scrollIntoView({ behavior: 'smooth' }); });
     const inf = x.info || {}, L = (o) => o && (o[lang] || o.en);
     if (L(inf.sound)) {
       d.append(el('span', 'kicker', t('whales.pitch')));
@@ -715,7 +715,7 @@ I18N.ready.then(() => {
       const f = el('figure'); const i = el('img'); i.src = p.src; i.alt = t(`pp.${p.key}.t`); i.loading = 'lazy';
       const c = el('figcaption'); c.append(el('b', '', t(`pp.${p.key}.t`)), document.createTextNode(t(`pp.${p.key}.d`)));
       const cr = el('small'); cr.append(`${t('whales.photo')} ${p.by} · ${p.lic} · `); const a = el('a', '', 'Wikimedia Commons'); a.href = p.page; a.rel = 'noopener'; cr.append(a); c.append(cr);
-      if (p.key === 'moss' || p.key === 'canyon') { const go = el('button', 'map-go', t('pin.show3d')); go.type = 'button'; go.addEventListener('click', () => { $('bathy3d').scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => document.dispatchEvent(new CustomEvent('canyon-fly', { detail: p.key })), 700); }); c.append(go); }
+      if (p.key === 'moss' || p.key === 'canyon') { const go = el('button', 'map-go', t('pin.show3d')); go.type = 'button'; go.addEventListener('click', () => { (window.wlReveal && wlReveal($('bathy3d'))); $('bathy3d').scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => document.dispatchEvent(new CustomEvent('canyon-fly', { detail: p.key })), 700); }); c.append(go); }
       f.append(i, c); box.append(f);
     });
   }).catch(() => {});
