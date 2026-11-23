@@ -129,23 +129,66 @@ function whales(w, S) {
     if (isPerson) btn.disabled = true; else btn.addEventListener('click', () => { select(name, true); if (innerWidth < 760) $('detail').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
     buttons.push([name, btn]); line.append(btn);
   });
-  // every other living whale and dolphin species: hidden until asked for, hatched
-  if (rest.length) {
+  // the full catalogue of living whales and dolphins: search, filters and sorting; species not recorded at our stations
+  // stay hatched. Opens on request so the chapter stays short.
+  if (all.length) {
+    const MYST = new Set(['Balaenopteridae', 'Balaenidae', 'Eschrichtiidae', 'Neobalaenidae']);
+    const RISK = { CR: 0, EN: 1, VU: 2, NT: 3, LC: 4, DD: 5 };
     const more = el('button', 'more-sp'); more.type = 'button'; more.setAttribute('aria-expanded', 'false');
-    more.textContent = t('allsp.show', { n: rest.length, total: all.length });
-    const grid = el('div', 'all-sp'); grid.hidden = true;
-    let fam = null;
-    rest.forEach((x) => {
-      if (x.family !== fam) { fam = x.family; grid.append(el('div', 'fam', fam || '—')); }
-      const c = el('button', 'sp-card'); c.type = 'button'; c.title = t('st.absent.short');
+    const cat = el('div', 'catalog'); cat.hidden = true;
+    const bar = el('div', 'cat-bar'), q = el('input', 'cat-q'); q.type = 'search'; q.placeholder = t('cat.search'); q.setAttribute('aria-label', t('cat.search'));
+    const chips = (name, opts, multi) => { const g = el('div', 'cat-chips'); g.setAttribute('role', 'group'); g.setAttribute('aria-label', t('cat.' + name));
+      g.append(el('span', 'cat-l', t('cat.' + name)));
+      opts.forEach(([v, lab]) => { const b = el('button', 'chip', lab); b.type = 'button'; b.dataset.v = v; b.setAttribute('aria-pressed', 'false');
+        b.addEventListener('click', () => { if (!multi) g.querySelectorAll('.chip').forEach((o) => { if (o !== b) o.setAttribute('aria-pressed', 'false'); }); b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true')); render(); }); g.append(b); });
+      return g; };
+    const on = (g) => [...g.querySelectorAll('.chip[aria-pressed="true"]')].map((b) => b.dataset.v);
+    const gGroup = chips('group', [['m', t('cat.myst')], ['o', t('cat.odon')]], false);
+    const gRisk = chips('iucn', ['CR', 'EN', 'VU', 'NT', 'LC', 'DD'].map((k) => [k, t('iucn.' + k)]), true);
+    const gSize = chips('size', [['s', '< 3 m'], ['m', '3–10 m'], ['l', '> 10 m']], true);
+    const gMore = chips('more', [['st', t('cat.station')], ['info', t('cat.info')]], true);
+    const fam = el('select', 'cat-sel'); fam.setAttribute('aria-label', t('cat.family')); fam.append(new Option(t('cat.allfam'), ''));
+    [...new Set(all.map((x) => x.family))].sort().forEach((f) => fam.append(new Option(`${f} (${all.filter((x) => x.family === f).length})`, f)));
+    const sort = el('select', 'cat-sel'); sort.setAttribute('aria-label', t('cat.sort'));
+    [['fam', t('cat.s.fam')], ['name', t('cat.s.name')], ['big', t('cat.s.big')], ['small', t('cat.s.small')], ['risk', t('cat.s.risk')]].forEach(([v, l]) => sort.append(new Option(l, v)));
+    const count = el('span', 'cat-count'), reset = el('button', 'chip cat-reset', t('cat.reset')); reset.type = 'button';
+    const row1 = el('div', 'cat-row'); row1.append(q, fam, sort, count, reset);
+    bar.append(row1, gGroup, gRisk, gSize, gMore);
+    const grid = el('div', 'all-sp');
+    const cards = all.map((x) => {
+      const st = x.seen[0] + x.seen[1] > 0, c = el('button', 'sp-card' + (st ? ' at-st' : '')); c.type = 'button'; c.title = t(st ? 'cat.station' : 'st.absent.short');
       if (x.img) { const i = el('img'); i.loading = 'lazy'; i.alt = ''; i.src = x.img.src; c.append(i); } else c.append(el('span', 'noimg'));
-      c.append(el('b', '', spName(x)), el('i', '', x.sci), el('small', 'iucn iucn-' + (x.iucn || 'NA'), x.iucn ? t(`iucn.${x.iucn}`) : '—'));
+      c.append(el('b', '', spName(x)), el('i', '', x.sci));
+      const meta = el('small', 'cat-meta'); meta.append(el('span', 'iucn iucn-' + (x.iucn || 'NA'), x.iucn ? t(`iucn.${x.iucn}`) : '—'), el('span', '', x.len ? `${num(x.len, 1)} m` : ''));
+      if (st) meta.append(el('span', 'st-badge', t('cat.station.short'))); c.append(meta);
       const nameKey = CUR[x.sci] || x.sci;
-      c.addEventListener('click', () => { grid.querySelectorAll('.sp-card').forEach((o) => o.classList.toggle('on', o === c)); select(nameKey, true); if (innerWidth < 760) $('detail').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-      buttons.push([nameKey, c]); grid.append(c);
+      c.addEventListener('click', () => { grid.querySelectorAll('.sp-card').forEach((o) => o.classList.toggle('on', o === c)); select(nameKey, true); $('detail').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+      buttons.push([nameKey, c]);
+      const hay = [x.sci, x.family, ...Object.values(x.name || {})].join(' ').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      return { x, c, st, hay };
     });
-    more.addEventListener('click', () => { grid.hidden = !grid.hidden; more.setAttribute('aria-expanded', String(!grid.hidden)); more.textContent = t(grid.hidden ? 'allsp.show' : 'allsp.hide', { n: rest.length, total: all.length }); });
-    line.parentElement.append(more, grid);
+    function render() {
+      const s = q.value.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''), G = on(gGroup), R = on(gRisk), Z = on(gSize), M = on(gMore), F = fam.value;
+      const size = (l) => (l < 3 ? 's' : l <= 10 ? 'm' : 'l');
+      let list = cards.filter(({ x, st, hay }) => (!s || hay.includes(s)) && (!G.length || (G[0] === 'm') === MYST.has(x.family)) && (!F || x.family === F)
+        && (!R.length || R.includes(x.iucn)) && (!Z.length || (x.len && Z.includes(size(x.len)))) && (!M.includes('st') || st) && (!M.includes('info') || x.info));
+      const by = sort.value, nm = (o) => spName(o.x);
+      list.sort(by === 'name' ? (a, b) => nm(a).localeCompare(nm(b), lang) : by === 'big' ? (a, b) => (b.x.len || 0) - (a.x.len || 0) : by === 'small' ? (a, b) => (a.x.len || 99) - (b.x.len || 99)
+        : by === 'risk' ? (a, b) => (RISK[a.x.iucn] ?? 9) - (RISK[b.x.iucn] ?? 9) || nm(a).localeCompare(nm(b), lang) : (a, b) => (a.x.family || '').localeCompare(b.x.family || '') || nm(a).localeCompare(nm(b), lang));
+      grid.replaceChildren(); let last = null;
+      list.forEach((o) => { const head = by === 'fam' ? o.x.family : by === 'risk' ? t('iucn.' + (o.x.iucn || 'DD')) : null;
+        if (head && head !== last) { last = head; grid.append(el('div', 'fam', head + (by === 'fam' ? ' · ' + t(MYST.has(o.x.family) ? 'cat.myst' : 'cat.odon') : ''))); } grid.append(o.c); });
+      if (!list.length) grid.append(el('p', 'note', t('cat.none')));
+      count.textContent = t('cat.count', { n: list.length, total: all.length });
+      const active = s || G.length || R.length || Z.length || M.length || F; reset.hidden = !active;
+    }
+    q.addEventListener('input', render); fam.addEventListener('change', render); sort.addEventListener('change', render);
+    reset.addEventListener('click', () => { q.value = ''; fam.value = ''; sort.value = 'fam'; bar.querySelectorAll('.chip[aria-pressed]').forEach((b) => b.setAttribute('aria-pressed', 'false')); render(); });
+    cat.append(bar, grid); render();
+    const label = () => { more.textContent = t(cat.hidden ? 'cat.open' : 'cat.close', { total: all.length, n: all.length - atStation.length }); };
+    more.addEventListener('click', () => { cat.hidden = !cat.hidden; more.setAttribute('aria-expanded', String(!cat.hidden)); label(); if (!cat.hidden) q.focus({ preventScroll: true }); });
+    label(); line.parentElement.append(more, cat);
+    window.wlCatalog = () => { if (cat.hidden) more.click(); };
   }
   const lo = Math.log10(10), hi = Math.log10(200000), pos = (hz) => 100 * (Math.log10(hz) - lo) / (hi - lo);
   const kHz = (v) => v >= 1000 ? `${num(v / 1000, v % 1000 ? 1 : 0)}k` : num(v);

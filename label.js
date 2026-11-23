@@ -3,8 +3,18 @@
    Rules: label/RULES.md (written before any clip was drawn). */
 (function () {
   const $ = (id) => document.getElementById(id);
-  const MODE = new URLSearchParams(location.search).get('mode') === 'owner' ? 'owner' : 'game';
-  const KEY = MODE === 'owner' ? 'wl-labels-7f' : 'wl-game-7f';
+  const MODE = (() => { const m = new URLSearchParams(location.search).get('mode'); return m === 'owner' || m === 'r8b' ? m : 'game'; })();
+  const KEY = { owner: 'wl-labels-7f', r8b: 'wl-labels-8b', game: 'wl-game-7f' }[MODE];
+  const DIR = MODE === 'r8b' ? 'label8' : 'label', STEP = MODE === 'r8b' ? '8b' : '7f', SESSION_MAX = 50;
+  let heardFull = false;
+  const sessCount = () => { try { return +sessionStorage.getItem('wl-8b-session') || 0; } catch (e) { return 0; } };
+  const setSess = (n) => { try { sessionStorage.setItem('wl-8b-session', String(n)); } catch (e) {} };
+  function lockState() {
+    if (MODE !== 'r8b') return;
+    const full = sessCount() >= SESSION_MAX, ok = heardFull && !full;
+    document.querySelectorAll('.ans button').forEach((b) => { b.disabled = !ok; });
+    const n = $('lb-lock'); if (n) { n.textContent = full ? t('lab.r8.break', { n: SESSION_MAX }) : heardFull ? '' : t('lab.r8.listen'); $('lb-newsess').hidden = !full; }
+  }
   const B = (document.querySelector('meta[name="build"]') || {}).content || '';
   let GAME = null, CROWD = {}, BACK = { type: 'none' }, session = '';
   try { session = localStorage.getItem('wl-session') || ''; if (!session) { session = Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem('wl-session', session); } } catch (e) { session = 'anon' + Math.random().toString(36).slice(2); }
@@ -39,17 +49,17 @@
   }
   function playhead() {
     const cv = $('lb-spec'), g = cv.getContext('2d'); if (specImg) g.putImageData(specImg, 0, 0);
-    if (src && buf) { const p = ((ctx.currentTime - t0) % buf.duration) / buf.duration * cv.width; g.fillStyle = 'rgba(255,255,255,.85)'; g.fillRect(p, 0, 2, cv.height); raf = requestAnimationFrame(playhead); }
+    if (src && buf) { if (!heardFull && ctx.currentTime - t0 >= buf.duration - 0.05) { heardFull = true; lockState(); } const p = ((ctx.currentTime - t0) % buf.duration) / buf.duration * cv.width; g.fillStyle = 'rgba(255,255,255,.85)'; g.fillRect(p, 0, 2, cv.height); raf = requestAnimationFrame(playhead); }
   }
 
   // ---------- playback ----------
   function stop() { if (src) { src.onended = null; try { src.stop(); } catch (e) {} src = null; } cancelAnimationFrame(raf); playhead(); $('lb-play').textContent = '▶ ' + t('lab.play'); }
   let heardFrom = 0; function play() { if (!buf) return; stop(); if (!heardFrom) heardFrom = performance.now(); audioCtx().resume(); src = ctx.createBufferSource(); src.buffer = buf; src.loop = loop; src.connect(ctx.destination); t0 = ctx.currentTime; src.start();
-    src.onended = () => { src = null; stop(); }; $('lb-play').textContent = '❚❚ ' + t('lab.pause'); raf = requestAnimationFrame(playhead); }
+    src.onended = () => { if (!heardFull) { heardFull = true; lockState(); } src = null; stop(); }; $('lb-play').textContent = '❚❚ ' + t('lab.pause'); raf = requestAnimationFrame(playhead); }
   async function show(k, autoplay) {
-    i = Math.max(0, Math.min(ids.length - 1, k)); stop(); buf = null; specImg = null; heardFrom = 0; hideReveal(); const tok = ++loadToken, id = ids[i];
+    i = Math.max(0, Math.min(ids.length - 1, k)); stop(); buf = null; specImg = null; heardFrom = 0; heardFull = !!L[ids[i]]; hideReveal(); lockState(); const tok = ++loadToken, id = ids[i];
     $('lb-state').textContent = t('lab.loading'); draw();
-    try { const ab = await (await fetch(`label/clips/${id}.mp3`)).arrayBuffer(); const b = await audioCtx().decodeAudioData(ab); if (tok !== loadToken) return; buf = b; spectrogram(b); $('lb-state').textContent = ''; if (MODE === 'game' && L[id]) reveal(); else if (autoplay) play(); }
+    try { const ab = await (await fetch(`${DIR}/clips/${id}.mp3`)).arrayBuffer(); const b = await audioCtx().decodeAudioData(ab); if (tok !== loadToken) return; buf = b; spectrogram(b); $('lb-state').textContent = ''; if (MODE === 'game' && L[id]) reveal(); else if (autoplay) play(); }
     catch (e) { $('lb-state').textContent = t('lab.fail'); console.error('clip', id, e); }
   }
   function draw() {
@@ -64,6 +74,7 @@
   function answer(v) {
     if (!ids.length) return;
     if (MODE === 'game') { if (L[ids[i]]) return; const ms = heardFrom ? Math.round(performance.now() - heardFrom) : 0; L[ids[i]] = { v, at: new Date().toISOString(), ms }; save(); draw(); send(ids[i], v, ms); reveal(); return; }
+    if (MODE === 'r8b') { if (!heardFull || sessCount() >= SESSION_MAX) return; setSess(sessCount() + 1); L[ids[i]] = { v, at: new Date().toISOString(), ms: heardFrom ? Math.round(performance.now() - heardFrom) : 0 }; save(); draw(); lockState(); if (sessCount() >= SESSION_MAX) { stop(); return; } const j = nextOpen(); if (j >= 0) setTimeout(() => show(j, true), 250); else { stop(); $('lb-msg').textContent = t('lab.all'); } return; }
     L[ids[i]] = { v, at: new Date().toISOString() }; save(); draw();
     const j = nextOpen(); if (j >= 0) setTimeout(() => show(j, true), 250); else { stop(); $('lb-msg').textContent = t('lab.all'); }
   }
@@ -126,9 +137,9 @@
     } catch (e) {}
   }
   function exportJSON() {
-    const out = { rules: 'label/RULES.md', step: '7f', exported_at: new Date().toISOString(), n_clips: ids.length, n_labelled: Object.keys(L).length, labels: L };
+    const out = { rules: MODE === 'r8b' ? 'docs/round8-plan.md (8b)' : 'label/RULES.md', step: STEP, exported_at: new Date().toISOString(), n_clips: ids.length, n_labelled: Object.keys(L).length, labels: L };
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(out, null, 1)], { type: 'application/json' }));
-    a.download = `wal.funk_891-labels-7f-${new Date().toISOString().slice(0, 10)}.json`; document.body.append(a); a.click(); a.remove();
+    a.download = `wal.funk_891-labels-${STEP}-${new Date().toISOString().slice(0, 10)}.json`; document.body.append(a); a.click(); a.remove();
     $('lb-msg').textContent = t('lab.exported', { n: out.n_labelled });
   }
   async function importJSON(f) {
@@ -138,10 +149,12 @@
   let refA = null; const ref = (url) => { stop(); if (refA && !refA.paused) { refA.pause(); return; } refA = new Audio(url); refA.play().catch(() => {}); };
 
   I18N.ready.then(async () => {
-    document.title = 'wal.funk_891 · ' + t(MODE === 'game' ? 'lab.g.short' : 'lab.short');
+    document.title = 'wal.funk_891 · ' + t(MODE === 'game' ? 'lab.g.short' : MODE === 'r8b' ? 'lab.r8.short' : 'lab.short');
+    if (MODE === 'r8b') { document.querySelectorAll('[data-owner-only]').forEach((x) => { x.hidden = true; }); document.querySelectorAll('[data-r8]').forEach((x) => { x.hidden = false; });
+      $('lb-newsess').addEventListener('click', () => { setSess(0); lockState(); const j = nextOpen(); if (j >= 0) show(j, true); }); }
     if (MODE === 'game') { document.querySelectorAll('[data-owner]').forEach((x) => { x.hidden = true; }); document.querySelectorAll('[data-game]').forEach((x) => { x.hidden = false; }); }
     $('lb-play').textContent = '▶ ' + t('lab.play'); $('lb-loop').textContent = '⟲ ' + t('lab.loop'); $('lb-prev').textContent = '← ' + t('lab.prev'); $('lb-next').textContent = t('lab.next') + ' →'; $('lb-open').textContent = t('lab.open');
-    $('lb-ref1').textContent = '▶ ' + t('lab.ref.mbari'); $('lb-ref2').textContent = '▶ ' + t('lab.ref.noaa'); $('lb-export').textContent = '⤓ ' + t('lab.export'); $('lb-importb').textContent = '⤒ ' + t('lab.import');
+    $('lb-ref1').textContent = '▶ ' + t('lab.ref.mbari'); $('lb-ref2').textContent = '▶ ' + t('lab.ref.noaa'); $('lb-export').textContent = '⤓ ' + t('lab.export'); $('lb-newsess').textContent = t('lab.r8.new'); $('lb-importb').textContent = '⤒ ' + t('lab.import');
     $('lb-play').addEventListener('click', () => (src ? stop() : play()));
     $('lb-loop').addEventListener('click', () => { loop = !loop; $('lb-loop').setAttribute('aria-pressed', String(loop)); $('lb-loop').classList.toggle('play', loop); if (src) src.loop = loop; });
     $('lb-prev').addEventListener('click', () => show(i - 1, true)); $('lb-next').addEventListener('click', () => show(i + 1, true));
@@ -154,7 +167,7 @@
       if (k === 'j' || k === 'y' || k === '1') answer('yes'); else if (k === 'n' || k === '2') answer('no'); else if (k === 'u' || k === '3') answer('unsure');
       else if (k === ' ') { e.preventDefault(); src ? stop() : play(); } else if (k === 'arrowleft') show(i - 1, true); else if (k === 'arrowright') show(i + 1, true); });
     addEventListener('resize', () => { if (buf) spectrogram(buf); });
-    try { const d = await (await fetch('label/clips.json?v=' + B)).json(); ids = d.clips; }
+    try { const d = await (await fetch(DIR + '/clips.json?v=' + B)).json(); ids = d.clips; }
     catch (e) { $('lb-state').textContent = t('lab.fail'); return; }
     if (MODE === 'game') {
       document.body.classList.add('game');

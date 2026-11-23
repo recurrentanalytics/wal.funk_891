@@ -88,6 +88,36 @@
         } else if (cur && !k.matches('nav, .view-nav')) cur.querySelector('.sec-body').append(k);
       });
     });
+    /* sub-chapters: a small ▾ next to each chapter in the top bar opens a short list of its sections and folds */
+    const sub = mk('div', 'subnav'); sub.hidden = true; sub.setAttribute('role', 'menu'); document.body.append(sub);
+    let subFor = null, subT = 0;
+    const entries = (v) => {
+      const out = [];
+      v.sec.forEach((id) => { const s = $(id); if (!s) return;
+        const h = s.querySelector('h2'); if (h && id !== 'top') out.push([h.textContent.trim(), h, 0]);
+        s.querySelectorAll('details.sec-fold > summary .sf-t, details.fold > summary').forEach((x) => { out.push([x.textContent.trim().split(' · ')[0], x.closest('details'), 1]); }); });
+      return out.filter(([tx]) => tx && tx !== '…').slice(0, 14);
+    };
+    const hideSub = () => { sub.hidden = true; subFor = null; links.forEach((l) => l.classList.remove('sub-open')); };
+    const showSub = (v, a) => {
+      const E = entries(v); if (!E.length) return hideSub();
+      sub.replaceChildren(); subFor = v.id; links.forEach((l) => l.classList.toggle('sub-open', l === a));
+      E.forEach(([tx, target, lvl]) => { const b = mk('button', 'sn-i' + (lvl ? ' sn-sub' : ''), tx); b.type = 'button'; b.setAttribute('role', 'menuitem');
+        b.addEventListener('click', () => { hideSub(); if (target.tagName === 'DETAILS') target.open = true; wlReveal(target); const y = target.getBoundingClientRect().top + scrollY - 70; scrollTo({ top: y, behavior: 'smooth' }); }); sub.append(b); });
+      const r = a.getBoundingClientRect(); sub.style.left = Math.max(8, Math.min(innerWidth - 300, r.left)) + 'px'; sub.style.top = (r.bottom + 6) + 'px'; sub.hidden = false;
+    };
+    links.forEach((a) => {
+      const v = VIEWS.find((x) => x.id === a.dataset.view); if (!v || v.id === 'start') return;
+      const c = mk('button', 'sub-c', '▾'); c.type = 'button'; c.setAttribute('aria-label', t('nav.sub', { ch: t(v.key) })); c.setAttribute('aria-haspopup', 'menu');
+      c.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); subFor === v.id ? hideSub() : showSub(v, a); });
+      a.after(c);
+      if (matchMedia('(hover: hover)').matches) {
+        [a, c].forEach((x) => { x.addEventListener('mouseenter', () => { clearTimeout(subT); subT = setTimeout(() => showSub(v, a), 220); }); x.addEventListener('mouseleave', () => { clearTimeout(subT); subT = setTimeout(() => { if (!sub.matches(':hover')) hideSub(); }, 250); }); });
+      }
+    });
+    sub.addEventListener('mouseleave', () => { clearTimeout(subT); subT = setTimeout(hideSub, 250); }); sub.addEventListener('mouseenter', () => clearTimeout(subT));
+    document.addEventListener('click', (e) => { if (!sub.hidden && !sub.contains(e.target)) hideSub(); });
+    addEventListener('keydown', (e) => { if (e.key === 'Escape') hideSub(); }); addEventListener('scroll', () => { if (!sub.hidden && !sub.matches(':hover')) hideSub(); }, { passive: true });
     /* dashed progress rail on the right: chapter marks, current position; click or drag to scroll */
     const rail = mk('div', 'rail'); rail.setAttribute('aria-hidden', 'true'); const thumb = mk('i', 'rail-th'); rail.append(thumb); document.body.append(rail);
     const marks = VIEWS.map((v, i) => { const m = mk('b', 'rail-m', String(i + 1)); m.title = t(v.key); rail.append(m); return [v, m]; });
