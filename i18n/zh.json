@@ -1086,5 +1086,6 @@
  "lab.rules": "本测试事先确定的规则",
  "res.label.link": "亲自聆听并标注座头鲸",
  "res.s7f_owner": "座头鲸模型与你的耳朵对比（300 段盲听片段）",
- "res.data.owner_labels": "MARS，由项目负责人盲听标注"
+ "res.data.owner_labels": "MARS，由项目负责人盲听标注",
+ "res.v.insufficient": "数据不足"
 }

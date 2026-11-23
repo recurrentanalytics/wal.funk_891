@@ -1086,5 +1086,6 @@
  "lab.rules": "The rules for this test, fixed in advance",
  "res.label.link": "Listen yourself and label humpbacks",
  "res.s7f_owner": "Humpback model against your ears (300 blind clips)",
- "res.data.owner_labels": "MARS, labelled blind by the project owner"
+ "res.data.owner_labels": "MARS, labelled blind by the project owner",
+ "res.v.insufficient": "too little data"
 }

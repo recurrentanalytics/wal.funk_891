@@ -1,6 +1,6 @@
 {
- "build": "20261123122213",
- "built_at": "2026-11-23 12:22 CET",
+ "build": "20261123125554",
+ "built_at": "2026-11-23 12:55 CET",
  "libs": [
   [
    "d3",
@@ -113,9 +113,9 @@
  "own_js_lines": 3057,
  "html_lines": 1097,
  "i18n_keys": {
-  "en": 1088,
-  "de": 1088,
-  "zh": 1088
+  "en": 1089,
+  "de": 1089,
+  "zh": 1089
  },
  "data_files": [
   [
@@ -212,7 +212,7 @@
   ],
   [
    "data/results.json",
-   5217
+   5231
   ],
   [
    "data/soundmap.json",
@@ -235,6 +235,10 @@
    1170
   ],
   [
+   "data/step7f_mac.json",
+   887
+  ],
+  [
    "data/voices/Bm.mp3",
    108620
   ],
@@ -255,7 +259,7 @@
    5818
   ]
  ],
- "data_bytes": 8743671,
+ "data_bytes": 8744572,
  "species_total": 93,
  "species_at_stations": 18,
  "species_with_clips": 14,

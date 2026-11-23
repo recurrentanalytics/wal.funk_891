@@ -1086,5 +1086,6 @@
  "lab.rules": "Die vorab festgelegten Regeln für diesen Test",
  "res.label.link": "Selbst mithören und Buckelwale markieren",
  "res.s7f_owner": "Buckelwalmodell gegen deine Ohren (300 blinde Ausschnitte)",
- "res.data.owner_labels": "MARS, vom Projektinhaber blind markiert"
+ "res.data.owner_labels": "MARS, vom Projektinhaber blind markiert",
+ "res.v.insufficient": "zu wenig Daten"
 }

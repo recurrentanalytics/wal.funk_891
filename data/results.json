@@ -209,13 +209,13 @@
     {
      "id": "s7f_owner",
      "measure": "ba",
-     "value": null,
+     "value": 0.914,
      "mark": 0.8,
      "dir": ">=",
-     "verdict": "pending",
+     "verdict": "insufficient",
      "where": "mac",
-     "date": null,
-     "n": 300,
+     "date": "2026-11-23",
+     "n": 279,
      "data": "owner_labels"
     }
    ]
