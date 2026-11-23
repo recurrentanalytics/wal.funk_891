@@ -1216,5 +1216,22 @@
  "lib.cited": "Cited in:",
  "lib.count": "{n} of {total}",
  "lib.docs": "project notes",
- "lib.docs.link": "Project notes (Obsidian)"
+ "lib.docs.link": "Project notes (Obsidian)",
+ "lab.r9.short": "Round 9",
+ "lab.r9.title": "Round 9: blue and fin whales at 891 m",
+ "lab.r9.lede": "1,540 clips of 60 seconds each, played 10 times faster (6 seconds). That makes the deep calls audible: blue whale B calls near 43 Hz sound like a long hum near 430 Hz, fin whale pulses near 20 Hz like short regular thumps. Blind, no date, no model.",
+ "lab.r9.how1": "Two questions per clip. Blue whale B call: a long, steady tone (in the picture a horizontal stroke near 43 Hz, often with overtones above it), about 1-2 seconds in the sped-up version.",
+ "lab.r9.how2": "Fin whale pulses: short strong thumps near 20 Hz (small vertical spots low in the picture) repeating at regular intervals.",
+ "lab.r9.how3": "Keys: 1/2/3 for the blue whale (yes/no/unsure), 4/5/6 for the fin whale. Buttons unlock after one full playback; a break comes after 50 clips. Ships are steady lines across the whole clip.",
+ "lab.r9.qb": "Blue whale B call heard or seen?",
+ "lab.r9.qf": "Fin whale pulses heard or seen?",
+ "lab.yes9": "Yes",
+ "lab.r9.mine": "blue: {b} · fin: {f}",
+ "lab.r9.axis": "120 Hz (real frequency)",
+ "lab.r9.ref.t": "For comparison",
+ "lab.r9.ref.d": "NOAA examples of blue whale song (8× faster) and fin whale pulses (5×), plus one candidate each from the MARS hydrophone at 10× like the clips here. Listening several times helps.",
+ "lab.r9.ref.blue": "Blue whale, NOAA (8×)",
+ "lab.r9.ref.fin": "Fin pulses, NOAA (5×)",
+ "lab.r9.ref.marsb": "Blue candidate, MARS (10×)",
+ "lab.r9.ref.marsf": "Fin candidate, MARS (10×)"
 }

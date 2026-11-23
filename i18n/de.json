@@ -1216,5 +1216,22 @@
  "lib.cited": "Zitiert in:",
  "lib.count": "{n} von {total}",
  "lib.docs": "Projektnotizen",
- "lib.docs.link": "Projektnotizen (Obsidian)"
+ "lib.docs.link": "Projektnotizen (Obsidian)",
+ "lab.r9.short": "Runde 9",
+ "lab.r9.title": "Runde 9: Blauwal und Finnwal in 891 m Tiefe",
+ "lab.r9.lede": "1.540 Ausschnitte von je 60 Sekunden, 10-fach beschleunigt abgespielt (6 Sekunden). So werden die tiefen Rufe hörbar: Blauwal-B-Rufe um 43 Hz klingen dann wie ein langes Brummen um 430 Hz, Finnwal-Pulse um 20 Hz wie regelmäßige kurze Stöße. Blind, ohne Datum, ohne Modell.",
+ "lab.r9.how1": "Zwei Fragen pro Ausschnitt. Blauwal-B-Ruf: ein langer, gleichmäßiger Ton (im Bild ein waagerechter Strich um 43 Hz, oft mit Obertönen darüber), etwa 1-2 Sekunden lang in der beschleunigten Fassung.",
+ "lab.r9.how2": "Finnwal-Pulse: kurze, kräftige Stöße um 20 Hz (im Bild kleine senkrechte Flecken unten), die sich in gleichmäßigen Abständen wiederholen.",
+ "lab.r9.how3": "Tasten: 1/2/3 für den Blauwal (ja/nein/unsicher), 4/5/6 für den Finnwal. Erst nach dem kompletten Abspielen gehen die Knöpfe auf; nach 50 Ausschnitten kommt eine Pause. Schiffe sind gleichmäßige Linien über den ganzen Ausschnitt.",
+ "lab.r9.qb": "Blauwal-B-Ruf zu hören oder zu sehen?",
+ "lab.r9.qf": "Finnwal-Pulse zu hören oder zu sehen?",
+ "lab.yes9": "Ja",
+ "lab.r9.mine": "Blauwal: {b} · Finnwal: {f}",
+ "lab.r9.axis": "120 Hz (echte Frequenz)",
+ "lab.r9.ref.t": "Zum Vergleich",
+ "lab.r9.ref.d": "NOAA-Beispiele von Blauwalgesang (8-fach beschleunigt) und Finnwal-Pulsen (5-fach), dazu je ein Kandidat vom MARS-Hydrofon in 10-facher Geschwindigkeit wie die Ausschnitte hier. Mehrmals anhören hilft.",
+ "lab.r9.ref.blue": "Blauwal, NOAA (8×)",
+ "lab.r9.ref.fin": "Finnwal-Pulse, NOAA (5×)",
+ "lab.r9.ref.marsb": "Blauwal-Kandidat, MARS (10×)",
+ "lab.r9.ref.marsf": "Finnwal-Kandidat, MARS (10×)"
 }

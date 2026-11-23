@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261123222354">
+<meta name="build" content="20261123222629">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>wal.funk_891 · Listening</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -74,6 +74,7 @@ button kbd { font: 11px var(--mono); padding: 1px 6px; margin-left: 8px; border-
 .sendb { border-color: var(--glow); color: var(--glow); }
 [hidden] { display: none !important; }
 .lock { font: 13px var(--mono); color: var(--amber); margin: 8px 0 0; min-height: 1em; } .ans button:disabled { opacity: .35; cursor: not-allowed; }
+.q9 { margin: 10px 0 0; font-weight: 500; } .ans9 .row { margin-top: 6px; }
 </style>
 </head>
 <body>
@@ -87,11 +88,13 @@ button kbd { font: 11px var(--mono); padding: 1px 6px; margin-left: 8px; border-
   <p class="lede" data-owner data-owner-only data-i18n="lab.lede"></p>
   <h1 data-r8 hidden data-i18n="lab.r8.title"></h1>
   <p class="lede" data-r8 hidden data-i18n="lab.r8.lede"></p>
+  <h1 data-r9 hidden data-i18n="lab.r9.title"></h1>
+  <p class="lede" data-r9 hidden data-i18n="lab.r9.lede"></p>
   <h1 data-game hidden data-i18n="lab.g.title"></h1>
   <p class="lede" data-game hidden data-i18n="lab.g.lede"></p>
   <p class="crowd" data-game hidden><span id="lb-crowd"></span> · <a href="?mode=owner" data-i18n="lab.g.ownerlink"></a></p>
   <details class="how"><summary data-i18n="lab.how.t"></summary><ul>
-    <li data-i18n="lab.how.1"></li><li data-i18n="lab.how.2"></li><li data-i18n="lab.how.3"></li><li data-i18n="lab.how.4"></li><li data-owner data-i18n="lab.how.5"></li><li data-r8 hidden data-i18n="lab.r8.how"></li><li data-game hidden data-i18n="lab.g.how"></li></ul></details>
+    <li data-i18n="lab.how.1"></li><li data-i18n="lab.how.2"></li><li data-i18n="lab.how.3"></li><li data-i18n="lab.how.4"></li><li data-owner data-i18n="lab.how.5"></li><li data-r8 hidden data-i18n="lab.r8.how"></li><li data-r9 hidden data-i18n="lab.r9.how1"></li><li data-r9 hidden data-i18n="lab.r9.how2"></li><li data-r9 hidden data-i18n="lab.r9.how3"></li><li data-game hidden data-i18n="lab.g.how"></li></ul></details>
   <div class="bar"><span id="lb-n"></span><div class="prog"><i id="lb-prog"></i></div><span id="lb-done"></span></div>
   <p class="tally" data-game hidden id="lb-tally"></p>
   <div class="stage"><canvas id="lb-spec"></canvas><span class="ax" style="top:6px">4 kHz</span><span class="ax" style="bottom:6px">0</span><span class="state" id="lb-state"></span><span class="mine" id="lb-mine" hidden></span></div>
@@ -104,6 +107,12 @@ button kbd { font: 11px var(--mono); padding: 1px 6px; margin-left: 8px; border-
     <button type="button" class="small" id="lb-open"></button>
   </div>
   <p class="lock" data-r8 hidden id="lb-lock" role="status"></p><div class="row" data-r8 hidden><button type="button" class="play" id="lb-newsess" hidden></button></div>
+  <div class="ans9" data-r9 hidden>
+    <p class="q9" data-i18n="lab.r9.qb"></p>
+    <div class="row ans ans9"><button type="button" class="yes" data-q="b" data-v="yes"><span data-i18n="lab.yes9"></span><kbd>1</kbd></button><button type="button" class="no" data-q="b" data-v="no"><span data-i18n="lab.no"></span><kbd>2</kbd></button><button type="button" class="unsure" data-q="b" data-v="unsure"><span data-i18n="lab.unsure"></span><kbd>3</kbd></button></div>
+    <p class="q9" data-i18n="lab.r9.qf"></p>
+    <div class="row ans ans9"><button type="button" class="yes" data-q="f" data-v="yes"><span data-i18n="lab.yes9"></span><kbd>4</kbd></button><button type="button" class="no" data-q="f" data-v="no"><span data-i18n="lab.no"></span><kbd>5</kbd></button><button type="button" class="unsure" data-q="f" data-v="unsure"><span data-i18n="lab.unsure"></span><kbd>6</kbd></button></div>
+  </div>
   <div class="row ans">
     <button type="button" class="yes" data-v="yes"><span data-i18n="lab.yes"></span><kbd>J</kbd></button>
     <button type="button" class="no" data-v="no"><span data-i18n="lab.no"></span><kbd>N</kbd></button>
@@ -112,14 +121,14 @@ button kbd { font: 11px var(--mono); padding: 1px 6px; margin-left: 8px; border-
   <div class="reveal" id="lb-reveal" hidden></div>
   <div class="row" data-game hidden><button type="button" class="small sendb" id="lb-send" hidden></button></div>
   <div class="grid" id="lb-grid" aria-label="clips"></div>
-  <section class="refs"><h2 data-i18n="lab.ref.t"></h2><p class="note" data-i18n="lab.ref.d"></p>
-    <div class="row"><button type="button" class="small" id="lb-ref1"></button><button type="button" class="small" id="lb-ref2"></button></div></section>
+  <section class="refs"><h2 data-not-r9 data-i18n="lab.ref.t"></h2><p class="note" data-not-r9 data-i18n="lab.ref.d"></p><h2 data-r9 hidden data-i18n="lab.r9.ref.t"></h2><p class="note" data-r9 hidden data-i18n="lab.r9.ref.d"></p>
+    <div class="row"><button type="button" class="small" id="lb-ref1"></button><button type="button" class="small" id="lb-ref2"></button><button type="button" class="small" id="lb-ref3" hidden></button><button type="button" class="small" id="lb-ref4" hidden></button></div></section>
   <section class="data" data-owner><h2 data-i18n="lab.data.t"></h2><p class="note" data-i18n="lab.data.d"></p>
     <div class="row"><button type="button" class="small" id="lb-export"></button><label class="small"><input type="file" id="lb-import" accept="application/json" hidden><button type="button" class="small" id="lb-importb"></button></label></div>
     <p class="note" id="lb-msg" role="status"></p>
     <p class="note"><a href="https://github.com/recurrentanalytics/wal.funk_891/blob/main/label/RULES.md" data-i18n="lab.rules"></a></p></section>
 </main>
-<script src="i18n.js?v=20261123222354"></script>
-<script src="label.js?v=20261123222354"></script>
+<script src="i18n.js?v=20261123222629"></script>
+<script src="label.js?v=20261123222629"></script>
 </body>
 </html>

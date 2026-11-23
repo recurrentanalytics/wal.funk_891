@@ -3,14 +3,15 @@
    Rules: label/RULES.md (written before any clip was drawn). */
 (function () {
   const $ = (id) => document.getElementById(id);
-  const MODE = (() => { const m = new URLSearchParams(location.search).get('mode'); return m === 'owner' || m === 'r8b' ? m : 'game'; })();
-  const KEY = { owner: 'wl-labels-7f', r8b: 'wl-labels-8b', game: 'wl-game-7f' }[MODE];
-  const DIR = MODE === 'r8b' ? 'label8' : 'label', STEP = MODE === 'r8b' ? '8b' : '7f', SESSION_MAX = 50;
+  const MODE = (() => { const m = new URLSearchParams(location.search).get('mode'); return ['owner', 'r8b', 'r9'].includes(m) ? m : 'game'; })();
+  const KEY = { owner: 'wl-labels-7f', r8b: 'wl-labels-8b', r9: 'wl-labels-9', game: 'wl-game-7f' }[MODE];
+  const DIR = { r8b: 'label8', r9: 'label9' }[MODE] || 'label', STEP = { r8b: '8b', r9: '9' }[MODE] || '7f', SESSION_MAX = 50, SLOW = MODE === 'r8b' || MODE === 'r9';
+  let pend = {};   // round 9: the two answers of the current clip until both are given
   let heardFull = false;
   const sessCount = () => { try { return +sessionStorage.getItem('wl-8b-session') || 0; } catch (e) { return 0; } };
   const setSess = (n) => { try { sessionStorage.setItem('wl-8b-session', String(n)); } catch (e) {} };
   function lockState() {
-    if (MODE !== 'r8b') return;
+    if (!SLOW) return;
     const full = sessCount() >= SESSION_MAX, ok = heardFull && !full;
     document.querySelectorAll('.ans button').forEach((b) => { b.disabled = !ok; });
     const n = $('lb-lock'); if (n) { n.textContent = full ? t('lab.r8.break', { n: SESSION_MAX }) : heardFull ? '' : t('lab.r8.listen'); $('lb-newsess').hidden = !full; }
@@ -36,7 +37,7 @@
   const col = (v) => { if (!(v >= 0)) v = 0; const s = [[2, 11, 16], [10, 60, 80], [40, 150, 160], [94, 230, 215], [230, 255, 250]], f = Math.min(.999, Math.max(0, v)) * (s.length - 1), k = Math.floor(f), r = f - k; return s[k].map((c, j) => Math.round(c + (s[k + 1][j] - c) * r)); };
   function spectrogram(b) {
     const cv = $('lb-spec'), W = cv.width = Math.round(cv.clientWidth * (devicePixelRatio || 1)), H = cv.height = Math.round(cv.clientHeight * (devicePixelRatio || 1)), g = cv.getContext('2d');
-    const x = b.getChannelData(0), sr = b.sampleRate, N = 2048, hop = Math.max(64, Math.floor(x.length / W)), fmax = 4000, kmax = Math.floor(fmax / (sr / N));
+    const x = b.getChannelData(0), sr = b.sampleRate, N = 2048, hop = Math.max(64, Math.floor(x.length / W)), fmax = MODE === 'r9' ? 1200 : 4000, kmax = Math.floor(fmax / (sr / N));
     const cols = Math.floor((x.length - N) / hop), win = new Float32Array(N).map((_, n) => .5 - .5 * Math.cos(2 * Math.PI * n / (N - 1)));
     const S = []; let lo = Infinity, hi = -Infinity; const re = new Float32Array(N), im = new Float32Array(N);
     for (let c = 0; c < cols; c++) { for (let n = 0; n < N; n++) { re[n] = x[c * hop + n] * win[n]; im[n] = 0; } fft(re, im);
@@ -57,7 +58,7 @@
   let heardFrom = 0; function play() { if (!buf) return; stop(); if (!heardFrom) heardFrom = performance.now(); audioCtx().resume(); src = ctx.createBufferSource(); src.buffer = buf; src.loop = loop; src.connect(ctx.destination); t0 = ctx.currentTime; src.start();
     src.onended = () => { if (!heardFull) { heardFull = true; lockState(); } src = null; stop(); }; $('lb-play').textContent = '❚❚ ' + t('lab.pause'); raf = requestAnimationFrame(playhead); }
   async function show(k, autoplay) {
-    i = Math.max(0, Math.min(ids.length - 1, k)); stop(); buf = null; specImg = null; heardFrom = 0; heardFull = !!L[ids[i]]; hideReveal(); lockState(); const tok = ++loadToken, id = ids[i];
+    i = Math.max(0, Math.min(ids.length - 1, k)); stop(); buf = null; specImg = null; heardFrom = 0; heardFull = !!L[ids[i]]; pend = {}; hideReveal(); lockState(); const tok = ++loadToken, id = ids[i];
     $('lb-state').textContent = t('lab.loading'); draw();
     try { const ab = await (await fetch(`${DIR}/clips/${id}.mp3`)).arrayBuffer(); const b = await audioCtx().decodeAudioData(ab); if (tok !== loadToken) return; buf = b; spectrogram(b); $('lb-state').textContent = ''; if (MODE === 'game' && L[id]) reveal(); else if (autoplay) play(); }
     catch (e) { $('lb-state').textContent = t('lab.fail'); console.error('clip', id, e); }
@@ -66,11 +67,21 @@
     const done = ids.filter((x) => L[x]).length, id = ids[i], mine = L[id];
     $('lb-n').textContent = t('lab.clip', { i: i + 1, n: ids.length }); $('lb-done').textContent = t('lab.done', { d: done, n: ids.length });
     $('lb-prog').style.width = (done / Math.max(1, ids.length) * 100) + '%';
-    document.querySelectorAll('.ans button').forEach((b) => b.classList.toggle('on', !!mine && mine.v === b.dataset.v));
-    const m = $('lb-mine'); m.hidden = !mine; if (mine) { m.className = 'mine ' + mine.v; m.textContent = t('lab.mine', { v: t('lab.' + mine.v) }); }
-    [...$('lb-grid').children].forEach((a, k) => { const l = L[ids[k]]; a.className = (l ? l.v : '') + (k === i ? ' cur' : ''); });
+    const tone = (l) => !l ? '' : l.v || (l.b === 'yes' || l.f === 'yes' ? 'yes' : l.b === 'unsure' || l.f === 'unsure' ? 'unsure' : 'no');
+    if (MODE === 'r9') { const st = mine || pend; document.querySelectorAll('.ans9 button').forEach((b) => b.classList.toggle('on', st[b.dataset.q] === b.dataset.v)); }
+    else document.querySelectorAll('.ans button').forEach((b) => b.classList.toggle('on', !!mine && mine.v === b.dataset.v));
+    const m = $('lb-mine'); m.hidden = !mine; if (mine) { m.className = 'mine ' + tone(mine); m.textContent = mine.v ? t('lab.mine', { v: t('lab.' + mine.v) }) : t('lab.r9.mine', { b: t('lab.' + mine.b), f: t('lab.' + mine.f) }); }
+    [...$('lb-grid').children].forEach((a, k) => { a.className = tone(L[ids[k]]) + (k === i ? ' cur' : ''); });
   }
   const nextOpen = () => { for (let k = 1; k <= ids.length; k++) { const j = (i + k) % ids.length; if (!L[ids[j]]) return j; } return -1; };
+  function answer9(q, v) {
+    if (!ids.length || !heardFull || sessCount() >= SESSION_MAX || L[ids[i]]) return;
+    pend[q] = v; draw();
+    if (!pend.b || !pend.f) return;
+    setSess(sessCount() + 1); L[ids[i]] = { b: pend.b, f: pend.f, at: new Date().toISOString(), ms: heardFrom ? Math.round(performance.now() - heardFrom) : 0 }; pend = {}; save(); draw(); lockState();
+    if (sessCount() >= SESSION_MAX) { stop(); return; }
+    const j = nextOpen(); if (j >= 0) setTimeout(() => show(j, true), 350); else { stop(); $('lb-msg').textContent = t('lab.all'); }
+  }
   function answer(v) {
     if (!ids.length) return;
     if (MODE === 'game') { if (L[ids[i]]) return; const ms = heardFrom ? Math.round(performance.now() - heardFrom) : 0; L[ids[i]] = { v, at: new Date().toISOString(), ms }; save(); draw(); send(ids[i], v, ms); reveal(); return; }
@@ -137,7 +148,7 @@
     } catch (e) {}
   }
   function exportJSON() {
-    const out = { rules: MODE === 'r8b' ? 'docs/round8-plan.md (8b)' : 'label/RULES.md', step: STEP, exported_at: new Date().toISOString(), n_clips: ids.length, n_labelled: Object.keys(L).length, labels: L };
+    const out = { rules: { r8b: 'docs/round8-plan.md (8b)', r9: 'docs/round9-lowfreq-plan.md' }[MODE] || 'label/RULES.md', step: STEP, exported_at: new Date().toISOString(), n_clips: ids.length, n_labelled: Object.keys(L).length, labels: L };
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(out, null, 1)], { type: 'application/json' }));
     a.download = `wal.funk_891-labels-${STEP}-${new Date().toISOString().slice(0, 10)}.json`; document.body.append(a); a.click(); a.remove();
     $('lb-msg').textContent = t('lab.exported', { n: out.n_labelled });
@@ -149,8 +160,10 @@
   let refA = null; const ref = (url) => { stop(); if (refA && !refA.paused) { refA.pause(); return; } refA = new Audio(url); refA.play().catch(() => {}); };
 
   I18N.ready.then(async () => {
-    document.title = 'wal.funk_891 · ' + t(MODE === 'game' ? 'lab.g.short' : MODE === 'r8b' ? 'lab.r8.short' : 'lab.short');
-    if (MODE === 'r8b') { document.querySelectorAll('[data-owner-only]').forEach((x) => { x.hidden = true; }); document.querySelectorAll('[data-r8]').forEach((x) => { x.hidden = false; });
+    document.title = 'wal.funk_891 · ' + t(MODE === 'game' ? 'lab.g.short' : MODE === 'r8b' ? 'lab.r8.short' : MODE === 'r9' ? 'lab.r9.short' : 'lab.short');
+    if (MODE === 'r9') { document.querySelectorAll('[data-r8]').forEach((x) => { if (!x.matches('h1, .lede')) x.hidden = false; }); document.querySelectorAll('[data-r9]').forEach((x) => { x.hidden = false; }); document.querySelectorAll('.ans:not(.ans9), [data-not-r9]').forEach((x) => { x.hidden = true; });
+      document.querySelector('.stage .ax').textContent = t('lab.r9.axis'); document.querySelectorAll('.ans9 button').forEach((b) => b.addEventListener('click', () => answer9(b.dataset.q, b.dataset.v))); }
+    if (SLOW) { document.querySelectorAll('[data-owner-only]').forEach((x) => { x.hidden = true; }); if (MODE === 'r8b') document.querySelectorAll('[data-r8]').forEach((x) => { x.hidden = false; });
       $('lb-newsess').addEventListener('click', () => { setSess(0); lockState(); const j = nextOpen(); if (j >= 0) show(j, true); }); }
     if (MODE === 'game') { document.querySelectorAll('[data-owner]').forEach((x) => { x.hidden = true; }); document.querySelectorAll('[data-game]').forEach((x) => { x.hidden = false; }); }
     $('lb-play').textContent = '▶ ' + t('lab.play'); $('lb-loop').textContent = '⟲ ' + t('lab.loop'); $('lb-prev').textContent = '← ' + t('lab.prev'); $('lb-next').textContent = t('lab.next') + ' →'; $('lb-open').textContent = t('lab.open');
@@ -159,11 +172,16 @@
     $('lb-loop').addEventListener('click', () => { loop = !loop; $('lb-loop').setAttribute('aria-pressed', String(loop)); $('lb-loop').classList.toggle('play', loop); if (src) src.loop = loop; });
     $('lb-prev').addEventListener('click', () => show(i - 1, true)); $('lb-next').addEventListener('click', () => show(i + 1, true));
     $('lb-open').addEventListener('click', () => { const j = nextOpen(); if (j >= 0) show(j, true); });
-    document.querySelectorAll('.ans button').forEach((b) => b.addEventListener('click', () => answer(b.dataset.v)));
-    $('lb-ref1').addEventListener('click', () => ref('data/voices/Mn.mp3')); $('lb-ref2').addEventListener('click', () => ref(NOAA));
+    document.querySelectorAll('.ans:not(.ans9) button').forEach((b) => b.addEventListener('click', () => answer(b.dataset.v)));
+    if (MODE === 'r9') {
+      const R9 = [['lb-ref1', 'lab.r9.ref.blue', 'https://www.fisheries.noaa.gov/s3/2023-04/Cornell-NY-LongIsland-20090123-000000-LPfilter20-amplified-x8speed-blue-clip.mp3'], ['lb-ref2', 'lab.r9.ref.fin', 'https://www.fisheries.noaa.gov/s3/2023-04/Baph-song-NOAA-PAGroup-05-x5speed-fin-clip.mp3'],
+        ['lb-ref3', 'lab.r9.ref.marsb', 'data/voices/Bm.mp3'], ['lb-ref4', 'lab.r9.ref.marsf', 'data/voices/Bp.mp3']];
+      R9.forEach(([id, k, u]) => { const b = $(id); if (!b) return; b.hidden = false; b.textContent = '▶ ' + t(k); b.addEventListener('click', () => ref(u)); });
+    } else { $('lb-ref1').addEventListener('click', () => ref('data/voices/Mn.mp3')); $('lb-ref2').addEventListener('click', () => ref(NOAA)); }
     $('lb-export').addEventListener('click', exportJSON); $('lb-importb').addEventListener('click', () => $('lb-import').click());
     $('lb-import').addEventListener('change', (e) => e.target.files[0] && importJSON(e.target.files[0]));
     addEventListener('keydown', (e) => { if (e.target.tagName === 'INPUT' || e.metaKey || e.ctrlKey) return; const k = e.key.toLowerCase();
+      if (MODE === 'r9') { const map = { 1: ['b', 'yes'], 2: ['b', 'no'], 3: ['b', 'unsure'], 4: ['f', 'yes'], 5: ['f', 'no'], 6: ['f', 'unsure'] }; if (map[k]) { answer9(...map[k]); return; } }
       if (k === 'j' || k === 'y' || k === '1') answer('yes'); else if (k === 'n' || k === '2') answer('no'); else if (k === 'u' || k === '3') answer('unsure');
       else if (k === ' ') { e.preventDefault(); src ? stop() : play(); } else if (k === 'arrowleft') show(i - 1, true); else if (k === 'arrowright') show(i + 1, true); });
     addEventListener('resize', () => { if (buf) spectrogram(buf); });
