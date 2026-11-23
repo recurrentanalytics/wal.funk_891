@@ -7,6 +7,19 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const getJSON = (u) => fetch(u, { cache: 'no-store' }).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); });
 const num = (n, d) => I18N.num(n, d);
 const SP = { 'Blue whale': 'blue', 'Fin whale': 'fin', 'North Pacific right whale': 'npright', 'Humpback whale': 'humpback', "Bryde's whale": 'brydes', 'North Atlantic right whale': 'naright', 'Minke whale': 'minke', 'Killer whale (orca)': 'orca', 'Person': 'person' };
+// Example sounds per whale. Ours: MBARI hour with whalu's label (candidates) and a human-labelled Orcasound clip.
+// NOAA: played straight from NOAA Fisheries "Sounds in the Ocean: Mammals" (not copied here; credit as on that page).
+const NOAA_S = 'https://www.fisheries.noaa.gov/s3/2023-04/', NOAA_PAGE = 'https://www.fisheries.noaa.gov/national/science-data/sounds-ocean-mammals';
+const SOUNDS = {
+  blue: [{ src: 'data/voices/Bm.mp3', who: 'mbari', call: 'cand', speed: 10 }, { src: NOAA_S + 'Cornell-NY-LongIsland-20090123-000000-LPfilter20-amplified-x8speed-blue-clip.mp3', who: 'noaa', call: 'song', speed: 8 }],
+  fin: [{ src: 'data/voices/Bp.mp3', who: 'mbari', call: 'cand', speed: 10 }, { src: NOAA_S + 'Baph-song-NOAA-PAGroup-05-x5speed-fin-clip.mp3', who: 'noaa', call: 'pulses', speed: 5 }],
+  humpback: [{ src: 'data/voices/Mn.mp3', who: 'mbari', call: 'cand' }, { src: NOAA_S + 'Meno-song-NOAA-PAGroup-13-humpback-clip.mp3', who: 'noaa', call: 'song' }],
+  orca: [{ src: 'data/clip.mp3', who: 'orcasound', call: 'calls' }, { src: NOAA_S + 'Oror-Multisound-AWI-Van-Opzeeland-01-killer-clip.mp3', who: 'noaa', call: 'clickswhistles' }],
+  minke: [{ src: NOAA_S + 'Baac-pulsetrains-NOAA-PAGroup-25-minke-clip.mp3', who: 'noaa', call: 'pulses' }],
+  naright: [{ src: NOAA_S + 'Eugl-upcall-NOAA-PAGroup-01-right-clip-1.mp3', who: 'noaa', call: 'upcall' }, { src: NOAA_S + 'Eugl-multisound-NOAA-PAGroup-01-right-whale-clip.mp3', who: 'noaa', call: 'mixed' }],
+  npright: [], brydes: [],
+};
+const whaleAudio = new Audio(); whaleAudio.preload = 'none';
 const SPTEXT = { blue: 'blue', fin: 'fin', humpback: 'humpback', brydes: 'brydes', minke: 'minke', orca: 'orca', npright: 'right', naright: 'right' };
 const CODE2SP = { Mn: 'humpback', Bm: 'blue', Bp: 'fin', Ba: 'minke', Be: 'brydes', Oo: 'orca' };
 
@@ -87,13 +100,14 @@ function whales(w) {
     const btn = el('button', 'whale-btn' + (isPerson ? ' person' : '')); btn.type = 'button';
     btn.setAttribute('aria-pressed', 'false');
     btn.append(el('span', 'nm', t(`sp.${key}.name`)), el('span', 'len', `${num(m, 1)} m`), whaleSVG(name, m, max));
-    if (isPerson) btn.disabled = true; else btn.addEventListener('click', () => select(name));
+    if (isPerson) btn.disabled = true; else btn.addEventListener('click', () => select(name, true));
     buttons.push([name, btn]); line.append(btn);
   });
   const lo = Math.log10(10), hi = Math.log10(30000), pos = (hz) => 100 * (Math.log10(hz) - lo) / (hi - lo);
   const kHz = (v) => v >= 1000 ? `${num(v / 1000, v % 1000 ? 1 : 0)}k` : num(v);
-  function select(name) {
+  function select(name, play) {
     buttons.forEach(([n, b]) => b.setAttribute('aria-pressed', String(n === name)));
+    whaleAudio.pause(); buttons.forEach(([, b]) => b.classList.remove('sounding'));
     const key = SP[name], tk = SPTEXT[key], sp = factOf(name) || {}, len = w.sizes.items.find((x) => x[0] === name)[1];
     const d = $('detail'); d.replaceChildren();
     const ph = photos[name];
@@ -117,6 +131,30 @@ function whales(w) {
     [[10, '10'], [100, '100'], [1000, '1k'], [10000, '10k Hz']].forEach(([hz, tx]) => { const tk2 = el('span', 'tick', tx); tk2.style.left = pos(hz) + '%'; pitch.append(tk2); });
     d.append(pitch, el('p', 'note', t('whales.pitch.note') + (unsure ? ' ' + t('whales.unsure') : '')));
     d.append(el('p', '', t(`sp.${tk}.sound`)));
+    // example sounds: a click on the whale plays all of them, one after another
+    const list = SOUNDS[key] || [], box = el('div', 'sounds'); box.append(el('span', 'kicker', t('sound.title', { n: list.length })));
+    const myBtn = buttons.find(([n]) => n === name)[1];
+    if (!list.length) box.append(el('p', 'note', t('sound.none')));
+    const rows = list.map((c, i) => {
+      const r = el('button', 'snd'); r.type = 'button';
+      const label = t(`sound.call.${c.call}`) + (c.speed ? ' · ' + t('sound.speed', { n: c.speed }) : '');
+      r.append(el('i', 'ic', '▶'), el('span', 'lb', label), el('small', '', t(`sound.who.${c.who}`)), el('span', 'bar'));
+      r.addEventListener('click', () => (whaleAudio.dataset.i === String(i) && !whaleAudio.paused) ? whaleAudio.pause() : start(i, false));
+      box.append(r); return r;
+    });
+    let chain = true;
+    const mark = () => rows.forEach((r, j) => { const on = whaleAudio.dataset.i === String(j) && !whaleAudio.paused; r.classList.toggle('on', on); r.querySelector('.ic').textContent = on ? '❚❚' : '▶'; });
+    const start = (i, all) => {
+      chain = all; whaleAudio.src = list[i].src; whaleAudio.dataset.i = String(i);
+      whaleAudio.play().then(() => { myBtn.classList.add('sounding'); mark(); }).catch(() => { rows[i].classList.add('err'); if (all && i + 1 < list.length) start(i + 1, true); });
+    };
+    whaleAudio.onended = () => { const i = +whaleAudio.dataset.i; if (chain && i + 1 < list.length) start(i + 1, true); else { myBtn.classList.remove('sounding'); mark(); } };
+    whaleAudio.onpause = () => { if (!whaleAudio.ended) { myBtn.classList.remove('sounding'); mark(); } };
+    whaleAudio.ontimeupdate = () => { const r = rows[+whaleAudio.dataset.i]; if (r && whaleAudio.duration) r.querySelector('.bar').style.width = (100 * whaleAudio.currentTime / whaleAudio.duration) + '%'; };
+    if (list.some((c) => c.who === 'noaa')) { const n = el('p', 'note'); const a = el('a', '', 'NOAA Fisheries, Sounds in the Ocean'); a.href = NOAA_PAGE; a.rel = 'noopener'; n.append(t('sound.noaa') + ' ', a); box.append(n); }
+    if (list.some((c) => c.who === 'mbari')) box.append(el('p', 'note', t('sound.mbari.note')));
+    d.append(box);
+    if (play && list.length) start(0, true);
     if (sp.months) {
       d.append(el('span', 'kicker', t('whales.monthslabel')));
       const mo = el('div', 'months'); t('whales.monthsabbr').split('|').forEach((c, i) => mo.append(el('i', sp.months.includes(i + 1) ? 'on' : '', c))); d.append(mo);

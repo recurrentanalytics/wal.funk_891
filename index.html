@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261123055047">
+<meta name="build" content="20261123085019">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>wal.funk_891</title>
 <meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls.">
@@ -518,6 +518,19 @@ body.fs-on { overflow: hidden; } body.fs-on .toc, body.fs-on .lang-top, body.fs-
 .gcard-x { all: unset; position: absolute; right: 10px; top: 6px; cursor: pointer; font-size: 22px; color: var(--muted); padding: 2px 8px; } .gcard-x:hover { color: var(--fg); }
 .dive-hud { position: absolute; left: 12px; top: 12px; z-index: 5; display: flex; align-items: center; gap: 12px; }
 .dive-read { font: 300 clamp(1.4rem, 4vw, 2.4rem) var(--display); color: var(--fg); text-shadow: 0 0 20px rgba(94,230,215,.7); opacity: 0; transition: opacity .5s; font-variant-numeric: tabular-nums; } .dive-read.on { opacity: 1; }
+
+/* whale example sounds */
+.sounds { margin: 14px 0; display: grid; gap: 6px; }
+.snd { all: unset; cursor: pointer; position: relative; overflow: hidden; display: grid; grid-template-columns: 26px 1fr auto; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; border: 1px solid rgba(94,230,215,.18); background: rgba(94,230,215,.04); }
+.snd:hover { background: rgba(94,230,215,.09); } .snd:focus-visible { outline: 2px solid var(--glow); }
+.snd .ic { font-style: normal; color: var(--glow); font-size: 13px; text-align: center; }
+.snd small { color: #8fb4be; font-size: 12px; }
+.snd .bar { position: absolute; left: 0; bottom: 0; height: 2px; width: 0; background: var(--glow); box-shadow: 0 0 8px var(--glow); }
+.snd.on { border-color: var(--glow); background: rgba(94,230,215,.12); }
+.snd.err { opacity: .5; }
+.whale-btn.sounding svg { animation: whale-sing 1.2s ease-in-out infinite; transform-origin: left center; }
+@keyframes whale-sing { 50% { filter: drop-shadow(0 0 10px rgba(94,230,215,.9)); transform: scale(1.04); } }
+@media (prefers-reduced-motion: reduce) { .whale-btn.sounding svg { animation: none; filter: drop-shadow(0 0 8px rgba(94,230,215,.9)); } }
 </style>
 </head>
 <body>
@@ -745,14 +758,14 @@ body.fs-on { overflow: hidden; } body.fs-on .toc, body.fs-on .lang-top, body.fs-
 <footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/wal.funk_891">GitHub</a></p></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="i18n.js?v=20261123055047"></script>
-<script src="globe.js?v=20261123055047"></script>
-<script src="app.js?v=20261123055047"></script>
-<script src="play.js?v=20261123055047"></script>
-<script src="atlas.js?v=20261123055047"></script>
-<script src="ui.js?v=20261123055047"></script>
-<script src="polish.js?v=20261123055047"></script>
-<script src="story.js?v=20261123055047"></script>
-<script src="scenes.js?v=20261123055047"></script>
+<script src="i18n.js?v=20261123085019"></script>
+<script src="globe.js?v=20261123085019"></script>
+<script src="app.js?v=20261123085019"></script>
+<script src="play.js?v=20261123085019"></script>
+<script src="atlas.js?v=20261123085019"></script>
+<script src="ui.js?v=20261123085019"></script>
+<script src="polish.js?v=20261123085019"></script>
+<script src="story.js?v=20261123085019"></script>
+<script src="scenes.js?v=20261123085019"></script>
 </body>
 </html>
