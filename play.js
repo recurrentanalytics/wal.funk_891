@@ -93,12 +93,12 @@
       if (playAt != null) { const x = (playAt - view.t0) / (view.t1 - view.t0) * W; g.fillStyle = '#fff'; g.fillRect(x - 1, 0, 2 * (devicePixelRatio || 1), H); }
       $('mc-range').textContent = t('mc.range', { a: num(view.t0, 1), b: num(view.t1, 1), x: rate });
     }
-    function stop() { if (src) { try { src.stop(); } catch (e) {} src = null; } cancelAnimationFrame(raf); $('mc-play').querySelector('span').textContent = t('mc.play'); }
+    function stop() { if (src) { try { src.stop(); } catch (e) {} src = null; } if (window.wlDuck) wlDuck('mc', false); cancelAnimationFrame(raf); $('mc-play').querySelector('span').textContent = t('mc.play'); }
     function play() {
       if (src) { stop(); draw(); return; }
       if (!buf) return; ctx.resume();
       rate = +speed.value; src = ctx.createBufferSource(); src.buffer = buf; src.playbackRate.value = rate; src.connect(ctx.destination);
-      playFrom = view.t0; playTo = view.t1; playT0 = ctx.currentTime; src.start(0, playFrom, playTo - playFrom);
+      playFrom = view.t0; playTo = view.t1; playT0 = ctx.currentTime; if (window.wlDuck) wlDuck('mc', true); src.start(0, playFrom, playTo - playFrom);
       src.onended = () => { src = null; stop(); draw(); };
       $('mc-play').querySelector('span').textContent = t('mc.stop');
       const tick = () => { if (!src) return; draw(playFrom + (ctx.currentTime - playT0) * rate); raf = requestAnimationFrame(tick); }; tick();

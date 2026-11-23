@@ -82,7 +82,8 @@
     };
     bub();
   }
-  const ramp = (v, sec) => { if (!master) return; const now = ctx.currentTime; master.gain.cancelScheduledValues(now); master.gain.setValueAtTime(master.gain.value, now); master.gain.linearRampToValueAtTime(v, now + sec); };
+  // smooth fades: exponential approach, time constant = sec / 4 (about 98 % done after sec)
+  const ramp = (v, sec) => { if (!master) return; const now = ctx.currentTime; master.gain.cancelScheduledValues(now); master.gain.setValueAtTime(master.gain.value, now); master.gain.setTargetAtTime(v, now, Math.max(0.01, sec / 4)); };
   const target = () => (on && !ducked && !document.hidden ? LEVEL : 0);
   let starting = false;
   async function start() {
@@ -102,9 +103,22 @@
   const first = () => { if (!started && on) start(); };
   ['pointerdown', 'keydown'].forEach((ev) => addEventListener(ev, first, { capture: true, passive: true }));
   // fade out while any other sound plays
-  document.addEventListener('play', (e) => { if (e.target.dataset && e.target.dataset.ambient) return; playing.add(e.target); ducked = true; ramp(0, 0.4); }, true);
-  const off = (e) => { if (e.target.dataset && e.target.dataset.ambient) return; playing.delete(e.target); setTimeout(() => { [...playing].forEach((m) => { if (m.paused || m.ended) playing.delete(m); }); if (!playing.size) { ducked = false; ramp(target(), 2); } }, 300); };
-  document.addEventListener('pause', off, true); document.addEventListener('ended', off, true);
+  // Many sounds on the page are Audio objects that are not in the document, so their events never reach it.
+  // Hook play() itself: every media element announces itself before it starts, and is watched until it stops.
+  const watched = new WeakSet();
+  const duck = (m) => { if (m.dataset && m.dataset.ambient) return; playing.add(m); ducked = true; ramp(0, 0.25); };
+  const release = () => setTimeout(() => {
+    [...playing].forEach((m) => { if (m.paused || m.ended) playing.delete(m); });
+    if (!playing.size && !tokens.size && ducked) { ducked = false; ramp(target(), 1.5); }
+  }, 350);
+  const watch = (m) => { if (watched.has(m)) return; watched.add(m); ['pause', 'ended', 'emptied', 'error'].forEach((ev) => m.addEventListener(ev, release)); m.addEventListener('playing', () => duck(m)); };
+  const origPlay = HTMLMediaElement.prototype.play;
+  HTMLMediaElement.prototype.play = function () { if (!(this.dataset && this.dataset.ambient)) { watch(this); duck(this); } const p = origPlay.apply(this, arguments); if (p && p.catch) p.catch(() => release()); return p; };
+  document.addEventListener('play', (e) => { if (e.target instanceof HTMLMediaElement) { watch(e.target); duck(e.target); } }, true);
+  setInterval(() => { if (ducked) release(); }, 2000);   // safety net if a stop event is missed
+  // Web Audio players (e.g. the sound microscope) report themselves here
+  const tokens = new Set();
+  window.wlDuck = (id, isOn) => { if (isOn) { tokens.add(id); ducked = true; ramp(0, 0.25); } else { tokens.delete(id); release(); } };
   document.addEventListener('visibilitychange', () => ramp(target(), document.hidden ? 0.3 : 2));
   I18N.ready.then(() => { label(); const bar = document.querySelector('.toc'); if (bar) bar.append(btn); });
 })();
