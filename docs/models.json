@@ -1,0 +1,4 @@
+[
+ {"model": "whalu (Google multispecies whale model)", "status": "done", "calls_found": 0, "calls_total": 119, "false_alarms": 0, "quiet_total": 343, "balanced_accuracy": 0.50, "x_realtime": 17.9, "note": "Never scored a window above 0.5; its scores stayed near zero even on labelled calls."},
+ {"model": "Perch 2.0 + small orca classifier", "status": "done", "calls_found": 109, "calls_total": 119, "false_alarms": 9, "quiet_total": 343, "balanced_accuracy": 0.945, "x_realtime": 1.4, "note": "Trained on 48 other clips from the same day and hydrophone, so this shows Perch separates calls here; how well it carries over to other places is not tested yet."}
+]

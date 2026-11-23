@@ -1215,5 +1215,6 @@
  "lib.checked": "geprüft ({by}, {at})",
  "lib.cited": "Zitiert in:",
  "lib.count": "{n} von {total}",
- "lib.docs": "Projektnotizen"
+ "lib.docs": "Projektnotizen",
+ "lib.docs.link": "Projektnotizen (Obsidian)"
 }

@@ -1,0 +1,2106 @@
+{
+ "rules": "docs/step7f-owner-labels.md",
+ "seed": 891,
+ "clips": {
+  "c001": {
+   "date": "2019-04-26",
+   "start_s": 77368,
+   "month": 4,
+   "key": "2019/04/MARS-20190426T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c002": {
+   "date": "2019-08-18",
+   "start_s": 20092,
+   "month": 8,
+   "key": "2019/08/MARS-20190818T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c003": {
+   "date": "2017-04-03",
+   "start_s": 42953,
+   "month": 4,
+   "key": "2017/04/MARS-20170403T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c004": {
+   "date": "2016-06-21",
+   "start_s": 43728,
+   "month": 6,
+   "key": "2016/06/MARS-20160621T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c005": {
+   "date": "2016-02-18",
+   "start_s": 9850,
+   "month": 2,
+   "key": "2016/02/MARS-20160218T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c006": {
+   "date": "2016-12-16",
+   "start_s": 18910,
+   "month": 12,
+   "key": "2016/12/MARS-20161216T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c007": {
+   "date": "2019-09-13",
+   "start_s": 32052,
+   "month": 9,
+   "key": "2019/09/MARS-20190913T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c008": {
+   "date": "2016-01-14",
+   "start_s": 58226,
+   "month": 1,
+   "key": "2016/01/MARS-20160114T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c009": {
+   "date": "2017-12-09",
+   "start_s": 23461,
+   "month": 12,
+   "key": "2017/12/MARS-20171209T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c010": {
+   "date": "2021-02-01",
+   "start_s": 47467,
+   "month": 2,
+   "key": "2021/02/MARS-20210201T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c011": {
+   "date": "2019-12-11",
+   "start_s": 76107,
+   "month": 12,
+   "key": "2019/12/MARS-20191211T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c012": {
+   "date": "2016-08-14",
+   "start_s": 65173,
+   "month": 8,
+   "key": "2016/08/MARS-20160814T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c013": {
+   "date": "2018-04-30",
+   "start_s": 7880,
+   "month": 4,
+   "key": "2018/04/MARS-20180430T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c014": {
+   "date": "2018-10-09",
+   "start_s": 34110,
+   "month": 10,
+   "key": "2018/10/MARS-20181009T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c015": {
+   "date": "2018-11-02",
+   "start_s": 79580,
+   "month": 11,
+   "key": "2018/11/MARS-20181102T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c016": {
+   "date": "2019-05-01",
+   "start_s": 43193,
+   "month": 5,
+   "key": "2019/05/MARS-20190501T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c017": {
+   "date": "2016-08-18",
+   "start_s": 12847,
+   "month": 8,
+   "key": "2016/08/MARS-20160818T000000Z-16kHz.wav",
+   "redraws": 1
+  },
+  "c018": {
+   "date": "2018-12-19",
+   "start_s": 74587,
+   "month": 12,
+   "key": "2018/12/MARS-20181219T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c019": {
+   "date": "2018-10-26",
+   "start_s": 34311,
+   "month": 10,
+   "key": "2018/10/MARS-20181026T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c020": {
+   "date": "2017-01-14",
+   "start_s": 63825,
+   "month": 1,
+   "key": "2017/01/MARS-20170114T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c021": {
+   "date": "2017-01-20",
+   "start_s": 84957,
+   "month": 1,
+   "key": "2017/01/MARS-20170120T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c022": {
+   "date": "2018-07-29",
+   "start_s": 68689,
+   "month": 7,
+   "key": "2018/07/MARS-20180729T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c023": {
+   "date": "2017-01-09",
+   "start_s": 1765,
+   "month": 1,
+   "key": "2017/01/MARS-20170109T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c024": {
+   "date": "2021-05-21",
+   "start_s": 9534,
+   "month": 5,
+   "key": "2021/05/MARS-20210521T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c025": {
+   "date": "2018-02-12",
+   "start_s": 17171,
+   "month": 2,
+   "key": "2018/02/MARS-20180212T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c026": {
+   "date": "2019-11-09",
+   "start_s": 32734,
+   "month": 11,
+   "key": "2019/11/MARS-20191109T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c027": {
+   "date": "2020-03-23",
+   "start_s": 41438,
+   "month": 3,
+   "key": "2020/03/MARS-20200323T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c028": {
+   "date": "2016-01-14",
+   "start_s": 30950,
+   "month": 1,
+   "key": "2016/01/MARS-20160114T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c029": {
+   "date": "2021-05-26",
+   "start_s": 76075,
+   "month": 5,
+   "key": "2021/05/MARS-20210526T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c030": {
+   "date": "2019-01-07",
+   "start_s": 44644,
+   "month": 1,
+   "key": "2019/01/MARS-20190107T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c031": {
+   "date": "2020-03-03",
+   "start_s": 80744,
+   "month": 3,
+   "key": "2020/03/MARS-20200303T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c032": {
+   "date": "2016-09-07",
+   "start_s": 61339,
+   "month": 9,
+   "key": "2016/09/MARS-20160907T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c033": {
+   "date": "2019-10-17",
+   "start_s": 10886,
+   "month": 10,
+   "key": "2019/10/MARS-20191017T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c034": {
+   "date": "2017-03-25",
+   "start_s": 9950,
+   "month": 3,
+   "key": "2017/03/MARS-20170325T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c035": {
+   "date": "2018-06-16",
+   "start_s": 8970,
+   "month": 6,
+   "key": "2018/06/MARS-20180616T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c036": {
+   "date": "2017-02-02",
+   "start_s": 38853,
+   "month": 2,
+   "key": "2017/02/MARS-20170202T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c037": {
+   "date": "2020-06-10",
+   "start_s": 43213,
+   "month": 6,
+   "key": "2020/06/MARS-20200610T000000Z-16kHz.wav",
+   "redraws": 1
+  },
+  "c038": {
+   "date": "2015-10-07",
+   "start_s": 1856,
+   "month": 10,
+   "key": "2015/10/MARS-20151007T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c039": {
+   "date": "2019-12-25",
+   "start_s": 77880,
+   "month": 12,
+   "key": "2019/12/MARS-20191225T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c040": {
+   "date": "2016-11-13",
+   "start_s": 25236,
+   "month": 11,
+   "key": "2016/11/MARS-20161113T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c041": {
+   "date": "2018-10-14",
+   "start_s": 21174,
+   "month": 10,
+   "key": "2018/10/MARS-20181014T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c042": {
+   "date": "2018-06-27",
+   "start_s": 65384,
+   "month": 6,
+   "key": "2018/06/MARS-20180627T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c043": {
+   "date": "2021-03-12",
+   "start_s": 20686,
+   "month": 3,
+   "key": "2021/03/MARS-20210312T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c044": {
+   "date": "2018-01-09",
+   "start_s": 69291,
+   "month": 1,
+   "key": "2018/01/MARS-20180109T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c045": {
+   "date": "2019-06-20",
+   "start_s": 1030,
+   "month": 6,
+   "key": "2019/06/MARS-20190620T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c046": {
+   "date": "2018-06-29",
+   "start_s": 61892,
+   "month": 6,
+   "key": "2018/06/MARS-20180629T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c047": {
+   "date": "2019-01-13",
+   "start_s": 61701,
+   "month": 1,
+   "key": "2019/01/MARS-20190113T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c048": {
+   "date": "2020-12-15",
+   "start_s": 68217,
+   "month": 12,
+   "key": "2020/12/MARS-20201215T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c049": {
+   "date": "2019-10-07",
+   "start_s": 55870,
+   "month": 10,
+   "key": "2019/10/MARS-20191007T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c050": {
+   "date": "2019-11-02",
+   "start_s": 60599,
+   "month": 11,
+   "key": "2019/11/MARS-20191102T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c051": {
+   "date": "2016-07-10",
+   "start_s": 59241,
+   "month": 7,
+   "key": "2016/07/MARS-20160710T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c052": {
+   "date": "2021-04-16",
+   "start_s": 6806,
+   "month": 4,
+   "key": "2021/04/MARS-20210416T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c053": {
+   "date": "2019-07-16",
+   "start_s": 62675,
+   "month": 7,
+   "key": "2019/07/MARS-20190716T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c054": {
+   "date": "2020-06-15",
+   "start_s": 33020,
+   "month": 6,
+   "key": "2020/06/MARS-20200615T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c055": {
+   "date": "2021-03-27",
+   "start_s": 4578,
+   "month": 3,
+   "key": "2021/03/MARS-20210327T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c056": {
+   "date": "2020-02-16",
+   "start_s": 14125,
+   "month": 2,
+   "key": "2020/02/MARS-20200216T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c057": {
+   "date": "2019-04-02",
+   "start_s": 4352,
+   "month": 4,
+   "key": "2019/04/MARS-20190402T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c058": {
+   "date": "2016-11-15",
+   "start_s": 56991,
+   "month": 11,
+   "key": "2016/11/MARS-20161115T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c059": {
+   "date": "2019-02-20",
+   "start_s": 31577,
+   "month": 2,
+   "key": "2019/02/MARS-20190220T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c060": {
+   "date": "2019-01-27",
+   "start_s": 61936,
+   "month": 1,
+   "key": "2019/01/MARS-20190127T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c061": {
+   "date": "2018-09-20",
+   "start_s": 35309,
+   "month": 9,
+   "key": "2018/09/MARS-20180920T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c062": {
+   "date": "2016-05-12",
+   "start_s": 32402,
+   "month": 5,
+   "key": "2016/05/MARS-20160512T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c063": {
+   "date": "2017-10-16",
+   "start_s": 60898,
+   "month": 10,
+   "key": "2017/10/MARS-20171016T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c064": {
+   "date": "2021-04-05",
+   "start_s": 72524,
+   "month": 4,
+   "key": "2021/04/MARS-20210405T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c065": {
+   "date": "2016-12-05",
+   "start_s": 50356,
+   "month": 12,
+   "key": "2016/12/MARS-20161205T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c066": {
+   "date": "2017-01-14",
+   "start_s": 51414,
+   "month": 1,
+   "key": "2017/01/MARS-20170114T000000Z-16kHz.wav",
+   "redraws": 1
+  },
+  "c067": {
+   "date": "2015-08-01",
+   "start_s": 56767,
+   "month": 8,
+   "key": "2015/08/MARS-20150801T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c068": {
+   "date": "2020-02-26",
+   "start_s": 2334,
+   "month": 2,
+   "key": "2020/02/MARS-20200226T000000Z-16kHz.wav",
+   "redraws": 1
+  },
+  "c069": {
+   "date": "2017-10-04",
+   "start_s": 42191,
+   "month": 10,
+   "key": "2017/10/MARS-20171004T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c070": {
+   "date": "2017-10-28",
+   "start_s": 46291,
+   "month": 10,
+   "key": "2017/10/MARS-20171028T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c071": {
+   "date": "2019-12-16",
+   "start_s": 12061,
+   "month": 12,
+   "key": "2019/12/MARS-20191216T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c072": {
+   "date": "2020-06-18",
+   "start_s": 43784,
+   "month": 6,
+   "key": "2020/06/MARS-20200618T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c073": {
+   "date": "2020-08-01",
+   "start_s": 7290,
+   "month": 8,
+   "key": "2020/08/MARS-20200801T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c074": {
+   "date": "2016-05-12",
+   "start_s": 59558,
+   "month": 5,
+   "key": "2016/05/MARS-20160512T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c075": {
+   "date": "2019-07-20",
+   "start_s": 29441,
+   "month": 7,
+   "key": "2019/07/MARS-20190720T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c076": {
+   "date": "2018-09-09",
+   "start_s": 18081,
+   "month": 9,
+   "key": "2018/09/MARS-20180909T000000Z-16kHz.wav",
+   "redraws": 1
+  },
+  "c077": {
+   "date": "2017-12-12",
+   "start_s": 62249,
+   "month": 12,
+   "key": "2017/12/MARS-20171212T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c078": {
+   "date": "2017-03-03",
+   "start_s": 76905,
+   "month": 3,
+   "key": "2017/03/MARS-20170303T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c079": {
+   "date": "2019-01-17",
+   "start_s": 27712,
+   "month": 1,
+   "key": "2019/01/MARS-20190117T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c080": {
+   "date": "2021-05-01",
+   "start_s": 45108,
+   "month": 5,
+   "key": "2021/05/MARS-20210501T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c081": {
+   "date": "2019-10-26",
+   "start_s": 34236,
+   "month": 10,
+   "key": "2019/10/MARS-20191026T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c082": {
+   "date": "2021-02-21",
+   "start_s": 38648,
+   "month": 2,
+   "key": "2021/02/MARS-20210221T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c083": {
+   "date": "2017-03-17",
+   "start_s": 46923,
+   "month": 3,
+   "key": "2017/03/MARS-20170317T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c084": {
+   "date": "2019-02-07",
+   "start_s": 81944,
+   "month": 2,
+   "key": "2019/02/MARS-20190207T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c085": {
+   "date": "2018-08-16",
+   "start_s": 78351,
+   "month": 8,
+   "key": "2018/08/MARS-20180816T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c086": {
+   "date": "2018-07-30",
+   "start_s": 16651,
+   "month": 7,
+   "key": "2018/07/MARS-20180730T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c087": {
+   "date": "2016-04-17",
+   "start_s": 81456,
+   "month": 4,
+   "key": "2016/04/MARS-20160417T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c088": {
+   "date": "2016-09-21",
+   "start_s": 49814,
+   "month": 9,
+   "key": "2016/09/MARS-20160921T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c089": {
+   "date": "2015-09-20",
+   "start_s": 68606,
+   "month": 9,
+   "key": "2015/09/MARS-20150920T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c090": {
+   "date": "2016-12-16",
+   "start_s": 67802,
+   "month": 12,
+   "key": "2016/12/MARS-20161216T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c091": {
+   "date": "2017-08-14",
+   "start_s": 2796,
+   "month": 8,
+   "key": "2017/08/MARS-20170814T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c092": {
+   "date": "2016-03-28",
+   "start_s": 9111,
+   "month": 3,
+   "key": "2016/03/MARS-20160328T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c093": {
+   "date": "2021-03-03",
+   "start_s": 72697,
+   "month": 3,
+   "key": "2021/03/MARS-20210303T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c094": {
+   "date": "2018-04-06",
+   "start_s": 8322,
+   "month": 4,
+   "key": "2018/04/MARS-20180406T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c095": {
+   "date": "2018-04-12",
+   "start_s": 67332,
+   "month": 4,
+   "key": "2018/04/MARS-20180412T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c096": {
+   "date": "2020-05-01",
+   "start_s": 54185,
+   "month": 5,
+   "key": "2020/05/MARS-20200501T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c097": {
+   "date": "2016-08-08",
+   "start_s": 74523,
+   "month": 8,
+   "key": "2016/08/MARS-20160808T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c098": {
+   "date": "2019-04-10",
+   "start_s": 85938,
+   "month": 4,
+   "key": "2019/04/MARS-20190410T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c099": {
+   "date": "2016-06-26",
+   "start_s": 12129,
+   "month": 6,
+   "key": "2016/06/MARS-20160626T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c100": {
+   "date": "2019-01-16",
+   "start_s": 67231,
+   "month": 1,
+   "key": "2019/01/MARS-20190116T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c101": {
+   "date": "2019-01-30",
+   "start_s": 2489,
+   "month": 1,
+   "key": "2019/01/MARS-20190130T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c102": {
+   "date": "2020-03-22",
+   "start_s": 43319,
+   "month": 3,
+   "key": "2020/03/MARS-20200322T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c103": {
+   "date": "2016-10-23",
+   "start_s": 22426,
+   "month": 10,
+   "key": "2016/10/MARS-20161023T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c104": {
+   "date": "2021-01-04",
+   "start_s": 24778,
+   "month": 1,
+   "key": "2021/01/MARS-20210104T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c105": {
+   "date": "2016-01-10",
+   "start_s": 7319,
+   "month": 1,
+   "key": "2016/01/MARS-20160110T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c106": {
+   "date": "2016-09-01",
+   "start_s": 10324,
+   "month": 9,
+   "key": "2016/09/MARS-20160901T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c107": {
+   "date": "2016-04-01",
+   "start_s": 74633,
+   "month": 4,
+   "key": "2016/04/MARS-20160401T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c108": {
+   "date": "2021-05-05",
+   "start_s": 70177,
+   "month": 5,
+   "key": "2021/05/MARS-20210505T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c109": {
+   "date": "2016-05-29",
+   "start_s": 84863,
+   "month": 5,
+   "key": "2016/05/MARS-20160529T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c110": {
+   "date": "2021-01-08",
+   "start_s": 52780,
+   "month": 1,
+   "key": "2021/01/MARS-20210108T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c111": {
+   "date": "2019-11-09",
+   "start_s": 49482,
+   "month": 11,
+   "key": "2019/11/MARS-20191109T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c112": {
+   "date": "2016-11-30",
+   "start_s": 45740,
+   "month": 11,
+   "key": "2016/11/MARS-20161130T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c113": {
+   "date": "2020-10-27",
+   "start_s": 49823,
+   "month": 10,
+   "key": "2020/10/MARS-20201027T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c114": {
+   "date": "2016-02-15",
+   "start_s": 72991,
+   "month": 2,
+   "key": "2016/02/MARS-20160215T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c115": {
+   "date": "2016-07-15",
+   "start_s": 17339,
+   "month": 7,
+   "key": "2016/07/MARS-20160715T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c116": {
+   "date": "2020-07-19",
+   "start_s": 68718,
+   "month": 7,
+   "key": "2020/07/MARS-20200719T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c117": {
+   "date": "2019-09-25",
+   "start_s": 39359,
+   "month": 9,
+   "key": "2019/09/MARS-20190925T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c118": {
+   "date": "2015-08-13",
+   "start_s": 67261,
+   "month": 8,
+   "key": "2015/08/MARS-20150813T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c119": {
+   "date": "2017-08-24",
+   "start_s": 80247,
+   "month": 8,
+   "key": "2017/08/MARS-20170824T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c120": {
+   "date": "2015-10-29",
+   "start_s": 38175,
+   "month": 10,
+   "key": "2015/10/MARS-20151029T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c121": {
+   "date": "2020-05-24",
+   "start_s": 34914,
+   "month": 5,
+   "key": "2020/05/MARS-20200524T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c122": {
+   "date": "2020-04-25",
+   "start_s": 35664,
+   "month": 4,
+   "key": "2020/04/MARS-20200425T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c123": {
+   "date": "2020-02-20",
+   "start_s": 1821,
+   "month": 2,
+   "key": "2020/02/MARS-20200220T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c124": {
+   "date": "2017-03-20",
+   "start_s": 67966,
+   "month": 3,
+   "key": "2017/03/MARS-20170320T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c125": {
+   "date": "2018-04-20",
+   "start_s": 67764,
+   "month": 4,
+   "key": "2018/04/MARS-20180420T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c126": {
+   "date": "2021-04-16",
+   "start_s": 59070,
+   "month": 4,
+   "key": "2021/04/MARS-20210416T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c127": {
+   "date": "2019-12-31",
+   "start_s": 1081,
+   "month": 12,
+   "key": "2019/12/MARS-20191231T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c128": {
+   "date": "2019-12-27",
+   "start_s": 50419,
+   "month": 12,
+   "key": "2019/12/MARS-20191227T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c129": {
+   "date": "2017-06-21",
+   "start_s": 22319,
+   "month": 6,
+   "key": "2017/06/MARS-20170621T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c130": {
+   "date": "2020-11-06",
+   "start_s": 26911,
+   "month": 11,
+   "key": "2020/11/MARS-20201106T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c131": {
+   "date": "2016-09-12",
+   "start_s": 43966,
+   "month": 9,
+   "key": "2016/09/MARS-20160912T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c132": {
+   "date": "2020-03-22",
+   "start_s": 55614,
+   "month": 3,
+   "key": "2020/03/MARS-20200322T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c133": {
+   "date": "2020-06-20",
+   "start_s": 22572,
+   "month": 6,
+   "key": "2020/06/MARS-20200620T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c134": {
+   "date": "2017-02-01",
+   "start_s": 36242,
+   "month": 2,
+   "key": "2017/02/MARS-20170201T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c135": {
+   "date": "2021-05-23",
+   "start_s": 38495,
+   "month": 5,
+   "key": "2021/05/MARS-20210523T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c136": {
+   "date": "2020-05-03",
+   "start_s": 63294,
+   "month": 5,
+   "key": "2020/05/MARS-20200503T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c137": {
+   "date": "2019-12-11",
+   "start_s": 24998,
+   "month": 12,
+   "key": "2019/12/MARS-20191211T000000Z-16kHz.wav",
+   "redraws": 1
+  },
+  "c138": {
+   "date": "2018-06-13",
+   "start_s": 5069,
+   "month": 6,
+   "key": "2018/06/MARS-20180613T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c139": {
+   "date": "2017-03-24",
+   "start_s": 41930,
+   "month": 3,
+   "key": "2017/03/MARS-20170324T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c140": {
+   "date": "2018-01-24",
+   "start_s": 25708,
+   "month": 1,
+   "key": "2018/01/MARS-20180124T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c141": {
+   "date": "2017-03-16",
+   "start_s": 15016,
+   "month": 3,
+   "key": "2017/03/MARS-20170316T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c142": {
+   "date": "2015-11-17",
+   "start_s": 3976,
+   "month": 11,
+   "key": "2015/11/MARS-20151117T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c143": {
+   "date": "2018-12-19",
+   "start_s": 5650,
+   "month": 12,
+   "key": "2018/12/MARS-20181219T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c144": {
+   "date": "2015-09-28",
+   "start_s": 79262,
+   "month": 9,
+   "key": "2015/09/MARS-20150928T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c145": {
+   "date": "2021-04-16",
+   "start_s": 35113,
+   "month": 4,
+   "key": "2021/04/MARS-20210416T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c146": {
+   "date": "2016-07-10",
+   "start_s": 37693,
+   "month": 7,
+   "key": "2016/07/MARS-20160710T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c147": {
+   "date": "2017-08-14",
+   "start_s": 43816,
+   "month": 8,
+   "key": "2017/08/MARS-20170814T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c148": {
+   "date": "2018-11-03",
+   "start_s": 77526,
+   "month": 11,
+   "key": "2018/11/MARS-20181103T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c149": {
+   "date": "2019-06-13",
+   "start_s": 61621,
+   "month": 6,
+   "key": "2019/06/MARS-20190613T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c150": {
+   "date": "2020-07-25",
+   "start_s": 68806,
+   "month": 7,
+   "key": "2020/07/MARS-20200725T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c151": {
+   "date": "2016-03-30",
+   "start_s": 80135,
+   "month": 3,
+   "key": "2016/03/MARS-20160330T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c152": {
+   "date": "2017-01-30",
+   "start_s": 31855,
+   "month": 1,
+   "key": "2017/01/MARS-20170130T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c153": {
+   "date": "2020-07-22",
+   "start_s": 2773,
+   "month": 7,
+   "key": "2020/07/MARS-20200722T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c154": {
+   "date": "2021-02-27",
+   "start_s": 85498,
+   "month": 2,
+   "key": "2021/02/MARS-20210227T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c155": {
+   "date": "2020-06-12",
+   "start_s": 62843,
+   "month": 6,
+   "key": "2020/06/MARS-20200612T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c156": {
+   "date": "2020-08-29",
+   "start_s": 42094,
+   "month": 8,
+   "key": "2020/08/MARS-20200829T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c157": {
+   "date": "2018-05-17",
+   "start_s": 5031,
+   "month": 5,
+   "key": "2018/05/MARS-20180517T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c158": {
+   "date": "2018-02-28",
+   "start_s": 59554,
+   "month": 2,
+   "key": "2018/02/MARS-20180228T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c159": {
+   "date": "2019-03-15",
+   "start_s": 57983,
+   "month": 3,
+   "key": "2019/03/MARS-20190315T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c160": {
+   "date": "2020-08-11",
+   "start_s": 65563,
+   "month": 8,
+   "key": "2020/08/MARS-20200811T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c161": {
+   "date": "2020-08-26",
+   "start_s": 32640,
+   "month": 8,
+   "key": "2020/08/MARS-20200826T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c162": {
+   "date": "2016-04-21",
+   "start_s": 79141,
+   "month": 4,
+   "key": "2016/04/MARS-20160421T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c163": {
+   "date": "2017-07-28",
+   "start_s": 68954,
+   "month": 7,
+   "key": "2017/07/MARS-20170728T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c164": {
+   "date": "2015-11-14",
+   "start_s": 18362,
+   "month": 11,
+   "key": "2015/11/MARS-20151114T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c165": {
+   "date": "2018-10-23",
+   "start_s": 57987,
+   "month": 10,
+   "key": "2018/10/MARS-20181023T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c166": {
+   "date": "2016-12-22",
+   "start_s": 60570,
+   "month": 12,
+   "key": "2016/12/MARS-20161222T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c167": {
+   "date": "2020-05-29",
+   "start_s": 49592,
+   "month": 5,
+   "key": "2020/05/MARS-20200529T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c168": {
+   "date": "2018-11-11",
+   "start_s": 78249,
+   "month": 11,
+   "key": "2018/11/MARS-20181111T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c169": {
+   "date": "2016-08-04",
+   "start_s": 12839,
+   "month": 8,
+   "key": "2016/08/MARS-20160804T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c170": {
+   "date": "2020-04-06",
+   "start_s": 48885,
+   "month": 4,
+   "key": "2020/04/MARS-20200406T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c171": {
+   "date": "2015-12-12",
+   "start_s": 64540,
+   "month": 12,
+   "key": "2015/12/MARS-20151212T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c172": {
+   "date": "2016-03-10",
+   "start_s": 33469,
+   "month": 3,
+   "key": "2016/03/MARS-20160310T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c173": {
+   "date": "2019-05-24",
+   "start_s": 69822,
+   "month": 5,
+   "key": "2019/05/MARS-20190524T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c174": {
+   "date": "2019-07-25",
+   "start_s": 47334,
+   "month": 7,
+   "key": "2019/07/MARS-20190725T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c175": {
+   "date": "2017-01-04",
+   "start_s": 10161,
+   "month": 1,
+   "key": "2017/01/MARS-20170104T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c176": {
+   "date": "2016-02-12",
+   "start_s": 43173,
+   "month": 2,
+   "key": "2016/02/MARS-20160212T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c177": {
+   "date": "2020-09-16",
+   "start_s": 59544,
+   "month": 9,
+   "key": "2020/09/MARS-20200916T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c178": {
+   "date": "2016-12-30",
+   "start_s": 42879,
+   "month": 12,
+   "key": "2016/12/MARS-20161230T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c179": {
+   "date": "2015-11-01",
+   "start_s": 49804,
+   "month": 11,
+   "key": "2015/11/MARS-20151101T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c180": {
+   "date": "2017-08-15",
+   "start_s": 61184,
+   "month": 8,
+   "key": "2017/08/MARS-20170815T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c181": {
+   "date": "2020-11-26",
+   "start_s": 2559,
+   "month": 11,
+   "key": "2020/11/MARS-20201126T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c182": {
+   "date": "2018-12-06",
+   "start_s": 28779,
+   "month": 12,
+   "key": "2018/12/MARS-20181206T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c183": {
+   "date": "2015-10-28",
+   "start_s": 65176,
+   "month": 10,
+   "key": "2015/10/MARS-20151028T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c184": {
+   "date": "2017-01-13",
+   "start_s": 31153,
+   "month": 1,
+   "key": "2017/01/MARS-20170113T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c185": {
+   "date": "2020-06-11",
+   "start_s": 15723,
+   "month": 6,
+   "key": "2020/06/MARS-20200611T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c186": {
+   "date": "2015-09-05",
+   "start_s": 54434,
+   "month": 9,
+   "key": "2015/09/MARS-20150905T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c187": {
+   "date": "2018-05-08",
+   "start_s": 51453,
+   "month": 5,
+   "key": "2018/05/MARS-20180508T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c188": {
+   "date": "2020-06-14",
+   "start_s": 54635,
+   "month": 6,
+   "key": "2020/06/MARS-20200614T000000Z-16kHz.wav",
+   "redraws": 1
+  },
+  "c189": {
+   "date": "2019-11-07",
+   "start_s": 46656,
+   "month": 11,
+   "key": "2019/11/MARS-20191107T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c190": {
+   "date": "2021-04-05",
+   "start_s": 34472,
+   "month": 4,
+   "key": "2021/04/MARS-20210405T000000Z-16kHz.wav",
+   "redraws": 1
+  },
+  "c191": {
+   "date": "2020-01-22",
+   "start_s": 82419,
+   "month": 1,
+   "key": "2020/01/MARS-20200122T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c192": {
+   "date": "2020-06-12",
+   "start_s": 46718,
+   "month": 6,
+   "key": "2020/06/MARS-20200612T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c193": {
+   "date": "2020-10-15",
+   "start_s": 74397,
+   "month": 10,
+   "key": "2020/10/MARS-20201015T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c194": {
+   "date": "2020-01-31",
+   "start_s": 24715,
+   "month": 1,
+   "key": "2020/01/MARS-20200131T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c195": {
+   "date": "2018-05-29",
+   "start_s": 67387,
+   "month": 5,
+   "key": "2018/05/MARS-20180529T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c196": {
+   "date": "2018-09-29",
+   "start_s": 46884,
+   "month": 9,
+   "key": "2018/09/MARS-20180929T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c197": {
+   "date": "2018-11-21",
+   "start_s": 48236,
+   "month": 11,
+   "key": "2018/11/MARS-20181121T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c198": {
+   "date": "2019-08-05",
+   "start_s": 78881,
+   "month": 8,
+   "key": "2019/08/MARS-20190805T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c199": {
+   "date": "2020-12-13",
+   "start_s": 42387,
+   "month": 12,
+   "key": "2020/12/MARS-20201213T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c200": {
+   "date": "2017-08-06",
+   "start_s": 23186,
+   "month": 8,
+   "key": "2017/08/MARS-20170806T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c201": {
+   "date": "2020-03-22",
+   "start_s": 61798,
+   "month": 3,
+   "key": "2020/03/MARS-20200322T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c202": {
+   "date": "2017-10-31",
+   "start_s": 31618,
+   "month": 10,
+   "key": "2017/10/MARS-20171031T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c203": {
+   "date": "2020-08-22",
+   "start_s": 3605,
+   "month": 8,
+   "key": "2020/08/MARS-20200822T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c204": {
+   "date": "2019-04-16",
+   "start_s": 32511,
+   "month": 4,
+   "key": "2019/04/MARS-20190416T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c205": {
+   "date": "2021-02-09",
+   "start_s": 68567,
+   "month": 2,
+   "key": "2021/02/MARS-20210209T000000Z-16kHz.wav",
+   "redraws": 2
+  },
+  "c206": {
+   "date": "2019-06-21",
+   "start_s": 13881,
+   "month": 6,
+   "key": "2019/06/MARS-20190621T000000Z-16kHz.wav",
+   "redraws": 1
+  },
+  "c207": {
+   "date": "2020-09-14",
+   "start_s": 58443,
+   "month": 9,
+   "key": "2020/09/MARS-20200914T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c208": {
+   "date": "2019-04-25",
+   "start_s": 68259,
+   "month": 4,
+   "key": "2019/04/MARS-20190425T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c209": {
+   "date": "2016-08-03",
+   "start_s": 32172,
+   "month": 8,
+   "key": "2016/08/MARS-20160803T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c210": {
+   "date": "2017-12-08",
+   "start_s": 2353,
+   "month": 12,
+   "key": "2017/12/MARS-20171208T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c211": {
+   "date": "2017-11-29",
+   "start_s": 27858,
+   "month": 11,
+   "key": "2017/11/MARS-20171129T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c212": {
+   "date": "2017-10-04",
+   "start_s": 63015,
+   "month": 10,
+   "key": "2017/10/MARS-20171004T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c213": {
+   "date": "2018-05-22",
+   "start_s": 68498,
+   "month": 5,
+   "key": "2018/05/MARS-20180522T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c214": {
+   "date": "2019-09-22",
+   "start_s": 4962,
+   "month": 9,
+   "key": "2019/09/MARS-20190922T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c215": {
+   "date": "2018-11-14",
+   "start_s": 25309,
+   "month": 11,
+   "key": "2018/11/MARS-20181114T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c216": {
+   "date": "2017-06-09",
+   "start_s": 85591,
+   "month": 6,
+   "key": "2017/06/MARS-20170609T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c217": {
+   "date": "2017-10-26",
+   "start_s": 13032,
+   "month": 10,
+   "key": "2017/10/MARS-20171026T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c218": {
+   "date": "2017-07-20",
+   "start_s": 46011,
+   "month": 7,
+   "key": "2017/07/MARS-20170720T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c219": {
+   "date": "2017-05-07",
+   "start_s": 312,
+   "month": 5,
+   "key": "2017/05/MARS-20170507T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c220": {
+   "date": "2021-03-01",
+   "start_s": 20257,
+   "month": 3,
+   "key": "2021/03/MARS-20210301T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c221": {
+   "date": "2016-07-04",
+   "start_s": 39487,
+   "month": 7,
+   "key": "2016/07/MARS-20160704T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c222": {
+   "date": "2018-02-26",
+   "start_s": 12797,
+   "month": 2,
+   "key": "2018/02/MARS-20180226T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c223": {
+   "date": "2019-02-01",
+   "start_s": 50003,
+   "month": 2,
+   "key": "2019/02/MARS-20190201T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c224": {
+   "date": "2016-06-12",
+   "start_s": 30717,
+   "month": 6,
+   "key": "2016/06/MARS-20160612T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c225": {
+   "date": "2019-08-19",
+   "start_s": 12253,
+   "month": 8,
+   "key": "2019/08/MARS-20190819T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c226": {
+   "date": "2016-04-10",
+   "start_s": 25884,
+   "month": 4,
+   "key": "2016/04/MARS-20160410T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c227": {
+   "date": "2018-10-08",
+   "start_s": 8144,
+   "month": 10,
+   "key": "2018/10/MARS-20181008T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c228": {
+   "date": "2016-09-22",
+   "start_s": 84224,
+   "month": 9,
+   "key": "2016/09/MARS-20160922T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c229": {
+   "date": "2020-07-19",
+   "start_s": 634,
+   "month": 7,
+   "key": "2020/07/MARS-20200719T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c230": {
+   "date": "2019-07-07",
+   "start_s": 83580,
+   "month": 7,
+   "key": "2019/07/MARS-20190707T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c231": {
+   "date": "2020-05-04",
+   "start_s": 59380,
+   "month": 5,
+   "key": "2020/05/MARS-20200504T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c232": {
+   "date": "2019-09-16",
+   "start_s": 24880,
+   "month": 9,
+   "key": "2019/09/MARS-20190916T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c233": {
+   "date": "2015-08-01",
+   "start_s": 84286,
+   "month": 8,
+   "key": "2015/08/MARS-20150801T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c234": {
+   "date": "2017-09-05",
+   "start_s": 82727,
+   "month": 9,
+   "key": "2017/09/MARS-20170905T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c235": {
+   "date": "2019-11-14",
+   "start_s": 39568,
+   "month": 11,
+   "key": "2019/11/MARS-20191114T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c236": {
+   "date": "2015-12-02",
+   "start_s": 59814,
+   "month": 12,
+   "key": "2015/12/MARS-20151202T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c237": {
+   "date": "2016-05-20",
+   "start_s": 12511,
+   "month": 5,
+   "key": "2016/05/MARS-20160520T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c238": {
+   "date": "2017-09-30",
+   "start_s": 23612,
+   "month": 9,
+   "key": "2017/09/MARS-20170930T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c239": {
+   "date": "2016-07-30",
+   "start_s": 3576,
+   "month": 7,
+   "key": "2016/07/MARS-20160730T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c240": {
+   "date": "2020-02-22",
+   "start_s": 79812,
+   "month": 2,
+   "key": "2020/02/MARS-20200222T000000Z-16kHz.wav",
+   "redraws": 2
+  },
+  "c241": {
+   "date": "2017-08-22",
+   "start_s": 55812,
+   "month": 8,
+   "key": "2017/08/MARS-20170822T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c242": {
+   "date": "2016-04-11",
+   "start_s": 23450,
+   "month": 4,
+   "key": "2016/04/MARS-20160411T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c243": {
+   "date": "2018-12-09",
+   "start_s": 36524,
+   "month": 12,
+   "key": "2018/12/MARS-20181209T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c244": {
+   "date": "2017-05-24",
+   "start_s": 49532,
+   "month": 5,
+   "key": "2017/05/MARS-20170524T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c245": {
+   "date": "2016-09-21",
+   "start_s": 79045,
+   "month": 9,
+   "key": "2016/09/MARS-20160921T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c246": {
+   "date": "2016-06-27",
+   "start_s": 41209,
+   "month": 6,
+   "key": "2016/06/MARS-20160627T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c247": {
+   "date": "2020-03-31",
+   "start_s": 75977,
+   "month": 3,
+   "key": "2020/03/MARS-20200331T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c248": {
+   "date": "2019-08-29",
+   "start_s": 44996,
+   "month": 8,
+   "key": "2019/08/MARS-20190829T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c249": {
+   "date": "2021-06-16",
+   "start_s": 82852,
+   "month": 6,
+   "key": "2021/06/MARS-20210616T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c250": {
+   "date": "2019-04-17",
+   "start_s": 74505,
+   "month": 4,
+   "key": "2019/04/MARS-20190417T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c251": {
+   "date": "2020-07-19",
+   "start_s": 57328,
+   "month": 7,
+   "key": "2020/07/MARS-20200719T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c252": {
+   "date": "2020-02-06",
+   "start_s": 77556,
+   "month": 2,
+   "key": "2020/02/MARS-20200206T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c253": {
+   "date": "2018-07-21",
+   "start_s": 13507,
+   "month": 7,
+   "key": "2018/07/MARS-20180721T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c254": {
+   "date": "2016-11-01",
+   "start_s": 43215,
+   "month": 11,
+   "key": "2016/11/MARS-20161101T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c255": {
+   "date": "2016-05-15",
+   "start_s": 75382,
+   "month": 5,
+   "key": "2016/05/MARS-20160515T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c256": {
+   "date": "2020-05-04",
+   "start_s": 22475,
+   "month": 5,
+   "key": "2020/05/MARS-20200504T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c257": {
+   "date": "2020-07-11",
+   "start_s": 21535,
+   "month": 7,
+   "key": "2020/07/MARS-20200711T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c258": {
+   "date": "2019-11-24",
+   "start_s": 3049,
+   "month": 11,
+   "key": "2019/11/MARS-20191124T000000Z-16kHz.wav",
+   "redraws": 1
+  },
+  "c259": {
+   "date": "2020-07-12",
+   "start_s": 70373,
+   "month": 7,
+   "key": "2020/07/MARS-20200712T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c260": {
+   "date": "2021-04-13",
+   "start_s": 311,
+   "month": 4,
+   "key": "2021/04/MARS-20210413T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c261": {
+   "date": "2018-05-18",
+   "start_s": 35425,
+   "month": 5,
+   "key": "2018/05/MARS-20180518T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c262": {
+   "date": "2020-10-13",
+   "start_s": 40291,
+   "month": 10,
+   "key": "2020/10/MARS-20201013T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c263": {
+   "date": "2019-09-26",
+   "start_s": 18977,
+   "month": 9,
+   "key": "2019/09/MARS-20190926T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c264": {
+   "date": "2015-09-06",
+   "start_s": 17954,
+   "month": 9,
+   "key": "2015/09/MARS-20150906T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c265": {
+   "date": "2020-01-28",
+   "start_s": 8474,
+   "month": 1,
+   "key": "2020/01/MARS-20200128T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c266": {
+   "date": "2018-10-28",
+   "start_s": 55976,
+   "month": 10,
+   "key": "2018/10/MARS-20181028T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c267": {
+   "date": "2017-12-29",
+   "start_s": 30654,
+   "month": 12,
+   "key": "2017/12/MARS-20171229T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c268": {
+   "date": "2016-03-02",
+   "start_s": 44794,
+   "month": 3,
+   "key": "2016/03/MARS-20160302T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c269": {
+   "date": "2020-11-02",
+   "start_s": 11718,
+   "month": 11,
+   "key": "2020/11/MARS-20201102T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c270": {
+   "date": "2019-01-15",
+   "start_s": 62546,
+   "month": 1,
+   "key": "2019/01/MARS-20190115T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c271": {
+   "date": "2019-02-21",
+   "start_s": 16705,
+   "month": 2,
+   "key": "2019/02/MARS-20190221T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c272": {
+   "date": "2016-03-14",
+   "start_s": 64619,
+   "month": 3,
+   "key": "2016/03/MARS-20160314T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c273": {
+   "date": "2018-02-15",
+   "start_s": 83819,
+   "month": 2,
+   "key": "2018/02/MARS-20180215T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c274": {
+   "date": "2016-07-13",
+   "start_s": 41886,
+   "month": 7,
+   "key": "2016/07/MARS-20160713T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c275": {
+   "date": "2017-07-15",
+   "start_s": 65037,
+   "month": 7,
+   "key": "2017/07/MARS-20170715T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c276": {
+   "date": "2018-02-10",
+   "start_s": 39239,
+   "month": 2,
+   "key": "2018/02/MARS-20180210T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c277": {
+   "date": "2016-10-03",
+   "start_s": 5538,
+   "month": 10,
+   "key": "2016/10/MARS-20161003T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c278": {
+   "date": "2018-12-26",
+   "start_s": 29471,
+   "month": 12,
+   "key": "2018/12/MARS-20181226T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c279": {
+   "date": "2017-09-22",
+   "start_s": 16393,
+   "month": 9,
+   "key": "2017/09/MARS-20170922T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c280": {
+   "date": "2017-08-22",
+   "start_s": 64888,
+   "month": 8,
+   "key": "2017/08/MARS-20170822T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c281": {
+   "date": "2019-06-14",
+   "start_s": 45059,
+   "month": 6,
+   "key": "2019/06/MARS-20190614T000000Z-16kHz.wav",
+   "redraws": 2
+  },
+  "c282": {
+   "date": "2016-09-29",
+   "start_s": 11424,
+   "month": 9,
+   "key": "2016/09/MARS-20160929T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c283": {
+   "date": "2019-10-18",
+   "start_s": 7352,
+   "month": 10,
+   "key": "2019/10/MARS-20191018T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c284": {
+   "date": "2020-02-13",
+   "start_s": 4703,
+   "month": 2,
+   "key": "2020/02/MARS-20200213T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c285": {
+   "date": "2016-11-07",
+   "start_s": 40866,
+   "month": 11,
+   "key": "2016/11/MARS-20161107T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c286": {
+   "date": "2016-07-23",
+   "start_s": 84985,
+   "month": 7,
+   "key": "2016/07/MARS-20160723T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c287": {
+   "date": "2021-04-30",
+   "start_s": 64037,
+   "month": 4,
+   "key": "2021/04/MARS-20210430T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c288": {
+   "date": "2017-12-08",
+   "start_s": 29873,
+   "month": 12,
+   "key": "2017/12/MARS-20171208T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c289": {
+   "date": "2016-03-01",
+   "start_s": 19099,
+   "month": 3,
+   "key": "2016/03/MARS-20160301T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c290": {
+   "date": "2018-06-13",
+   "start_s": 80134,
+   "month": 6,
+   "key": "2018/06/MARS-20180613T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c291": {
+   "date": "2017-03-16",
+   "start_s": 28838,
+   "month": 3,
+   "key": "2017/03/MARS-20170316T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c292": {
+   "date": "2017-11-25",
+   "start_s": 39261,
+   "month": 11,
+   "key": "2017/11/MARS-20171125T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c293": {
+   "date": "2015-10-15",
+   "start_s": 52109,
+   "month": 10,
+   "key": "2015/10/MARS-20151015T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c294": {
+   "date": "2016-07-28",
+   "start_s": 49032,
+   "month": 7,
+   "key": "2016/07/MARS-20160728T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c295": {
+   "date": "2018-03-21",
+   "start_s": 67080,
+   "month": 3,
+   "key": "2018/03/MARS-20180321T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c296": {
+   "date": "2021-06-19",
+   "start_s": 24598,
+   "month": 6,
+   "key": "2021/06/MARS-20210619T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c297": {
+   "date": "2019-01-03",
+   "start_s": 81970,
+   "month": 1,
+   "key": "2019/01/MARS-20190103T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c298": {
+   "date": "2015-11-07",
+   "start_s": 61367,
+   "month": 11,
+   "key": "2015/11/MARS-20151107T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c299": {
+   "date": "2017-02-07",
+   "start_s": 58185,
+   "month": 2,
+   "key": "2017/02/MARS-20170207T000000Z-16kHz.wav",
+   "redraws": 0
+  },
+  "c300": {
+   "date": "2019-09-22",
+   "start_s": 7119,
+   "month": 9,
+   "key": "2019/09/MARS-20190922T000000Z-16kHz.wav",
+   "redraws": 0
+  }
+ }
+}

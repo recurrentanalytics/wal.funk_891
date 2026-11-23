@@ -1215,5 +1215,6 @@
  "lib.checked": "已核对（{by}，{at}）",
  "lib.cited": "引用于：",
  "lib.count": "{total} 项中的 {n} 项",
- "lib.docs": "项目笔记"
+ "lib.docs": "项目笔记",
+ "lib.docs.link": "项目笔记（Obsidian）"
 }

@@ -1,6 +1,6 @@
 {
- "build": "20261123163419",
- "built_at": "2026-11-23 16:34 CET",
+ "build": "20261123163718",
+ "built_at": "2026-11-23 16:37 CET",
  "libs": [
   [
    "d3",
@@ -121,9 +121,9 @@
  "own_js_lines": 3470,
  "html_lines": 1227,
  "i18n_keys": {
-  "en": 1217,
-  "de": 1217,
-  "zh": 1217
+  "en": 1218,
+  "de": 1218,
+  "zh": 1218
  },
  "data_files": [
   [
@@ -260,7 +260,7 @@
   ],
   [
    "data/status.json",
-   13473
+   13761
   ],
   [
    "data/step7a_mac.json",
@@ -295,7 +295,7 @@
    5818
   ]
  ],
- "data_bytes": 8788996,
+ "data_bytes": 8789284,
  "species_total": 93,
  "species_at_stations": 18,
  "species_with_clips": 14,

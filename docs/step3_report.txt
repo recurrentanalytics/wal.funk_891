@@ -1,0 +1,20 @@
+11cfea7 Step 3: run, score and diagnosis (gate FAIL)
+windows: 483 total, 462 scored (119 positive, 343 negative), 21 excluded
+always-negative baseline plain accuracy: 0.742
+
+[GATE: Oo >= 0.5]
+  TP 0  FN 119  FP 0  TN 343
+  recall(pos) 0.000  recall(neg) 1.000  precision nan
+  plain accuracy 0.742
+  BALANCED ACCURACY 0.500
+
+[info: any of Oo/Call/Whistle/Echolocation >= 0.5]
+  TP 0  FN 119  FP 0  TN 343
+  recall(pos) 0.000  recall(neg) 1.000  precision nan
+  plain accuracy 0.742
+  BALANCED ACCURACY 0.500
+
+ROC AUC of Oo score: 0.759
+Oo score quantiles  pos: [0.    0.    0.012]  neg: [0.    0.    0.009]
+
+clip level: 11/21 agree  (10 clips with calls)
