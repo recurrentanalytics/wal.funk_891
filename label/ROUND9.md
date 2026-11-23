@@ -1,3 +1,11 @@
+---
+title: "Round 9: low-frequency detector for MARS"
+date: 2026-11-23
+type: plan
+status: active
+tags: [wal.funk_891, test, round9, blue, fin]
+---
+
 # Round 9 plan: a low-frequency detector for MARS (blue B calls, fin 20 Hz pulses)
 
 Written 2026-11-23, before any clip for this round was drawn, labelled or scored. Pass marks fixed here.
@@ -61,3 +69,12 @@ speed with the cooler before the page says it runs on a Pi.
 
 A pass means: the detector agrees with one careful lay listener on MARS B calls / fin pulses in held-out years.
 It does not mean expert-validated detection, and it says nothing about other sites or call types.
+
+## Amendment (2026-11-23, owner decision, before any round-9 label was given)
+
+Smaller round: the small CNN is dropped, so the training set (2016-17) is not labelled. The detector is the **band-ratio
+baseline only** (no training; its threshold per species is chosen on the validation set). Owner labels:
+**validation 2018, all 300 clips**, and **test 2019-20, 25 per calendar month = 300 clips** (seeded subset, seed 9031,
+from the 600 drawn), plus **20 hidden repeats** = 620 clips. Pass marks unchanged (BA ≥ 0.80 and recall ≥ 0.70 per
+species on the test set); decidable only with ≥ 30 yes labels for that species in the test set and kappa ≥ 0.6.
+The drawn training clips stay on disk for a later round.

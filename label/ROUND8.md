@@ -99,3 +99,11 @@ that was never looked at. 8a itself (blocks from 2026-11-24) continues unchanged
   whale report on any feed and > 1 day from every 7e block; quiet blocks without audio are replaced by the next draw.
 - Decided once all 40 events are done (≥ 30 events and ≥ 60 quiet blocks needed, else "not enough data").
 - Counted as an extra test on the page; a pass here does not change 7e.
+
+## Amendment 8b (2026-11-23, owner decision, before any 8b label was given)
+
+Smaller round to keep the listening load reasonable: from the 450 drawn clips, a seeded subset (seed 8931) of
+**200 with max score < 0.3 and 100 with ≥ 0.3** (33 in 0.3-0.7, 27 in 0.7-0.9, 40 ≥ 0.9, proportional to the original
+50/40/60) plus **20 hidden repeats** = 320 clips. Weights use the new sample shares. Decidable only with ≥ 30 yes labels,
+≥ 200 labelled clips in the < 0.3 stratum and test-retest kappa ≥ 0.6 on the 20 repeats. Pass mark unchanged
+(weighted BA ≥ 0.80). Cost: a wider interval on missed faint song; stated with the result.
