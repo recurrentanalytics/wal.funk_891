@@ -1,6 +1,6 @@
 {
- "build": "20261123163355",
- "built_at": "2026-11-23 16:33 CET",
+ "build": "20261123163419",
+ "built_at": "2026-11-23 16:34 CET",
  "libs": [
   [
    "d3",
@@ -196,7 +196,7 @@
   ],
   [
    "data/handbook.json",
-   3151
+   3225
   ],
   [
    "data/learning.json",
@@ -295,7 +295,7 @@
    5818
   ]
  ],
- "data_bytes": 8788922,
+ "data_bytes": 8788996,
  "species_total": 93,
  "species_at_stations": 18,
  "species_with_clips": 14,

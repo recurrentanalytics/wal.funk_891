@@ -34,6 +34,7 @@
       R.groups.flatMap((g) => g.rows).forEach((r) => out.push({ kind: t('srch.k.test'), where: t('nav.results'), title: t('res.' + r.id), sub: t('res.v.' + r.verdict), go: () => show($('res-board')) }));
     } catch (e) {}
     out.push({ kind: t('srch.k.doc'), title: t('srch.handbook'), sub: 'handbook.html', go: () => { location.href = 'handbook.html' + location.search; } });
+    out.push({ kind: t('srch.k.doc'), title: t('lib.title'), sub: 'library.html', go: () => { location.href = 'library.html' + location.search; } });
     out.push({ kind: t('srch.k.doc'), title: t('srch.paper'), sub: 'paper.html', go: () => { location.href = 'paper.html' + location.search; } });
     out.forEach((o) => { o.n = norm(o.title + ' ' + o.sub + ' ' + (o.extra || '')); o.nt = norm(o.title); });
     return out;
