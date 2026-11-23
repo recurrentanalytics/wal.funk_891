@@ -36,7 +36,7 @@
     const box = document.createElement('div'); box.className = 'lbx'; box.hidden = true; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true');
     const img = document.createElement('img'), cap = document.createElement('p'), x = document.createElement('button'); x.type = 'button'; x.className = 'lbx-x'; x.textContent = '×'; x.setAttribute('aria-label', t('ui.close'));
     box.append(img, cap, x); document.body.append(box);
-    const big = (src) => src.replace(/\/(\d+)px-([^/]+)$/, (m, n, f) => `/${Math.max(+n, 1600)}px-${f}`);
+    const big = (src) => src.replace(/\/(\d+)px-([^/]+)$/, (m, n, f) => `/${Math.max(+n, 1280)}px-${f}`);
     const open = (src, text) => { img.src = big(src); img.onerror = () => { img.onerror = null; img.src = src; }; cap.textContent = text || ''; box.hidden = false; document.body.classList.add('lb-on'); if (window.wlDuck) {} };
     const close = () => { box.hidden = true; document.body.classList.remove('lb-on'); img.removeAttribute('src'); };
     box.addEventListener('click', (e) => { if (e.target !== img) close(); }); x.addEventListener('click', close);
