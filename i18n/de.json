@@ -55,8 +55,8 @@
  "dive.shore": "Moss Landing",
  "dive.hydrophone": "Hydrofon, 891 m",
  "whales.kicker": "01 · Die Stimmen",
- "whales.title": "Sieben Wale vor Kalifornien und was der Pi davon wirklich erkennt",
- "whales.lede": "Vom Blauwal, dem größten Tier, das je gelebt hat, bis zum Orca. Ehrlicher Stand: Verlässlich erkennt der Pi heute noch keine dieser Arten. Bei jedem Wal steht, was geprüft ist. Antippen spielt seine Beispieltöne.",
+ "whales.title": "Wale an unseren Stationen und was der Pi davon wirklich erkennt",
+ "whales.lede": "Sieben Arten, die vor Monterey oder im Salish Sea vorkommen könnten. Schraffiert ist, wer an unseren Stationen noch nicht nachgewiesen wurde; neue Stationen können das ändern. Ehrlicher Stand: Verlässlich erkennt der Pi heute noch keine Art. Antippen spielt die Beispieltöne.",
  "whales.scale": "Maßstabsgetreu nach maximaler Länge erwachsener Tiere (NOAA Fisheries). Mensch zum Vergleich.",
  "whales.maxlen": "max. Länge",
  "whales.range": "Rufbereich",
@@ -513,5 +513,12 @@
  "det.orca": "Der Orca-Erkenner traf an einem Orcasound-Testtag 94 %. Vor Monterey ist er unbrauchbar: Er schlägt bei jedem fünften Ausschnitt an. Ein Test an 30 von Menschen gemeldeten Orca-Begegnungen läuft.",
  "det.minke": "Für Zwergwale hat der Pi keinen geprüften Erkenner.",
  "det.brydes": "Für Brydewale hat der Pi keinen geprüften Erkenner.",
- "det.npright": "Für den Nordpazifischen Glattwal hat der Pi keinen geprüften Erkenner. Er ist extrem selten; nur wenige Dutzend Tiere leben im Ostpazifik."
+ "det.npright": "Für den Nordpazifischen Glattwal hat der Pi keinen geprüften Erkenner. Er ist extrem selten; nur wenige Dutzend Tiere leben im Ostpazifik.",
+ "st.q": "Nachweis an unseren Stationen",
+ "st.seen": "Gesichtet seit {since} (GBIF-Meldungen im Umkreis): {m} vor Monterey, {s} im Salish Sea.",
+ "st.heard.mbari": "Gehört am MBARI-Hydrofon: MBARI hat den Gesang 2015–2021 veröffentlicht und von Hand geprüft.",
+ "st.heard.orcasound": "Gehört an den Orcasound-Hydrofonen: Menschen melden dort regelmäßig Orca-Rufe.",
+ "st.absent": "Seit {since} keine einzige Meldung im Umkreis unserer beiden Hydrofone, gesehen oder gehört. Kommt dazu, sobald eine Station ihn nachweist.",
+ "st.absent.short": "An unseren Stationen noch nicht nachgewiesen",
+ "st.legend": "an unseren Stationen noch nicht nachgewiesen"
 }

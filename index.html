@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261123090048">
+<meta name="build" content="20261123090443">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>wal.funk_891</title>
 <meta name="description" content="A Raspberry Pi listening to open hydrophone archives for whale calls.">
@@ -539,6 +539,15 @@ body.fs-on { overflow: hidden; } body.fs-on .toc, body.fs-on .lang-top, body.fs-
 .detect { margin: 12px 0; padding: 10px 14px; border-radius: 10px; border-left: 3px solid #7fa2ae; background: rgba(127,162,174,.08); }
 .detect b { display: block; font-size: 14px; } .detect p { margin: 4px 0 0; font-size: 14px; color: #b9d3db; }
 .det-box-fail { border-left-color: #ff6b6b; background: rgba(255,107,107,.07); } .det-box-pending { border-left-color: var(--amber); background: rgba(255,181,71,.07); } .det-box-partial { border-left-color: #7fb2ff; background: rgba(127,178,255,.07); }
+
+/* species not yet recorded at our stations: hatched */
+.whale-btn.absent { background: repeating-linear-gradient(135deg, rgba(127,162,174,.16) 0 2px, transparent 2px 9px); }
+.whale-btn.absent svg { opacity: .3; filter: grayscale(1); }
+.whale-btn.absent .nm, .whale-btn.absent .len { color: #7fa2ae; }
+.det-absent { width: 14px; border-radius: 3px; background: repeating-linear-gradient(135deg, #7fa2ae 0 2px, transparent 2px 5px); }
+.evidence { margin: 12px 0 0; padding: 10px 14px; border-radius: 10px; border-left: 3px solid var(--glow); background: rgba(94,230,215,.06); }
+.evidence b { display: block; font-size: 14px; } .evidence p { margin: 4px 0 0; font-size: 14px; color: #b9d3db; }
+.evidence.absent { border-left-color: #7fa2ae; background: repeating-linear-gradient(135deg, rgba(127,162,174,.1) 0 2px, transparent 2px 9px); }
 </style>
 </head>
 <body>
@@ -766,14 +775,14 @@ body.fs-on { overflow: hidden; } body.fs-on .toc, body.fs-on .lang-top, body.fs-
 <footer><div class="wrap"><p data-i18n="footer.text"></p><p data-i18n="footer.translated"></p><p><a href="data/status.json">status.json</a> · <a href="https://github.com/recurrentanalytics/wal.funk_891">GitHub</a></p></div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.15/hls.min.js"></script>
-<script src="i18n.js?v=20261123090048"></script>
-<script src="globe.js?v=20261123090048"></script>
-<script src="app.js?v=20261123090048"></script>
-<script src="play.js?v=20261123090048"></script>
-<script src="atlas.js?v=20261123090048"></script>
-<script src="ui.js?v=20261123090048"></script>
-<script src="polish.js?v=20261123090048"></script>
-<script src="story.js?v=20261123090048"></script>
-<script src="scenes.js?v=20261123090048"></script>
+<script src="i18n.js?v=20261123090443"></script>
+<script src="globe.js?v=20261123090443"></script>
+<script src="app.js?v=20261123090443"></script>
+<script src="play.js?v=20261123090443"></script>
+<script src="atlas.js?v=20261123090443"></script>
+<script src="ui.js?v=20261123090443"></script>
+<script src="polish.js?v=20261123090443"></script>
+<script src="story.js?v=20261123090443"></script>
+<script src="scenes.js?v=20261123090443"></script>
 </body>
 </html>

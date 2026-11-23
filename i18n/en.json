@@ -55,8 +55,8 @@
  "dive.shore": "Moss Landing",
  "dive.hydrophone": "Hydrophone, 891 m",
  "whales.kicker": "01 · The voices",
- "whales.title": "Seven whales off California, and what the Pi can really recognise",
- "whales.lede": "From the blue whale, the largest animal that ever lived, to the orca. Honest status: the Pi cannot yet reliably recognise any of these species. Each whale shows what has been tested. Tap it to hear its example sounds.",
+ "whales.title": "Whales at our stations, and what the Pi can really recognise",
+ "whales.lede": "Seven species that could occur off Monterey or in the Salish Sea. Hatched means not yet recorded at our stations; new stations can change that. Honest status: the Pi cannot yet reliably recognise any of them. Tap a whale to hear its example sounds.",
  "whales.scale": "Drawn to scale by maximum adult length (NOAA Fisheries). Person for comparison.",
  "whales.maxlen": "max length",
  "whales.range": "call range",
@@ -513,5 +513,12 @@
  "det.orca": "The orca classifier scored 94 % on one Orcasound test day. Off Monterey it is useless: it fires on one window in five. A test on 30 orca encounters reported by people is running.",
  "det.minke": "The Pi has no tested detector for minke whales.",
  "det.brydes": "The Pi has no tested detector for Bryde’s whales.",
- "det.npright": "The Pi has no tested detector for the North Pacific right whale. It is extremely rare; only a few dozen live in the eastern Pacific."
+ "det.npright": "The Pi has no tested detector for the North Pacific right whale. It is extremely rare; only a few dozen live in the eastern Pacific.",
+ "st.q": "Evidence at our stations",
+ "st.seen": "Seen since {since} (GBIF records nearby): {m} off Monterey, {s} in the Salish Sea.",
+ "st.heard.mbari": "Heard at the MBARI hydrophone: MBARI published its song for 2015–2021, checked by hand.",
+ "st.heard.orcasound": "Heard at the Orcasound hydrophones: people report orca calls there regularly.",
+ "st.absent": "Not a single record near either of our hydrophones since {since}, seen or heard. It joins once a station records it.",
+ "st.absent.short": "Not yet recorded at our stations",
+ "st.legend": "not yet recorded at our stations"
 }

@@ -442,5 +442,58 @@
    ],
    "source": "https://commons.wikimedia.org/wiki/File:North_Pacific_right_whale_(Eubalaena_japonica)_-_John_Durban_(NOAA).jpg"
   }
+ },
+ "stations": {
+  "checked": "2026-11-23",
+  "since": 2015,
+  "areas": {
+   "monterey": "36.2–37.2° N, 121.7–122.9° W (around MARS)",
+   "salish": "47.6–48.8° N, 122.2–123.6° W (around the Orcasound hydrophones)"
+  },
+  "seen": {
+   "humpback": [
+    51508,
+    6705
+   ],
+   "orca": [
+    2234,
+    2329
+   ],
+   "blue": [
+    1853,
+    0
+   ],
+   "fin": [
+    1087,
+    15
+   ],
+   "minke": [
+    27,
+    111
+   ],
+   "npright": [
+    2,
+    0
+   ],
+   "brydes": [
+    0,
+    0
+   ]
+  },
+  "heard": {
+   "blue": [
+    "mbari"
+   ],
+   "fin": [
+    "mbari"
+   ],
+   "humpback": [
+    "mbari"
+   ],
+   "orca": [
+    "orcasound"
+   ]
+  },
+  "gbif_query": "https://api.gbif.org/v1/occurrence/search?taxonKey=<species>&geometry=<area polygon>&year=2015,2026&hasCoordinate=true"
  }
 }

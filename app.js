@@ -97,6 +97,7 @@ function whales(w) {
   Object.values(photos).forEach((p) => { const i = new Image(); i.src = p.file; });
   const line = $('lineup'); line.replaceChildren();
   const legend = el('p', 'note det-legend'); ['fail', 'pending', 'partial', 'none'].forEach((k) => { const i = el('span'); i.append(el('i', 'det det-' + k), t(`det.state.${k}`)); legend.append(i); });
+  const ab = el('span'); ab.append(el('i', 'det det-absent'), t('st.legend')); legend.append(ab);
   line.parentElement.append(legend);
   const buttons = [];
   w.sizes.items.forEach(([name, m]) => {
@@ -106,6 +107,8 @@ function whales(w) {
     const nm = el('span', 'nm', t(`sp.${key}.name`));
     if (DETECT[key]) { const dot = el('i', 'det det-' + DETECT[key]); dot.title = t(`det.state.${DETECT[key]}`); nm.prepend(dot); }
     btn.append(nm, el('span', 'len', `${num(m, 1)} m`), whaleSVG(name, m, max));
+    const ev = w.stations || {}, seen = (ev.seen || {})[key], heard = (ev.heard || {})[key];
+    if (!isPerson && ev.seen && !(seen && (seen[0] + seen[1]) > 0) && !(heard && heard.length)) { btn.classList.add('absent'); btn.title = t('st.absent.short'); }
     if (isPerson) btn.disabled = true; else btn.addEventListener('click', () => select(name, true));
     buttons.push([name, btn]); line.append(btn);
   });
@@ -126,6 +129,18 @@ function whales(w) {
     }
     const latin = /Pacific right/.test(name) ? 'Eubalaena japonica' : (sp.latin || '');
     d.append(el('h3', 'big', t(`sp.${key}.name`)), el('div', 'lat', latin));
+    // evidence at our stations: seen nearby (GBIF) and heard there (MBARI / Orcasound)
+    const ev = w.stations || {}, seen = (ev.seen || {})[key] || [0, 0], heard = (ev.heard || {})[key] || [];
+    if (ev.seen) {
+      const absent = seen[0] + seen[1] === 0 && !heard.length, box2 = el('div', 'evidence' + (absent ? ' absent' : ''));
+      box2.append(el('b', '', t('st.q')));
+      if (absent) box2.append(el('p', '', t('st.absent', { since: ev.since })));
+      else {
+        box2.append(el('p', '', t('st.seen', { m: num(seen[0]), s: num(seen[1]), since: ev.since })));
+        if (heard.length) box2.append(el('p', '', heard.map((h) => t(`st.heard.${h}`)).join(' ')));
+      }
+      d.append(box2);
+    }
     if (DETECT[key]) { const st = el('div', 'detect det-box-' + DETECT[key]); st.append(el('b', '', t('det.q') + ' ' + t(`det.state.${DETECT[key]}`)), el('p', '', t(`det.${key}`))); d.append(st); }
     const fx = el('div', 'facts');
     const fact = (v, k) => { const f = el('div', 'fact'); f.append(el('b', '', v), el('span', '', k)); return f; };
