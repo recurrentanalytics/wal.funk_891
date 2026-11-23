@@ -565,8 +565,8 @@
  "machine.tchart.throttled": "throttled",
  "nav.start": "Start",
  "nav.hear": "Listen & try",
- "start.kicker": "Where to?",
- "start.title": "Six ways into the deep",
+ "start.kicker": "Contents",
+ "start.title": "Six chapters into the deep",
  "start.dive": "From the Raspberry Pi in a bedroom to the microphone 891 m down: the story in pictures.",
  "start.whales": "18 species at our stations, their voices, every other whale species and their migrations month by month.",
  "start.places": "Maps, a 3D canyon to dive into, the globe with currents and sightings, and live listening in the Salish Sea.",
@@ -575,5 +575,10 @@
  "start.machine": "How the Pi is doing: temperature, cores, the current job, and what the terms mean.",
  "nav.prev": "Previous",
  "nav.next": "Next",
- "nav.pager": "Move between sections"
+ "nav.pager": "Move between sections",
+ "ch.n": "Chapter {n} of {of}",
+ "fold.gates": "All steps and pass marks · open",
+ "fold.nb": "All lab notebook entries · open",
+ "fold.words": "All terms · open",
+ "fold.open": "open"
 }

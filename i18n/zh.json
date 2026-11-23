@@ -565,8 +565,8 @@
  "machine.tchart.throttled": "已降频",
  "nav.start": "首页",
  "nav.hear": "聆听与体验",
- "start.kicker": "去哪里？",
- "start.title": "六条通往深海的路",
+ "start.kicker": "目录",
+ "start.title": "通往深海的六个章节",
  "start.dive": "从卧室里的树莓派到 891 米深处的麦克风：用图讲述的故事。",
  "start.whales": "我们站点的 18 个物种、它们的声音、其他所有鲸种，以及逐月的迁徙。",
  "start.places": "地图、可潜入的 3D 峡谷、带洋流和目击记录的地球仪，以及萨利希海实时收听。",
@@ -575,5 +575,10 @@
  "start.machine": "树莓派的状态：温度、核心、当前任务，以及术语解释。",
  "nav.prev": "上一部分",
  "nav.next": "下一部分",
- "nav.pager": "在各部分之间切换"
+ "nav.pager": "在各部分之间切换",
+ "ch.n": "第 {n} 章，共 {of} 章",
+ "fold.gates": "全部步骤与通过标准 · 展开",
+ "fold.nb": "全部实验日志条目 · 展开",
+ "fold.words": "全部术语 · 展开",
+ "fold.open": "展开"
 }

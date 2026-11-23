@@ -565,8 +565,8 @@
  "machine.tchart.throttled": "gedrosselt",
  "nav.start": "Start",
  "nav.hear": "Hören & Mitmachen",
- "start.kicker": "Wohin?",
- "start.title": "Sechs Wege in die Tiefe",
+ "start.kicker": "Inhalt",
+ "start.title": "Sechs Kapitel bis in die Tiefe",
  "start.dive": "Vom Raspberry Pi im Schlafzimmer bis zum Mikrofon in 891 m Tiefe: die Geschichte in Bildern.",
  "start.whales": "18 Arten an unseren Stationen, ihre Stimmen, alle anderen Walarten und ihre Wanderungen Monat für Monat.",
  "start.places": "Karten, 3D-Canyon zum Eintauchen, der Globus mit Strömungen und Sichtungen, live ins Salish Sea hören.",
@@ -575,5 +575,10 @@
  "start.machine": "Wie es dem Pi geht: Temperatur, Kerne, laufende Aufgabe, und was die Begriffe bedeuten.",
  "nav.prev": "Zurück",
  "nav.next": "Weiter",
- "nav.pager": "Zwischen den Bereichen blättern"
+ "nav.pager": "Zwischen den Bereichen blättern",
+ "ch.n": "Kapitel {n} von {of}",
+ "fold.gates": "Alle Schritte und Bestehensgrenzen · aufklappen",
+ "fold.nb": "Alle Einträge im Laborbuch · aufklappen",
+ "fold.words": "Alle Begriffe · aufklappen",
+ "fold.open": "aufklappen"
 }
