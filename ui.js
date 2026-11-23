@@ -33,8 +33,8 @@
 
   /* ---------- lightbox: every photo on the page opens large on click ---------- */
   function lightbox() {
-    const box = document.createElement('div'); box.className = 'lb'; box.hidden = true; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true');
-    const img = document.createElement('img'), cap = document.createElement('p'), x = document.createElement('button'); x.type = 'button'; x.className = 'lb-x'; x.textContent = '×'; x.setAttribute('aria-label', t('ui.close'));
+    const box = document.createElement('div'); box.className = 'lbx'; box.hidden = true; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true');
+    const img = document.createElement('img'), cap = document.createElement('p'), x = document.createElement('button'); x.type = 'button'; x.className = 'lbx-x'; x.textContent = '×'; x.setAttribute('aria-label', t('ui.close'));
     box.append(img, cap, x); document.body.append(box);
     const big = (src) => src.replace(/\/(\d+)px-([^/]+)$/, (m, n, f) => `/${Math.max(+n, 1600)}px-${f}`);
     const open = (src, text) => { img.src = big(src); img.onerror = () => { img.onerror = null; img.src = src; }; cap.textContent = text || ''; box.hidden = false; document.body.classList.add('lb-on'); if (window.wlDuck) {} };
@@ -44,7 +44,7 @@
     document.addEventListener('wl-lightbox', (e) => open(e.detail.src, e.detail.text));
     document.addEventListener('click', (e) => {
       const im = e.target.closest && e.target.closest('img'); 
-      if (im && !im.closest('.lb') && !im.closest('button') && !im.closest('a') && !im.closest('.sp-card')) {
+      if (im && !im.closest('.lbx') && !im.closest('button') && !im.closest('a') && !im.closest('.sp-card')) {
         const fig = im.closest('figure'), c = fig && fig.querySelector('figcaption'); e.preventDefault(); open(im.currentSrc || im.src, c ? c.textContent : im.alt); return;
       }
       const ch = e.target.closest && e.target.closest('.chapter.has-photo'); 
