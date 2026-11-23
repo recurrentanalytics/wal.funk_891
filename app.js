@@ -122,7 +122,7 @@ function whales(w, S) {
     const dk = isPerson ? null : DETECT[key] || 'none';
     if (dk) { const dot = el('i', 'det det-' + dk); dot.title = t(`det.state.${dk}`); nm.prepend(dot); }
     btn.append(nm, el('span', 'len', `${num(m, 1)} m`), whaleSVG(name, m, max, 1000, 200, x && x.family));
-    if (isPerson) btn.disabled = true; else btn.addEventListener('click', () => select(name, true));
+    if (isPerson) btn.disabled = true; else btn.addEventListener('click', () => { select(name, true); if (innerWidth < 760) $('detail').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
     buttons.push([name, btn]); line.append(btn);
   });
   // every other living whale and dolphin species: hidden until asked for, hatched
@@ -137,7 +137,7 @@ function whales(w, S) {
       if (x.img) { const i = el('img'); i.loading = 'lazy'; i.alt = ''; i.src = x.img.src; c.append(i); } else c.append(el('span', 'noimg'));
       c.append(el('b', '', spName(x)), el('i', '', x.sci), el('small', 'iucn iucn-' + (x.iucn || 'NA'), x.iucn ? t(`iucn.${x.iucn}`) : '—'));
       const nameKey = CUR[x.sci] || x.sci;
-      c.addEventListener('click', () => { grid.querySelectorAll('.sp-card').forEach((o) => o.classList.toggle('on', o === c)); select(nameKey, true); });
+      c.addEventListener('click', () => { grid.querySelectorAll('.sp-card').forEach((o) => o.classList.toggle('on', o === c)); select(nameKey, true); if (innerWidth < 760) $('detail').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
       buttons.push([nameKey, c]); grid.append(c);
     });
     more.addEventListener('click', () => { grid.hidden = !grid.hidden; more.setAttribute('aria-expanded', String(!grid.hidden)); more.textContent = t(grid.hidden ? 'allsp.show' : 'allsp.hide', { n: rest.length, total: all.length }); });
