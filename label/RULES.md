@@ -37,3 +37,23 @@ Scoring is done only after all 300 labels are exported. First on the Mac mini (p
 Also reported, without a pass mark: recall, specificity, precision, the number of unsure labels, and the agreement
 split by song season (October-January) and the rest of the year.
 If fewer than 20 clips are labelled yes, the verdict is "not enough song to judge", not pass or fail.
+
+## Result (Mac mini, preliminary, 2026-11-23)
+
+Labels: docs/step7f-labels.json, exported by the owner 2026-11-23 11:48 UTC, committed unchanged
+(sha256 14463adc72d6319994340699a932ba86e98fb603a9dc0da397a5c8e121dbd2e5). 19 yes, 260 no, 21 unsure.
+Scored afterwards on the Mac mini (same model files as the Pi, checksums identical), from the original 16 kHz archive samples.
+
+| | Recall | Specificity | Precision | Balanced accuracy |
+|---|---|---|---|---|
+| All (279 sure labels) | 0.947 (18/19) | 0.881 (229/260) | 0.367 | **0.914** |
+| Song season Oct-Jan (86) | 1.000 (14/14) | 0.694 | 0.389 | 0.847 |
+| Rest of year (193) | 0.800 (4/5) | 0.952 | 0.308 | 0.876 |
+
+The model called 68 of 300 clips song; 19 of those 68 were labelled unsure.
+**Verdict: not enough song to judge** — 19 clips labelled yes, the rule requires at least 20. The balanced accuracy of
+0.914 is reported but does not count as a pass.
+
+Observation, not a rule: the 300 labels took 20.7 minutes; the median time between two answers was 2.4 s, shorter than
+the 10 s clip, so many clips were judged before they finished (the spectrogram is visible at once). 31 clips the model
+calls song were labelled no; they are worth a second listen before anyone calls them model errors.
