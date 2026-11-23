@@ -118,6 +118,7 @@
   setInterval(() => { if (ducked) release(); }, 2000);   // safety net if a stop event is missed
   // Web Audio players (e.g. the sound microscope) report themselves here
   const tokens = new Set();
+  window.wlAmbientLevel = () => (master ? Math.round(master.gain.value * 1000) / 1000 : null);   // read-only, for checking fades
   window.wlDuck = (id, isOn) => { if (isOn) { tokens.add(id); ducked = true; ramp(0, 0.25); } else { tokens.delete(id); release(); } };
   document.addEventListener('visibilitychange', () => ramp(target(), document.hidden ? 0.3 : 2));
   I18N.ready.then(() => { label(); const bar = document.querySelector('.toc'); if (bar) bar.append(btn); });
