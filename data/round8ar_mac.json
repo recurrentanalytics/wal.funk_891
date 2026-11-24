@@ -1,0 +1,27 @@
+{
+ "rules": "docs/round8-plan.md (8a-r)",
+ "computed_on": "Mac mini (preliminary)",
+ "events_scored": 40,
+ "quiet_scored": 80,
+ "events_no_audio": 1,
+ "per_feed": {
+  "rpi_andrews_bay": 5,
+  "rpi_bush_point": 7,
+  "rpi_mast_center": 1,
+  "rpi_north_sjc": 4,
+  "rpi_orcasound_lab": 8,
+  "rpi_point_robinson": 1,
+  "rpi_port_townsend": 6,
+  "rpi_sunset_bay": 8
+ },
+ "primary_ge3_09": {
+  "recall": 0.85,
+  "false_alarm": 0.175
+ },
+ "reference_ge3_05": {
+  "recall": 0.925,
+  "false_alarm": 0.425
+ },
+ "PASS": false,
+ "status": "decided"
+}

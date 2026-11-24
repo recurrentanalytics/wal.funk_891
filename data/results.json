@@ -327,25 +327,25 @@
     {
      "id": "r8ar_recall",
      "measure": "recall",
-     "value": null,
+     "value": 0.85,
      "mark": 0.7,
      "dir": ">=",
-     "verdict": "pending",
+     "verdict": "pass",
      "where": "mac",
-     "date": null,
-     "n": null,
+     "date": "2026-11-24",
+     "n": 40,
      "data": "orcasound_old"
     },
     {
      "id": "r8ar_fa",
      "measure": "fa",
-     "value": null,
+     "value": 0.175,
      "mark": 0.1,
      "dir": "<=",
-     "verdict": "pending",
+     "verdict": "fail",
      "where": "mac",
-     "date": null,
-     "n": null,
+     "date": "2026-11-24",
+     "n": 80,
      "data": "orcasound_old"
     },
     {
@@ -357,7 +357,7 @@
      "verdict": "pending",
      "where": "mac",
      "date": null,
-     "n": 450,
+     "n": 320,
      "data": "mars_pool"
     },
     {

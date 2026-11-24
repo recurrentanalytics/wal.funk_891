@@ -107,3 +107,18 @@ Smaller round to keep the listening load reasonable: from the 450 drawn clips, a
 50/40/60) plus **20 hidden repeats** = 320 clips. Weights use the new sample shares. Decidable only with ≥ 30 yes labels,
 ≥ 200 labelled clips in the < 0.3 stratum and test-retest kappa ≥ 0.6 on the 20 repeats. Pass mark unchanged
 (weighted BA ≥ 0.80). Cost: a wider interval on missed faint song; stated with the result.
+
+## Result 8a-r (Mac mini, preliminary, 2026-11-24)
+
+40 events and 80 quiet blocks scored (1 event skipped for missing audio), 8 feeds.
+
+| Rule | Recall (≥ 0.70) | False alarm (≤ 0.10) |
+|---|---|---|
+| **Primary: ≥ 3 windows ≥ 0.9** | **0.85** (34/40) | **0.175** (14/80) |
+| Old rule: ≥ 3 windows ≥ 0.5 (reference) | 0.925 | 0.425 |
+
+**Verdict: FAIL** (false alarm). The stricter rule cuts false alarms against the old rule, but not below the mark.
+Half of the false alarms come from one feed: Bush Point fired in 7 of its 14 quiet blocks; all other feeds 7 of 66.
+Five firing quiet blocks have 14-71 windows ≥ 0.9; they may hold unreported orcas. Per the rules this is not checked
+by changing the verdict; a blind listen is secondary information only. No threshold or rule is changed after this
+result; 8a (blocks from 2026-11-24) continues with the same frozen rule.
