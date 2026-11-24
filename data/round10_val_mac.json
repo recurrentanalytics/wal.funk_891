@@ -1,0 +1,55 @@
+{
+ "events_no_audio": 1,
+ "grid": {
+  "0.5": {
+   "recall": 0.667,
+   "false_alarm": 0.033,
+   "events": 30,
+   "quiet": 60
+  },
+  "0.6": {
+   "recall": 0.667,
+   "false_alarm": 0.033,
+   "events": 30,
+   "quiet": 60
+  },
+  "0.7": {
+   "recall": 0.667,
+   "false_alarm": 0.033,
+   "events": 30,
+   "quiet": 60
+  },
+  "0.8": {
+   "recall": 0.667,
+   "false_alarm": 0.033,
+   "events": 30,
+   "quiet": 60
+  },
+  "0.9": {
+   "recall": 0.667,
+   "false_alarm": 0.033,
+   "events": 30,
+   "quiet": 60
+  },
+  "0.95": {
+   "recall": 0.633,
+   "false_alarm": 0.033,
+   "events": 30,
+   "quiet": 60
+  },
+  "0.99": {
+   "recall": 0.633,
+   "false_alarm": 0.033,
+   "events": 30,
+   "quiet": 60
+  }
+ },
+ "tau": 0.5,
+ "go_to_test": false,
+ "old_model_8a_rule": {
+  "recall": 0.767,
+  "false_alarm": 0.117,
+  "events": 30,
+  "quiet": 60
+ }
+}

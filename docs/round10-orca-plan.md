@@ -87,3 +87,23 @@ Round 10 adds one test. The page lists it with every earlier orca result (step 3
 - The test period is 2026 only; with 80 quiet blocks a detector with a true false-alarm rate of 0.10 passes about
   half the time.
 - Cost: about 350 ten-minute blocks streamed (≈ 9-10 h on the Mac), nothing stored but embeddings.
+
+## Result (Mac mini, preliminary, 2026-11-24): stopped on validation
+
+- Counter-examples: 140 blocks (20 per feed, 7 feeds; Andrews Bay none), 16,800 windows.
+- Sanity gate passed: step-3 test balanced accuracy 0.942 (≥ 0.80; old model 0.945).
+  Model sha256 25fe0e522c3ca09e0624b41cd95a6278149b6dfd3f10fa7adfb515e3cde16f47.
+- Validation 2025, 30 events and 60 quiet blocks (1 event without audio skipped):
+
+| τ | 0.5-0.9 | 0.95-0.99 |
+|---|---|---|
+| Recall | 0.667 (20/30) | 0.633 |
+| False alarm | 0.033 (2/60) | 0.033 |
+
+  Chosen τ = 0.5 (lowest with false alarm ≤ 0.05); recall 0.667 < 0.70 → **stopped, test set not opened.**
+- For comparison, the old model with the 8a rule on the same validation blocks: recall 0.767, false alarm 0.117.
+
+What this shows: the counter-examples did what they were meant to do on false alarms (0.117 → 0.033) but cost
+recall (0.767 → 0.667); the scores became nearly all-or-nothing (the threshold hardly matters). It missed the go mark
+by about one encounter. Per the rules nothing is retuned on these 2025 blocks; the 2026 test blocks stay unopened and
+can be used by a later, separately registered round.

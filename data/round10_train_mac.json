@@ -1,0 +1,18 @@
+{
+ "step3_train_windows": 1066,
+ "step3_pos": 338,
+ "counter_blocks": 140,
+ "counter_per_feed": {
+  "rpi_bush_point": 20,
+  "rpi_mast_center": 20,
+  "rpi_north_sjc": 20,
+  "rpi_orcasound_lab": 20,
+  "rpi_point_robinson": 20,
+  "rpi_port_townsend": 20,
+  "rpi_sunset_bay": 20
+ },
+ "counter_windows": 16800,
+ "step3_test_ba": 0.942,
+ "gate_step3_ba_ge_080": true,
+ "model_sha256": "25fe0e522c3ca09e0624b41cd95a6278149b6dfd3f10fa7adfb515e3cde16f47"
+}

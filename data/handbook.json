@@ -1,6 +1,6 @@
 {
- "build": "20261124083018",
- "built_at": "2026-11-24 08:30 CET",
+ "build": "20261124144117",
+ "built_at": "2026-11-24 14:41 CET",
  "libs": [
   [
    "d3",
@@ -239,6 +239,14 @@
    8043
   ],
   [
+   "data/round10_train_mac.json",
+   447
+  ],
+  [
+   "data/round10_val_mac.json",
+   828
+  ],
+  [
    "data/round8ar_mac.json",
    536
   ],
@@ -268,7 +276,7 @@
   ],
   [
    "data/status.json",
-   18945
+   22689
   ],
   [
    "data/step7a_mac.json",
@@ -303,7 +311,7 @@
    5818
   ]
  ],
- "data_bytes": 8796411,
+ "data_bytes": 8801430,
  "species_total": 93,
  "species_at_stations": 18,
  "species_with_clips": 14,
