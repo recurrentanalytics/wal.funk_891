@@ -1,6 +1,6 @@
 {
- "build": "20261124014521",
- "built_at": "2026-11-24 01:45 CET",
+ "build": "20261124083018",
+ "built_at": "2026-11-24 08:30 CET",
  "libs": [
   [
    "d3",
@@ -196,7 +196,7 @@
   ],
   [
    "data/handbook.json",
-   3269
+   3314
   ],
   [
    "data/learning.json",
@@ -268,7 +268,7 @@
   ],
   [
    "data/status.json",
-   17217
+   18945
   ],
   [
    "data/step7a_mac.json",
@@ -303,7 +303,7 @@
    5818
   ]
  ],
- "data_bytes": 8794638,
+ "data_bytes": 8796411,
  "species_total": 93,
  "species_at_stations": 18,
  "species_with_clips": 14,

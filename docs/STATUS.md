@@ -495,3 +495,4 @@ Pi's hourly call index (MBARI's method, 2 kHz archive) vs MBARI's published dail
 - 40 events / 80 quiet blocks, 2023-2026. Primary rule (≥ 3 windows ≥ 0.9): recall 0.85 (pass), false alarm 0.175
   (fail, mark ≤ 0.10). **FAIL.** Bush Point causes 7 of the 14 false alarms. Old rule: 0.925 / 0.425.
 - Listening rounds trimmed before any label (8b: 320 clips, round 9: 620 clips); marks unchanged. See [[round8-plan]].
+- Round 10 (orca, station noise as counter-examples) planned: docs/round10-orca-plan.md, committed before any audio.
