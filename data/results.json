@@ -349,6 +349,30 @@
      "data": "orcasound_old"
     },
     {
+     "id": "r10_val_recall",
+     "measure": "recall",
+     "value": 0.667,
+     "mark": 0.7,
+     "dir": ">=",
+     "verdict": "fail",
+     "where": "mac",
+     "date": "2026-11-24",
+     "n": 30,
+     "data": "orcasound_r10val"
+    },
+    {
+     "id": "r10_val_fa",
+     "measure": "fa",
+     "value": 0.033,
+     "mark": 0.05,
+     "dir": "<=",
+     "verdict": "pass",
+     "where": "mac",
+     "date": "2026-11-24",
+     "n": 60,
+     "data": "orcasound_r10val"
+    },
+    {
      "id": "r8b_ba",
      "measure": "ba",
      "value": null,

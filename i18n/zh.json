@@ -1236,5 +1236,8 @@
  "lab.r9.ref.marsf": "长须鲸候选，MARS（10×）",
  "res.r8ar_recall": "虎鲸，更严格规则，回溯：找到的已报告相遇",
  "res.r8ar_fa": "虎鲸，更严格规则，回溯：安静时段的误报",
- "res.data.orcasound_old": "Orcasound，2023-2026，此前从未使用"
+ "res.data.orcasound_old": "Orcasound，2023-2026，此前从未使用",
+ "res.r10_val_recall": "含站点噪声的虎鲸模型（第10轮），2025验证：找到的已报告相遇",
+ "res.r10_val_fa": "含站点噪声的虎鲸模型（第10轮），2025验证：安静时段的误报",
+ "res.data.orcasound_r10val": "Orcasound 2025（验证）；2026测试未开启"
 }

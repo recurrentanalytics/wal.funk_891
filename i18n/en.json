@@ -1236,5 +1236,8 @@
  "lab.r9.ref.marsf": "Fin candidate, MARS (10×)",
  "res.r8ar_recall": "Orca, stricter rule, retrospective: reported encounters found",
  "res.r8ar_fa": "Orca, stricter rule, retrospective: false alarms in quiet times",
- "res.data.orcasound_old": "Orcasound, 2023-2026, never used before"
+ "res.data.orcasound_old": "Orcasound, 2023-2026, never used before",
+ "res.r10_val_recall": "Orca with station noise (round 10), validation 2025: reported encounters found",
+ "res.r10_val_fa": "Orca with station noise (round 10), validation 2025: false alarms in quiet times",
+ "res.data.orcasound_r10val": "Orcasound 2025 (validation); test 2026 not opened"
 }

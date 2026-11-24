@@ -1,5 +1,5 @@
 {
- "build": "20261124144117",
+ "build": "20261124144131",
  "built_at": "2026-11-24 14:41 CET",
  "libs": [
   [
@@ -121,9 +121,9 @@
  "own_js_lines": 3488,
  "html_lines": 1227,
  "i18n_keys": {
-  "en": 1238,
-  "de": 1238,
-  "zh": 1238
+  "en": 1241,
+  "de": 1241,
+  "zh": 1241
  },
  "data_files": [
   [
@@ -196,7 +196,7 @@
   ],
   [
    "data/handbook.json",
-   3314
+   3412
   ],
   [
    "data/learning.json",
@@ -236,7 +236,7 @@
   ],
   [
    "data/results.json",
-   8043
+   8522
   ],
   [
    "data/round10_train_mac.json",
@@ -276,7 +276,7 @@
   ],
   [
    "data/status.json",
-   22689
+   26433
   ],
   [
    "data/step7a_mac.json",
@@ -311,7 +311,7 @@
    5818
   ]
  ],
- "data_bytes": 8801430,
+ "data_bytes": 8805751,
  "species_total": 93,
  "species_at_stations": 18,
  "species_with_clips": 14,

@@ -1236,5 +1236,8 @@
  "lab.r9.ref.marsf": "Finnwal-Kandidat, MARS (10×)",
  "res.r8ar_recall": "Orca, strengere Regel, rückblickend: gemeldete Begegnungen gefunden",
  "res.r8ar_fa": "Orca, strengere Regel, rückblickend: Fehlalarme in ruhigen Zeiten",
- "res.data.orcasound_old": "Orcasound, 2023-2026, nie zuvor benutzt"
+ "res.data.orcasound_old": "Orcasound, 2023-2026, nie zuvor benutzt",
+ "res.r10_val_recall": "Orca mit Stationsrauschen (Runde 10), Prüfung 2025: gemeldete Begegnungen gefunden",
+ "res.r10_val_fa": "Orca mit Stationsrauschen (Runde 10), Prüfung 2025: Fehlalarme in ruhigen Zeiten",
+ "res.data.orcasound_r10val": "Orcasound 2025 (Prüfung); Test 2026 nicht geöffnet"
 }
